@@ -11,6 +11,7 @@ export default function NadiaWebsite() {
 
   useEffect(() => {
     let i = 0
+    setTypewriterText("")
     const timer = setInterval(() => {
       if (i < fullText.length) {
         setTypewriterText(fullText.slice(0, i + 1))
@@ -21,7 +22,7 @@ export default function NadiaWebsite() {
     }, 50)
 
     return () => clearInterval(timer)
-  }, [])
+  }, [fullText])
 
   const scrollToSection = (sectionId: string) => {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" })
