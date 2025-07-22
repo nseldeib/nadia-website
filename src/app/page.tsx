@@ -135,7 +135,7 @@ export default function NadiaWebsite() {
               onClick={() => scrollToSection("contact")}
               className={`px-6 py-3 rounded-full border transition-colors ${
                 darkMode 
-                  ? "border-gray-600 hover:border-gray-500 text-gray-300 hover:text-white" 
+                  ? "border-gray-600 hover:border-gray-500 text-gray-700 hover:text-white" 
                   : "border-gray-300 hover:border-gray-400 text-gray-700"
               }`}
             >
