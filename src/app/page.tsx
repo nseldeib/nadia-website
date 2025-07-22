@@ -7,7 +7,7 @@ import Link from "next/link"
 export default function NadiaWebsite() {
   const [typewriterText, setTypewriterText] = useState("")
   const [darkMode, setDarkMode] = useState(false)
-  const fullText = "Hi, I&apos;m Nadia. I build tools for developers and vibe coders."
+  const fullText = "Hi, I'm Nadia. I build tools for developers and vibe coders."
 
   useEffect(() => {
     let i = 0
