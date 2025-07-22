@@ -10,18 +10,23 @@ export default function NadiaWebsite() {
   const fullText = "Hi, I'm Nadia. I build tools for developers and vibe coders."
 
   useEffect(() => {
-    let i = 0
-    setTypewriterText("")
-    const timer = setInterval(() => {
-      if (i < fullText.length) {
-        setTypewriterText(fullText.slice(0, i + 1))
-        i++
-      } else {
-        clearInterval(timer)
-      }
-    }, 50)
+    // Add a small delay to ensure client-side hydration
+    const startDelay = setTimeout(() => {
+      let i = 0
+      setTypewriterText("")
+      const timer = setInterval(() => {
+        if (i < fullText.length) {
+          setTypewriterText(fullText.slice(0, i + 1))
+          i++
+        } else {
+          clearInterval(timer)
+        }
+      }, 50)
 
-    return () => clearInterval(timer)
+      return () => clearInterval(timer)
+    }, 100)
+
+    return () => clearTimeout(startDelay)
   }, [fullText])
 
   const scrollToSection = (sectionId: string) => {
