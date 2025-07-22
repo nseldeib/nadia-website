@@ -6,7 +6,7 @@ import Link from "next/link"
 
 export default function NadiaWebsite() {
   const [typewriterText, setTypewriterText] = useState("")
-  const [vibeMode, setVibeMode] = useState(false)
+  const [darkMode, setDarkMode] = useState(false)
   const fullText = "Hi, I&apos;m Nadia. I build tools for developers and vibe coders."
 
   useEffect(() => {
@@ -29,44 +29,70 @@ export default function NadiaWebsite() {
 
   return (
     <div
-      className={`min-h-screen transition-all duration-700 ${vibeMode ? "bg-gradient-to-br from-blue-50/50 via-purple-50/30 to-pink-50/50" : "bg-white"}`}
+      className={`min-h-screen transition-all duration-700 ${darkMode ? "bg-gray-900" : "bg-white"}`}
     >
       {/* Minimal Navigation */}
-      <nav className="fixed top-0 w-full bg-white/90 backdrop-blur-sm z-50 border-b border-gray-100">
+      <nav className={`fixed top-0 w-full backdrop-blur-sm z-50 border-b transition-all duration-700 ${
+        darkMode 
+          ? "bg-gray-900/90 border-gray-800" 
+          : "bg-white/90 border-gray-100"
+      }`}>
         <div className="max-w-5xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <div className="font-mono text-sm font-medium">nadia</div>
+            <div className={`font-mono text-sm font-medium transition-colors ${
+              darkMode ? "text-white" : "text-gray-900"
+            }`}>nadia</div>
             <div className="hidden md:flex items-center space-x-8 text-sm">
               <button
                 onClick={() => scrollToSection("home")}
-                className="hover:text-gray-900 transition-colors text-gray-600"
+                className={`transition-colors ${
+                  darkMode 
+                    ? "text-gray-300 hover:text-white" 
+                    : "text-gray-600 hover:text-gray-900"
+                }`}
               >
                 Home
               </button>
               <button
                 onClick={() => scrollToSection("work")}
-                className="hover:text-gray-900 transition-colors text-gray-600"
+                className={`transition-colors ${
+                  darkMode 
+                    ? "text-gray-300 hover:text-white" 
+                    : "text-gray-600 hover:text-gray-900"
+                }`}
               >
                 Work
               </button>
               <button
                 onClick={() => scrollToSection("writing")}
-                className="hover:text-gray-900 transition-colors text-gray-600"
+                className={`transition-colors ${
+                  darkMode 
+                    ? "text-gray-300 hover:text-white" 
+                    : "text-gray-600 hover:text-gray-900"
+                }`}
               >
                 Writing
               </button>
               <button
                 onClick={() => scrollToSection("about")}
-                className="hover:text-gray-900 transition-colors text-gray-600"
+                className={`transition-colors ${
+                  darkMode 
+                    ? "text-gray-300 hover:text-white" 
+                    : "text-gray-600 hover:text-gray-900"
+                }`}
               >
                 About
               </button>
             </div>
             <button
-              onClick={() => setVibeMode(!vibeMode)}
-              className="text-xs px-3 py-1 rounded-full border border-gray-200 hover:border-gray-300 transition-colors"
+              onClick={() => setDarkMode(!darkMode)}
+              className={`text-xs px-3 py-1 rounded-full border transition-colors ${
+                darkMode 
+                  ? "border-gray-600 hover:border-gray-500 text-gray-300" 
+                  : "border-gray-200 hover:border-gray-300 text-gray-700"
+              }`}
             >
-              {vibeMode ? "✨" : "🌙"}
+              {darkMode ? "✨" : "🌙"}
             </button>
           </div>
         </div>
@@ -75,25 +101,37 @@ export default function NadiaWebsite() {
       {/* Hero Section */}
       <section id="home" className="pt-32 pb-24 px-6">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-5xl md:text-7xl font-light mb-8 leading-tight">
+          <h1 className={`text-5xl md:text-7xl font-light mb-8 leading-tight transition-colors ${
+            darkMode ? "text-white" : "text-gray-900"
+          }`}>
             {typewriterText}
             <span className="animate-pulse text-blue-500">|</span>
           </h1>
-          <p className="text-xl text-gray-600 mb-12 max-w-2xl font-light">
+          <p className={`text-xl mb-12 max-w-2xl font-light transition-colors ${
+            darkMode ? "text-gray-300" : "text-gray-600"
+          }`}>
             Building the future of coding tools, writing about tech, and exploring creative projects.
           </p>
 
           <div className="flex flex-wrap gap-4">
             <Button
               onClick={() => scrollToSection("about")}
-              className="bg-black text-white hover:bg-gray-800 px-6 py-3 rounded-full"
+              className={`px-6 py-3 rounded-full transition-colors ${
+                darkMode 
+                  ? "bg-white text-gray-900 hover:bg-gray-100" 
+                  : "bg-black text-white hover:bg-gray-800"
+              }`}
             >
               View About <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
             <Button
               variant="outline"
               onClick={() => scrollToSection("contact")}
-              className="px-6 py-3 rounded-full border-gray-300 hover:border-gray-400"
+              className={`px-6 py-3 rounded-full border transition-colors ${
+                darkMode 
+                  ? "border-gray-600 hover:border-gray-500 text-gray-300 hover:text-white" 
+                  : "border-gray-300 hover:border-gray-400 text-gray-700"
+              }`}
             >
               Get in Touch
             </Button>
@@ -106,29 +144,45 @@ export default function NadiaWebsite() {
         <div className="max-w-5xl mx-auto">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <div>
-              <h2 className="text-4xl font-light mb-6">CodeYam</h2>
-              <p className="text-lg text-gray-600 mb-8 leading-relaxed">
+              <h2 className={`text-4xl font-light mb-6 transition-colors ${
+                darkMode ? "text-white" : "text-gray-900"
+              }`}>CodeYam</h2>
+              <p className={`text-lg mb-8 leading-relaxed transition-colors ${
+                darkMode ? "text-gray-300" : "text-gray-600"
+              }`}>
                 Building the next generation of tools that help developers and vibe coders more easily understand, test, and build great software.
               </p>
 
               <div className="space-y-4">
                 <Link
                   href="https://codeyam.com"
-                  className="flex items-center text-gray-900 hover:text-blue-600 transition-colors group"
+                  className={`flex items-center transition-colors group ${
+                    darkMode 
+                      ? "text-gray-200 hover:text-blue-400" 
+                      : "text-gray-900 hover:text-blue-600"
+                  }`}
                 >
                   <span className="mr-3">Visit Platform</span>
                   <ExternalLink className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
                 <Link
                   href="https://blog.codeyam.com"
-                  className="flex items-center text-gray-900 hover:text-blue-600 transition-colors group"
+                  className={`flex items-center transition-colors group ${
+                    darkMode 
+                      ? "text-gray-200 hover:text-blue-400" 
+                      : "text-gray-900 hover:text-blue-600"
+                  }`}
                 >
                   <span className="mr-3">Read Blog</span>
                   <ExternalLink className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
                 <Link
                   href="https://youtu.be/zdbHboXFG-w"
-                  className="flex items-center text-gray-900 hover:text-blue-600 transition-colors group"
+                  className={`flex items-center transition-colors group ${
+                    darkMode 
+                      ? "text-gray-200 hover:text-blue-400" 
+                      : "text-gray-900 hover:text-blue-600"
+                  }`}
                 >
                   <span className="mr-3">Watch Demo</span>
                   <Play className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -140,22 +194,38 @@ export default function NadiaWebsite() {
       </section>
 
       {/* Writing Section */}
-      <section id="writing" className="py-24 px-6 bg-gray-50/50">
+      <section id="writing" className={`py-24 px-6 transition-colors ${
+        darkMode ? "bg-gray-800/50" : "bg-gray-50/50"
+      }`}>
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl font-light mb-6">Writing</h2>
-          <p className="text-lg text-gray-600 mb-12 max-w-2xl mx-auto">
+          <h2 className={`text-4xl font-light mb-6 transition-colors ${
+            darkMode ? "text-white" : "text-gray-900"
+          }`}>Writing</h2>
+          <p className={`text-lg mb-12 max-w-2xl mx-auto transition-colors ${
+            darkMode ? "text-gray-300" : "text-gray-600"
+          }`}>
             I write about building, coding, and ideas that shape the future of technology.
           </p>
 
           <div className="max-w-md mx-auto">
             <div className="mb-8">
-              <BookOpen className="w-12 h-12 mx-auto text-gray-400 mb-4" />
-              <h3 className="text-xl font-medium mb-2">Personal Newsletter</h3>
-              <p className="text-gray-600">Thoughts on tech, startups, and building great products.</p>
+              <BookOpen className={`w-12 h-12 mx-auto mb-4 transition-colors ${
+                darkMode ? "text-gray-500" : "text-gray-400"
+              }`} />
+              <h3 className={`text-xl font-medium mb-2 transition-colors ${
+                darkMode ? "text-white" : "text-gray-900"
+              }`}>Personal Newsletter</h3>
+              <p className={`transition-colors ${
+                darkMode ? "text-gray-300" : "text-gray-600"
+              }`}>Thoughts on tech, startups, and building great products.</p>
             </div>
 
             <Link href="https://nseldeib.substack.com/">
-              <Button className="bg-black text-white hover:bg-gray-800 px-8 py-3 rounded-full">
+              <Button className={`px-8 py-3 rounded-full transition-colors ${
+                darkMode 
+                  ? "bg-white text-gray-900 hover:bg-gray-100" 
+                  : "bg-black text-white hover:bg-gray-800"
+              }`}>
                 <ExternalLink className="w-4 h-4 mr-2" />
                 Read on Substack
               </Button>
@@ -165,11 +235,17 @@ export default function NadiaWebsite() {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-24 px-6 bg-gray-50/50">
+      <section id="about" className={`py-24 px-6 transition-colors ${
+        darkMode ? "bg-gray-800/50" : "bg-gray-50/50"
+      }`}>
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-light mb-6">About</h2>
-            <p className="text-lg text-gray-600">When I&apos;m not coding, you&apos;ll find me exploring the outdoors.</p>
+            <h2 className={`text-4xl font-light mb-6 transition-colors ${
+              darkMode ? "text-white" : "text-gray-900"
+            }`}>About</h2>
+            <p className={`text-lg transition-colors ${
+              darkMode ? "text-gray-300" : "text-gray-600"
+            }`}>When I&apos;m not coding, you&apos;ll find me exploring the outdoors.</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-12 mb-16">
@@ -192,8 +268,12 @@ export default function NadiaWebsite() {
             ].map((item, i) => (
               <div key={i} className="text-center">
                 <div className="text-4xl mb-4">{item.icon}</div>
-                <h3 className="text-lg font-medium mb-3">{item.title}</h3>
-                <p className="text-gray-600 text-sm leading-relaxed">{item.desc}</p>
+                <h3 className={`text-lg font-medium mb-3 transition-colors ${
+                  darkMode ? "text-white" : "text-gray-900"
+                }`}>{item.title}</h3>
+                <p className={`text-sm leading-relaxed transition-colors ${
+                  darkMode ? "text-gray-300" : "text-gray-600"
+                }`}>{item.desc}</p>
               </div>
             ))}
           </div>
@@ -204,8 +284,12 @@ export default function NadiaWebsite() {
       <section id="contact" className="py-24 px-6">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-light mb-6">Let&apos;s Connect</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <h2 className={`text-4xl font-light mb-6 transition-colors ${
+              darkMode ? "text-white" : "text-gray-900"
+            }`}>Let&apos;s Connect</h2>
+            <p className={`text-lg max-w-2xl mx-auto transition-colors ${
+              darkMode ? "text-gray-300" : "text-gray-600"
+            }`}>
               Find me online.
             </p>
           </div>
@@ -217,7 +301,9 @@ export default function NadiaWebsite() {
             <div className="space-y-8">
               {/* Social Links */}
               <div>
-                <h3 className="text-lg font-medium mb-6">Find Me Online</h3>
+                <h3 className={`text-lg font-medium mb-6 transition-colors ${
+                  darkMode ? "text-white" : "text-gray-900"
+                }`}>Find Me Online</h3>
                 <div className="space-y-3">
                   {[
                     {
@@ -252,19 +338,39 @@ export default function NadiaWebsite() {
                     <Link
                       key={i}
                       href={social.href}
-                      className="flex items-center p-4 rounded-xl hover:bg-gray-50 transition-all group border border-gray-100 hover:border-gray-200 hover:shadow-sm"
+                      className={`flex items-center p-4 rounded-xl transition-all group border hover:shadow-sm ${
+                        darkMode 
+                          ? "hover:bg-gray-800 border-gray-700 hover:border-gray-600" 
+                          : "hover:bg-gray-50 border-gray-100 hover:border-gray-200"
+                      }`}
                     >
-                      <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center mr-4 group-hover:bg-gray-200 transition-colors">
-                        <social.icon className="w-5 h-5 text-gray-600" />
+                      <div className={`w-10 h-10 rounded-lg flex items-center justify-center mr-4 transition-colors ${
+                        darkMode 
+                          ? "bg-gray-700 group-hover:bg-gray-600" 
+                          : "bg-gray-100 group-hover:bg-gray-200"
+                      }`}>
+                        <social.icon className={`w-5 h-5 transition-colors ${
+                          darkMode ? "text-gray-300" : "text-gray-600"
+                        }`} />
                       </div>
                       <div className="flex-1">
                         <div className="flex items-center">
-                          <span className="font-medium text-gray-900 group-hover:text-blue-600 transition-colors">
+                          <span className={`font-medium transition-colors ${
+                            darkMode 
+                              ? "text-gray-200 group-hover:text-blue-400" 
+                              : "text-gray-900 group-hover:text-blue-600"
+                          }`}>
                             {social.name}
                           </span>
-                          <ExternalLink className="w-3 h-3 ml-2 text-gray-400 group-hover:text-blue-500 transition-colors" />
+                          <ExternalLink className={`w-3 h-3 ml-2 transition-colors ${
+                            darkMode 
+                              ? "text-gray-500 group-hover:text-blue-400" 
+                              : "text-gray-400 group-hover:text-blue-500"
+                          }`} />
                         </div>
-                        <div className="text-xs text-gray-500 mt-1">{social.description}</div>
+                        <div className={`text-xs mt-1 transition-colors ${
+                          darkMode ? "text-gray-400" : "text-gray-500"
+                        }`}>{social.description}</div>
                       </div>
                     </Link>
                   ))}
@@ -272,12 +378,20 @@ export default function NadiaWebsite() {
               </div>
 
               {/* Location */}
-              <div className="bg-gradient-to-br from-green-50 to-blue-50 rounded-2xl p-6">
+              <div className={`rounded-2xl p-6 transition-colors ${
+                darkMode 
+                  ? "bg-gradient-to-br from-gray-800 to-gray-700" 
+                  : "bg-gradient-to-br from-green-50 to-blue-50"
+              }`}>
                 <div className="flex items-center mb-2">
                   <div className="text-2xl mr-3">📍</div>
-                  <h3 className="text-lg font-medium">Denver, Colorado</h3>
+                  <h3 className={`text-lg font-medium transition-colors ${
+                    darkMode ? "text-white" : "text-gray-900"
+                  }`}>Denver, Colorado</h3>
                 </div>
-                <p className="text-gray-600 text-sm">
+                <p className={`text-sm transition-colors ${
+                  darkMode ? "text-gray-300" : "text-gray-600"
+                }`}>
                   Mountain time zone (MT). Love meeting fellow builders and outdoor enthusiasts in the area!
                 </p>
               </div>
@@ -287,10 +401,16 @@ export default function NadiaWebsite() {
       </section>
 
       {/* Minimal Footer */}
-      <footer className="py-12 px-6 border-t border-gray-100">
+      <footer className={`py-12 px-6 border-t transition-colors ${
+        darkMode ? "border-gray-800" : "border-gray-100"
+      }`}>
         <div className="max-w-5xl mx-auto text-center">
-          <p className="text-gray-500 text-sm mb-2">📍 Based in Denver, Colorado</p>
-          <p className="text-gray-500 text-sm">Built with Next.js and good vibes.</p>
+          <p className={`text-sm mb-2 transition-colors ${
+            darkMode ? "text-gray-400" : "text-gray-500"
+          }`}>📍 Based in Denver, Colorado</p>
+          <p className={`text-sm transition-colors ${
+            darkMode ? "text-gray-400" : "text-gray-500"
+          }`}>Built with Next.js and good vibes.</p>
         </div>
       </footer>
     </div>
