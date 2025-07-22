@@ -1,13 +1,16 @@
 "use client"
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
-import { Github, Twitter, Linkedin, ExternalLink, Play, BookOpen, ArrowRight } from "lucide-react"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import { Github, Twitter, Linkedin, ExternalLink, Play, BookOpen, Send, ArrowRight } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 
 export default function NadiaWebsite() {
   const [typewriterText, setTypewriterText] = useState("")
   const [vibeMode, setVibeMode] = useState(false)
-  const fullText = "Hi, I&apos;m Nadia. I build tools for developers and vibe coders."
+  const fullText = "Hi, I'm Nadia. I build tools for developers and vibe coders."
 
   useEffect(() => {
     let i = 0
@@ -108,7 +111,8 @@ export default function NadiaWebsite() {
             <div>
               <h2 className="text-4xl font-light mb-6">CodeYam</h2>
               <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-                Building the next generation of tools that help developers and vibe coders more easily understand, test, and build great software.
+                Building the next generation of coding tools that make development more intuitive, collaborative, and
+                fun for developers everywhere.
               </p>
 
               <div className="space-y-4">
@@ -127,13 +131,30 @@ export default function NadiaWebsite() {
                   <ExternalLink className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
                 <Link
-                  href="https://youtu.be/zdbHboXFG-w"
+                  href="https://www.youtube.com/watch?v=6z6UsG97qJ8"
                   className="flex items-center text-gray-900 hover:text-blue-600 transition-colors group"
                 >
                   <span className="mr-3">Watch Demo</span>
                   <Play className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>
+            </div>
+
+            <div className="relative aspect-video rounded-2xl overflow-hidden group cursor-pointer">
+              <Link href="https://www.youtube.com/watch?v=6z6UsG97qJ8">
+                <Image
+                  src="/images/codeyam-demo.png"
+                  alt="CodeYam Product Demo - AI-powered code review and collaboration platform"
+                  fill
+                  className="object-cover transition-transform group-hover:scale-105"
+                  priority
+                />
+                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors flex items-center justify-center">
+                  <div className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center group-hover:bg-white transition-colors">
+                    <Play className="w-8 h-8 text-gray-800 ml-1" />
+                  </div>
+                </div>
+              </Link>
             </div>
           </div>
         </div>
@@ -150,7 +171,7 @@ export default function NadiaWebsite() {
           <div className="max-w-md mx-auto">
             <div className="mb-8">
               <BookOpen className="w-12 h-12 mx-auto text-gray-400 mb-4" />
-              <h3 className="text-xl font-medium mb-2">Personal Newsletter</h3>
+              <h3 className="text-xl font-medium mb-2">Weekly Newsletter</h3>
               <p className="text-gray-600">Thoughts on tech, startups, and building great products.</p>
             </div>
 
@@ -169,7 +190,7 @@ export default function NadiaWebsite() {
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-light mb-6">About</h2>
-            <p className="text-lg text-gray-600">When I&apos;m not coding, you&apos;ll find me exploring the outdoors.</p>
+            <p className="text-lg text-gray-600">When I'm not coding, you'll find me exploring the outdoors.</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-12 mb-16">
@@ -204,14 +225,50 @@ export default function NadiaWebsite() {
       <section id="contact" className="py-24 px-6">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-light mb-6">Let&apos;s Connect</h2>
+            <h2 className="text-4xl font-light mb-6">Let's Connect</h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Find me online.
+              Always excited to chat about tech, startups, or outdoor adventures. Drop me a line or find me online.
             </p>
           </div>
 
-          <div className="max-w-2xl mx-auto">
+          <div className="grid lg:grid-cols-3 gap-12">
             {/* Contact Form */}
+            <div className="lg:col-span-2">
+              <div className="bg-gray-50/50 rounded-2xl p-8">
+                <h3 className="text-xl font-medium mb-6">Send a Message</h3>
+                <form className="space-y-6">
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Name</label>
+                      <Input
+                        placeholder="Your name"
+                        className="border-0 bg-white shadow-sm rounded-xl h-12 focus:ring-2 focus:ring-blue-500/20"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                      <Input
+                        type="email"
+                        placeholder="your@email.com"
+                        className="border-0 bg-white shadow-sm rounded-xl h-12 focus:ring-2 focus:ring-blue-500/20"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Message</label>
+                    <Textarea
+                      placeholder="What's on your mind? I'd love to hear about your project, ideas, or just say hi!"
+                      rows={5}
+                      className="border-0 bg-white shadow-sm rounded-xl resize-none focus:ring-2 focus:ring-blue-500/20"
+                    />
+                  </div>
+                  <Button className="w-full bg-black text-white hover:bg-gray-800 py-4 rounded-xl text-base font-medium transition-all hover:shadow-lg">
+                    <Send className="w-4 h-4 mr-2" />
+                    Send Message
+                  </Button>
+                </form>
+              </div>
+            </div>
 
             {/* Contact Info & Social */}
             <div className="space-y-8">
@@ -275,7 +332,7 @@ export default function NadiaWebsite() {
               <div className="bg-gradient-to-br from-green-50 to-blue-50 rounded-2xl p-6">
                 <div className="flex items-center mb-2">
                   <div className="text-2xl mr-3">📍</div>
-                  <h3 className="text-lg font-medium">Denver, Colorado</h3>
+                  <h3 className="text-lg font-medium">Boulder, Colorado</h3>
                 </div>
                 <p className="text-gray-600 text-sm">
                   Mountain time zone (MT). Love meeting fellow builders and outdoor enthusiasts in the area!
@@ -289,7 +346,7 @@ export default function NadiaWebsite() {
       {/* Minimal Footer */}
       <footer className="py-12 px-6 border-t border-gray-100">
         <div className="max-w-5xl mx-auto text-center">
-          <p className="text-gray-500 text-sm mb-2">📍 Based in Denver, Colorado</p>
+          <p className="text-gray-500 text-sm mb-2">📍 Based in Boulder, Colorado</p>
           <p className="text-gray-500 text-sm">Built with Next.js and good vibes.</p>
         </div>
       </footer>
