@@ -5,11 +5,11 @@ import { Github, Twitter, Linkedin, ExternalLink, Play, BookOpen, ArrowRight } f
 import Link from "next/link"
 
 export default function NadiaWebsite() {
-  const [typewriterText, setTypewriterText] = useState("Hi, I&apos;m Nadia. I build tools for developers and vibe coders.")
+  const [typewriterText, setTypewriterText] = useState("Hi, I'm Nadia. I build tools for developers and vibe coders.")
   const [darkMode, setDarkMode] = useState(false)
   const [showCursor, setShowCursor] = useState(true)
   const [mounted, setMounted] = useState(false)
-  const fullText = "Hi, I&apos;m Nadia. I build tools for developers and vibe coders."
+  const fullText = "Hi, I'm Nadia. I build tools for developers and vibe coders."
 
   // Ensure component is mounted before running effects
   useEffect(() => {
