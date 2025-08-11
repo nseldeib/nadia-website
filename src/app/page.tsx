@@ -5,33 +5,57 @@ import { Github, Twitter, Linkedin, ExternalLink, Play, BookOpen, ArrowRight } f
 import Link from "next/link"
 
 export default function NadiaWebsite() {
-  const [typewriterText, setTypewriterText] = useState("")
+  const [typewriterText, setTypewriterText] = useState("Hi, I&apos;m Nadia. I build tools for developers and vibe coders.")
   const [darkMode, setDarkMode] = useState(false)
-  const fullText = "Hi, I'm Nadia. I build tools for developers and vibe coders."
+  const [showCursor, setShowCursor] = useState(true)
+  const [mounted, setMounted] = useState(false)
+  const fullText = "Hi, I&apos;m Nadia. I build tools for developers and vibe coders."
+
+  // Ensure component is mounted before running effects
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   useEffect(() => {
-    // Add a small delay to ensure client-side hydration
-    const startDelay = setTimeout(() => {
-      let i = 0
-      setTypewriterText("")
-      const timer = setInterval(() => {
-        if (i < fullText.length) {
-          setTypewriterText(fullText.slice(0, i + 1))
-          i++
-        } else {
-          clearInterval(timer)
-        }
-      }, 50)
+    if (!mounted) return
+    
+    // Start with full text, then animate if desired
+    let i = 0
+    setTypewriterText("")
+    const timer = setInterval(() => {
+      if (i < fullText.length) {
+        setTypewriterText(fullText.slice(0, i + 1))
+        i++
+      } else {
+        clearInterval(timer)
+        // Hide cursor after animation completes
+        setTimeout(() => setShowCursor(false), 2000)
+      }
+    }, 50)
 
-      return () => clearInterval(timer)
-    }, 100)
+    return () => clearInterval(timer)
+  }, [mounted, fullText])
 
-    return () => clearTimeout(startDelay)
-  }, [fullText])
+  // Handle dark mode
+  useEffect(() => {
+    if (!mounted) return
+    
+    // Apply dark class to document body
+    if (darkMode) {
+      document.documentElement.classList.add('dark')
+      document.body.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+      document.body.classList.remove('dark')
+    }
+  }, [darkMode, mounted])
 
   const scrollToSection = (sectionId: string) => {
-    document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" })
+    if (typeof document !== 'undefined') {
+      document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" })
+    }
   }
+
 
   return (
     <div
@@ -110,8 +134,14 @@ export default function NadiaWebsite() {
           <h1 className={`text-5xl md:text-7xl font-light mb-8 leading-tight transition-colors ${
             darkMode ? "text-white" : "text-gray-900"
           }`}>
-            {typewriterText}
-            <span className="animate-pulse text-blue-500">|</span>
+            {mounted ? (
+              <>
+                {typewriterText}
+                {showCursor && <span className="animate-pulse text-blue-500">|</span>}
+              </>
+            ) : (
+              "Hi, I'm Nadia. I build tools for developers and vibe coders."
+            )}
           </h1>
           <p className={`text-xl mb-12 max-w-2xl font-light transition-colors ${
             darkMode ? "text-gray-300" : "text-gray-600"
