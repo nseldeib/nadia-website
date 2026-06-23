@@ -287,13 +287,13 @@ export default function NadiaWebsite() {
           <div className="grid md:grid-cols-3 gap-12 mb-16">
             {[
               {
-                title: "Mountain Life",
-                desc: "Training for my first marathon, learning to boulder, and chasing sunrise hikes.",
-                icon: "🏔️",
+                title: "Running & Exploring",
+                desc: "Ran my first marathon last year (Boulderthon) and have been loving running and trail running ever since — always exploring new routes.",
+                icon: "🥾",
               },
               {
                 title: "Snowboarding",
-                desc: "Favorite mountains: Steamboat Springs and Copper Mountain. Always chasing powder.",
+                desc: "Favorite mountains: Steamboat Springs and Copper Mountain, both in Colorado.",
                 icon: "🎿",
               },
               {
@@ -423,12 +423,12 @@ export default function NadiaWebsite() {
                   <div className="text-2xl mr-3">📍</div>
                   <h3 className={`text-lg font-medium transition-colors ${
                     darkMode ? "text-white" : "text-gray-900"
-                  }`}>Denver, Colorado</h3>
+                  }`}>New York, NY</h3>
                 </div>
                 <p className={`text-sm transition-colors ${
                   darkMode ? "text-gray-300" : "text-gray-600"
                 }`}>
-                  Mountain time zone (MT). Love meeting fellow builders and outdoor enthusiasts in the area!
+                  Eastern time zone (ET). Love meeting fellow builders and outdoor enthusiasts in the area!
                 </p>
               </div>
             </div>
@@ -443,10 +443,10 @@ export default function NadiaWebsite() {
         <div className="max-w-5xl mx-auto text-center">
           <p className={`text-sm mb-2 transition-colors ${
             darkMode ? "text-gray-400" : "text-gray-500"
-          }`}>📍 Based in Denver, Colorado</p>
+          }`}>📍 Based in New York, NY</p>
           <p className={`text-sm transition-colors ${
             darkMode ? "text-gray-400" : "text-gray-500"
-          }`}>Built with Next.js and good vibes.</p>
+          }`}>Built with Next.js and love.</p>
         </div>
       </footer>
     </div>
