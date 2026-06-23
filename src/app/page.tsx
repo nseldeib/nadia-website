@@ -288,7 +288,7 @@ export default function NadiaWebsite() {
             {[
               {
                 title: "Running & Exploring",
-                desc: "Ran my first marathon last year (Boulderthon) and have been loving running and trail running ever since — always exploring new routes.",
+                desc: "Ran my first marathon last year (Boulderthon) and have been loving running and trail running ever since.",
                 icon: "🥾",
               },
               {
