@@ -1,0 +1,23 @@
+// Prisma 7 with SQLite via better-sqlite3 driver adapter.
+//
+// IMPORTANT: Use "prisma-client-js" (NOT "prisma-client").
+// The "prisma-client" generator requires a custom output path which
+// breaks Turbopack import resolution and seed script imports.
+// "prisma-client-js" outputs to node_modules/@prisma/client which
+// works everywhere with standard imports.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+// ──────────────────────────────────────────────
+// Define your models below, then run:
+//   npx prisma db push
+// A schema with zero models is valid — Prisma will
+// generate a client with no model accessors until
+// you add one.
+// ──────────────────────────────────────────────

@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "derivedFromHash": "87bebfb33dbb41170e7e03270c38ea348ad2f9495a7349b8a6839b16af8680c3",
+  "derivedAt": "2026-08-21T21:22:58.280309+00:00",
+  "deliverables": [
+    {
+      "id": "rebuild-nadiaeldeib-com-as-a-fresh-site-in-this",
+      "text": "Rebuild nadiaeldeib.com as a fresh site in this project, carrying over the existing content (hero, CodeYam work, Writing/Substack, About, Contact + socials, footer)",
+      "status": "open",
+      "resolvedAt": null,
+      "resolvedInFeature": null,
+      "planSlug": null,
+      "note": null,
+      "decidedBy": null
+    },
+    {
+      "id": "redesign-the-aesthetic-to-be-modern-new",
+      "text": "Redesign the aesthetic to be modern — new typography, color, layout and motion, not a reskin of the current site",
+      "status": "open",
+      "resolvedAt": null,
+      "resolvedInFeature": null,
+      "planSlug": null,
+      "note": null,
+      "decidedBy": null
+    },
+    {
+      "id": "explore-a-variety-of-design-directions-across",
+      "text": "Explore a variety of design directions across multiple rounds and lock one in before building",
+      "status": "open",
+      "resolvedAt": null,
+      "resolvedInFeature": null,
+      "planSlug": null,
+      "note": null,
+      "decidedBy": null
+    },
+    {
+      "id": "publish-the-rebuilt-site-live-at-nadiaeldeib",
+      "text": "Publish the rebuilt site live at nadiaeldeib.com (deploy/hosting — assist track, non-build)",
+      "status": "open",
+      "resolvedAt": null,
+      "resolvedInFeature": null,
+      "planSlug": null,
+      "note": null,
+      "decidedBy": null
+    },
+    {
+      "id": "point-nseldeib-com-at-the-same-site-so-both",
+      "text": "Point nseldeib.com at the same site so both domains serve it (DNS — assist track, non-build)",
+      "status": "open",
+      "resolvedAt": null,
+      "resolvedInFeature": null,
+      "planSlug": null,
+      "note": null,
+      "decidedBy": null
+    }
+  ]
+}
