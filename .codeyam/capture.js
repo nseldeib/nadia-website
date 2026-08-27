@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // codeyam-generated — DO NOT EDIT.
-// codeyam-editor: 0.1.7  build: a4c5299c7999edde656e5c190ed23ef9d6dd3f7c  source-sha256: a4e0d8f180362dbf6bf276feaddabb8a566e702fc49c16e2248821160bfa074d
+// codeyam-editor: 0.1.7  build: 510d172e4ee6a533a4e18c89c1785bfb5d8075cb  source-sha256: a4e0d8f180362dbf6bf276feaddabb8a566e702fc49c16e2248821160bfa074d
 
 // Render environment (colorScheme, deviceScaleFactor, userAgent, locale,
 // timezoneId, reduceMotion, forcedColors) is read from config when present
