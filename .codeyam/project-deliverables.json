@@ -37,21 +37,21 @@
       "id": "publish-the-rebuilt-site-live-at-nadiaeldeib",
       "text": "Publish the rebuilt site live at nadiaeldeib.com (deploy/hosting — assist track, non-build)",
       "status": "deferred",
-      "resolvedAt": "2026-08-27T15:18:19.424015+00:00",
-      "resolvedInFeature": "Rebuild nadiaeldeib.com",
+      "resolvedAt": "2026-08-27T16:37:06.213004+00:00",
+      "resolvedInFeature": "Deployable contact pipeline: hosted Postgres + real email delivery",
       "planSlug": null,
-      "note": "Deferred by the user to the repo-consolidation and cutover phase. The old site is on GitHub Pages with a static export, which cannot host this site's API route and database, so the move to Vercel Hobby still needs a SQLite to Postgres swap and Resend wiring first.",
-      "decidedBy": "agent"
+      "note": "Still deferred, confirmed by the user at this cycle's confirm-plan gate. This cycle removes the two blockers (SQLite to Postgres, and real email delivery); the Vercel deploy and the Squarespace DNS cutover are the cycle immediately after. Registrar is Squarespace Domains II LLC, not Google Cloud DNS as earlier inferred from the inherited ns-cloud-*.googledomains.com nameservers.",
+      "decidedBy": "user"
     },
     {
       "id": "point-nseldeib-com-at-the-same-site-so-both",
       "text": "Point nseldeib.com at the same site so both domains serve it (DNS — assist track, non-build)",
       "status": "deferred",
-      "resolvedAt": "2026-08-27T15:18:23.537944+00:00",
-      "resolvedInFeature": "Rebuild nadiaeldeib.com",
+      "resolvedAt": "2026-08-27T16:37:15.155872+00:00",
+      "resolvedInFeature": "Deployable contact pipeline: hosted Postgres + real email delivery",
       "planSlug": null,
-      "note": "Deferred by the user; DNS work downstream of the nadiaeldeib.com cutover, which cannot be done before that host is live.",
-      "decidedBy": "agent"
+      "note": "Still deferred, confirmed by the user at this cycle's confirm-plan gate. Downstream of the nadiaeldeib.com cutover. nseldeib.com is already registered at Namecheap and already served by Vercel (216.198.79.1), so this is a project-attach rather than a nameserver move. The user also asked about consolidating registrars; advice given was to cut DNS over first and transfer nadiaeldeib.com from Squarespace to Namecheap afterwards, since the Squarespace-operated nameservers can stop serving the zone on transfer.",
+      "decidedBy": "user"
     }
   ]
 }

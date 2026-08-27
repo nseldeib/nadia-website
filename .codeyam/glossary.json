@@ -187,6 +187,7 @@
     "description": "The contact endpoint. Answers the honeypot silently so a bot learns nothing, then writes the row before attempting delivery, so a message survives a mail outage with emailedAt left null rather than being lost. Validation logic lives in validateMessage and is tested there.",
     "filePath": "app/api/contact/route.ts",
     "name": "POST",
+    "testFile": "app/api/contact/route.test.ts",
     "untestabilityReason": {
       "justification": "A Next route handler over the network and Prisma boundaries. Its decision logic is extracted into validateMessage, which is covered directly; what remains here is request parsing, persistence, and status codes.",
       "kind": "platform-glue"
@@ -329,6 +330,48 @@
     ]
   },
   {
+    "description": "Shapes the Customer.io wire body for one note: subject from topic and sender, plain-text and escaped HTML parts, recipient identifiers, and reply_to set to the person who wrote in rather than the site's sending address.",
+    "filePath": "app/lib/sendNotification.ts",
+    "name": "buildSendPayload",
+    "testFile": "app/lib/sendNotification.test.ts"
+  },
+  {
+    "description": "Renders a saved message as the plain-text note: sender, topic, optional source page and message id first, then the sender's own words last and unwrapped so a long message is not pushed below a wall of metadata.",
+    "filePath": "app/lib/sendNotification.ts",
+    "name": "composeBody",
+    "testFile": "app/lib/sendNotification.test.ts"
+  },
+  {
+    "description": "The 500 reply for a failed write. Says nothing was sent, which is literally true and tells the sender to retry rather than assume the note arrived.",
+    "filePath": "app/lib/contactResponses.ts",
+    "name": "couldNotSave",
+    "testFile": "app/lib/contactResponses.test.ts"
+  },
+  {
+    "description": "Attempts delivery of a saved note and stamps emailedAt strictly AFTER the provider accepts, never before and never on a failed send. Returns delivered, not-delivered, or delivered-unstamped. emailedAt is the only record of whether a note reached the inbox, so stamping optimistically would make an undelivered note indistinguishable from a delivered one. Takes its collaborators as arguments so all three outcomes are reachable without a database or a mail provider.",
+    "filePath": "app/lib/deliverAndStamp.ts",
+    "name": "deliverAndStamp",
+    "testFile": "app/lib/deliverAndStamp.test.ts"
+  },
+  {
+    "description": "Turns a rejected provider response into an operator-readable reason, carrying the provider's own text because that is what separates a bad token from an unverified recipient. Truncated for a log line, and survives a body that cannot be read.",
+    "filePath": "app/lib/sendNotification.ts",
+    "name": "describeSendFailure",
+    "testFile": "app/lib/sendNotification.test.ts"
+  },
+  {
+    "description": "Escapes ampersand and angle brackets so an untrusted note cannot alter the structure of the HTML part. Ampersand is replaced first, or the escapes themselves would be re-escaped into visible garbage.",
+    "filePath": "app/lib/sendNotification.ts",
+    "name": "escapeHtml",
+    "testFile": "app/lib/sendNotification.test.ts"
+  },
+  {
+    "description": "Reports whether the hidden company field came back filled in. Whitespace does not count, since a stray space from an autofill would otherwise silently discard a real person's message while telling them it succeeded.",
+    "filePath": "app/lib/contactRequest.ts",
+    "name": "isHoneypotTripped",
+    "testFile": "app/lib/contactRequest.test.ts"
+  },
+  {
     "description": "Seeds the Message table with the received-messages world used by the home-full-page scenario, so a capture shows a coherent inbox rather than leftover state.",
     "filePath": "prisma/seed.ts",
     "name": "main",
@@ -338,10 +381,67 @@
     }
   },
   {
+    "description": "The 422 reply carrying per-field problems so the form can point at what needs fixing. 422 rather than 400: the request was understood, its contents were not acceptable.",
+    "filePath": "app/lib/contactResponses.ts",
+    "name": "needsAnotherLook",
+    "testFile": "app/lib/contactResponses.test.ts"
+  },
+  {
     "description": "Picks the active section from document order and the set of currently visible ids. Sections are contiguous so two can briefly both cross the observer band; document order breaks the tie, which keeps the nav indicator moving forward instead of flickering between neighbours.",
     "filePath": "app/lib/activeSection.ts",
     "name": "pickActive",
     "testFile": "app/lib/activeSection.test.ts"
+  },
+  {
+    "description": "Parses an untrusted request body into a result rather than throwing or returning a response, so parsing holds no opinion about HTTP. Malformed input is an expected arrival on a public endpoint, not an exceptional one.",
+    "filePath": "app/lib/contactRequest.ts",
+    "name": "readJsonBody",
+    "testFile": "app/lib/contactRequest.test.ts"
+  },
+  {
+    "description": "Reads the three variables a send requires and reports which are missing by NAME, never by value. Treats an empty string as unset so a blank placeholder in an env file is not mistaken for configuration.",
+    "filePath": "app/lib/sendNotification.ts",
+    "name": "readMailConfig",
+    "testFile": "app/lib/sendNotification.test.ts"
+  },
+  {
+    "description": "Reads the seed message fixture from the same file the scenario captures use, so a local database and a captured screenshot look at identical data. Returns an empty list when the file is absent or unreadable: a clone that only wants a running site does not need the demo inbox, and an empty table is a valid state.",
+    "filePath": "prisma/seed.ts",
+    "name": "readSeedMessages",
+    "untestabilityReason": {
+      "justification": "Reads a fixed project path via readFileSync with no injection point, so neither the success path nor the missing-file fallback can be varied from a test. The transforms applied to what it returns are covered in prisma/seedRows.test.ts.",
+      "kind": "platform-glue"
+    }
+  },
+  {
+    "description": "Reads DATABASE_URL and throws a message naming .env.local and DATABASE.md when it is absent or empty. Shared by the Next.js client singleton and the standalone seed script so the two entry points cannot drift; Postgres has no local-file fallback, so failing here rather than at first query is what turns a cryptic driver error into an actionable one.",
+    "filePath": "app/lib/prismaConnection.ts",
+    "name": "requireConnectionString",
+    "testFile": "app/lib/prismaConnection.test.ts"
+  },
+  {
+    "description": "The 201 reply carrying the new row id, returned whether or not the email went out, because the row exists either way and delivery is not the sender's problem.",
+    "filePath": "app/lib/contactResponses.ts",
+    "name": "saved",
+    "testFile": "app/lib/contactResponses.test.ts"
+  },
+  {
+    "description": "Delivers one contact-form note to the configured inbox through Customer.io's transactional API. Never throws: the row is already saved by the time it runs, so a delivery failure comes back as a result to record rather than an exception. The only module that reads CONTACT_INBOX, which it never logs or returns.",
+    "filePath": "app/lib/sendNotification.ts",
+    "name": "sendNotification",
+    "testFile": "app/lib/sendNotification.test.ts"
+  },
+  {
+    "description": "Picks the Customer.io regional host, defaulting to US and switching to the EU deployment only on CUSTOMERIO_REGION=eu. The hosts are separate deployments and a token issued in one is rejected by the other, so the default is a real failure mode rather than cosmetics.",
+    "filePath": "app/lib/sendNotification.ts",
+    "name": "sendUrl",
+    "testFile": "app/lib/sendNotification.test.ts"
+  },
+  {
+    "description": "The honeypot reply, deliberately indistinguishable from success in both status and body shape. Telling a bot it was detected only teaches whoever wrote it to leave the field alone next time.",
+    "filePath": "app/lib/contactResponses.ts",
+    "name": "silentlyAccepted",
+    "testFile": "app/lib/contactResponses.test.ts"
   },
   {
     "description": "Splits an authored sentence around the first occurrence of a brand name so it can be linked in place. The signoff stays one piece of copy instead of being assembled from fragments, and reassembly is exact.",
@@ -360,6 +460,24 @@
     "filePath": "app/lib/submitMessage.ts",
     "name": "submitMessage",
     "testFile": "app/lib/submitMessage.test.ts"
+  },
+  {
+    "description": "Builds the seed script's one-line report, counting delivered against undelivered so the seeded undelivered row stays visible in the output.",
+    "filePath": "prisma/seedRows.ts",
+    "name": "summarize",
+    "testFile": "prisma/seedRows.test.ts"
+  },
+  {
+    "description": "Maps one seed record to a database row. Leaves createdAt undefined when absent so the column default applies, while emailedAt is explicitly null: the two absences mean different things, and a null emailedAt is the seeded record of a note that arrived but was never delivered.",
+    "filePath": "prisma/seedRows.ts",
+    "name": "toMessageRow",
+    "testFile": "prisma/seedRows.test.ts"
+  },
+  {
+    "description": "The 400 reply for a body that could not be parsed at all.",
+    "filePath": "app/lib/contactResponses.ts",
+    "name": "unreadableRequest",
+    "testFile": "app/lib/contactResponses.test.ts"
   },
   {
     "description": "Reports which section the reader is in, via an IntersectionObserver band about 40 percent down the viewport. Replaced a CSS scroll timeline that flipped states when a section did not fill the viewport, which read as the nav number blinking. The choice of which visible section wins is pickActive, which is covered by unit tests; the subscription itself is exercised by the Nav scenario.",

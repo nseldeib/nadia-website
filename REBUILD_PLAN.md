@@ -47,27 +47,46 @@ Dropped on purpose:
 
 ## Next up
 
-### 1. Swap SQLite for Postgres
+### 1. Swap SQLite for Postgres — DONE
 
-This is the blocker for deploying anywhere. Vercel's filesystem is ephemeral, so
-a SQLite file cannot persist contact messages there.
+The datastore is Postgres on Neon. `schema.prisma` declares `postgresql`,
+`@prisma/adapter-pg` replaced the better-sqlite3 adapter in all three places
+that construct a client (`app/lib/prisma.ts`, `prisma/seed.ts`,
+`.codeyam/seed-adapter.ts`), and `next.config.ts` externalises `pg`.
 
-- Provision a Postgres database (Vercel Postgres or Neon, both have free tiers)
-- Change `datasource db` in `prisma/schema.prisma` from `sqlite` to `postgresql`
-- Swap the driver adapter in `app/lib/prisma.ts` and `prisma/seed.ts`
-  (`@prisma/adapter-better-sqlite3` becomes the Postgres adapter)
-- Put the connection string in `.env.local`, never in `.env`
-- `npx prisma db push` against the new database, then `npm run db:seed`
+Two changes worth knowing about, because they are not reversible by editing a
+connection string:
 
-Only the datastore changes. `validateMessage` and the API route are untouched.
+- **There is no local-file fallback.** A missing `DATABASE_URL` now throws at
+  import rather than quietly binding to `dev.db`. Development uses a Neon
+  branch, not a file, so working offline is no longer possible.
+- **`db:reset` is now `db:drop-and-reseed`.** The old name hid a `rm -f dev.db`
+  whose Postgres equivalent drops every table in the database. Renamed so that
+  running it against the wrong branch requires having read what it does.
 
-### 2. Wire Resend for delivery
+### 2. Wire email delivery — DONE
 
-`app/api/contact/route.ts` already writes the row first and has the send call
-stubbed with a comment. Fill it in and set `emailedAt` on success. Leave the
-try/catch as it is: delivery must never fail the request, because the note is
-already saved. A row with `emailedAt` null is the durable record that something
-arrived but did not send.
+`app/lib/sendNotification.ts` sends the note and the route stamps `emailedAt`
+only once the provider accepts it. The try/catch is unchanged in spirit:
+delivery still never fails the request, and a row with `emailedAt` null is
+still the durable record that something arrived but did not send.
+
+`sendNotification` never throws and never logs the destination address —
+`CONTACT_INBOX` is read there and nowhere else, so the inbox cannot leak
+through an error message or a stack trace.
+
+The provider is **Customer.io**, not Resend. Resend is not in the Stripe
+Projects catalog, and provisioning through Projects was the deciding factor:
+the credentials land in `.env` from
+`stripe projects add customerio/builder:sandbox` rather than being pasted in
+by hand. The cost is the sandbox tier's limit — it delivers only to recipients
+verified in the Customer.io workspace, which is fine for one inbox and would
+not be for anything wider.
+
+Still needed before this does anything: verify the destination address in the
+Customer.io workspace, and set `CONTACT_INBOX` (plus `CONTACT_FROM`, and
+`CUSTOMERIO_REGION=eu` only if the workspace is European) in `.env.local`.
+The `CUSTOMERIO_*` keys are already in `.env`, written by Projects.
 
 ### 3. Deploy the branch to Vercel as a preview
 
@@ -113,8 +132,14 @@ build is still published, and `v1-github-pages` still has the code.
 
 ## Watch out for
 
-`.env.example` used to point `DATABASE_URL` at `.codeyam/db.sqlite3`, which is
-the *editor's own* database. Running `prisma db push` with that value makes
-Prisma try to reshape the editor's tables. It is fixed to `file:./dev.db`, but
-if you ever see Prisma offering to drop a `projects` table, that is what
-happened — stop and check `DATABASE_URL`.
+**Check which Neon branch `DATABASE_URL` names before running anything
+destructive.** The old hazard here was a `DATABASE_URL` pointed at the editor's
+own SQLite file; that one is gone with SQLite itself, and the replacement is
+blunter. `npm run db:drop-and-reseed` drops every table in whatever database
+the variable resolves to, and against the default branch that means the real
+messages people have sent. Development and captures belong on their own
+branches — see DATABASE.md, "Branches, not files".
+
+Scenario capture additionally needs `DATABASE_URL_codeyam_capture` to already
+exist: the sandbox serves the capture database rather than the project's own,
+and it cannot create a server-shaped database itself.

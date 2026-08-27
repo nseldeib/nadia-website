@@ -8,7 +8,7 @@ It is **intentionally simple** — built for easy upgrade to a real provider lat
 **Do NOT use NextAuth, Auth.js, Clerk, better-auth, Supabase Auth, or any external auth provider.**
 
 These providers require external infrastructure (OAuth endpoints, JWT signing keys, callback URLs)
-that is unavailable in the local SQLite development environment. They will fail silently or produce
+that is unavailable in the local development environment. They will fail silently or produce
 confusing errors. Use the pattern below instead — it works immediately and upgrades cleanly later.
 
 See `AUTH_UPGRADE.md` for how to swap in a real provider when going to production.

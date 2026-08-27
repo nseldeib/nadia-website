@@ -6,8 +6,9 @@
 // Run with: npx tsx prisma/seed.ts
 // Or:       npm run db:seed
 //
-// IMPORTANT: This file must use the same adapter pattern as app/lib/prisma.ts.
-// Do NOT use `new PrismaClient()` without the adapter — Prisma 7 requires it.
+// The connection-string guard is shared with app/lib/prisma.ts via
+// `app/lib/prismaConnection.ts`, so the two cannot drift. Note Prisma 7
+// requires the adapter — `new PrismaClient()` on its own will not work.
 
 // Loads the full dotenv cascade (`.env.local` wins over `.env`), matching
 // what Next.js and codeyam do. Plain `dotenv/config` would read `.env` only
@@ -16,11 +17,11 @@ import '../app/lib/loadEnv';
 import { readFileSync } from 'fs';
 import path from 'path';
 import { PrismaClient } from '@prisma/client';
-import { PrismaBetterSqlite3 } from '@prisma/adapter-better-sqlite3';
+import { PrismaPg } from '@prisma/adapter-pg';
+import { requireConnectionString } from '../app/lib/prismaConnection';
+import { type SeedMessage, summarize, toMessageRow } from './seedRows';
 
-const adapter = new PrismaBetterSqlite3({
-  url: process.env.DATABASE_URL || 'file:./dev.db',
-});
+const adapter = new PrismaPg({ connectionString: requireConnectionString() });
 const prisma = new PrismaClient({ adapter });
 
 /**
@@ -31,16 +32,6 @@ const prisma = new PrismaClient({ adapter });
  * rows inline here is how the two would quietly drift apart.
  */
 const SEED_FILE = path.join(__dirname, '..', '.codeyam', 'seed-data', 'messages-received.json');
-
-type SeedMessage = {
-  topic: string;
-  name: string;
-  email: string;
-  body: string;
-  createdAt?: string;
-  emailedAt?: string | null;
-  sourcePage?: string | null;
-};
 
 function readSeedMessages(): SeedMessage[] {
   try {
@@ -65,24 +56,9 @@ async function main() {
 
   // Replace rather than append, so re-running does not stack duplicates.
   await prisma.message.deleteMany({});
-  await prisma.message.createMany({
-    data: messages.map((m) => ({
-      topic: m.topic,
-      name: m.name,
-      email: m.email,
-      body: m.body,
-      createdAt: m.createdAt ? new Date(m.createdAt) : undefined,
-      // A null emailedAt is the durable record that a note arrived but
-      // delivery failed. One seed row carries it so that state stays visible.
-      emailedAt: m.emailedAt ? new Date(m.emailedAt) : null,
-      sourcePage: m.sourcePage ?? null,
-    })),
-  });
+  await prisma.message.createMany({ data: messages.map(toMessageRow) });
 
-  const delivered = messages.filter((m) => m.emailedAt).length;
-  console.log(
-    `Seeded ${messages.length} message(s): ${delivered} delivered, ${messages.length - delivered} saved but not emailed.`,
-  );
+  console.log(summarize(messages));
 }
 
 main()

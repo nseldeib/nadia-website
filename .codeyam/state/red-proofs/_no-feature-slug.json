@@ -1,0 +1,35 @@
+{
+  "provenAt": "2026-08-27T21:47:49Z",
+  "paths": [
+    "app/lib/deliverAndStamp.ts"
+  ],
+  "runScope": [
+    "app/lib/deliverAndStamp.ts"
+  ],
+  "tests": {
+    "does not stamp when the provider rejects the send": {
+      "withoutFix": "missing",
+      "withFix": "missing",
+      "established": {
+        "kind": "attestedByHand",
+        "method": "Fault injection, not revert. A --path revert of app/lib/deliverAndStamp.ts deletes the module the test imports, so the without-fix world did-not-build (prove-red BLOCKED, verdict UNPROVABLE). Instead the ordering guard itself was neutered in place — 'if (!delivery.ok) { return not-delivered }' short-circuited to 'if (false && !delivery.ok)' so stamping runs unconditionally — then refresh-tests --file app/lib/deliverAndStamp.test.ts was run, the guard restored, and the suite re-run.",
+        "evidence": "With the guard neutered: {failed:3, passed:78, total:81}, success:false — 'does not stamp when the provider rejects the send', 'reports the provider reason on a failed send', and 'works without an onProblem hook' all went red. With the guard restored: {failed:0, passed:81}, success:true. The fixture and expectations were not touched between the two runs."
+      }
+    },
+    "sends before it stamps": {
+      "withoutFix": "didNotBuild",
+      "withFix": "pass",
+      "established": {
+        "kind": "measured"
+      }
+    }
+  },
+  "proof": {
+    "verdict": "provenByHand",
+    "attested": [
+      "does not stamp when the provider rejects the send"
+    ],
+    "method": "Fault injection, not revert. A --path revert of app/lib/deliverAndStamp.ts deletes the module the test imports, so the without-fix world did-not-build (prove-red BLOCKED, verdict UNPROVABLE). Instead the ordering guard itself was neutered in place — 'if (!delivery.ok) { return not-delivered }' short-circuited to 'if (false && !delivery.ok)' so stamping runs unconditionally — then refresh-tests --file app/lib/deliverAndStamp.test.ts was run, the guard restored, and the suite re-run.",
+    "evidence": "With the guard neutered: {failed:3, passed:78, total:81}, success:false — 'does not stamp when the provider rejects the send', 'reports the provider reason on a failed send', and 'works without an onProblem hook' all went red. With the guard restored: {failed:0, passed:81}, success:true. The fixture and expectations were not touched between the two runs."
+  }
+}

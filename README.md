@@ -46,16 +46,20 @@ text means editing that file — no component changes.
 
 ## Database
 
-This project uses SQLite via Prisma. The single `Message` model stores notes sent
-through the contact form. A row is written before delivery is attempted, so a
-message survives a mail outage with `emailedAt` left null rather than being lost.
+This project uses Postgres via Prisma, hosted at Neon. The single `Message` model
+stores notes sent through the contact form. A row is written before delivery is
+attempted, so a message survives a mail outage with `emailedAt` left null rather
+than being lost.
+
+`DATABASE_URL` has no local fallback — the app throws at startup without it. See
+DATABASE.md for where the connection string goes.
 
 Common commands:
 
 ```bash
-npm run db:push    # Apply schema changes and generate Prisma client
-npm run db:seed    # Seed the database with demo data
-npm run db:reset   # Reset database: drop, recreate, and re-seed
+npm run db:push            # Apply schema changes and generate Prisma client
+npm run db:seed            # Seed the database with demo data
+npm run db:drop-and-reseed # DESTRUCTIVE: drop every table, recreate, re-seed
 ```
 
 ## Scripts
@@ -68,7 +72,7 @@ npm run db:reset   # Reset database: drop, recreate, and re-seed
 | `npm run test`     | Run tests                                    |
 | `npm run db:push`  | Apply Prisma schema changes                  |
 | `npm run db:seed`  | Seed the database                            |
-| `npm run db:reset` | Reset and re-seed the database               |
+| `npm run db:drop-and-reseed` | **Destructive.** Drops every table, then re-seeds |
 
 <!-- codeyam:run-and-edit:start -->
 ## Develop this project with codeyam-editor

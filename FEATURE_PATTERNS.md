@@ -1,6 +1,6 @@
 # Feature Patterns
 
-When the feature you're building involves any of the patterns below, **read the linked doc before writing code**. These patterns are designed for the local SQLite dev environment and upgrade cleanly to production services later.
+When the feature you're building involves any of the patterns below, **read the linked doc before writing code**. These patterns are designed for this project's Postgres dev environment and upgrade cleanly to production services later.
 
 ## Authentication (login, sign-up, user sessions)
 

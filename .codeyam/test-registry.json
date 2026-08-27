@@ -1,6 +1,330 @@
 {
   "tests": [
     {
+      "description": "Malformed JSON is a 400, distinct from a 422 — the body was never understood, so there are no field problems to report.",
+      "file": "app/api/contact/route.test.ts",
+      "format": "vitest",
+      "key": "POST /api/contact › answers malformed JSON with 400",
+      "line": 90,
+      "registeredAt": "2026-08-27T21:53:46.775498+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Validation runs before persistence: an invalid submission must not reach the database, and the sender needs the per-field problems back.",
+      "file": "app/api/contact/route.test.ts",
+      "format": "vitest",
+      "key": "POST /api/contact › rejects an invalid submission with 422 and saves nothing",
+      "line": 81,
+      "registeredAt": "2026-08-27T21:53:46.775498+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A failed write is the one case where the sender must NOT be told it worked: nothing was saved and nothing was sent, so they should retry.",
+      "file": "app/api/contact/route.test.ts",
+      "format": "vitest",
+      "key": "POST /api/contact › returns 500 and does not attempt delivery when the write fails",
+      "line": 98,
+      "registeredAt": "2026-08-27T21:53:46.775498+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "The whole point of writing before sending: a mail outage must leave a recoverable row rather than losing the note. So the row is created even when delivery fails, and the sender still gets a success.",
+      "file": "app/api/contact/route.test.ts",
+      "format": "vitest",
+      "key": "POST /api/contact › saves the note and still returns 201 when delivery fails",
+      "line": 54,
+      "registeredAt": "2026-08-27T21:53:46.775498+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "The happy path stamps the row, and only after the provider accepted.",
+      "file": "app/api/contact/route.test.ts",
+      "format": "vitest",
+      "key": "POST /api/contact › stamps emailedAt once delivery succeeds",
+      "line": 63,
+      "registeredAt": "2026-08-27T21:53:46.775498+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "The note is already safe once the row exists, so a stamping failure must not turn a saved note into a 500 that invites a duplicate submission.",
+      "file": "app/api/contact/route.test.ts",
+      "format": "vitest",
+      "key": "POST /api/contact › still returns 201 when stamping fails after a successful send",
+      "line": 107,
+      "registeredAt": "2026-08-27T21:53:46.775498+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "The honeypot must short-circuit BEFORE anything is written, or a bot would fill the table with rows while being told it succeeded.",
+      "file": "app/api/contact/route.test.ts",
+      "format": "vitest",
+      "key": "POST /api/contact › writes nothing when the honeypot is tripped",
+      "line": 72,
+      "registeredAt": "2026-08-27T21:53:46.775498+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "The plain-text part must be the composed note exactly — it is the copy that survives every client.",
+      "file": "app/lib/sendNotification.test.ts",
+      "format": "vitest",
+      "key": "buildSendPayload › carries the composed note as the plaintext part",
+      "line": 165,
+      "registeredAt": "2026-08-27T21:49:03Z",
+      "runner": "tests"
+    },
+    {
+      "description": "The HTML part wraps the same text in a <pre> so the line breaks survive, and the note itself must be escaped on the way in.",
+      "file": "app/lib/sendNotification.test.ts",
+      "format": "vitest",
+      "key": "buildSendPayload › escapes the note inside the HTML part",
+      "line": 171,
+      "registeredAt": "2026-08-27T21:49:03Z",
+      "runner": "tests"
+    },
+    {
+      "description": "Customer.io identifies the recipient as a person in the workspace; on the sandbox tier that identifier is what must be verified for delivery.",
+      "file": "app/lib/sendNotification.test.ts",
+      "format": "vitest",
+      "key": "buildSendPayload › identifies the recipient by the inbox address",
+      "line": 157,
+      "registeredAt": "2026-08-27T21:49:03Z",
+      "runner": "tests"
+    },
+    {
+      "description": "The subject is how the inbox is scanned, so both facts belong in it.",
+      "file": "app/lib/sendNotification.test.ts",
+      "format": "vitest",
+      "key": "buildSendPayload › puts the topic and the sender in the subject",
+      "line": 151,
+      "registeredAt": "2026-08-27T21:49:03Z",
+      "runner": "tests"
+    },
+    {
+      "description": "Replying should answer the person who wrote in, not the site's own sending address. This breaks silently — nobody notices until a reply goes nowhere.",
+      "file": "app/lib/sendNotification.test.ts",
+      "format": "vitest",
+      "key": "buildSendPayload › replies to the sender, and delivers to the configured inbox",
+      "line": 143,
+      "registeredAt": "2026-08-27T21:49:03Z",
+      "runner": "tests"
+    },
+    {
+      "description": "sourcePage is optional; an absent one must not leave a dangling label.",
+      "file": "app/lib/sendNotification.test.ts",
+      "format": "vitest",
+      "key": "composeBody › omits the source line when there is no source page",
+      "line": 118,
+      "registeredAt": "2026-08-27T21:49:03Z",
+      "runner": "tests"
+    },
+    {
+      "description": "The sender's own words go last and unwrapped, so a long note is not pushed below a wall of metadata.",
+      "file": "app/lib/sendNotification.test.ts",
+      "format": "vitest",
+      "key": "composeBody › puts the metadata first and the message last, verbatim",
+      "line": 109,
+      "registeredAt": "2026-08-27T21:49:03Z",
+      "runner": "tests"
+    },
+    {
+      "description": "The honeypot reply must be INDISTINGUISHABLE from a real success: same status, same body shape. Any difference tells whoever wrote the bot which field gave them away, and they simply stop filling it in next time.",
+      "file": "app/lib/contactResponses.test.ts",
+      "format": "vitest",
+      "key": "contactResponses › answers a tripped honeypot exactly like a success",
+      "line": 22,
+      "registeredAt": "2026-08-27T21:51:58.787119+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Unparseable input is the client's problem, not a server fault. A 500 here would tell the sender to try again later when the request will never work.",
+      "file": "app/lib/contactResponses.test.ts",
+      "format": "vitest",
+      "key": "contactResponses › answers unreadable input with 400",
+      "line": 13,
+      "registeredAt": "2026-08-27T21:51:58.787119+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "201 regardless of whether the email went out — the row exists either way, and delivery is not the sender's problem. The id goes back so a follow-up can reference the note.",
+      "file": "app/lib/contactResponses.test.ts",
+      "format": "vitest",
+      "key": "contactResponses › reports the saved row with a 201",
+      "line": 51,
+      "registeredAt": "2026-08-27T21:51:58.787119+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "422 rather than 400: the request was understood, the contents were not acceptable. The per-field problems have to survive so the form can point at the field that needs fixing instead of showing a generic failure.",
+      "file": "app/lib/contactResponses.test.ts",
+      "format": "vitest",
+      "key": "contactResponses › returns the field problems with a 422",
+      "line": 31,
+      "registeredAt": "2026-08-27T21:51:58.787119+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "\"Nothing was sent\" is literally true when the write failed, and it matters: it tells the sender to retry rather than assume the note arrived.",
+      "file": "app/lib/contactResponses.test.ts",
+      "format": "vitest",
+      "key": "contactResponses › says nothing was sent when the write failed",
+      "line": 42,
+      "registeredAt": "2026-08-27T21:51:58.787119+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "The ordering rule. `emailedAt` is the only record of whether a note actually reached the inbox, so stamping it for a send that failed would make an undelivered note indistinguishable from a delivered one.",
+      "file": "app/lib/deliverAndStamp.test.ts",
+      "format": "vitest",
+      "key": "deliverAndStamp › does not stamp when the provider rejects the send",
+      "line": 18,
+      "registeredAt": "2026-08-27T21:49:03Z",
+      "runner": "tests"
+    },
+    {
+      "description": "The row is already safe by the time this runs, so nothing here is worth failing the request over. A throw would turn a saved note into a 500 and invite the sender to submit it twice.",
+      "file": "app/lib/deliverAndStamp.test.ts",
+      "format": "vitest",
+      "key": "deliverAndStamp › never throws, even when stamping blows up",
+      "line": 72,
+      "registeredAt": "2026-08-27T21:49:03Z",
+      "runner": "tests"
+    },
+    {
+      "description": "A failed stamp after a successful send is the one acceptable inconsistency: the note arrived but the row still reads as undelivered. Better a duplicate-looking row than a message believed sent that never was.",
+      "file": "app/lib/deliverAndStamp.test.ts",
+      "format": "vitest",
+      "key": "deliverAndStamp › reports delivered-unstamped when the row update fails",
+      "line": 59,
+      "registeredAt": "2026-08-27T21:49:03Z",
+      "runner": "tests"
+    },
+    {
+      "description": "The operator needs to know which of the two problems occurred, and the provider's own reason is what distinguishes a bad token from an unverified recipient.",
+      "file": "app/lib/deliverAndStamp.test.ts",
+      "format": "vitest",
+      "key": "deliverAndStamp › reports the provider reason on a failed send",
+      "line": 86,
+      "registeredAt": "2026-08-27T21:49:03Z",
+      "runner": "tests"
+    },
+    {
+      "description": "Sending must happen before stamping, not concurrently — if the write were issued first, a provider rejection would leave a false record behind.",
+      "file": "app/lib/deliverAndStamp.test.ts",
+      "format": "vitest",
+      "key": "deliverAndStamp › sends before it stamps",
+      "line": 42,
+      "registeredAt": "2026-08-27T21:49:03Z",
+      "runner": "tests"
+    },
+    {
+      "description": "The happy path, and the id must be the saved row's — stamping the wrong row would mark someone else's note as delivered.",
+      "file": "app/lib/deliverAndStamp.test.ts",
+      "format": "vitest",
+      "key": "deliverAndStamp › stamps the saved row once the provider accepts",
+      "line": 30,
+      "registeredAt": "2026-08-27T21:49:03Z",
+      "runner": "tests"
+    },
+    {
+      "description": "Logging is the caller's business; omitting the hook must not crash the delivery path.",
+      "file": "app/lib/deliverAndStamp.test.ts",
+      "format": "vitest",
+      "key": "deliverAndStamp › works without an onProblem hook",
+      "line": 98,
+      "registeredAt": "2026-08-27T21:49:03Z",
+      "runner": "tests"
+    },
+    {
+      "description": "A bare status code cannot distinguish a bad token from an unverified recipient, and both are things only the operator can fix.",
+      "file": "app/lib/sendNotification.test.ts",
+      "format": "vitest",
+      "key": "describeSendFailure › includes the status and the provider detail",
+      "line": 181,
+      "registeredAt": "2026-08-27T21:49:03Z",
+      "runner": "tests"
+    },
+    {
+      "description": "An empty body must not leave a trailing colon with nothing after it.",
+      "file": "app/lib/sendNotification.test.ts",
+      "format": "vitest",
+      "key": "describeSendFailure › omits the separator when there is no detail",
+      "line": 200,
+      "registeredAt": "2026-08-27T21:49:03Z",
+      "runner": "tests"
+    },
+    {
+      "description": "Reading the body can itself fail; the status is still worth reporting and this must not throw into the delivery path, which promises never to throw.",
+      "file": "app/lib/sendNotification.test.ts",
+      "format": "vitest",
+      "key": "describeSendFailure › still reports the status when the body cannot be read",
+      "line": 208,
+      "registeredAt": "2026-08-27T21:49:03Z",
+      "runner": "tests"
+    },
+    {
+      "description": "The reason lands in a log line, so a huge HTML error page must not be pasted into it wholesale.",
+      "file": "app/lib/sendNotification.test.ts",
+      "format": "vitest",
+      "key": "describeSendFailure › truncates a long body",
+      "line": 191,
+      "registeredAt": "2026-08-27T21:49:03Z",
+      "runner": "tests"
+    },
+    {
+      "description": "Ampersand must be escaped FIRST or the escapes themselves get re-escaped into `&amp;lt;`, which renders as visible garbage.",
+      "file": "app/lib/sendNotification.test.ts",
+      "format": "vitest",
+      "key": "escapeHtml › does not double-escape its own output",
+      "line": 135,
+      "registeredAt": "2026-08-27T21:49:03Z",
+      "runner": "tests"
+    },
+    {
+      "description": "The note is untrusted input interpolated into the HTML part. Without this a message containing markup would alter the email's structure.",
+      "file": "app/lib/sendNotification.test.ts",
+      "format": "vitest",
+      "key": "escapeHtml › escapes the characters that could alter the markup",
+      "line": 127,
+      "registeredAt": "2026-08-27T21:49:03Z",
+      "runner": "tests"
+    },
+    {
+      "description": "The common case, and the one that must never regress: a real submission that leaves the hidden field alone has to pass straight through.",
+      "file": "app/lib/contactRequest.test.ts",
+      "format": "vitest",
+      "key": "isHoneypotTripped › does not trip for an ordinary submission",
+      "line": 50,
+      "registeredAt": "2026-08-27T21:49:03Z",
+      "runner": "tests"
+    },
+    {
+      "description": "Whitespace is not content. A stray space injected by an autofill would otherwise silently discard a real person's message — the worst failure this endpoint has, because the sender is told it succeeded.",
+      "file": "app/lib/contactRequest.test.ts",
+      "format": "vitest",
+      "key": "isHoneypotTripped › does not trip on whitespace alone",
+      "line": 57,
+      "registeredAt": "2026-08-27T21:49:03Z",
+      "runner": "tests"
+    },
+    {
+      "description": "The payload is untrusted, so every shape has to be survivable rather than throwing before validation ever runs.",
+      "file": "app/lib/contactRequest.test.ts",
+      "format": "vitest",
+      "key": "isHoneypotTripped › survives payloads that are not objects",
+      "line": 63,
+      "registeredAt": "2026-08-27T21:49:03Z",
+      "runner": "tests"
+    },
+    {
+      "description": "`company` is rendered but hidden: a human never fills it, a bot that fills every field does.",
+      "file": "app/lib/contactRequest.test.ts",
+      "format": "vitest",
+      "key": "isHoneypotTripped › trips when the hidden field has content",
+      "line": 44,
+      "registeredAt": "2026-08-27T21:49:03Z",
+      "runner": "tests"
+    },
+    {
       "description": "The contact section is last and is a real target, so the final entry must be reachable rather than dropping off the end.",
       "file": "app/lib/activeSection.test.ts",
       "format": "vitest",
@@ -61,6 +385,141 @@
       "key": "pickActive › returns the one visible section",
       "line": 14,
       "registeredAt": "2026-08-26T22:20:16Z",
+      "runner": "tests"
+    },
+    {
+      "description": "A bare JSON value parses fine. Deciding it is not a usable message is validation's job, not parsing's — conflating the two would answer 400 where the form expects a 422 with field problems.",
+      "file": "app/lib/contactRequest.test.ts",
+      "format": "vitest",
+      "key": "readJsonBody › accepts valid JSON that is not an object",
+      "line": 36,
+      "registeredAt": "2026-08-27T21:49:03Z",
+      "runner": "tests"
+    },
+    {
+      "description": "The endpoint is public, so malformed input is an expected arrival, not an exceptional one. It must come back as a result the route can answer with a 400 rather than as a thrown error that would surface as a 500.",
+      "file": "app/lib/contactRequest.test.ts",
+      "format": "vitest",
+      "key": "readJsonBody › reports failure instead of throwing on malformed JSON",
+      "line": 24,
+      "registeredAt": "2026-08-27T21:49:03Z",
+      "runner": "tests"
+    },
+    {
+      "description": "An empty body is the same class of problem and must take the same path.",
+      "file": "app/lib/contactRequest.test.ts",
+      "format": "vitest",
+      "key": "readJsonBody › reports failure on an empty body",
+      "line": 29,
+      "registeredAt": "2026-08-27T21:49:03Z",
+      "runner": "tests"
+    },
+    {
+      "description": "The ordinary path: a well-formed submission must reach the route as a payload it can hand to validation.",
+      "file": "app/lib/contactRequest.test.ts",
+      "format": "vitest",
+      "key": "readJsonBody › returns the parsed payload for valid JSON",
+      "line": 14,
+      "registeredAt": "2026-08-27T21:49:03Z",
+      "runner": "tests"
+    },
+    {
+      "description": "The whole point of reporting missing NAMES is that the values must never be logged — CONTACT_INBOX in particular is the address the site exists to keep unpublished.",
+      "file": "app/lib/sendNotification.test.ts",
+      "format": "vitest",
+      "key": "readMailConfig › names every missing variable without revealing any value",
+      "line": 32,
+      "registeredAt": "2026-08-27T21:49:03Z",
+      "runner": "tests"
+    },
+    {
+      "description": "A partially-configured deployment is the realistic failure — the operator needs to know WHICH one they forgot, not just that something is wrong.",
+      "file": "app/lib/sendNotification.test.ts",
+      "format": "vitest",
+      "key": "readMailConfig › names only the one that is absent",
+      "line": 45,
+      "registeredAt": "2026-08-27T21:49:03Z",
+      "runner": "tests"
+    },
+    {
+      "description": "The success shape is what the sender destructures, so the three values must come back under the names it expects and unmodified.",
+      "file": "app/lib/sendNotification.test.ts",
+      "format": "vitest",
+      "key": "readMailConfig › returns the config once all three are present",
+      "line": 68,
+      "registeredAt": "2026-08-27T21:49:03Z",
+      "runner": "tests"
+    },
+    {
+      "description": "An env file with `CONTACT_INBOX=\"\"` left as a placeholder is unconfigured, not configured-to-empty. Treating it as set would send to nowhere.",
+      "file": "app/lib/sendNotification.test.ts",
+      "format": "vitest",
+      "key": "readMailConfig › treats an empty string as unset",
+      "line": 56,
+      "registeredAt": "2026-08-27T21:49:03Z",
+      "runner": "tests"
+    },
+    {
+      "description": "The message is the entire value of failing fast: it has to name the file the value belongs in, or the reader is no better off than with a stack trace from the driver.",
+      "file": "app/lib/prismaConnection.test.ts",
+      "format": "vitest",
+      "key": "requireConnectionString › names where the value belongs",
+      "line": 32,
+      "registeredAt": "2026-08-27T21:49:03Z",
+      "runner": "tests"
+    },
+    {
+      "description": "A configured environment must pass through untouched — the guard exists to catch absence, not to rewrite a working connection string.",
+      "file": "app/lib/prismaConnection.test.ts",
+      "format": "vitest",
+      "key": "requireConnectionString › returns the connection string when it is set",
+      "line": 7,
+      "registeredAt": "2026-08-27T21:49:03Z",
+      "runner": "tests"
+    },
+    {
+      "description": "Failing here rather than at the first query is the whole point. Postgres has no local-file default, so without this the first symptom is a driver-level error at request time that says nothing about the cause.",
+      "file": "app/lib/prismaConnection.test.ts",
+      "format": "vitest",
+      "key": "requireConnectionString › throws when DATABASE_URL is absent",
+      "line": 16,
+      "registeredAt": "2026-08-27T21:49:03Z",
+      "runner": "tests"
+    },
+    {
+      "description": "A committed env file with `DATABASE_URL=\"\"` left blank is unconfigured. Handing an empty string to the driver produces a confusing connection error instead of the message below.",
+      "file": "app/lib/prismaConnection.test.ts",
+      "format": "vitest",
+      "key": "requireConnectionString › treats an empty string as unset",
+      "line": 23,
+      "registeredAt": "2026-08-27T21:49:03Z",
+      "runner": "tests"
+    },
+    {
+      "description": "Customer.io's regional hosts are separate deployments and a token issued in one is rejected by the other, so this defaulting is a real failure mode rather than cosmetics.",
+      "file": "app/lib/sendNotification.test.ts",
+      "format": "vitest",
+      "key": "sendUrl › defaults to the US host",
+      "line": 85,
+      "registeredAt": "2026-08-27T21:49:03Z",
+      "runner": "tests"
+    },
+    {
+      "description": "Anything that is not \"eu\" must fall back to US rather than building a nonsense host out of an unrecognised value.",
+      "file": "app/lib/sendNotification.test.ts",
+      "format": "vitest",
+      "key": "sendUrl › falls back to US for an unrecognised region",
+      "line": 99,
+      "registeredAt": "2026-08-27T21:49:03Z",
+      "runner": "tests"
+    },
+    {
+      "description": "Case-insensitive because the value is hand-typed into an env file, and `EU` failing over to the US host would be a 401 with no obvious cause.",
+      "file": "app/lib/sendNotification.test.ts",
+      "format": "vitest",
+      "key": "sendUrl › uses the EU host when the region says so, case-insensitively",
+      "line": 91,
+      "registeredAt": "2026-08-27T21:49:03Z",
       "runner": "tests"
     },
     {
@@ -208,6 +667,24 @@
       "runner": "tests"
     },
     {
+      "description": "The delivered count is what makes the seeded undelivered row visible in the output — the state is easy to seed and easy to forget is there.",
+      "file": "prisma/seedRows.test.ts",
+      "format": "vitest",
+      "key": "summarize › counts delivered and undelivered separately",
+      "line": 50,
+      "registeredAt": "2026-08-27T21:49:03Z",
+      "runner": "tests"
+    },
+    {
+      "description": "A clone with no seed file is a valid state, so the summary has to read as a sentence rather than dividing by zero or printing NaN.",
+      "file": "prisma/seedRows.test.ts",
+      "format": "vitest",
+      "key": "summarize › reads correctly for an empty set",
+      "line": 62,
+      "registeredAt": "2026-08-27T21:49:03Z",
+      "runner": "tests"
+    },
+    {
       "description": "The regression this file exists to prevent: the allow-list was written out by hand and drifted from the chips, so the form's own default selection (\"Working together\") came back 422 and the note could not be sent.",
       "file": "app/lib/validateMessage.test.ts",
       "format": "vitest",
@@ -223,6 +700,42 @@
       "key": "the topic allow-list and the form agree › accepts the chip the form selects by default",
       "line": 140,
       "registeredAt": "2026-08-26T22:17:48.634180+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "The seed file carries ISO strings but Prisma wants Date objects; handing it a string is the mistake this pins.",
+      "file": "prisma/seedRows.test.ts",
+      "format": "vitest",
+      "key": "toMessageRow › converts both timestamps when present",
+      "line": 23,
+      "registeredAt": "2026-08-27T21:49:03Z",
+      "runner": "tests"
+    },
+    {
+      "description": "The two absences mean different things and must not be collapsed: `createdAt` undefined lets the column default apply, while `emailedAt` null is a deliberate value meaning \"arrived but never delivered\".",
+      "file": "prisma/seedRows.test.ts",
+      "format": "vitest",
+      "key": "toMessageRow › distinguishes an absent createdAt from an absent emailedAt",
+      "line": 15,
+      "registeredAt": "2026-08-27T21:49:03Z",
+      "runner": "tests"
+    },
+    {
+      "description": "An explicit null in the seed file is the undelivered state the fixture exists to represent, and must survive as null rather than becoming a date.",
+      "file": "prisma/seedRows.test.ts",
+      "format": "vitest",
+      "key": "toMessageRow › keeps an explicit null emailedAt",
+      "line": 35,
+      "registeredAt": "2026-08-27T21:49:03Z",
+      "runner": "tests"
+    },
+    {
+      "description": "sourcePage is nullable in the schema; undefined in the fixture must become an explicit null rather than being dropped from the insert.",
+      "file": "prisma/seedRows.test.ts",
+      "format": "vitest",
+      "key": "toMessageRow › normalises a missing sourcePage to null",
+      "line": 41,
+      "registeredAt": "2026-08-27T21:49:03Z",
       "runner": "tests"
     },
     {

@@ -1,4 +1,4 @@
-// Prisma 7 with SQLite via better-sqlite3 driver adapter.
+// Prisma 7 with PostgreSQL via the pg driver adapter.
 //
 // IMPORTANT: Use "prisma-client-js" (NOT "prisma-client").
 // The "prisma-client" generator requires a custom output path which
@@ -11,7 +11,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
 }
 
 // ──────────────────────────────────────────────
