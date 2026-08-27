@@ -1,10 +1,15 @@
 {
   "pickActive › can return the last section": {
     "file": "app/lib/activeSection.test.ts",
-    "lastRunAt": "2026-08-27T14:57:12.475679+00:00",
+    "lastRunAt": "2026-08-27T15:00:04.441764+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-27T15:00:04.441764+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-27T14:57:12.475679+00:00",
         "kind": "full",
@@ -34,10 +39,15 @@
   },
   "pickActive › does not depend on the order ids were added to the set": {
     "file": "app/lib/activeSection.test.ts",
-    "lastRunAt": "2026-08-27T14:57:12.475679+00:00",
+    "lastRunAt": "2026-08-27T15:00:04.441764+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-27T15:00:04.441764+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-27T14:57:12.475679+00:00",
         "kind": "full",
@@ -67,10 +77,15 @@
   },
   "pickActive › ignores ids that are not in the ordered list": {
     "file": "app/lib/activeSection.test.ts",
-    "lastRunAt": "2026-08-27T14:57:12.475679+00:00",
+    "lastRunAt": "2026-08-27T15:00:04.441764+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-27T15:00:04.441764+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-27T14:57:12.475679+00:00",
         "kind": "full",
@@ -100,10 +115,15 @@
   },
   "pickActive › is null when nothing is visible": {
     "file": "app/lib/activeSection.test.ts",
-    "lastRunAt": "2026-08-27T14:57:12.475679+00:00",
+    "lastRunAt": "2026-08-27T15:00:04.441764+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-27T15:00:04.441764+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-27T14:57:12.475679+00:00",
         "kind": "full",
@@ -133,10 +153,15 @@
   },
   "pickActive › is null when there is no ordered list": {
     "file": "app/lib/activeSection.test.ts",
-    "lastRunAt": "2026-08-27T14:57:12.475679+00:00",
+    "lastRunAt": "2026-08-27T15:00:04.441764+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-27T15:00:04.441764+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-27T14:57:12.475679+00:00",
         "kind": "full",
@@ -166,10 +191,15 @@
   },
   "pickActive › prefers the earliest in document order when several are visible": {
     "file": "app/lib/activeSection.test.ts",
-    "lastRunAt": "2026-08-27T14:57:12.475679+00:00",
+    "lastRunAt": "2026-08-27T15:00:04.441764+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-27T15:00:04.441764+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-27T14:57:12.475679+00:00",
         "kind": "full",
@@ -199,10 +229,15 @@
   },
   "pickActive › returns the one visible section": {
     "file": "app/lib/activeSection.test.ts",
-    "lastRunAt": "2026-08-27T14:57:12.475679+00:00",
+    "lastRunAt": "2026-08-27T15:00:04.441764+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-27T15:00:04.441764+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-27T14:57:12.475679+00:00",
         "kind": "full",
@@ -232,10 +267,15 @@
   },
   "splitOnBrand › handles the brand at the start or the end": {
     "file": "app/lib/text.test.ts",
-    "lastRunAt": "2026-08-27T14:57:12.475679+00:00",
+    "lastRunAt": "2026-08-27T15:00:04.441764+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-27T15:00:04.441764+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-27T14:57:12.475679+00:00",
         "kind": "full",
@@ -275,10 +315,15 @@
   },
   "splitOnBrand › is case-sensitive": {
     "file": "app/lib/text.test.ts",
-    "lastRunAt": "2026-08-27T14:57:12.475679+00:00",
+    "lastRunAt": "2026-08-27T15:00:04.441764+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-27T15:00:04.441764+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-27T14:57:12.475679+00:00",
         "kind": "full",
@@ -318,10 +363,15 @@
   },
   "splitOnBrand › reassembles to the original string": {
     "file": "app/lib/text.test.ts",
-    "lastRunAt": "2026-08-27T14:57:12.475679+00:00",
+    "lastRunAt": "2026-08-27T15:00:04.441764+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-27T15:00:04.441764+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-27T14:57:12.475679+00:00",
         "kind": "full",
@@ -361,10 +411,15 @@
   },
   "splitOnBrand › returns the whole string when the brand is absent": {
     "file": "app/lib/text.test.ts",
-    "lastRunAt": "2026-08-27T14:57:12.475679+00:00",
+    "lastRunAt": "2026-08-27T15:00:04.441764+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-27T15:00:04.441764+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-27T14:57:12.475679+00:00",
         "kind": "full",
@@ -404,10 +459,15 @@
   },
   "splitOnBrand › splits a sentence around the brand": {
     "file": "app/lib/text.test.ts",
-    "lastRunAt": "2026-08-27T14:57:12.475679+00:00",
+    "lastRunAt": "2026-08-27T15:00:04.441764+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-27T15:00:04.441764+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-27T14:57:12.475679+00:00",
         "kind": "full",
@@ -447,10 +507,15 @@
   },
   "splitOnBrand › splits on the first occurrence only": {
     "file": "app/lib/text.test.ts",
-    "lastRunAt": "2026-08-27T14:57:12.475679+00:00",
+    "lastRunAt": "2026-08-27T15:00:04.441764+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-27T15:00:04.441764+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-27T14:57:12.475679+00:00",
         "kind": "full",
@@ -490,10 +555,15 @@
   },
   "splitOnBrand › survives empty input": {
     "file": "app/lib/text.test.ts",
-    "lastRunAt": "2026-08-27T14:57:12.475679+00:00",
+    "lastRunAt": "2026-08-27T15:00:04.441764+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-27T15:00:04.441764+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-27T14:57:12.475679+00:00",
         "kind": "full",
@@ -533,10 +603,15 @@
   },
   "str › returns empty for a non-string": {
     "file": "app/lib/validateMessage.test.ts",
-    "lastRunAt": "2026-08-27T14:57:12.475679+00:00",
+    "lastRunAt": "2026-08-27T15:00:04.441764+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-27T15:00:04.441764+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-27T14:57:12.475679+00:00",
         "kind": "full",
@@ -576,10 +651,15 @@
   },
   "str › trims a string": {
     "file": "app/lib/validateMessage.test.ts",
-    "lastRunAt": "2026-08-27T14:57:12.475679+00:00",
+    "lastRunAt": "2026-08-27T15:00:04.441764+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-27T15:00:04.441764+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-27T14:57:12.475679+00:00",
         "kind": "full",
@@ -619,10 +699,15 @@
   },
   "submitMessage › POSTs JSON to the contact route with sourcePage attached": {
     "file": "app/lib/submitMessage.test.ts",
-    "lastRunAt": "2026-08-27T14:57:12.475679+00:00",
+    "lastRunAt": "2026-08-27T15:00:04.441764+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-27T15:00:04.441764+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-27T14:57:12.475679+00:00",
         "kind": "full",
@@ -662,10 +747,15 @@
   },
   "submitMessage › falls back to a message when the error body is unreadable": {
     "file": "app/lib/submitMessage.test.ts",
-    "lastRunAt": "2026-08-27T14:57:12.475679+00:00",
+    "lastRunAt": "2026-08-27T15:00:04.441764+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-27T15:00:04.441764+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-27T14:57:12.475679+00:00",
         "kind": "full",
@@ -705,10 +795,15 @@
   },
   "submitMessage › passes through the server error message on a 500": {
     "file": "app/lib/submitMessage.test.ts",
-    "lastRunAt": "2026-08-27T14:57:12.475679+00:00",
+    "lastRunAt": "2026-08-27T15:00:04.441764+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-27T15:00:04.441764+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-27T14:57:12.475679+00:00",
         "kind": "full",
@@ -748,10 +843,15 @@
   },
   "submitMessage › reports a failure when fetch throws": {
     "file": "app/lib/submitMessage.test.ts",
-    "lastRunAt": "2026-08-27T14:57:12.475679+00:00",
+    "lastRunAt": "2026-08-27T15:00:04.441764+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-27T15:00:04.441764+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-27T14:57:12.475679+00:00",
         "kind": "full",
@@ -791,10 +891,15 @@
   },
   "submitMessage › reports sent on a 2xx": {
     "file": "app/lib/submitMessage.test.ts",
-    "lastRunAt": "2026-08-27T14:57:12.475679+00:00",
+    "lastRunAt": "2026-08-27T15:00:04.441764+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-27T15:00:04.441764+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-27T14:57:12.475679+00:00",
         "kind": "full",
@@ -834,10 +939,15 @@
   },
   "submitMessage › surfaces per-field problems from a 422": {
     "file": "app/lib/submitMessage.test.ts",
-    "lastRunAt": "2026-08-27T14:57:12.475679+00:00",
+    "lastRunAt": "2026-08-27T15:00:04.441764+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-27T15:00:04.441764+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-27T14:57:12.475679+00:00",
         "kind": "full",
@@ -877,10 +987,15 @@
   },
   "submitMessage › treats a 422 without problems as a failure": {
     "file": "app/lib/submitMessage.test.ts",
-    "lastRunAt": "2026-08-27T14:57:12.475679+00:00",
+    "lastRunAt": "2026-08-27T15:00:04.441764+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-27T15:00:04.441764+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-27T14:57:12.475679+00:00",
         "kind": "full",
@@ -920,10 +1035,15 @@
   },
   "the topic allow-list and the form agree › accepts every topic the form actually offers": {
     "file": "app/lib/validateMessage.test.ts",
-    "lastRunAt": "2026-08-27T14:57:12.475679+00:00",
+    "lastRunAt": "2026-08-27T15:00:04.441764+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-27T15:00:04.441764+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-27T14:57:12.475679+00:00",
         "kind": "full",
@@ -963,10 +1083,15 @@
   },
   "the topic allow-list and the form agree › accepts the chip the form selects by default": {
     "file": "app/lib/validateMessage.test.ts",
-    "lastRunAt": "2026-08-27T14:57:12.475679+00:00",
+    "lastRunAt": "2026-08-27T15:00:04.441764+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-27T15:00:04.441764+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-27T14:57:12.475679+00:00",
         "kind": "full",
@@ -1006,10 +1131,15 @@
   },
   "validateMessage › accepts a well-formed message": {
     "file": "app/lib/validateMessage.test.ts",
-    "lastRunAt": "2026-08-27T14:57:12.475679+00:00",
+    "lastRunAt": "2026-08-27T15:00:04.441764+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-27T15:00:04.441764+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-27T14:57:12.475679+00:00",
         "kind": "full",
@@ -1049,10 +1179,15 @@
   },
   "validateMessage › accepts addresses a stricter pattern would wrongly reject": {
     "file": "app/lib/validateMessage.test.ts",
-    "lastRunAt": "2026-08-27T14:57:12.475679+00:00",
+    "lastRunAt": "2026-08-27T15:00:04.441764+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-27T15:00:04.441764+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-27T14:57:12.475679+00:00",
         "kind": "full",
@@ -1092,10 +1227,15 @@
   },
   "validateMessage › accepts every listed topic and rejects anything else": {
     "file": "app/lib/validateMessage.test.ts",
-    "lastRunAt": "2026-08-27T14:57:12.475679+00:00",
+    "lastRunAt": "2026-08-27T15:00:04.441764+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-27T15:00:04.441764+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-27T14:57:12.475679+00:00",
         "kind": "full",
@@ -1135,10 +1275,15 @@
   },
   "validateMessage › carries sourcePage through, or null when absent": {
     "file": "app/lib/validateMessage.test.ts",
-    "lastRunAt": "2026-08-27T14:57:12.475679+00:00",
+    "lastRunAt": "2026-08-27T15:00:04.441764+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-27T15:00:04.441764+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-27T14:57:12.475679+00:00",
         "kind": "full",
@@ -1178,10 +1323,15 @@
   },
   "validateMessage › enforces the length limits": {
     "file": "app/lib/validateMessage.test.ts",
-    "lastRunAt": "2026-08-27T14:57:12.475679+00:00",
+    "lastRunAt": "2026-08-27T15:00:04.441764+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-27T15:00:04.441764+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-27T14:57:12.475679+00:00",
         "kind": "full",
@@ -1221,10 +1371,15 @@
   },
   "validateMessage › rejects an address with no @ or no dotted domain": {
     "file": "app/lib/validateMessage.test.ts",
-    "lastRunAt": "2026-08-27T14:57:12.475679+00:00",
+    "lastRunAt": "2026-08-27T15:00:04.441764+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-27T15:00:04.441764+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-27T14:57:12.475679+00:00",
         "kind": "full",
@@ -1264,10 +1419,15 @@
   },
   "validateMessage › reports every problem at once, not just the first": {
     "file": "app/lib/validateMessage.test.ts",
-    "lastRunAt": "2026-08-27T14:57:12.475679+00:00",
+    "lastRunAt": "2026-08-27T15:00:04.441764+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-27T15:00:04.441764+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-27T14:57:12.475679+00:00",
         "kind": "full",
@@ -1307,10 +1467,15 @@
   },
   "validateMessage › requires a name, an email, and a body": {
     "file": "app/lib/validateMessage.test.ts",
-    "lastRunAt": "2026-08-27T14:57:12.475679+00:00",
+    "lastRunAt": "2026-08-27T15:00:04.441764+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-27T15:00:04.441764+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-27T14:57:12.475679+00:00",
         "kind": "full",
@@ -1350,10 +1515,15 @@
   },
   "validateMessage › survives a non-object payload": {
     "file": "app/lib/validateMessage.test.ts",
-    "lastRunAt": "2026-08-27T14:57:12.475679+00:00",
+    "lastRunAt": "2026-08-27T15:00:04.441764+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-27T15:00:04.441764+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-27T14:57:12.475679+00:00",
         "kind": "full",
@@ -1393,10 +1563,15 @@
   },
   "validateMessage › treats whitespace-only input as missing": {
     "file": "app/lib/validateMessage.test.ts",
-    "lastRunAt": "2026-08-27T14:57:12.475679+00:00",
+    "lastRunAt": "2026-08-27T15:00:04.441764+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-27T15:00:04.441764+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-27T14:57:12.475679+00:00",
         "kind": "full",
@@ -1436,10 +1611,15 @@
   },
   "validateMessage › trims every field before validating": {
     "file": "app/lib/validateMessage.test.ts",
-    "lastRunAt": "2026-08-27T14:57:12.475679+00:00",
+    "lastRunAt": "2026-08-27T15:00:04.441764+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-27T15:00:04.441764+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-27T14:57:12.475679+00:00",
         "kind": "full",
