@@ -1,0 +1,14 @@
+{
+  "projectSlug": "nseldeib-nadia-website",
+  "packageManager": "npm",
+  "webapps": [
+    {
+      "path": ".",
+      "framework": "Next",
+      "packageManager": "npm"
+    }
+  ],
+  "environmentVariables": [],
+  "createdAt": "2026-02-13T22:56:45.686Z",
+  "branchId": "9828d812-6e51-49e2-aad6-fcf2f88edeaa"
+}

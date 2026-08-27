@@ -1,0 +1,12 @@
+{
+  "name": "NavLinks - Default",
+  "id": "bb59fa80-1509-4b64-b81d-c6a1be7d988f",
+  "url": "/isolated-components/NavLinks?s=Default",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "NavLinks",
+  "scenarioType": "component",
+  "description": "Nothing active, as the bar looks while the hero fills the screen."
+}

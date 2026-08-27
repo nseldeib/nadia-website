@@ -27,7 +27,7 @@ The only files you may write are:
 - `.codeyam/plans/<slug>.md` (the plan itself)
 - `git add` / `git commit` of that plan file (and **only** that plan file — never `git add -A`, never a bare `git commit` that would sweep in unrelated staged work). This is the plan-creation commit specifically — it must contain only the plan file. The feature-commit step at the end of the editor workflow has a different rule: it auto-commits all non-gitignored leftovers.
 
-The one read-only CLI call this skill makes is `codeyam-editor editor plan-prefixes` in Step 2 (to offer every prefix used before as a one-click option). It prints to stdout and changes nothing — it is not an "implementation" command.
+The one read-only CLI call this skill makes is `codeyam-editor-dev editor plan-prefixes` in Step 2 (to offer every prefix used before as a one-click option). It prints to stdout and changes nothing — it is not an "implementation" command.
 
 ## Workflow
 
@@ -53,7 +53,7 @@ Take the user's response as the plan basis and move to the name-prefix step (Ste
 
 A prefix tags the plan's filename and title by author or work item — developer initials (`jc`), a feature code (`auth`), or a ticket number (`PROJ-123`). The question is **always** a one-click `AskUserQuestion` menu, so the user never has to type a prefix to answer it:
 
-1. Run `codeyam-editor editor plan-prefixes` and capture its trimmed, newline-delimited stdout as `priorPrefixes` (an ordered list, most-recent-first). It prints every distinct prefix any plan has used (scanning both the queue and `.codeyam/plans/completed/`), de-duplicated, or nothing when no plan carries a prefix — or there are no plans yet. The first line equals the legacy `last-plan-prefix` output.
+1. Run `codeyam-editor-dev editor plan-prefixes` and capture its trimmed, newline-delimited stdout as `priorPrefixes` (an ordered list, most-recent-first). It prints every distinct prefix any plan has used (scanning both the queue and `.codeyam/plans/completed/`), de-duplicated, or nothing when no plan carries a prefix — or there are no plans yet. The first line equals the legacy `last-plan-prefix` output.
 
 2. **Always** use `AskUserQuestion` — there is no plain-text fallback branch:
    - Question: "Would you like to prefix the plan's filename and title?"
@@ -89,9 +89,9 @@ authoritative index of reusable code in a codeyam project. Skipping these is
 what produces generic "look at the codebase" plans the editor workflow has
 to re-research at the `explore` slug:
 
-- `codeyam-editor editor glossary-find <name>` (flags: `--prefix`,
+- `codeyam-editor-dev editor glossary-find <name>` (flags: `--prefix`,
   `--substring`, `--feature`, `--format`) — look up named entries
-- `codeyam-editor editor glossary-list` / `glossary-untested` /
+- `codeyam-editor-dev editor glossary-list` / `glossary-untested` /
   `glossary-by-tag <tag>` — projections across the whole table
 - `.codeyam/glossary-index.txt` — line-oriented, greppable sidecar; safe to
   Read or grep directly. Use this when you need to scan for similar names
@@ -158,7 +158,7 @@ candidate file list, run it through the editor so the plan never invites an
 edit the guards will reject:
 
 ```bash
-codeyam-editor editor classify-constrained-files <path>... --format json
+codeyam-editor-dev editor classify-constrained-files <path>... --format json
 ```
 
 It returns only the constrained files (unconstrained paths are dropped),
@@ -171,7 +171,7 @@ each tagged with one or both of:
   more lines than `headroom` is already over even though `atLimit` is
   false. In either case route the new guidance to a step-library fragment
   and name it in the plan — the concrete command is
-  `codeyam-editor editor new-step-fragment <name> --slug <slug>`, which
+  `codeyam-editor-dev editor new-step-fragment <name> --slug <slug>`, which
   writes the fragment, wires its `{<name>_block}` placeholder into
   `step.rs` and each named slug, and prints the leak test to add. Do not
   write a plan whose Implementation section targets a `nearLimit` or
@@ -261,7 +261,7 @@ YAML frontmatter.** Write the plan **body** to a scratch file, then hand it to
 `createdAt`, and validates the result:
 
 ```bash
-codeyam-editor editor plan-create \
+codeyam-editor-dev editor plan-create \
   --title "Dark Mode Toggle" \
   --prefix "PROJ-123" \
   --mode ui \
@@ -319,7 +319,7 @@ and Explore steps to fast-path through to Confirm.
 One sentence naming the buggy behavior this test pins.
 
 **Target**: `path/to/real/test-file.ext` — run with
-`codeyam-editor editor refresh-tests --test <name>`.
+`codeyam-editor-dev editor refresh-tests --test <name>`.
 
 ```ts
 // New test: a `//` (or `///` for Rust) description comment is mandatory.
@@ -406,7 +406,7 @@ editor workflow a red-first reproduction it can materialize verbatim. Shape:
 
 - **One sentence** stating the buggy behavior the test pins.
 - **Target** — the real test file path where execution should place or modify
-  the test, plus the run command `codeyam-editor editor refresh-tests --test
+  the test, plus the run command `codeyam-editor-dev editor refresh-tests --test
   <name>`. Never hand-write a `cargo test` / `vitest` invocation; the language,
   extension, and runner come from the *target file's* stack, not a default.
 - **New test** → a fenced code block with the full test, including the
@@ -473,7 +473,7 @@ assets simply has no `assets/<slug>/` directory — it is entirely optional.
 
 ### Step 6: Present and confirm
 
-Run `codeyam-editor editor plans` to verify the plan is parseable and shows up correctly.
+Run `codeyam-editor-dev editor plans` to verify the plan is parseable and shows up correctly.
 
 Show the user a brief summary of the plan. When Step 4b produced more than two
 or three plans, lead with the grouping: how many there are, and one line per
@@ -513,7 +513,7 @@ AskUserQuestion with these options:
   git add .codeyam/plans/<slug>.md
   git commit -m "plan: <short description of the feature/fix> [skip ci]" -- .codeyam/plans/<slug>.md
   git show --stat --name-only HEAD   # verify only the plan file (and any assets) are in the commit
-  codeyam-editor editor plan-complete
+  codeyam-editor-dev editor plan-complete
   ```
   After the commit succeeds, `plan-complete` triggers a confirmation modal
   in the Plan tab offering to start another plan or return to the queued

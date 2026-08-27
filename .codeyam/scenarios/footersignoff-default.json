@@ -1,0 +1,12 @@
+{
+  "name": "FooterSignoff - Default",
+  "id": "1b02d68d-3dcf-4a0b-a1b3-7cf663baad72",
+  "url": "/isolated-components/FooterSignoff?s=Default",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "FooterSignoff",
+  "scenarioType": "component",
+  "description": "The real signoff, with the brand linked inside the authored sentence."
+}

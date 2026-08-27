@@ -1,0 +1,12 @@
+{
+  "name": "PhotoRotator - Adventures",
+  "id": "cba0b111-d760-42f7-857f-c9ec3e6c1333",
+  "url": "/isolated-components/PhotoRotator?s=Adventures",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "PhotoRotator",
+  "scenarioType": "component",
+  "description": "The widest frame in the set, where cropping would show up first."
+}

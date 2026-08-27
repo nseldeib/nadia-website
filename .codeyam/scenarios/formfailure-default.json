@@ -1,0 +1,12 @@
+{
+  "name": "FormFailure - Default",
+  "id": "dad03771-32ad-40bc-ba21-18122bbadeed",
+  "url": "/isolated-components/FormFailure?s=Default",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "FormFailure",
+  "scenarioType": "component",
+  "description": "The failure state, offering the profiles because there is no email address."
+}

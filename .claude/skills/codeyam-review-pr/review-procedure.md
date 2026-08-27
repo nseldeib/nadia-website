@@ -2,7 +2,7 @@
 
 Follow these phases top to bottom. The goal is a **digest**: the maintainer
 understands the change first and judges it second. Every phase reuses
-existing stack-agnostic `codeyam-editor editor` commands — you are grounding
+existing stack-agnostic `codeyam-editor-dev editor` commands — you are grounding
 Claude's judgment in codeyam evidence, not inventing a new review engine.
 
 The canonical artifact is `.codeyam/reviews/pr-<number>/review.json`, with
@@ -46,18 +46,18 @@ Do not check out anything until the user picks Full.
 3. Impacted-scenario set (the digest's backbone) — the tiered resolver, not
    the diff alone:
    ```bash
-   codeyam-editor editor scenario-for-changes --diff-from <merge-base> --format json
+   codeyam-editor-dev editor scenario-for-changes --diff-from <merge-base> --format json
    ```
    This tiers own-source-changed → route-renders-changed-page → transitive
    import-graph dependency, so the digest includes scenarios the contributor
    never thought about.
 4. Uncovered surfaces:
    ```bash
-   codeyam-editor editor changed-surfaces --base <merge-base> --format json
+   codeyam-editor-dev editor changed-surfaces --base <merge-base> --format json
    ```
    Covered / uncovered / no-UI-impact buckets. The uncovered bucket is where
    you propose new `pr-review-` captures.
-5. Blast radius: `codeyam-editor editor deps-query` subcommands over the
+5. Blast radius: `codeyam-editor-dev editor deps-query` subcommands over the
    changed files (transitive dependents).
 6. Test delta with descriptions — diff `.codeyam/test-registry.json` between
    merge-base and head:
@@ -67,7 +67,7 @@ Do not check out anything until the user picks Full.
    Compare against the working-tree registry to list the tests the PR
    **adds/changes with their parsed descriptions** — they read like a
    behavior changelog.
-7. Glossary lookups (`codeyam-editor editor glossary-find <name>`) for
+7. Glossary lookups (`codeyam-editor-dev editor glossary-find <name>`) for
    touched entries, so findings can name the entry that should have been
    reused.
 
@@ -87,11 +87,11 @@ artifact — do not silently compare against a stale frame.
 ## Phase 5 — After captures (Full, UI-impacting)
 
 1. Navigate each covered impacted scenario and capture on the PR head:
-   `codeyam-editor editor preview-nav` then the capture path.
+   `codeyam-editor-dev editor preview-nav` then the capture path.
 2. For high-value **uncovered** surfaces from Phase 3, register scenarios
    with a `pr-review-` slug prefix (surgical teardown, exactly like
    `recent-change-` in `/codeyam-see-recent-change`) and capture them.
-3. `codeyam-editor editor recapture-stale --skip-when-clean --prefer-touched` to
+3. `codeyam-editor-dev editor recapture-stale --skip-when-clean --prefer-touched` to
    refresh what the edit actually moved — `--prefer-touched` orders the
    PR-touched surfaces first so the budget captures them before any unrelated
    environmentally-drifted screenshot (pure reordering, never expands the set).
@@ -106,7 +106,7 @@ radius instead of before/after pairs.
 For each before/after pair:
 
 ```bash
-codeyam-editor editor image-diff <before.png> <after.png> --format json
+codeyam-editor-dev editor image-diff <before.png> <after.png> --format json
 ```
 
 → `{classification: changed|unchanged, diffRatio}`. Record it on the
@@ -118,7 +118,7 @@ digestible.
 ## Phase 7 — Tests
 
 ```bash
-codeyam-editor editor refresh-tests --changed
+codeyam-editor-dev editor refresh-tests --changed
 ```
 
 Runs only the runners the diff touches. Join the totals-per-runner with the
@@ -137,7 +137,7 @@ new behavior the tests describe*.
 ## Phase 9 — Alignment (report-only)
 
 ```bash
-codeyam-editor editor audit --format json
+codeyam-editor-dev editor audit --format json
 ```
 
 on the PR head. Summarize the findings the PR *introduces* relative to

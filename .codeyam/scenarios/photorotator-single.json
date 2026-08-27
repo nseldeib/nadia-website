@@ -1,0 +1,12 @@
+{
+  "name": "PhotoRotator - Single",
+  "id": "fe6992f6-d53c-4adb-a6d4-592532282db1",
+  "url": "/isolated-components/PhotoRotator?s=Single",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "PhotoRotator",
+  "scenarioType": "component",
+  "description": "A single frame never cross-fades, which is the degenerate case worth seeing."
+}

@@ -1,0 +1,94 @@
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 0.85fr;
+  gap: var(--spacing-xl);
+  align-items: start;
+  margin-top: var(--spacing-lg);
+}
+.subhead {
+  margin-top: var(--spacing-lg) !important;
+  margin-bottom: 10px;
+  color: var(--accent-ink) !important;
+  font-size: var(--text-body) !important;
+}
+.links {
+  list-style: none;
+  margin: var(--spacing-lg) 0 0;
+  padding: 0;
+  border-top: 1px solid var(--rule);
+}
+.links li { border-bottom: 1px solid var(--rule); }
+.links a {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--spacing-md);
+  padding: 15px 0;
+  text-decoration: none;
+  color: var(--ink);
+  transition: color var(--transition-fast);
+}
+.links a:hover { color: var(--rust); }
+.host {
+  font-family: var(--font-mono-stack);
+  font-size: var(--text-label);
+  color: var(--meta);
+}
+.proof {
+  margin-top: var(--spacing-sm) !important;
+  font-family: var(--font-mono-stack);
+  font-size: var(--text-label);
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+  color: var(--meta) !important;
+}
+
+.advisory {
+  position: relative;
+  margin-top: var(--spacing-xl);
+  padding: 26px 28px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-card);
+  background: var(--paper-2);
+}
+.advisoryLabel {
+  margin: 0 0 10px;
+  font-family: var(--font-mono-stack);
+  font-size: var(--text-label);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--accent-ink);
+}
+.advisoryBody {
+  margin: 0;
+  max-width: 58ch;
+  color: var(--ink-2);
+}
+.details { margin-top: var(--spacing-md); }
+.details summary {
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-semibold);
+  color: var(--ink);
+  padding-top: var(--spacing-sm);
+  border-top: 1px solid var(--rule);
+}
+.details ul {
+  margin: 12px 0 0;
+  padding-left: 18px;
+  color: var(--ink-2);
+  font-size: var(--text-sub);
+}
+.details li { margin-bottom: 6px; }
+.advisoryCta {
+  display: inline-block;
+  margin-top: var(--spacing-md);
+  font-size: var(--text-sub);
+  color: var(--rust);
+  text-decoration: none;
+}
+.advisoryCta:hover { text-decoration: underline; }
+
+@media (max-width: 860px) {
+  .grid { grid-template-columns: 1fr; gap: var(--spacing-lg); }
+}

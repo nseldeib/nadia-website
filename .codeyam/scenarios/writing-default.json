@@ -1,0 +1,12 @@
+{
+  "name": "Writing - Default",
+  "id": "0f5a66c8-e899-4788-a2e2-da66dda154e4",
+  "url": "/isolated-components/Writing?s=Default",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "Writing",
+  "scenarioType": "component",
+  "description": "Section 03. What she writes about and a few recent essays."
+}

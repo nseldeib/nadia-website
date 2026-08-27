@@ -1,0 +1,202 @@
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--paper);
+}
+
+.bg {
+  position: absolute;
+  inset: 0;
+}
+.frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  animation: heroRotate 32s ease-in-out infinite both;
+}
+@keyframes heroRotate {
+  0%, 1% { opacity: 0; }
+  4%, 22% { opacity: 1; }
+  25%, 100% { opacity: 0; }
+}
+
+/* Darkens the left third so the copy stays readable whatever the photo does. */
+.scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    rgba(16, 13, 11, 0.82) 0%,
+    rgba(16, 13, 11, 0.55) 38%,
+    rgba(16, 13, 11, 0.08) 68%
+  );
+}
+
+.copy {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding-left: clamp(24px, 6vw, 120px);
+  padding-right: 24px;
+  max-width: 900px;
+}
+
+.eyebrow {
+  margin: 0 0 var(--spacing-md);
+  font-family: var(--font-mono-stack);
+  font-size: var(--text-mono-sm);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: rgba(246, 241, 232, 0.86);
+}
+
+.headline {
+  margin: 0;
+  font-size: var(--text-hero);
+  line-height: var(--leading-display);
+  letter-spacing: -0.038em;
+  color: #fff;
+}
+.line {
+  display: block;
+  position: relative;
+  width: fit-content;
+  white-space: nowrap;
+}
+.line[data-line='2'] {
+  color: var(--rust);
+}
+
+/* The reveal and the cursor run on the same steps() function, so the caret
+   sits on the text edge instead of drifting ahead of it. Descenders survive
+   because the clip box is inset vertically. */
+.text {
+  display: block;
+  clip-path: inset(-0.3em 100% -0.3em 0);
+  animation: reveal calc(var(--chars) * 0.07s) steps(var(--chars), end) 0.3s both;
+}
+.line[data-line='2'] .text {
+  animation-delay: 1.9s;
+}
+@keyframes reveal {
+  to { clip-path: inset(-0.3em 0 -0.3em 0); }
+}
+
+.cursor {
+  position: absolute;
+  left: 0;
+  top: 0.12em;
+  bottom: 0.14em;
+  width: 4px;
+  background: #f3b58c;
+  animation: ride calc(var(--chars) * 0.07s) steps(var(--chars), end) 0.3s both;
+}
+.line[data-line='1'] .cursor {
+  animation-name: ride, hideCursor;
+  animation-duration: calc(var(--chars) * 0.07s), 1.9s;
+  animation-timing-function: steps(var(--chars), end), step-end;
+  animation-delay: 0.3s, 0s;
+}
+.line[data-line='2'] .cursor {
+  animation-name: ride, showCursor, blink;
+  animation-duration: calc(var(--chars) * 0.07s), 1.9s, 1.1s;
+  animation-timing-function: steps(var(--chars), end), step-end, step-end;
+  animation-delay: 1.9s, 0s, 3.2s;
+  animation-iteration-count: 1, 1, infinite;
+}
+@keyframes ride {
+  from { left: 0; }
+  to { left: 100%; }
+}
+@keyframes hideCursor {
+  to { opacity: 0; }
+}
+@keyframes showCursor {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+.lead {
+  margin: var(--spacing-md) 0 0;
+  max-width: 46ch;
+  font-size: var(--text-lead);
+  line-height: 1.6;
+  color: rgba(246, 241, 232, 0.94);
+}
+
+.role {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: var(--spacing-lg) 0 0;
+  font-family: var(--font-mono-stack);
+  font-size: var(--text-mono-sm);
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+  color: rgba(246, 241, 232, 0.88);
+}
+.dot {
+  width: 5px;
+  height: 5px;
+  border-radius: var(--radius-round);
+  background: var(--rust);
+}
+
+/* Label and arrow travel together on the headline's column. */
+.cue {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  width: fit-content;
+  padding: 18px clamp(24px, 6vw, 120px) 22px;
+  text-decoration: none;
+  color: #fff;
+}
+.cueLabel {
+  font-family: var(--font-mono-stack);
+  font-size: var(--text-mono-sm);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: #f3b58c;
+}
+.cueTitle {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--text-lead);
+  letter-spacing: var(--tracking-display);
+}
+.arrow {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-round);
+  border: 1px solid rgba(246, 241, 232, 0.4);
+  transition: transform var(--transition-fast), border-color var(--transition-fast);
+}
+.cue:hover .arrow {
+  transform: translateY(3px);
+  border-color: rgba(246, 241, 232, 0.85);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .frame { animation: none; opacity: 0; }
+  .frame:first-child { opacity: 1; }
+  .text { animation: none; clip-path: none; }
+  .cursor { display: none; }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "Field - TextArea",
+  "id": "1e7f7676-776e-47f2-a2fa-555ab489ea57",
+  "url": "/isolated-components/Field?s=TextArea",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "Field",
+  "scenarioType": "component",
+  "description": "A textarea rather than an input, proving the wrapper is control-agnostic."
+}

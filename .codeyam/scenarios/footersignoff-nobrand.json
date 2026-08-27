@@ -1,0 +1,12 @@
+{
+  "name": "FooterSignoff - NoBrand",
+  "id": "80c5c4a9-d76d-4779-ba21-a67da1e296d6",
+  "url": "/isolated-components/FooterSignoff?s=NoBrand",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "FooterSignoff",
+  "scenarioType": "component",
+  "description": "The brand edited out. The sentence must still render whole rather than lose its second half."
+}

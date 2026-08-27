@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "derivedFromHash": "87bebfb33dbb41170e7e03270c38ea348ad2f9495a7349b8a6839b16af8680c3",
+  "derivedAt": "2026-08-21T21:22:58.280309+00:00",
+  "deliverables": [
+    {
+      "id": "rebuild-nadiaeldeib-com-as-a-fresh-site-in-this",
+      "text": "Rebuild nadiaeldeib.com as a fresh site in this project, carrying over the existing content (hero, CodeYam work, Writing/Substack, About, Contact + socials, footer)",
+      "status": "delivered",
+      "resolvedAt": "2026-08-27T15:18:07.042961+00:00",
+      "resolvedInFeature": "Rebuild nadiaeldeib.com",
+      "planSlug": null,
+      "note": "Built as a Next.js site: one route, six numbered sections carrying the hero, CodeYam work, Writing/Substack, About, Contact plus socials, and footer. 36 tests pass, audit clean, committed as ea11efc.",
+      "decidedBy": "agent"
+    },
+    {
+      "id": "redesign-the-aesthetic-to-be-modern-new",
+      "text": "Redesign the aesthetic to be modern — new typography, color, layout and motion, not a reskin of the current site",
+      "status": "delivered",
+      "resolvedAt": "2026-08-27T15:18:11.131804+00:00",
+      "resolvedInFeature": "Rebuild nadiaeldeib.com",
+      "planSlug": null,
+      "note": "Night Field: new palette on a dark ground with one light surface for the long-form section, Futura/Jost display type, a numbered section system mirrored by the nav indicator, and motion in the typed headline and the shared eight-second photo rotation. Not a reskin.",
+      "decidedBy": "agent"
+    },
+    {
+      "id": "explore-a-variety-of-design-directions-across",
+      "text": "Explore a variety of design directions across multiple rounds and lock one in before building",
+      "status": "delivered",
+      "resolvedAt": "2026-08-27T15:18:15.236766+00:00",
+      "resolvedInFeature": "Rebuild nadiaeldeib.com",
+      "planSlug": null,
+      "note": "Six mockups explored across rounds; direction 03 selected and 01 parked in .codeyam/design/project_mockups/history/01-clean-direction/.",
+      "decidedBy": "agent"
+    },
+    {
+      "id": "publish-the-rebuilt-site-live-at-nadiaeldeib",
+      "text": "Publish the rebuilt site live at nadiaeldeib.com (deploy/hosting — assist track, non-build)",
+      "status": "deferred",
+      "resolvedAt": "2026-08-27T15:18:19.424015+00:00",
+      "resolvedInFeature": "Rebuild nadiaeldeib.com",
+      "planSlug": null,
+      "note": "Deferred by the user to the repo-consolidation and cutover phase. The old site is on GitHub Pages with a static export, which cannot host this site's API route and database, so the move to Vercel Hobby still needs a SQLite to Postgres swap and Resend wiring first.",
+      "decidedBy": "agent"
+    },
+    {
+      "id": "point-nseldeib-com-at-the-same-site-so-both",
+      "text": "Point nseldeib.com at the same site so both domains serve it (DNS — assist track, non-build)",
+      "status": "deferred",
+      "resolvedAt": "2026-08-27T15:18:23.537944+00:00",
+      "resolvedInFeature": "Rebuild nadiaeldeib.com",
+      "planSlug": null,
+      "note": "Deferred by the user; DNS work downstream of the nadiaeldeib.com cutover, which cannot be done before that host is live.",
+      "decidedBy": "agent"
+    }
+  ]
+}

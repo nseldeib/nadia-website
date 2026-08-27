@@ -1,0 +1,12 @@
+{
+  "name": "SectionHead - Default",
+  "id": "259c55c7-ef0c-4ffb-ba36-4f54c4b3d439",
+  "url": "/isolated-components/SectionHead?s=Default",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "SectionHead",
+  "scenarioType": "component",
+  "description": "The numbered eyebrow every section carries, shown on Work."
+}

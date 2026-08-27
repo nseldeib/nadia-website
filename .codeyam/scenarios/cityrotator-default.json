@@ -1,0 +1,12 @@
+{
+  "name": "CityRotator - Default",
+  "id": "5174bfdc-a535-4c69-9043-7d43d64ac8c2",
+  "url": "/isolated-components/CityRotator?s=Default",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "CityRotator",
+  "scenarioType": "component",
+  "description": "The places she has lived, cycling on the shared eight-second slot."
+}

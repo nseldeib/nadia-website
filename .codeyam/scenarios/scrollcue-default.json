@@ -1,0 +1,12 @@
+{
+  "name": "ScrollCue - Default",
+  "id": "bedb4166-178c-441c-be60-446b27028eb1",
+  "url": "/isolated-components/ScrollCue?s=Default",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "ScrollCue",
+  "scenarioType": "component",
+  "description": "The cue into the first section, naming where it goes rather than saying scroll."
+}

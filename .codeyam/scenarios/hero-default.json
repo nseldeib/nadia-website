@@ -1,0 +1,12 @@
+{
+  "name": "Hero - Default",
+  "id": "9d77bc93-1b30-49dd-9162-a7b3373a44ee",
+  "url": "/isolated-components/Hero?s=Default",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "Hero",
+  "scenarioType": "component",
+  "description": "The opening: rotating photography under a headline that types itself in."
+}

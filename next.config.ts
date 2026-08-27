@@ -1,11 +1,14 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  output: 'export',
-  trailingSlash: true,
-  images: {
-    unoptimized: true
-  }
+  // Required: better-sqlite3 is a native module that can't be bundled
+  serverExternalPackages: ['better-sqlite3'],
+
+  turbopack: {
+    // Required: prevents Turbopack from inferring a parent directory as root
+    // when .codeyam/ exists above the project (which breaks import resolution)
+    root: '.',
+  },
 };
 
 export default nextConfig;

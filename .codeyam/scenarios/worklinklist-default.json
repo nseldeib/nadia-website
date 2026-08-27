@@ -1,0 +1,12 @@
+{
+  "name": "WorkLinkList - Default",
+  "id": "24e6ba04-cb67-49a3-9846-07545e200c8a",
+  "url": "/isolated-components/WorkLinkList?s=Default",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "WorkLinkList",
+  "scenarioType": "component",
+  "description": "External links, each showing its destination."
+}

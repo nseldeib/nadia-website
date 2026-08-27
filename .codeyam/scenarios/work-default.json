@@ -1,0 +1,12 @@
+{
+  "name": "Work - Default",
+  "id": "03cfdf26-7745-40ca-977c-38fb3e6a19a3",
+  "url": "/isolated-components/Work?s=Default",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "Work",
+  "scenarioType": "component",
+  "description": "Section 01. North star, what she is building, the links, and the advisory offer."
+}

@@ -38,7 +38,7 @@ Do **not** prompt for per-scenario confirmation — propose the set once
 Do not guess at what to capture. Read the read-only assessment:
 
 ```
-codeyam-editor editor assess --format json
+codeyam-editor-dev editor assess --format json
 ```
 
 This is zero-mutation. From the JSON, note:
@@ -79,7 +79,7 @@ filename across calls.
 cat > .codeyam/tmp/see-app-home-<unique>.json <<'EOF'
 { "slug": "see-app-home", "kind": "application", "url": "/", "screen_size": "Desktop" }
 EOF
-codeyam-editor editor register --file .codeyam/tmp/see-app-home-<unique>.json
+codeyam-editor-dev editor register --file .codeyam/tmp/see-app-home-<unique>.json
 ```
 
 Component scenarios use isolation routes rather than a top-level URL — the same
@@ -92,7 +92,7 @@ remove exactly what this flow created and nothing else.
 Then branch on `visualCaptureViable` from Phase 1:
 
 - **Visual stack, preview up:** capture screenshots with
-  `codeyam-editor editor recapture-stale --skip-when-clean --prefer-touched`.
+  `codeyam-editor-dev editor recapture-stale --skip-when-clean --prefer-touched`.
   `--prefer-touched` orders the scenarios you just registered first so the
   `--max-seconds` budget captures them before any unrelated
   environmentally-drifted surface (pure reordering, never expands the set). The

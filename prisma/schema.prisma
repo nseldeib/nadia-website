@@ -1,0 +1,40 @@
+// Prisma 7 with SQLite via better-sqlite3 driver adapter.
+//
+// IMPORTANT: Use "prisma-client-js" (NOT "prisma-client").
+// The "prisma-client" generator requires a custom output path which
+// breaks Turbopack import resolution and seed script imports.
+// "prisma-client-js" outputs to node_modules/@prisma/client which
+// works everywhere with standard imports.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+// ──────────────────────────────────────────────
+// Define your models below, then run:
+//   npx prisma db push
+// A schema with zero models is valid — Prisma will
+// generate a client with no model accessors until
+// you add one.
+// ──────────────────────────────────────────────
+
+// The only thing this site persists. Page content lives in the repo as files so
+// the CMS can version it; this table holds notes people send through the form.
+// The handler writes the row first and mails second, so `emailedAt` staying null
+// is the durable record that a message arrived but delivery failed.
+model Message {
+  id         Int      @id @default(autoincrement())
+  topic      String
+  name       String
+  email      String
+  body       String
+  createdAt  DateTime @default(now())
+  emailedAt  DateTime?
+  sourcePage String?
+
+  @@index([createdAt])
+}

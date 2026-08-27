@@ -1,7 +1,7 @@
 ---
 name: codeyam-slice
 description: |
-  Adopt one vertical slice. Reads `codeyam-editor editor assess`, proposes
+  Adopt one vertical slice. Reads `codeyam-editor-dev editor assess`, proposes
   the single highest-leverage feature/route to take fully through the
   codeyam loop (deconstruct → test → scenarios) as a worked example on the
   user's own code, confirms the blast radius, then boots the formal editor
@@ -26,7 +26,7 @@ This skill does **not** reimplement deconstruction or test logic. It picks the s
 Confirm the project is initialized for codeyam-editor:
 
 ```bash
-codeyam-editor editor config-show >/dev/null 2>&1 || {
+codeyam-editor-dev editor config-show >/dev/null 2>&1 || {
   echo "Project is not initialized for codeyam-editor. Run /codeyam-onboard first."
   exit 1
 }
@@ -39,7 +39,7 @@ If the check fails, tell the user to run `/codeyam-onboard` and stop. Do not pro
 Run the read-only assessment and parse it (nothing on disk changes):
 
 ```bash
-codeyam-editor editor assess --format json
+codeyam-editor-dev editor assess --format json
 ```
 
 Relevant fields:
@@ -90,7 +90,7 @@ Write a plan scoped to the confirmed slice that boots the editor workflow at the
 Write the plan **body** to a scratch file, then create the plan with `plan-create` — do **not** write the plan file yourself, and do not hand-author frontmatter. It derives the slug and stamps `createdAt` (a timestamp you have no clock to guess), then prints the path it wrote:
 
 ```bash
-codeyam-editor editor plan-create \
+codeyam-editor-dev editor plan-create \
   --title "Adopt slice: <feature/route name>" \
   --mode ui \
   --source slice \
@@ -106,7 +106,7 @@ The plan body MUST:
 - Carry the assess rationale (fan-in, line count, untested entities) so the Deconstruct + TDD steps know what to target.
 - Name the loop chosen in Step 4 (visual scenarios vs. state/output fixtures), and any backend follow-up deferred from a UI+backend split.
 
-Then run `codeyam-editor editor launch-plan <slug>` with the slug from the printed path. This deterministically selects the plan and switches the UI to the Build tab via `usePlanLauncher.launchPlan` — it does not depend on the UI plan-watcher. Then output **exactly** `Done — opening Build to finalize.` and stop.
+Then run `codeyam-editor-dev editor launch-plan <slug>` with the slug from the printed path. This deterministically selects the plan and switches the UI to the Build tab via `usePlanLauncher.launchPlan` — it does not depend on the UI plan-watcher. Then output **exactly** `Done — opening Build to finalize.` and stop.
 
 Do **NOT** `git add` / `git commit` the plan — the editor's feature-commit step sweeps it in alongside the slice's source changes.
 

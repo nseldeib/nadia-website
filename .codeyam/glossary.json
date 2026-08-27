@@ -1,0 +1,387 @@
+[
+  {
+    "description": "Section 02, and the page's one light surface. It carries the most body copy, which is where dark-on-light actually helps someone read.",
+    "filePath": "components/About.tsx",
+    "name": "About",
+    "scenarios": [
+      "about-default"
+    ]
+  },
+  {
+    "description": "The standing facts. A fact with no value is the rotating one, so 'previously based in' has a list behind it rather than a single answer.",
+    "filePath": "components/about/AboutFacts.tsx",
+    "name": "AboutFacts",
+    "scenarios": [
+      "aboutfacts-default"
+    ]
+  },
+  {
+    "description": "Section 04. Three paragraphs and one rotating frame, cut down from six captioned cards that were more structure than the content had.",
+    "filePath": "components/Adventures.tsx",
+    "name": "Adventures",
+    "scenarios": [
+      "adventures-default"
+    ]
+  },
+  {
+    "description": "The advisory offer. The specifics sit inside a details element: someone scanning needs the offer, someone who wants the scope will open it.",
+    "filePath": "components/work/AdvisoryCard.tsx",
+    "name": "AdvisoryCard",
+    "scenarios": [
+      "advisorycard-default"
+    ]
+  },
+  {
+    "description": "The places she has lived, cycling one at a time on the same eight-second slot as the photographs so it does not drift against them.",
+    "filePath": "components/about/CityRotator.tsx",
+    "name": "CityRotator",
+    "scenarios": [
+      "cityrotator-default"
+    ]
+  },
+  {
+    "description": "Editor-installed layout for the component-isolation surface. Returns 404 in production so the isolation routes are never reachable from the live site.",
+    "filePath": "app/codeyam-isolate/layout.tsx",
+    "name": "CodeYamIsolateLayout",
+    "untestabilityReason": {
+      "justification": "Installed by codeyam-editor rather than authored here. It is a template shell whose only logic is the production 404 guard; it renders no product surface of its own.",
+      "kind": "scaffold"
+    }
+  },
+  {
+    "description": "Section 06. The note form and the profiles share one destination because they answer the same reader question.",
+    "filePath": "components/Contact.tsx",
+    "name": "Contact",
+    "scenarios": [
+      "contact-default"
+    ]
+  },
+  {
+    "description": "The note form. On success it is replaced by a confirmation, which makes a duplicate send impossible; on failure the draft is kept and the profiles are offered, since there is deliberately no email address on the site.",
+    "filePath": "components/ContactForm.tsx",
+    "name": "ContactForm",
+    "scenarios": [
+      "contactform-default"
+    ]
+  },
+  {
+    "description": "Section 05. Press, essays, and awards in reverse chronological order, so it reads as a timeline rather than a filing cabinet.",
+    "filePath": "components/Elsewhere.tsx",
+    "name": "Elsewhere",
+    "scenarios": [
+      "elsewhere-default"
+    ]
+  },
+  {
+    "description": "One Elsewhere entry: kind, title, venue, year. A few entries have a second home, which hangs off the row rather than duplicating it.",
+    "filePath": "components/elsewhere/ElsewhereRow.tsx",
+    "name": "ElsewhereRow",
+    "scenarios": [
+      "elsewhererow-default",
+      "elsewhererow-withsecondlink"
+    ]
+  },
+  {
+    "description": "The arrow marking a link as leaving the site.",
+    "filePath": "components/writing/ExternalLinkIcon.tsx",
+    "name": "ExternalLinkIcon",
+    "scenarios": [
+      "externallinkicon-default"
+    ]
+  },
+  {
+    "description": "A labelled control and the message shown when it needs a look. The control is passed as children rather than described by props, because the three fields differ in type, autocomplete, and element.",
+    "filePath": "components/contact/Field.tsx",
+    "name": "Field",
+    "scenarios": [
+      "field-default",
+      "field-withproblem",
+      "field-textarea"
+    ]
+  },
+  {
+    "description": "Where else to find her, and where she is. It shares the section with the form rather than standing alone.",
+    "filePath": "components/contact/FindMe.tsx",
+    "name": "FindMe",
+    "scenarios": [
+      "findme-default"
+    ]
+  },
+  {
+    "description": "Footer navigation and the signoff, with the brand linked in place inside the authored sentence.",
+    "filePath": "components/Footer.tsx",
+    "name": "Footer",
+    "scenarios": [
+      "footer-default"
+    ]
+  },
+  {
+    "description": "The signoff with the brand linked in place. The copy is authored as one sentence rather than assembled from fragments, so the link is found inside it via splitOnBrand; if the brand is ever edited out, the sentence still renders whole.",
+    "filePath": "components/Footer.tsx",
+    "name": "FooterSignoff",
+    "scenarios": [
+      "footersignoff-default",
+      "footersignoff-unlinked",
+      "footersignoff-nobrand"
+    ]
+  },
+  {
+    "description": "Shown when a note did not send. It says nothing was lost, because nothing was, and offers the profiles as another route since there is deliberately no email address on the site.",
+    "filePath": "components/contact/FormFailure.tsx",
+    "name": "FormFailure",
+    "scenarios": [
+      "formfailure-default"
+    ]
+  },
+  {
+    "description": "The opening screen: full-bleed rotating photography, a headline that types itself in, and a cue naming the section below.",
+    "filePath": "components/Hero.tsx",
+    "name": "Hero",
+    "scenarios": [
+      "hero-default"
+    ]
+  },
+  {
+    "description": "The full-bleed rotation behind the hero headline.",
+    "filePath": "components/hero/HeroBackdrop.tsx",
+    "name": "HeroBackdrop",
+    "scenarios": [
+      "herobackdrop-default"
+    ]
+  },
+  {
+    "description": "Hidden from people, irresistible to bots. A filled value is answered silently, because telling a bot it was detected only teaches whoever wrote it to leave the field alone.",
+    "filePath": "components/contact/Honeypot.tsx",
+    "name": "Honeypot",
+    "scenarios": [
+      "honeypot-default"
+    ]
+  },
+  {
+    "description": "The header and the indicator showing which section you are in. The number sits left of the label, mirroring the section heads, and is positioned into the existing gap so nothing reflows when it appears.",
+    "filePath": "components/Nav.tsx",
+    "name": "Nav",
+    "scenarios": [
+      "nav-default"
+    ]
+  },
+  {
+    "description": "The section links. The number sits to the left of the label, mirroring the section heads, and is absolutely positioned into the gap that already exists between items so nothing reflows when it appears and no space is reserved when nothing is active.",
+    "filePath": "components/Nav.tsx",
+    "name": "NavLinks",
+    "scenarios": [
+      "navlinks-default",
+      "navlinks-workactive",
+      "navlinks-elsewhereactive"
+    ]
+  },
+  {
+    "description": "The wordmark linking back to the top of the page.",
+    "filePath": "components/Nav.tsx",
+    "name": "NavMark",
+    "scenarios": [
+      "navmark-default"
+    ]
+  },
+  {
+    "description": "The contact endpoint. Answers the honeypot silently so a bot learns nothing, then writes the row before attempting delivery, so a message survives a mail outage with emailedAt left null rather than being lost. Validation logic lives in validateMessage and is tested there.",
+    "filePath": "app/api/contact/route.ts",
+    "name": "POST",
+    "untestabilityReason": {
+      "justification": "A Next route handler over the network and Prisma boundaries. Its decision logic is extracted into validateMessage, which is covered directly; what remains here is request parsing, persistence, and status codes.",
+      "kind": "platform-glue"
+    }
+  },
+  {
+    "description": "The site's only route. It is composition alone: the nav, the six numbered sections in reading order inside a main landmark, then the footer. Every section owns its own copy and photography.",
+    "filePath": "app/page.tsx",
+    "name": "Page",
+    "scenarios": [
+      "home-full-page"
+    ]
+  },
+  {
+    "description": "Cross-fades photographs on a shared eight-second slot, so every rotation on the page lands on one beat instead of something always being mid-fade. Frames are pre-cropped to the container's aspect, so nothing is enlarged or trimmed at render time.",
+    "filePath": "components/PhotoRotator.tsx",
+    "name": "PhotoRotator",
+    "scenarios": [
+      "photorotator-default",
+      "photorotator-adventures",
+      "photorotator-single"
+    ]
+  },
+  {
+    "description": "Recent essays, dated so the list reads as a timeline.",
+    "filePath": "components/writing/PostList.tsx",
+    "name": "PostList",
+    "scenarios": [
+      "postlist-default"
+    ]
+  },
+  {
+    "description": "The document shell. It carries the metadata and canonical URL for nadiaeldeib.com and loads the token stylesheet. The palette is deliberately not behind prefers-color-scheme: the dark surface is the design, not a preference.",
+    "filePath": "app/layout.tsx",
+    "name": "RootLayout",
+    "untestabilityReason": {
+      "justification": "The Next.js document shell. It renders html and body around children and sets static metadata; there is no branching to exercise, and the page it wraps is covered by the home-full-page scenario.",
+      "kind": "scaffold"
+    }
+  },
+  {
+    "description": "Editor-installed route that resolves a scenario slug to its real URL and redirects there, so a scenario can be opened by slug alone.",
+    "filePath": "app/scenario/[slug]/page.tsx",
+    "name": "ScenarioRedirectPage",
+    "untestabilityReason": {
+      "justification": "Installed by codeyam-editor rather than authored here. It reads scenarios.json off disk and redirects; it renders no product surface, so there is nothing visual to capture.",
+      "kind": "scaffold"
+    }
+  },
+  {
+    "description": "The cue into the first section. It names where it goes rather than saying scroll, because what is below is more compelling than the instruction.",
+    "filePath": "components/hero/ScrollCue.tsx",
+    "name": "ScrollCue",
+    "scenarios": [
+      "scrollcue-default"
+    ]
+  },
+  {
+    "description": "The numbered eyebrow every section carries. The number is information, not decoration: the sections are a sequence and the nav indicator mirrors this exact pairing.",
+    "filePath": "components/SectionHead.tsx",
+    "name": "SectionHead",
+    "scenarios": [
+      "sectionhead-default",
+      "sectionhead-contact"
+    ]
+  },
+  {
+    "description": "Replaces the form once a note lands, which is the clearest signal it worked and makes a duplicate send impossible.",
+    "filePath": "components/contact/SentConfirmation.tsx",
+    "name": "SentConfirmation",
+    "scenarios": [
+      "sentconfirmation-default"
+    ]
+  },
+  {
+    "description": "The profiles, ordered the way she actually uses them.",
+    "filePath": "components/contact/SocialList.tsx",
+    "name": "SocialList",
+    "scenarios": [
+      "sociallist-default"
+    ]
+  },
+  {
+    "description": "The closed set of reasons someone might be writing. The ids come from the content file and are the same list the server validates against.",
+    "filePath": "components/contact/TopicChips.tsx",
+    "name": "TopicChips",
+    "scenarios": [
+      "topicchips-default",
+      "topicchips-lastselected"
+    ]
+  },
+  {
+    "description": "The headline that types itself in via a clip-path reveal on a steps() function, with the cursor riding the same function so it sits on the text edge. The step count is the line's own character count, so it cannot fall out of sync with the words.",
+    "filePath": "components/hero/TypedHeadline.tsx",
+    "name": "TypedHeadline",
+    "scenarios": [
+      "typedheadline-default",
+      "typedheadline-shortline"
+    ]
+  },
+  {
+    "description": "Section 01. Opens on the north star, then what she is building at CodeYam, the links out, and the advisory offer.",
+    "filePath": "components/Work.tsx",
+    "name": "Work",
+    "scenarios": [
+      "work-default"
+    ]
+  },
+  {
+    "description": "External links, each showing its destination host so the target is never a surprise.",
+    "filePath": "components/work/WorkLinkList.tsx",
+    "name": "WorkLinkList",
+    "scenarios": [
+      "worklinklist-default",
+      "worklinklist-single"
+    ]
+  },
+  {
+    "description": "The Work prose column. The north star leads and the subhead then names what she is building, so the reader gets the why before the what.",
+    "filePath": "components/work/WorkNarrative.tsx",
+    "name": "WorkNarrative",
+    "scenarios": [
+      "worknarrative-default"
+    ]
+  },
+  {
+    "description": "Section 03. What she writes about, the way through to the full archive, and a few recent essays.",
+    "filePath": "components/Writing.tsx",
+    "name": "Writing",
+    "scenarios": [
+      "writing-default"
+    ]
+  },
+  {
+    "description": "What she writes about, and the link through to everything else.",
+    "filePath": "components/writing/WritingIntro.tsx",
+    "name": "WritingIntro",
+    "scenarios": [
+      "writingintro-default"
+    ]
+  },
+  {
+    "description": "Seeds the Message table with the received-messages world used by the home-full-page scenario, so a capture shows a coherent inbox rather than leftover state.",
+    "filePath": "prisma/seed.ts",
+    "name": "main",
+    "untestabilityReason": {
+      "justification": "A seed script whose whole body is Prisma writes against the database; it computes nothing and returns nothing to assert on.",
+      "kind": "platform-glue"
+    }
+  },
+  {
+    "description": "Picks the active section from document order and the set of currently visible ids. Sections are contiguous so two can briefly both cross the observer band; document order breaks the tie, which keeps the nav indicator moving forward instead of flickering between neighbours.",
+    "filePath": "app/lib/activeSection.ts",
+    "name": "pickActive",
+    "testFile": "app/lib/activeSection.test.ts"
+  },
+  {
+    "description": "Splits an authored sentence around the first occurrence of a brand name so it can be linked in place. The signoff stays one piece of copy instead of being assembled from fragments, and reassembly is exact.",
+    "filePath": "app/lib/text.ts",
+    "name": "splitOnBrand",
+    "testFile": "app/lib/text.test.ts"
+  },
+  {
+    "description": "Coerces an untrusted JSON value to a trimmed string, collapsing anything that is not a string to empty so a number or object can never reach a length check.",
+    "filePath": "app/lib/validateMessage.ts",
+    "name": "str",
+    "testFile": "app/lib/validateMessage.test.ts"
+  },
+  {
+    "description": "Posts the contact form and classifies the response into the three outcomes the form acts on: replace itself with a confirmation, mark individual fields, or keep the draft and offer the profiles as another route. A thrown fetch is reported without blaming the visitor's connection.",
+    "filePath": "app/lib/submitMessage.ts",
+    "name": "submitMessage",
+    "testFile": "app/lib/submitMessage.test.ts"
+  },
+  {
+    "description": "Reports which section the reader is in, via an IntersectionObserver band about 40 percent down the viewport. Replaced a CSS scroll timeline that flipped states when a section did not fill the viewport, which read as the nav number blinking. The choice of which visible section wins is pickActive, which is covered by unit tests; the subscription itself is exercised by the Nav scenario.",
+    "filePath": "hooks/useActiveSection.ts",
+    "name": "useActiveSection",
+    "scenarios": [
+      "nav-default"
+    ]
+  },
+  {
+    "description": "Reports whether the page has scrolled past a fraction of the viewport height, batching reads into an animation frame so a fast scroll does not thrash layout. Drives the nav bar going solid.",
+    "filePath": "hooks/useScrolledPast.ts",
+    "name": "useScrolledPast",
+    "untestabilityReason": {
+      "justification": "Reads window.scrollY and window.innerHeight and schedules via requestAnimationFrame; none of those exist in the node test environment.",
+      "kind": "platform-glue"
+    }
+  },
+  {
+    "description": "Validates an inbound contact message and returns every problem at once, so the form can mark all bad fields in one pass rather than one reload at a time. The topic allow-list is derived from the content file rather than restated, which is what fixes the drift that made the form's own default chip come back 422.",
+    "filePath": "app/lib/validateMessage.ts",
+    "name": "validateMessage",
+    "testFile": "app/lib/validateMessage.test.ts"
+  }
+]

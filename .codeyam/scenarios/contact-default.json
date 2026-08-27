@@ -1,0 +1,12 @@
+{
+  "name": "Contact - Default",
+  "id": "a1364609-e8c0-48d5-b73a-b322589baa03",
+  "url": "/isolated-components/Contact?s=Default",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "Contact",
+  "scenarioType": "component",
+  "description": "Section 06. The note form and the profiles, sharing one destination."
+}

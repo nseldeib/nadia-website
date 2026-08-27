@@ -50,7 +50,7 @@ drive; report-only is an explicit opt-in.
 **Confirm the project is initialized for codeyam-editor.**
 
 ```bash
-codeyam-editor editor config-show >/dev/null 2>&1 || {
+codeyam-editor-dev editor config-show >/dev/null 2>&1 || {
   echo "Project is not initialized for codeyam-editor. Run /codeyam-onboard first."
   exit 1
 }
@@ -64,7 +64,7 @@ report a half-aligned repo as clean — a false green. So fail loud and
 actionable instead:
 
 ```bash
-codeyam-editor editor capabilities-list --format json   # what this binary supports
+codeyam-editor-dev editor capabilities-list --format json   # what this binary supports
 cat .codeyam/stack.json                                  # this repo's declared stack
 ```
 
@@ -119,7 +119,7 @@ git branch --show-current                     # safe default: the current branch
 git fetch origin                              # see siblings' work without integrating yet
 git rev-list --count origin/<branch>..HEAD    # commits you have that origin doesn't
 git rev-list --count HEAD..origin/<branch>    # commits origin has that you don't
-codeyam-editor editor finalize-debt show --format json
+codeyam-editor-dev editor finalize-debt show --format json
 ```
 
 `finalize-debt show` lists the deferred commits owed a full `session-finalize`.
@@ -146,7 +146,7 @@ Before fixing anything, get the *complete* list of what is broken, not the
 first failure:
 
 ```bash
-codeyam-editor editor audit --format json
+codeyam-editor-dev editor audit --format json
 ```
 
 Read every `failures[]` entry and the `attribution[]` array together. Each
@@ -174,7 +174,7 @@ on `editor-improvements-73` (2026-08-17): 39 findings on a cold cache — 112
 and nothing else.
 
 So: if `nonGreenPartitions` is non-empty, warm the cache with
-`codeyam-editor editor refresh-tests` and re-run the audit before sizing the
+`codeyam-editor-dev editor refresh-tests` and re-run the audit before sizing the
 run in front of the user. Quoting the cold number mis-prices the spend the
 user is being asked to authorize — which is the whole point of surfacing a
 count here. The text renderer says the same thing in a banner at the top and
@@ -217,7 +217,7 @@ revert:
 > found`, or a hook calls a subcommand that no longer exists, the cause is a
 > **stale managed hook fragment written by an older binary**. Git hooks are not
 > tracked in the tree, so nothing refreshes them on a branch switch or pull.
-> Fix it with `codeyam-editor editor install-hooks`, which reconciles the
+> Fix it with `codeyam-editor-dev editor install-hooks`, which reconciles the
 > managed fragments — adding what's missing, rewriting a body that drifted from
 > the current binary's, and removing an orphaned fragment whose name has left
 > the managed set (including in hook files codeyam no longer manages). It
@@ -242,7 +242,7 @@ revert:
 > Trust that verdict, not mtimes. And a post-swap "server did not become reachable
 > within the restart budget" message *after* a `build stamp verified` line means
 > the swap **SUCCEEDED** — the new binary is installed and was not rolled back;
-> just run `codeyam-editor start` (or raise `CODEYAM_RESTART_START_TIMEOUT_SECS`)
+> just run `codeyam-editor-dev start` (or raise `CODEYAM_RESTART_START_TIMEOUT_SECS`)
 > to bring the server up. It is not a rebuild failure.
 
 ---
@@ -254,16 +254,16 @@ revert:
 Apply the failures whose fix is unambiguous and scripted. These have a
 `fixCommand` in the audit JSON or a named recovery:
 
-- Registry drift → `codeyam-editor editor reconcile-registry --auto-apply`
-- Import / dependency-graph staleness → `codeyam-editor editor analyze-imports`
+- Registry drift → `codeyam-editor-dev editor reconcile-registry --auto-apply`
+- Import / dependency-graph staleness → `codeyam-editor-dev editor analyze-imports`
 - Post-merge drift after integrating origin →
-  `codeyam-editor editor pre-commit-sync --recover` (runs
+  `codeyam-editor-dev editor pre-commit-sync --recover` (runs
   `git pull --rebase --autostash` → `post-merge-drift-sweep` →
   `plan-cleanup-duplicates` in one shot — do **not** hand-stitch these, and do
   **not** `git add` a deleted queue-plan copy by hand).
 - Duplicate plan slug on merge → the same `--recover` path handles it.
 
-Re-run `codeyam-editor editor audit --format json` after the mechanical pass so
+Re-run `codeyam-editor-dev editor audit --format json` after the mechanical pass so
 the remaining set is only the judgment calls.
 
 > GOTCHA — **Platform-gate drift can only be reconciled AFTER a full
@@ -389,7 +389,7 @@ wants current evidence and screenshots.
 > environment when it booted. The override does not take effect until that
 > process restarts, so a recapture run in between just re-proves the old
 > failure — minutes wasted. `config-override` now says so and prints
-> `Next valid action: codeyam-editor editor restart-dev-server` for these keys;
+> `Next valid action: codeyam-editor-dev editor restart-dev-server` for these keys;
 > run it before re-capturing. Non-`env.` keys are genuinely live-reloaded and
 > owe no restart.
 
@@ -405,10 +405,10 @@ before merge.
 
 ```bash
 # Read-only: surface stale docs + non-essential debug logging. Never deletes.
-codeyam-editor editor presentability-scan
+codeyam-editor-dev editor presentability-scan
 
 # Refresh the README how-to + scenario gallery (idempotent).
-codeyam-editor editor readme-sync
+codeyam-editor-dev editor readme-sync
 ```
 
 Then **assertively** remove the clearly-dead docs and debug log lines the scan
@@ -430,13 +430,13 @@ This is the one expensive loop; run it *once*, cleanly.
 
 ```bash
 # Stop fast-intent so finalize stamps the real marker, not a deferred one.
-codeyam-editor editor fast-commit-stop
+codeyam-editor-dev editor fast-commit-stop
 
 # Integrate any sibling commits by MERGING (never rebasing) — see rule 0.
-codeyam-editor editor pre-commit-sync          # claims the commit queue; --recover if it bails
+codeyam-editor-dev editor pre-commit-sync          # claims the commit queue; --recover if it bails
 
 # The full, whole-repo finalize. Stamps lastFullFinalizeSha.
-codeyam-editor editor session-finalize 2>&1 | tee /tmp/codeyam-audit-finalize.log
+codeyam-editor-dev editor session-finalize 2>&1 | tee /tmp/codeyam-audit-finalize.log
 ```
 
 > GOTCHA — **the marker-stamp trap.** A `session-finalize` that *skips* the
@@ -445,7 +445,7 @@ codeyam-editor editor session-finalize 2>&1 | tee /tmp/codeyam-audit-finalize.lo
 > confirm the marker actually advanced:
 >
 > ```bash
-> codeyam-editor editor verify-full-finalize   # exit 0 == HEAD is covered
+> codeyam-editor-dev editor verify-full-finalize   # exit 0 == HEAD is covered
 > ```
 >
 > If it exits 1 after a "successful" finalize, you hit the trap — re-run the
@@ -456,7 +456,7 @@ codeyam-editor editor session-finalize 2>&1 | tee /tmp/codeyam-audit-finalize.lo
 > both streams to a file you can read back. The finalize prints its terminal status
 > as a JSON line carrying `CODEYAM_CMD_COMPLETE` on **both** success and failure.
 > When the harness backgrounds the finalize, **await its completion notification**
-> (the re-invocation when the task exits) — or block once with `codeyam-editor editor
+> (the re-invocation when the task exits) — or block once with `codeyam-editor-dev editor
 > wait-for <task-id>`, run BARE. Then read the `status` off that sentinel line in the
 > `tee`'d file. Do NOT hand-roll an `until grep … sleep` poll loop, and don't regex
 > English success strings. (Same wait-for-the-notification model as the editor
@@ -483,7 +483,7 @@ Only after `verify-full-finalize` exits 0 is the branch **merge-ready**.
 authorized:
 
 ```bash
-codeyam-editor editor push                     # the wrapper runs the deferred-finalize gate
+codeyam-editor-dev editor push                     # the wrapper runs the deferred-finalize gate
 ```
 
 `editor push` works **directly** here even though this branch never walked the
@@ -515,7 +515,7 @@ Put the release commit *inside* the finalize instead: bump and publish first,
 commit the version metadata, and only then run `session-finalize` and push.
 
 `editor push` now blocks on this rather than letting it through silently — a
-`BLOCKED:` with `Next valid action: codeyam-editor editor session-finalize`
+`BLOCKED:` with `Next valid action: codeyam-editor-dev editor session-finalize`
 when the branch was stamped merge-ready and has drifted off it. On a feature
 branch under fast intent it warns instead of blocking, matching how the same
 gate treats ordinary post-finalize source commits there.
@@ -591,7 +591,7 @@ flags is a real bug to fix now, not a flake.
 **Clear `REGISTRY_HAS_FOREIGN_HOST_GATED_TEST` mechanically, never by hand.** A
 test that gains a `#[cfg(target_os = …)]` / `#[cfg(unix)]` (or whose enclosing
 module/file does) drifts its registry `platform_gate` from source and raises this
-finding. The remedy is `codeyam-editor editor reconcile-registry --auto-apply`,
+finding. The remedy is `codeyam-editor-dev editor reconcile-registry --auto-apply`,
 which now re-infers the source cfg for **existing** entries and rewrites a
 disagreeing (or missing) gate in place — in either direction, including
 *clearing* a stale gate when source verifiably declares no cfg — or
@@ -644,7 +644,7 @@ original plan-only commit. The defect is it *escaping into a squash body*.
 **After merging, confirm the merge commit actually got a run:**
 
 ```bash
-codeyam-editor editor verify-primary-branch-ci
+codeyam-editor-dev editor verify-primary-branch-ci
 ```
 
 Exit `0` means a run exists. Exit `2` names the sha and the one command that
@@ -670,7 +670,7 @@ footguns behind each (all observed in real CI-fix rounds):
 - **Conditional-compilation code** (`cfg(target_os …)`, `cfg(windows)`, and
   equivalents). The other platform's branch never compiled on your host, so a
   dead-code/type error there fires only in CI. A cross-target compile/lint pass
-  (`codeyam-editor editor cross-check`) re-evaluates every config for a
+  (`codeyam-editor-dev editor cross-check`) re-evaluates every config for a
   cross-target triple locally, in seconds.
 - **A desktop GUI member** (e.g. a Tauri crate). It links platform GUI
   libraries, so a change can break a headless workspace build in a GUI-less
@@ -701,14 +701,14 @@ footguns behind each (all observed in real CI-fix rounds):
 **MANDATE — when this surface is present, run the local repros BEFORE the first
 push, not after CI tells you:**
 
-- `codeyam-editor editor cross-check` — compile/lint every cross-target locally,
+- `codeyam-editor-dev editor cross-check` — compile/lint every cross-target locally,
   in seconds. This is also now **enforced**: `session-finalize` runs the
   cross-target checks as a gating phase (Phase 4b) whenever it detects
   compile-affecting platform surface, and FAILS on a real cross-target
   compile/clippy error (missing toolchains SKIP with an install hint, never
   block). So the gate and this guidance reinforce each other — do not treat
   `cross-check` as optional when the branch touches platform surface.
-- `codeyam-editor editor session-finalize --linux` — run the actual suite on
+- `codeyam-editor-dev editor session-finalize --linux` — run the actual suite on
   Linux before merge, so a Linux-only test failure gates locally instead of in
   CI.
 
@@ -723,9 +723,9 @@ UNVERIFIED until the build is fixed and its suite actually runs.
 When the user just wants "tell me what's misaligned, don't touch anything,"
 run the report and stop:
 
-1. **Summarize the debt.** `codeyam-editor editor finalize-debt show --format
+1. **Summarize the debt.** `codeyam-editor-dev editor finalize-debt show --format
    json` → the `deferred[]` list.
-2. **Run the audit read-only.** `codeyam-editor editor audit --format json` →
+2. **Run the audit read-only.** `codeyam-editor-dev editor audit --format json` →
    `failures[]` + `attribution[]`.
 3. **Attribute and report.** Intersect each `attribution[].introducedIn` SHA
    with the `deferred[].sha` list. Group findings by the deferred commit that

@@ -1,49 +1,95 @@
-# Nadia's Personal Website
+# nadiaeldeib.com
 
-A clean, modern personal website introducing Nadia Eldeib - developer, builder, and founder of CodeYam.
+Nadia Eldeib's personal site: work, writing, adventures, and a way to get in touch.
 
-## Features
+One Next.js route. All copy and photography live in `content/site.json`, so a wording
+change is a content diff rather than a code diff. The only datastore is the `Message`
+table behind the contact form — there is deliberately no email address anywhere on
+the site, so the form is the way in.
 
-- Clean Design: Modern, minimalist aesthetic
-- Responsive: Works on desktop and mobile
-- Fast Loading: Built with Next.js and Tailwind CSS
-- Accessible: Semantic HTML
+## Setup
 
-## Built With
+Requires Node 20 or newer. Run the setup script to install dependencies, initialize
+the database, and seed it:
 
-- Next.js 15
-- Tailwind CSS
-- TypeScript
-- GitHub Pages
+```bash
+npm run setup
+```
 
-## Sections
+A fresh clone works end to end with `git clone` → `npm run setup` → `npm run dev`.
 
-1. Hero - Introduction with typewriter effect
-2. Work - CodeYam showcase
-3. Writing - Personal newsletter
-4. About - Personal interests and hobbies
-5. Contact - Social links and location
+## Development
 
-## Getting Started
-
-First, run the development server:
+Start the dev server:
 
 ```bash
 npm run dev
-# or
-yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Deploy
+## Using CodeYam Editor
 
-The site is configured for static export and deploys automatically to GitHub Pages.
+This project was built with [CodeYam](https://codeyam.com). To launch the editor:
 
 ```bash
-npm run build
+codeyam editor
 ```
 
-## Live Site
+The editor provides a live preview alongside a Claude Code terminal for iterating on the app.
 
-Visit: https://nseldeib.github.io/nadia-website/
+## Content
+
+Copy and photography are data, not markup. `content/site.json` holds every section's
+words, links, and image references; `content/site.ts` types it. Editing the site's
+text means editing that file — no component changes.
+
+## Database
+
+This project uses SQLite via Prisma. The single `Message` model stores notes sent
+through the contact form. A row is written before delivery is attempted, so a
+message survives a mail outage with `emailedAt` left null rather than being lost.
+
+Common commands:
+
+```bash
+npm run db:push    # Apply schema changes and generate Prisma client
+npm run db:seed    # Seed the database with demo data
+npm run db:reset   # Reset database: drop, recreate, and re-seed
+```
+
+## Scripts
+
+| Script             | Description                                  |
+| ------------------ | -------------------------------------------- |
+| `npm run setup`    | One-line project setup (install + db + seed) |
+| `npm run dev`      | Start the development server                 |
+| `npm run build`    | Build for production                         |
+| `npm run test`     | Run tests                                    |
+| `npm run db:push`  | Apply Prisma schema changes                  |
+| `npm run db:seed`  | Seed the database                            |
+| `npm run db:reset` | Reset and re-seed the database               |
+
+<!-- codeyam:run-and-edit:start -->
+## Develop this project with codeyam-editor
+
+This project is built with [codeyam-editor](https://codeyam.com) — code and runnable data scenarios are authored side by side against a live preview.
+
+```bash
+# Install codeyam-editor
+npm install -g @codeyam-editor/codeyam-editor@latest
+
+# Launch the editor (split-screen terminal + live preview)
+codeyam-editor start
+```
+<!-- codeyam:run-and-edit:end -->
+
+<!-- codeyam:scenario-gallery:start -->
+## Scenario gallery
+
+States captured as runnable scenarios with codeyam-editor:
+
+### Home - Full page
+
+<img src=".codeyam/scenarios/screenshots/home-full-page--desktop.png" alt="Home - Full page" width="280">
+<!-- codeyam:scenario-gallery:end -->

@@ -1,0 +1,31 @@
+.footer {
+  padding: 26px 0 40px;
+  background: var(--paper);
+  color: var(--meta);
+  border-top: 1px solid var(--rule);
+}
+.wrap {
+  max-width: var(--wrap-max);
+  margin: 0 auto;
+  padding: 0 var(--wrap-pad);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-family: var(--font-mono-stack);
+  font-size: 10.5px;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+/* Only the sign-off is underlined — the nav links are not links-in-prose. */
+.nav { display: flex; flex-wrap: wrap; gap: 20px; }
+.nav a { color: var(--meta); text-decoration: none; transition: color var(--transition-fast); }
+.nav a:hover { color: var(--ink); }
+.signoff a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--accent-ink);
+  text-underline-offset: 3px;
+}
+.signoff a:hover { color: var(--accent-ink); }
+@media (max-width: 860px) { .wrap { padding: 0 24px; } }

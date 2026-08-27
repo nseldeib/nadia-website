@@ -1,0 +1,12 @@
+{
+  "name": "WorkLinkList - Single",
+  "id": "e4ac1eb8-8a2c-474f-b56a-cdd2a8cf3135",
+  "url": "/isolated-components/WorkLinkList?s=Single",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "WorkLinkList",
+  "scenarioType": "component",
+  "description": "One link, checking the list does not rely on siblings for its rhythm."
+}

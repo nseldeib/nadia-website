@@ -1,0 +1,394 @@
+{
+  "hero": {
+    "eyebrow": "Nadia Eldeib · New York City",
+    "headline": [
+      "Founding, running, and",
+      "other adventures."
+    ],
+    "lead": "Thanks for stopping by. Here’s my background and what I’m currently building, thinking about, and exploring.",
+    "role": "CEO & Co-founder, CodeYam",
+    "cueLabel": "Next",
+    "cueTitle": "What I’m building",
+    "frames": [
+      {
+        "src": "/images/hero-r1.jpg",
+        "width": 1500,
+        "height": 731
+      },
+      {
+        "src": "/images/hero-r2.jpg",
+        "width": 1500,
+        "height": 731
+      },
+      {
+        "src": "/images/hero-r3.jpg",
+        "width": 1500,
+        "height": 731
+      },
+      {
+        "src": "/images/hero-r4.jpg",
+        "width": 2200,
+        "height": 1057
+      }
+    ]
+  },
+  "work": {
+    "eyebrow": "Work",
+    "number": "01",
+    "heading": "Ideas should be the constraint, not the available technology.",
+    "paragraphs": [
+      "My north star throughout my career has been working to improve people’s lives and the world at scale, especially through new technology. I am relentlessly curious and love learning and solving creative, complex problems.",
+      "At CodeYam, I am working to make it possible for more people to build beautifully designed, highly maintainable software with AI. For non-technical people and vibe coders, that means being able to build good software at all. For developers and teams, it means moving faster and working better together.",
+      "We built, launched, scaled, and iterated on several products, and that R&D led to our breakthrough: CodeYam Editor. It installs as a Claude Desktop integration or runs from the command line, connects to the AI agents you already work with, and generates software simulation. The workflows around it are built to make both the person and the agent better at creating and changing software. I co-founded the company and am in the product nearly every day."
+    ],
+    "subhead": "What I’m building at CodeYam",
+    "links": [
+      {
+        "label": "Visit the platform",
+        "host": "codeyam.com",
+        "href": "https://codeyam.com"
+      },
+      {
+        "label": "Read the blog",
+        "host": "blog.codeyam.com",
+        "href": "https://blog.codeyam.com"
+      },
+      {
+        "label": "Watch demos",
+        "host": "youtube.com/@CodeYam",
+        "href": "https://www.youtube.com/@CodeYam"
+      }
+    ],
+    "proof": "Backed by South Park Commons, boldstart, and others",
+    "advisory": {
+      "label": "Advising and collaborating",
+      "body": "I sometimes advise and build alongside people working on something interesting, especially early on. If you are trying to get an idea off the ground, I am always happy to talk.",
+      "cta": "Get in touch →",
+      "summary": "What that usually looks like",
+      "bullets": [
+        "Talking through ideas with people building with AI",
+        "Getting hands on when it helps, not just offering opinions",
+        "Sometimes one conversation, sometimes something longer"
+      ]
+    },
+    "frames": [
+      {
+        "src": "/images/nadia-working.jpg",
+        "alt": "Nadia working",
+        "width": 820,
+        "height": 1025
+      },
+      {
+        "src": "/images/presenting-codeyam-at-the-vercel-ai-accelerator-demo.jpg",
+        "alt": "Presenting CodeYam at the Vercel AI Accelerator demo day",
+        "width": 820,
+        "height": 1025
+      },
+      {
+        "src": "/images/working-through-a-ceo-evolution-map-at-founders-day.jpg",
+        "alt": "Working through a CEO Evolution Map at founders day",
+        "width": 800,
+        "height": 1000
+      }
+    ]
+  },
+  "about": {
+    "eyebrow": "About",
+    "number": "02",
+    "heading": "How I got here",
+    "paragraphs": [
+      "Before becoming a founder, I spent my career building and launching new products at Lyft, where I was a founding member of the Bikes & Scooters team and helped take a new business from zero to millions of riders. I was also on the team behind the award-winning redesign of the rider app . My role scaled from a generalist product marketing IC to acting head of marketing for the line of business, running a 30-person org across product marketing, growth, and local marketing, and then back to an IC as product lead for transit, bike, and scooter payments, where we shipped Lyft’s first transit payment integration. I am oriented toward impact and solving the hardest problems for the business and its users, which results in a non-linear journey I would not change.",
+      "I currently serve as Director of Growth on the Board of Harvard Alumni in Tech. I was a South Park Commons Founder Fellow in the inaugural 2021 cohort and an Alliance DAO alum from cohort nine. I graduated from Harvard College, where I was an NCAA Division I fencer. Now based in New York City, I enjoy running and surfing nearby."
+    ],
+    "facts": [
+      {
+        "label": "Currently",
+        "value": "CodeYam"
+      },
+      {
+        "label": "Previously",
+        "value": "Product at Lyft"
+      },
+      {
+        "label": "Based in",
+        "value": "New York City"
+      },
+      {
+        "label": "Previously based in",
+        "value": ""
+      }
+    ],
+    "cities": [
+      "Denver",
+      "Del Mar",
+      "San Francisco",
+      "Cambridge, MA",
+      "Burke, VA"
+    ],
+    "frames": [
+      {
+        "src": "/images/graduating-from-harvard-college.jpg",
+        "alt": "Graduating from Harvard College",
+        "width": 800,
+        "height": 1000
+      },
+      {
+        "src": "/images/riding-with-the-lyft-bikes-scooters-team-in-san-fran.jpg",
+        "alt": "Riding with the Lyft Bikes & Scooters team in San Francisco",
+        "width": 860,
+        "height": 1075
+      },
+      {
+        "src": "/images/with-the-lyft-bikes-scooters-team-holding-a-bike-whe.jpg",
+        "alt": "With the Lyft Bikes & Scooters team, holding a bike wheel",
+        "width": 820,
+        "height": 1025
+      },
+      {
+        "src": "/images/at-a-founders-day-event.jpg",
+        "alt": "At a founders day event",
+        "width": 860,
+        "height": 1075
+      }
+    ]
+  },
+  "writing": {
+    "eyebrow": "Writing",
+    "number": "03",
+    "heading": "What I write about",
+    "lede": "I write about building software, especially with AI, and what I am learning along the way, from launches and career decisions to trail running and other hard things.",
+    "cta": {
+      "label": "Read the newsletter",
+      "href": "https://blog.nseldeib.com/"
+    },
+    "posts": [
+      {
+        "href": "https://blog.nseldeib.com/p/applying-to-the-south-park-commons",
+        "date": "Jul 13",
+        "title": "Applying to the South Park Commons Founder Fellowship"
+      },
+      {
+        "href": "https://blog.nseldeib.com/p/you-can-just-ship-things",
+        "date": "Jul 6",
+        "title": "You Can Just Ship Things"
+      },
+      {
+        "href": "https://blog.nseldeib.com/p/what-if-creativity-was-the-constraint",
+        "date": "Jun 12",
+        "title": "What If Creativity Was the Constraint?"
+      }
+    ]
+  },
+  "adventures": {
+    "eyebrow": "Adventures",
+    "number": "04",
+    "heading": "The places I go and the things I do outside of work",
+    "paragraphs": [
+      "I’ve always been active. My first love was soccer as a kid, though I multitasked and experimented (hello basketball, softball, horseback riding, guitar, photography, baking, writing). I dreamed of surfing, which I finally learned when I moved to San Francisco. I dabbled in running there (Bay to Breakers, twice) before getting more deeply into the roads and trails in Colorado and now NYC. I picked up yoga, bouldering, and snowboarding along the way. I’m now content being a fast, serious reader and a slow, fun runner.",
+      "I started fencing the summer before high school and quickly ended up a nationally and world-ranked junior fencer. Harvard recruited me for their NCAA Division I team, where I was a four-year starter.",
+      "A Californian at heart, but after nearly a decade on the West Coast it was time to move back east. I’m newly in New York City, after three years in Denver. Favorites over the years: safari and hiking in South Africa, surfing in Costa Rica, Mexico, Cornwall, and Bali, and time in Cairo, Sydney, and New Zealand. I also get out for as many semi-local adventures as I can: Salida for the hill climb and FIBArk, Rockaway Beach from New York, Steamboat Springs and the Front Range from Denver."
+    ],
+    "frames": [
+      {
+        "src": "/images/running-the-full-marathon-at-boulderthon.jpg",
+        "alt": "Running the full marathon at Boulderthon",
+        "width": 1000,
+        "height": 781
+      },
+      {
+        "src": "/images/trail-running-below-pikes-peak.jpg",
+        "alt": "Trail running below Pikes Peak",
+        "width": 667,
+        "height": 521
+      },
+      {
+        "src": "/images/snowboarding-in-deep-snow.jpg",
+        "alt": "Snowboarding in deep snow",
+        "width": 1000,
+        "height": 781
+      },
+      {
+        "src": "/images/getting-a-surfboard-ready-on-the-beach.jpg",
+        "alt": "Getting a surfboard ready on the beach",
+        "width": 792,
+        "height": 618
+      },
+      {
+        "src": "/images/bouldering-on-a-rooftop-with-the-manhattan-skyline-b.jpg",
+        "alt": "Bouldering on a rooftop with the Manhattan skyline behind",
+        "width": 1000,
+        "height": 781
+      },
+      {
+        "src": "/images/on-a-balcony-over-the-nile-in-cairo.jpg",
+        "alt": "On a balcony over the Nile in Cairo",
+        "width": 637,
+        "height": 497
+      }
+    ]
+  },
+  "elsewhere": {
+    "eyebrow": "Elsewhere",
+    "number": "05",
+    "heading": "Selected essays, press, and awards",
+    "note": "A selection, not a complete list",
+    "rows": [
+      {
+        "href": "https://www.linkedin.com/posts/nadiaeldeib_hit-builders-nadia-eldeib-activity-7473452511434072064-P5su",
+        "kind": "Press",
+        "title": "HIT Builders",
+        "venue": "Harvard Alumni in Tech",
+        "year": "2026"
+      },
+      {
+        "href": "https://news.ycombinator.com/item?id=45336775",
+        "kind": "Discussion",
+        "title": "Pairing with Claude Code to rebuild my startup’s website",
+        "venue": "Hacker News · 178 points",
+        "year": "2025"
+      },
+      {
+        "href": "https://www.helenmin.com/blog/smart-generalists",
+        "kind": "Press",
+        "title": "Wanted: Smart Generalists",
+        "venue": "Helen Min",
+        "year": "2021"
+      },
+      {
+        "href": "https://www.renaissancecollective.co/renco-blog/three-paths-to-product-for-the-smart-generalist",
+        "kind": "Essay",
+        "title": "Three Paths to Product for the Smart Generalist",
+        "venue": "The Renaissance Collective",
+        "year": "2020"
+      },
+      {
+        "href": "https://www.renaissancecollective.co/renco-blog/what-to-do-if-you-dont-feel-technical-enough-at-work",
+        "kind": "Essay",
+        "title": "What to Do if You Don’t Feel “Technical Enough” at Work",
+        "venue": "The Renaissance Collective",
+        "year": "2020"
+      },
+      {
+        "href": "https://designawards.core77.com/Interaction/87383/Rider-App-Redesign",
+        "kind": "Award",
+        "title": "Notable Interaction Award, Lyft Rider App Redesign",
+        "venue": "Core77 Design Awards",
+        "year": "2019"
+      },
+      {
+        "href": "https://design.google/library/material-design-awards-2018/",
+        "kind": "Award",
+        "title": "Material Design Award: Innovation",
+        "venue": "Google Design",
+        "year": "2018"
+      },
+      {
+        "kind": "Film",
+        "title": "One for All: The Enduring Story of Harvard Fencing",
+        "venue": "Associate Producer · IMDb",
+        "year": "2014",
+        "href": "https://www.youtube.com/watch?v=9DY_zInrNVY",
+        "secondHref": "https://www.imdb.com/title/tt4355134/"
+      }
+    ]
+  },
+  "contact": {
+    "eyebrow": "Contact",
+    "number": "06",
+    "heading": "Get in touch",
+    "form": {
+      "heading": "Send me a note",
+      "sub": "This goes straight to my inbox. Nothing you write here is published, and there’s no email address on the site to scrape.",
+      "topicLabel": "What’s this about?",
+      "topics": [
+        {
+          "id": "consulting",
+          "label": "Working together"
+        },
+        {
+          "id": "speaking",
+          "label": "Speaking"
+        },
+        {
+          "id": "press",
+          "label": "Press"
+        },
+        {
+          "id": "hello",
+          "label": "Just saying hi"
+        }
+      ],
+      "submit": "Send note",
+      "reply": null
+    },
+    "findMe": {
+      "heading": "Find me online",
+      "socials": [
+        {
+          "href": "https://blog.nseldeib.com/",
+          "name": "Substack",
+          "handle": "blog.nseldeib.com"
+        },
+        {
+          "href": "https://www.instagram.com/nadiasfieldnotes/",
+          "name": "Instagram",
+          "handle": "@nadiasfieldnotes"
+        },
+        {
+          "href": "https://www.threads.com/@nadiasfieldnotes",
+          "name": "Threads",
+          "handle": "@nadiasfieldnotes"
+        },
+        {
+          "href": "https://x.com/nseldeib",
+          "name": "X",
+          "handle": "@nseldeib"
+        },
+        {
+          "href": "https://www.linkedin.com/in/nadiaeldeib/",
+          "name": "LinkedIn",
+          "handle": "Nadia Eldeib"
+        },
+        {
+          "href": "https://github.com/nseldeib",
+          "name": "GitHub",
+          "handle": "@nseldeib"
+        }
+      ],
+      "place": [
+        "New York City",
+        "Eastern time"
+      ]
+    }
+  },
+  "footer": {
+    "nav": [
+      {
+        "href": "#work",
+        "label": "Work"
+      },
+      {
+        "href": "#about",
+        "label": "About"
+      },
+      {
+        "href": "#writing",
+        "label": "Writing"
+      },
+      {
+        "href": "#adventures",
+        "label": "Adventures"
+      },
+      {
+        "href": "#elsewhere",
+        "label": "Elsewhere"
+      },
+      {
+        "href": "#contact",
+        "label": "Contact"
+      }
+    ],
+    "signoff": "Built with CodeYam and love",
+    "signoffHref": "https://codeyam.com"
+  }
+}

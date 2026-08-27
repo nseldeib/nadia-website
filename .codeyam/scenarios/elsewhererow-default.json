@@ -1,0 +1,12 @@
+{
+  "name": "ElsewhereRow - Default",
+  "id": "257df2bc-5b8f-49ed-bfb2-2f3ca3de65c6",
+  "url": "/isolated-components/ElsewhereRow?s=Default",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "ElsewhereRow",
+  "scenarioType": "component",
+  "description": "An ordinary row: kind, title, venue, year."
+}

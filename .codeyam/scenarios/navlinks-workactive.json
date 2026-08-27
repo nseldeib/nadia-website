@@ -1,0 +1,12 @@
+{
+  "name": "NavLinks - WorkActive",
+  "id": "80e0b8b8-de42-430b-81d6-f694954f3e6a",
+  "url": "/isolated-components/NavLinks?s=WorkActive",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "NavLinks",
+  "scenarioType": "component",
+  "description": "A section in view, showing the number appearing to the left of its label."
+}

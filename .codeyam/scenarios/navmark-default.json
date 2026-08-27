@@ -1,0 +1,12 @@
+{
+  "name": "NavMark - Default",
+  "id": "7d6c219e-3530-429b-a5a9-3badc6581ef1",
+  "url": "/isolated-components/NavMark?s=Default",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "NavMark",
+  "scenarioType": "component",
+  "description": "The wordmark linking back to the top of the page."
+}

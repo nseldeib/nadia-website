@@ -4,7 +4,7 @@ The body of the `codeyam-summarize` skill. Read `SKILL.md` for the contract
 this procedure must not violate; this file is the sequence.
 
 Four short phases. All the extraction and rendering is done by
-`codeyam-editor editor session-summarize`, which is deterministic and
+`codeyam-editor-dev editor session-summarize`, which is deterministic and
 tested — your job is the conversation around it, not the transformation.
 
 ---
@@ -61,7 +61,7 @@ hands you the filter's exit code instead of the command's, and this
 command uses exit `2` to mean "recoverable precondition, here is the fix".
 
 ```bash
-codeyam-editor editor session-summarize \
+codeyam-editor-dev editor session-summarize \
   --dest <choice> \
   --title "<confirmed title>" \
   --format json

@@ -1,0 +1,13 @@
+{
+  "name": "TypedHeadline - Empty",
+  "id": "08324bef-a2bb-40aa-a321-2abe811bd1dc",
+  "url": "/isolated-components/TypedHeadline?s=Empty",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "TypedHeadline",
+  "scenarioType": "component",
+  "description": "No lines. Nothing renders and nothing throws, which is what a headline emptied out of the content file looks like.",
+  "allowMinimalRender": true
+}

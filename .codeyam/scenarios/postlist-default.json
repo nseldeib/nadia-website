@@ -1,0 +1,12 @@
+{
+  "name": "PostList - Default",
+  "id": "7a37c8b5-dfc8-40c2-b800-01153ee4a15a",
+  "url": "/isolated-components/PostList?s=Default",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "PostList",
+  "scenarioType": "component",
+  "description": "Recent essays, dated so the list reads as a timeline."
+}

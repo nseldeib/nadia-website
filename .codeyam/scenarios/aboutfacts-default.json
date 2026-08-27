@@ -1,0 +1,12 @@
+{
+  "name": "AboutFacts - Default",
+  "id": "61a4242a-3e75-47f8-a591-57e6fca4c19e",
+  "url": "/isolated-components/AboutFacts?s=Default",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "AboutFacts",
+  "scenarioType": "component",
+  "description": "The standing facts, including the one whose value rotates through cities."
+}

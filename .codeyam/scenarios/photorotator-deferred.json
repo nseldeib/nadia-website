@@ -1,0 +1,12 @@
+{
+  "name": "PhotoRotator - Deferred",
+  "id": "53239b68-a3a4-4767-be07-b4de18ee03ef",
+  "url": "/isolated-components/PhotoRotator?s=Deferred",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "PhotoRotator",
+  "scenarioType": "component",
+  "description": "A two-frame set, the only one selecting the rotate2 keyframes, and below the fold so nothing is preloaded."
+}

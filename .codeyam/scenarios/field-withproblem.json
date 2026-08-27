@@ -1,0 +1,12 @@
+{
+  "name": "Field - WithProblem",
+  "id": "0f84f264-126b-4142-b7ef-dc0bc40ab12f",
+  "url": "/isolated-components/Field?s=WithProblem",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "Field",
+  "scenarioType": "component",
+  "description": "The state that matters: the field is marked and says what to fix."
+}

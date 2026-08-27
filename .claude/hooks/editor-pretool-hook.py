@@ -491,8 +491,8 @@ def _module_target(tokens):
 
 def _codeyam_verb(tokens):
     """The subcommand verb of a codeyam CLI invocation, skipping options and the
-    `editor` subcommand group — `refresh-tests` in `codeyam-editor editor
-    refresh-tests --changed`, but `change` in `codeyam-editor editor change
+    `editor` subcommand group — `refresh-tests` in `codeyam-editor-dev editor
+    refresh-tests --changed`, but `change` in `codeyam-editor-dev editor change
     "Fix: missing pytest in the VM image"`. None when there is no verb."""
     for tok in tokens:
         if tok.startswith("-") or tok == "editor":
@@ -674,7 +674,7 @@ _ASSIGNMENT = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*=")
 # than the PCRE flag.
 _GREP_VALUE_FLAGS = frozenset("efmABCDd")
 
-# The `codeyam-editor editor` subcommands that may not be piped into a filter.
+# The `codeyam-editor-dev editor` subcommands that may not be piped into a filter.
 # Keep in sync with the CLAUDE.md "CLI error conventions" section, under "Do not
 # pipe gating or long-running `codeyam-editor` commands through `tail` / `grep`
 # / `head`".
@@ -722,7 +722,7 @@ _GATING_SUBCOMMANDS = frozenset(
         "verify-test-cache",
     )
 )
-# A `codeyam-editor editor <subcommand>` invocation with its subcommand
+# A `codeyam-editor-dev editor <subcommand>` invocation with its subcommand
 # captured. Used only as the fail-closed fallback for a stage `shlex` cannot
 # tokenize; the tokenizing path in `_gating_subcommand` is position-aware and
 # is what runs normally.
@@ -1153,7 +1153,7 @@ def invokes_git_subcommand(command, subcommand):
     return False
 
 
-# The `codeyam-editor:editor` spelling reaches the same CLI through the plugin
+# The `codeyam-editor-dev:editor` spelling reaches the same CLI through the plugin
 # invocation form, so it is one token rather than a program plus a subcommand.
 # Derived from _CODEYAM_CLIS rather than spelled out. commands::apply_cli_name
 # rewrites the canonical plugin-form token into the dev-wrapper one at install
@@ -1166,13 +1166,13 @@ _CODEYAM_EDITOR_TOKENS = frozenset(f"{cli}:editor" for cli in _CODEYAM_CLIS)
 
 
 def invokes_codeyam_editor(command):
-    """True iff `command` actually RUNS a `codeyam-editor editor …` subcommand.
+    """True iff `command` actually RUNS a `codeyam-editor-dev editor …` subcommand.
 
     This one gates an ALLOW, not a refusal, which is why it had to change: the
     substring test it replaces short-circuited the commit, push, code-change and
     PCRE gates for any command whose TEXT contained the CLI name anywhere —
     including inside a quoted commit message. `git commit -m "chore: document
-    codeyam-editor editor advance"` was allowed at every slug. Closing that is
+    codeyam-editor-dev editor advance"` was allowed at every slug. Closing that is
     the same substring-versus-structure fix as `invokes_git_subcommand`, applied
     in the opposite direction.
 
@@ -1230,12 +1230,12 @@ def _pipelines(command):
 
 
 def _gating_subcommand(stage):
-    """The gating `codeyam-editor editor <subcommand>` that `stage` RUNS, or
+    """The gating `codeyam-editor-dev editor <subcommand>` that `stage` RUNS, or
     None.
 
     Position-aware for the same reason `_uses_pcre_grep` is: the name is only
     an invocation when it is the program the stage runs, so
-    `grep "codeyam-editor editor audit" notes.md | head` — where it is a search
+    `grep "codeyam-editor-dev editor audit" notes.md | head` — where it is a search
     term — does not trip the rule. Fails closed: a stage that cannot be
     tokenized falls back to the position-blind regex, so a malformed quote is
     never an evasion path."""
@@ -2060,7 +2060,7 @@ _READ_VERB = re.compile(
     re.VERBOSE,
 )
 
-# A `codeyam-editor editor …` invocation, under either the canonical name
+# A `codeyam-editor-dev editor …` invocation, under either the canonical name
 # or the local-dev branding.
 _INSPECTOR_INVOCATION = re.compile(r"\bcodeyam-editor(?:-dev)?\s+editor\b")
 
@@ -2075,7 +2075,7 @@ def is_read_shaped_command(command):
 
 
 def is_inspector_invocation(command):
-    """True when `command` runs a `codeyam-editor editor …` subcommand.
+    """True when `command` runs a `codeyam-editor-dev editor …` subcommand.
 
     An inspector necessarily names the store it inspects, so nudging one
     would point the agent at the command it is already running."""
@@ -2265,7 +2265,7 @@ def main():
 
     # Piped-gating-command guard. Neither step-scoped nor editor-mode-scoped,
     # for the same reason as the guard above: the rule holds in every session.
-    # It also has to fire before the "always allow codeyam-editor editor"
+    # It also has to fire before the "always allow codeyam-editor-dev editor"
     # short-circuit further down, which would otherwise exit 0 silently and
     # skip the pointer.
     #
@@ -2366,8 +2366,8 @@ def main():
 
         # Test-run gate. `testRunSlugs` is the per-mode set of slugs whose
         # phase declares a non-None test_scope — a slug NOT in it may not run
-        # tests. This must fire BEFORE the "always allow codeyam-editor editor"
-        # short-circuit below, because `codeyam-editor editor refresh-tests` is
+        # tests. This must fire BEFORE the "always allow codeyam-editor-dev editor"
+        # short-circuit below, because `codeyam-editor-dev editor refresh-tests` is
         # itself a test run. Empty `testRunSlugs` (a stale v1/v2 cache) => no
         # gating, mirroring the `and commit_slugs` / `and push_slugs`
         # short-circuits below — a cache skew degrades to "allow", never "block
@@ -2414,7 +2414,7 @@ def main():
         # used to short-circuit the commit, push, code-change and PCRE gates
         # below. See `invokes_codeyam_editor`.
         if invokes_codeyam_editor(command):
-            allow("runs a `codeyam-editor editor` subcommand")
+            allow("runs a `codeyam-editor-dev editor` subcommand")
 
     # Always allow reading
     if tool_name in ("Read", "Glob", "Grep", "WebFetch", "WebSearch", "Agent"):
@@ -2591,10 +2591,10 @@ def main():
                     "git-commit",
                     f"git commit is only allowed at slug(s): {allowed}. "
                     f"You are at {_slug_label(state, slug)}.",
-                    "keep following the workflow — `codeyam-editor editor advance` "
+                    "keep following the workflow — `codeyam-editor-dev editor advance` "
                     f"until the {_commit_gate_phrase(commit_slugs)} slug, which commits for you. To read what "
                     "a later slug requires without moving the workflow pointer, run "
-                    "`codeyam-editor editor step --show --slug <slug>`.",
+                    "`codeyam-editor-dev editor step --show --slug <slug>`.",
                     reference="Plan-file commits (.codeyam/plans/*.md) are allowed at any step.",
                     detail=slug,
                     evidence=(
@@ -2618,7 +2618,7 @@ def main():
                     f"git add is only allowed at slug(s): {allowed}. "
                     f"You are at {_slug_label(state, slug)}.",
                     f"leave staging to the workflow — the {_commit_gate_phrase(commit_slugs)} slug runs "
-                    "`codeyam-editor editor stage-feature`, which stages this for you.",
+                    "`codeyam-editor-dev editor stage-feature`, which stages this for you.",
                     reference="Plan-file commits (.codeyam/plans/*.md) are allowed at any step, "
                     "and `git add` is permitted while a rebase/merge is paused mid-operation.",
                     detail=slug,
@@ -2639,7 +2639,7 @@ def main():
                     f"git push is only allowed at slug(s): {allowed}. "
                     f"You are at {_slug_label(state, slug)}.",
                     "keep advancing to the `push` slug, which runs "
-                    "`codeyam-editor editor push` with the queue held.",
+                    "`codeyam-editor-dev editor push` with the queue held.",
                     detail=slug,
                     evidence=(
                         f"{resolved_context(project_dir, state_path)}; `git push` is "

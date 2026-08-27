@@ -1,0 +1,138 @@
+[
+  {
+    "file": "/images/hero-r1.jpg",
+    "alt": "",
+    "width": 1500,
+    "height": 731,
+    "aspect": 2.052,
+    "where": "hero background r1"
+  },
+  {
+    "file": "/images/hero-r2.jpg",
+    "alt": "",
+    "width": 1500,
+    "height": 731,
+    "aspect": 2.052,
+    "where": "hero background r2"
+  },
+  {
+    "file": "/images/hero-r3.jpg",
+    "alt": "",
+    "width": 1500,
+    "height": 731,
+    "aspect": 2.052,
+    "where": "hero background r3"
+  },
+  {
+    "file": "/images/hero-r4.jpg",
+    "alt": "",
+    "width": 2200,
+    "height": 1057,
+    "aspect": 2.081,
+    "where": "hero background r4"
+  },
+  {
+    "file": "/images/nadia-working.jpg",
+    "alt": "Nadia working",
+    "width": 820,
+    "height": 1025,
+    "aspect": 0.8,
+    "where": "ws ws1"
+  },
+  {
+    "file": "/images/presenting-codeyam-at-the-vercel-ai-accelerator-demo.jpg",
+    "alt": "Presenting CodeYam at the Vercel AI Accelerator demo day",
+    "width": 820,
+    "height": 1025,
+    "aspect": 0.8,
+    "where": "ws ws2"
+  },
+  {
+    "file": "/images/working-through-a-ceo-evolution-map-at-founders-day.jpg",
+    "alt": "Working through a CEO Evolution Map at founders day",
+    "width": 800,
+    "height": 1000,
+    "aspect": 0.8,
+    "where": "ws ws3"
+  },
+  {
+    "file": "/images/graduating-from-harvard-college.jpg",
+    "alt": "Graduating from Harvard College",
+    "width": 800,
+    "height": 1000,
+    "aspect": 0.8,
+    "where": "ap ap1"
+  },
+  {
+    "file": "/images/riding-with-the-lyft-bikes-scooters-team-in-san-fran.jpg",
+    "alt": "Riding with the Lyft Bikes & Scooters team in San Francisco",
+    "width": 860,
+    "height": 1075,
+    "aspect": 0.8,
+    "where": "ap ap2"
+  },
+  {
+    "file": "/images/with-the-lyft-bikes-scooters-team-holding-a-bike-whe.jpg",
+    "alt": "With the Lyft Bikes & Scooters team, holding a bike wheel",
+    "width": 820,
+    "height": 1025,
+    "aspect": 0.8,
+    "where": "ap ap3"
+  },
+  {
+    "file": "/images/at-a-founders-day-event.jpg",
+    "alt": "At a founders day event",
+    "width": 860,
+    "height": 1075,
+    "aspect": 0.8,
+    "where": "ap ap4"
+  },
+  {
+    "file": "/images/running-the-full-marathon-at-boulderthon.jpg",
+    "alt": "Running the full marathon at Boulderthon",
+    "width": 1000,
+    "height": 781,
+    "aspect": 1.28,
+    "where": "adv adv1"
+  },
+  {
+    "file": "/images/trail-running-below-pikes-peak.jpg",
+    "alt": "Trail running below Pikes Peak",
+    "width": 667,
+    "height": 521,
+    "aspect": 1.28,
+    "where": "adv adv2"
+  },
+  {
+    "file": "/images/snowboarding-in-deep-snow.jpg",
+    "alt": "Snowboarding in deep snow",
+    "width": 1000,
+    "height": 781,
+    "aspect": 1.28,
+    "where": "adv adv3"
+  },
+  {
+    "file": "/images/getting-a-surfboard-ready-on-the-beach.jpg",
+    "alt": "Getting a surfboard ready on the beach",
+    "width": 792,
+    "height": 618,
+    "aspect": 1.282,
+    "where": "adv adv4"
+  },
+  {
+    "file": "/images/bouldering-on-a-rooftop-with-the-manhattan-skyline-b.jpg",
+    "alt": "Bouldering on a rooftop with the Manhattan skyline behind",
+    "width": 1000,
+    "height": 781,
+    "aspect": 1.28,
+    "where": "adv adv5"
+  },
+  {
+    "file": "/images/on-a-balcony-over-the-nile-in-cairo.jpg",
+    "alt": "On a balcony over the Nile in Cairo",
+    "width": 637,
+    "height": 497,
+    "aspect": 1.282,
+    "where": "adv adv6"
+  }
+]
