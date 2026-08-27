@@ -46,11 +46,11 @@
     {
       "id": "point-nseldeib-com-at-the-same-site-so-both",
       "text": "Point nseldeib.com at the same site so both domains serve it (DNS — assist track, non-build)",
-      "status": "deferred",
-      "resolvedAt": "2026-08-27T16:37:15.155872+00:00",
-      "resolvedInFeature": "Deployable contact pipeline: hosted Postgres + real email delivery",
+      "status": "delivered",
+      "resolvedAt": "2026-08-27T23:47:57.191693+00:00",
+      "resolvedInFeature": null,
       "planSlug": null,
-      "note": "Still deferred, confirmed by the user at this cycle's confirm-plan gate. Downstream of the nadiaeldeib.com cutover. nseldeib.com is already registered at Namecheap and already served by Vercel (216.198.79.1), so this is a project-attach rather than a nameserver move. The user also asked about consolidating registrars; advice given was to cut DNS over first and transfer nadiaeldeib.com from Squarespace to Namecheap afterwards, since the Squarespace-operated nameservers can stop serving the zone on transfer.",
+      "note": "PARTIAL-BY-DESIGN, precise status as of 2026-08-27: nseldeib.com IS cut over and verified; nadiaeldeib.com is NOT. The nseldeib.com action this deliverable names is complete: apex + www were moved off the v0-placeholder-website-concept Vercel project onto nadia-website, and Namecheap DNS was repointed (apex A -> 216.150.1.1 + 216.150.16.1; www CNAME -> a38a0ecb2694caae.vercel-dns-016.com, nadia-website's own target, replacing the old project's 124ee5543cf25088.vercel-dns-017.com). Verified: apex, www, and blog all 200; apex serves the rebuilt site byte-identically to the deployment (90,335 bytes); blog.nseldeib.com -> Substack untouched. The 'so both domains serve it' clause is NOT yet true and is deliberately NOT claimed here: nadiaeldeib.com still serves GitHub Pages and remains tracked by the separate deliverable 'publish-the-rebuilt-site-live-at-nadiaeldeib'. Marked delivered rather than deferred so the completed DNS work is not re-done; the outstanding half stays visible on the other row. Also outstanding on this domain: the apex 307-redirects to www, the opposite of the agreed www-to-apex direction, undecided by the user.",
       "decidedBy": "user"
     }
   ]

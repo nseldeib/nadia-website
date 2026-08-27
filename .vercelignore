@@ -1,0 +1,33 @@
+# CodeYam editor scaffolding — dev-only route surfaces.
+#
+# These directories are generated and used by the codeyam editor to render
+# components in isolation for scenario capture (`probe-isolation-routes`), and
+# to resolve scenario slugs to their target URL. They are needed by the LOCAL
+# dev server only.
+#
+# They already 404 in production via NODE_ENV guards in their layouts, but
+# excluding them here means they are never uploaded and never compiled into
+# routes at all — the production build has no trace of them.
+#
+# Safe to exclude: nothing outside these directories imports them. They are
+# leaf routes that import *from* components/, never the reverse.
+app/isolated-components/
+app/codeyam-isolate/
+app/scenario/
+
+# GitHub Pages artifact from the pre-Next.js site; meaningless to Vercel.
+CNAME
+
+# Local secrets. .vercelignore does NOT inherit .gitignore, so without this the
+# real .env / .env.local values are uploaded into the build context. Production
+# values come from the Vercel project's own environment variables instead.
+.env
+.env.*
+
+# Test and tooling surfaces that never belong in a production deploy.
+.codeyam/
+**/*.test.ts
+**/*.test.tsx
+vitest.config.ts
+playwright.config.ts
+app/api/__codeyam_revalidate/

@@ -1,43 +1,87 @@
-# Handoff — repo consolidation, 2026-08-27
+# Handoff — Vercel cutover, 2026-08-27
 
-## What happened
-`~/new-nadia-website` was retired as the working folder. **This repo
-(`~/nadia-website`) is now home.** It already contained everything that folder
-had — the rebuild was merged in at `b9e4fe6` ("Merge the Next.js rebuild,
-keeping both histories") — plus the old site's history and the GitHub remote.
-
-`~/new-nadia-website` HEAD was `02ac6e9`, a strict ancestor of `rebuild-nextjs`,
-with a clean tree. Nothing was lost. Only local, gitignored machine state was
-left behind (caches, logs, editor-step.json), and its `editor.local.json` held
-no real overrides. `open-codeyam.sh` is byte-identical.
-
-## FIRST THING TO DO: back up the branch
-`rebuild-nextjs` has **no upstream** — the rebuild exists only on this laptop.
-`main` is also 1 commit ahead of `origin/main`.
-
-    git push -u origin rebuild-nextjs
-
-Deliberately do NOT push `main` yet: it is the default branch serving the live
-GitHub Pages site, and pushing it may trigger a Pages rebuild. That belongs to
-the cutover, not the backup.
-
-Note the repo is PUBLIC. `.env` and `dev.db` are gitignored in both copies and
-only `.env.example` is tracked, so no secrets are exposed.
+Supersedes the repo-consolidation handoff. Everything that one told you to do
+is done: `~/new-nadia-website` is retired, `rebuild-nextjs` is pushed to
+`origin`, and the two build blockers it named (SQLite, unwired Resend) were
+fixed in `277e97a`.
 
 ## Where the project stands
-Three deliverables are delivered (rebuild, redesign, design exploration). Two
-are deferred to this consolidation-and-cutover phase:
+
+Three deliverables delivered: the rebuild, the Night Field redesign, the design
+exploration. Two remain, both non-build and both in flight as of this session:
+
   - publish live at nadiaeldeib.com
   - point nseldeib.com at the same site
 
-Both are blocked by real build work that has NOT been done:
-  - `prisma/schema.prisma` still uses `provider = "sqlite"`; GitHub Pages does
-    a static export and cannot host the `/api/contact` route or a database.
-  - Resend is unwired — `app/api/contact/route.ts` writes the Message row and
-    leaves the send as a commented-out TODO, so `emailedAt` is always null.
+## Live serving state — READ BEFORE TOUCHING `main`
 
-## Correction to carry forward
-The saved decision to use `@codeyam/cms` as the content layer assumed an Astro
-site. This site is **Next.js**, and that package is an Astro integration whose
-`integrate` CLI refuses to run outside an Astro project. If content-editing
-comes up, that choice needs re-researching for Next.js — do not install it.
+| Domain | Serves | Registrar / NS |
+| --- | --- | --- |
+| nadiaeldeib.com | **GitHub Pages, from `main`** | Squarespace, `ns-cloud-*.googledomains.com` |
+| nseldeib.com | Vercel, project `v0-placeholder-website-concept` | Namecheap, `dns*.registrar-servers.com` |
+
+GitHub Pages is ACTIVE (`gh api repos/nseldeib/nadia-website/pages` → status
+`built`, cname `nadiaeldeib.com`, HTTPS cert approved through 2026-11-05).
+
+**The trap:** merging `rebuild-nextjs` into `main` and pushing triggers a Pages
+rebuild. Pages cannot build a Next.js app — it would serve a broken site at
+nadiaeldeib.com while DNS still points there. Move DNS off Pages FIRST, then
+merge. The root `CNAME` file is load-bearing until Pages is disabled; do not
+delete it early.
+
+## Vercel
+
+Project `nseldeib-projects/nadia-website` (`prj_EzNt39XJCeE1ktBeXhCrnNrUGqFi`)
+is created and linked. `DATABASE_URL` and `CUSTOMERIO_SEND_TOKEN` are set for
+production and preview. A preview deploy builds green.
+
+### `.vercelignore` — why it exists
+
+The production build shipped 37 routes: `/`, `/api/contact`, and 35 codeyam
+scaffolding routes. Those scaffolding routes each carried a
+`NODE_ENV === 'production'` → `notFound()` guard, so they were never *reachable*
+— but they were still compiled as serverless functions. `.vercelignore` now
+excludes them so they are never uploaded and never built. Production is three
+routes: `/`, `/_not-found`, `/api/contact`.
+
+The files stay in the repo, so the local dev server and
+`codeyam-editor-dev editor probe-isolation-routes` are unaffected. This is
+deploy config only — no application source changed.
+
+It also excludes `.env`/`.env.*`. `.vercelignore` does NOT inherit `.gitignore`,
+and the first deploy of this session uploaded the real Neon and Customer.io
+secrets into the build context before this was added. They were exposed only
+within the user's own Vercel account; the user was told and can rotate.
+
+### Two `package.json` fixes were required to deploy at all
+
+  - `build` is now `prisma generate && next build`. Prisma 7 generates into
+    `node_modules/@prisma/client`, which Vercel does not restore — without this
+    the first deploy failed with `TS2305: Module '@prisma/client' has no
+    exported member 'PrismaClient'`. It passed locally only because the
+    generated client already existed on disk.
+  - `postinstall` is now `[ -n "$VERCEL" ] || playwright install chromium`. It
+    was downloading a full headless Chrome into every production build.
+
+## Remaining sequence
+
+1. `vercel deploy --prod` → verify at `nadia-website-ten.vercel.app`
+2. Exercise the contact form against the deployed instance (see caveat below)
+3. Move nseldeib.com from `v0-placeholder-website-concept` to `nadia-website`
+4. User reviews the real thing
+5. Merge `rebuild-nextjs` → `main`
+6. Add nadiaeldeib.com in Vercel; change DNS at Squarespace; verify
+7. Disable GitHub Pages; delete the root `CNAME`
+
+## Carried-forward caveats
+
+  - The codeyam preview cannot reach the database: the editor injects
+    `PGHOST=127.0.0.1 PGPORT=14252` but nothing listens on 14252, so in-preview
+    form submissions hang for 60s. Unrelated to deployment; verify the form
+    against the deployed instance instead.
+  - Customer.io: the working send credential is the `sa_sandbox_*`
+    service-account token as `CUSTOMERIO_SEND_TOKEN`. The Stripe-provisioned
+    `NADIA_MAIL_SITE_ID` / `NADIA_MAIL_API_KEY` are Track API credentials and
+    are rejected by the send endpoint.
+  - `@codeyam/cms` is an Astro integration. This site is Next.js. Do not
+    install it if content-editing comes up; re-research first.
