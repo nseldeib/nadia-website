@@ -135,7 +135,6 @@ blob-report/
 docker-compose.cloud.yml
 
 # Local env (secrets live here; Vercel holds the real ones)
-.env
 
 # codeyam-editor:start
 # Managed by `codeyam-editor init` / `codeyam-editor start`.
@@ -227,3 +226,11 @@ blob-report/
 .claude/hooks/__pycache__/
 docker-compose.cloud.yml
 # codeyam-editor:end
+
+.projects/cache
+.projects/vault
+.projects/state.test.json
+.projects/state.local.test.json
+.env
+.env.*
+!.env.example
