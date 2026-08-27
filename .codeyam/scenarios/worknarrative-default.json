@@ -1,0 +1,12 @@
+{
+  "name": "WorkNarrative - Default",
+  "id": "fb5769c9-b918-42d8-b28e-16304e662676",
+  "url": "/isolated-components/WorkNarrative?s=Default",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "WorkNarrative",
+  "scenarioType": "component",
+  "description": "The prose column: north star first, then what she is building."
+}

@@ -1,0 +1,12 @@
+{
+  "name": "ContactForm - Default",
+  "id": "1ceab295-1577-4e84-9f71-5a577dd7598f",
+  "url": "/isolated-components/ContactForm?s=Default",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "ContactForm",
+  "scenarioType": "component",
+  "description": "The note form at rest, before anything is typed."
+}

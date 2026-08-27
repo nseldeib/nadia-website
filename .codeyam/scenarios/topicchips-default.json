@@ -1,0 +1,12 @@
+{
+  "name": "TopicChips - Default",
+  "id": "5faab79c-aac1-4f0f-abee-3505bf079fd3",
+  "url": "/isolated-components/TopicChips?s=Default",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "TopicChips",
+  "scenarioType": "component",
+  "description": "The chips with the first one selected, as the form starts."
+}

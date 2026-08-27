@@ -1,0 +1,12 @@
+{
+  "name": "TypedHeadline - Default",
+  "id": "e3b2f42d-41e5-4f5a-8b19-631e6838f0e7",
+  "url": "/isolated-components/TypedHeadline?s=Default",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "TypedHeadline",
+  "scenarioType": "component",
+  "description": "The real headline; step counts derive from each line's characters."
+}

@@ -1,0 +1,12 @@
+{
+  "name": "WritingIntro - Default",
+  "id": "04c20bdf-ec9b-4caf-8e5b-21db5098f312",
+  "url": "/isolated-components/WritingIntro?s=Default",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "WritingIntro",
+  "scenarioType": "component",
+  "description": "What she writes about, and the way through to everything else."
+}

@@ -1,0 +1,12 @@
+{
+  "name": "TypedHeadline - Many",
+  "id": "c7d0dcd1-9a08-4389-a371-ac47442f6a53",
+  "url": "/isolated-components/TypedHeadline?s=Many",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "TypedHeadline",
+  "scenarioType": "component",
+  "description": "Three lines, so the per-line stagger accumulates rather than firing together."
+}

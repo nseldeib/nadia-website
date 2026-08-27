@@ -1,0 +1,12 @@
+{
+  "name": "SocialList - Default",
+  "id": "5f841241-8128-4183-958c-4eec602002db",
+  "url": "/isolated-components/SocialList?s=Default",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "SocialList",
+  "scenarioType": "component",
+  "description": "The profiles, ordered the way she actually uses them."
+}

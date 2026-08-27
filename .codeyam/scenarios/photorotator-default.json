@@ -1,0 +1,12 @@
+{
+  "name": "PhotoRotator - Default",
+  "id": "c6f297a1-402b-4eac-9a2a-059763cf8eb1",
+  "url": "/isolated-components/PhotoRotator?s=Default",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "PhotoRotator",
+  "scenarioType": "component",
+  "description": "The Work rotation: a portrait-aspect set on the shared eight-second slot."
+}

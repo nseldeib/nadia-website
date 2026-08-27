@@ -1,0 +1,12 @@
+{
+  "name": "NavLinks - ElsewhereActive",
+  "id": "4852b6b2-1617-46f9-89b6-808d3a1598dc",
+  "url": "/isolated-components/NavLinks?s=ElsewhereActive",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "NavLinks",
+  "scenarioType": "component",
+  "description": "The last section active, proving the indicator works at the end of the row."
+}

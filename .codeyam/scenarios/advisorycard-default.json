@@ -1,0 +1,12 @@
+{
+  "name": "AdvisoryCard - Default",
+  "id": "99a98e72-d802-4c2d-9161-405b5cbcb05a",
+  "url": "/isolated-components/AdvisoryCard?s=Default",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "AdvisoryCard",
+  "scenarioType": "component",
+  "description": "The advisory offer, closed: the offer reads and the scope is one click away."
+}

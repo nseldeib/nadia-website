@@ -1,0 +1,33 @@
+.section {
+  position: relative;
+  padding: var(--spacing-section) 0 var(--spacing-2xl);
+  border-top: 1px solid var(--rule);
+}
+.wrap {
+  max-width: var(--wrap-max);
+  margin: 0 auto;
+  padding: 0 var(--wrap-pad);
+}
+.heading {
+  font-size: var(--text-section);
+}
+.body {
+  max-width: var(--measure);
+}
+.body p {
+  margin: 0;
+  color: var(--ink-2);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+}
+.body p + p {
+  margin-top: var(--spacing-sm);
+}
+@media (max-width: 860px) {
+  .section {
+    padding: var(--spacing-xl) 0;
+  }
+  .wrap {
+    padding: 0 24px;
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "FooterSignoff - Unlinked",
+  "id": "e80cc741-31fa-4c5b-baec-2b1eabc0ac39",
+  "url": "/isolated-components/FooterSignoff?s=Unlinked",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "FooterSignoff",
+  "scenarioType": "component",
+  "description": "No href, so the brand reads as part of the sentence but is not a link."
+}

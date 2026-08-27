@@ -1,0 +1,12 @@
+{
+  "name": "Footer - Default",
+  "id": "b2e694d8-1925-437f-9c7e-90070db02fda",
+  "url": "/isolated-components/Footer?s=Default",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "Footer",
+  "scenarioType": "component",
+  "description": "Footer navigation and the signoff with the brand linked in place."
+}

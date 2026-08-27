@@ -1,0 +1,12 @@
+{
+  "name": "Field - Default",
+  "id": "b13e9b53-0c40-411b-af42-4d4156c22566",
+  "url": "/isolated-components/Field?s=Default",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "Field",
+  "scenarioType": "component",
+  "description": "A labelled control at rest, with nothing to correct."
+}

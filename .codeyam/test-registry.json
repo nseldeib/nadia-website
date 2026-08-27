@@ -1,0 +1,329 @@
+{
+  "tests": [
+    {
+      "description": "The contact section is last and is a real target, so the final entry must be reachable rather than dropping off the end.",
+      "file": "app/lib/activeSection.test.ts",
+      "format": "vitest",
+      "key": "pickActive › can return the last section",
+      "line": 43,
+      "registeredAt": "2026-08-26T22:20:16Z",
+      "runner": "tests"
+    },
+    {
+      "description": "Observer callbacks arrive in whatever order the browser batches them, so the answer must not depend on insertion order of the visible set.",
+      "file": "app/lib/activeSection.test.ts",
+      "format": "vitest",
+      "key": "pickActive › does not depend on the order ids were added to the set",
+      "line": 27,
+      "registeredAt": "2026-08-26T22:20:16Z",
+      "runner": "tests"
+    },
+    {
+      "description": "A stale id left in the set by a removed section must not win, or the nav would highlight something that is no longer on the page.",
+      "file": "app/lib/activeSection.test.ts",
+      "format": "vitest",
+      "key": "pickActive › ignores ids that are not in the ordered list",
+      "line": 36,
+      "registeredAt": "2026-08-26T22:20:16Z",
+      "runner": "tests"
+    },
+    {
+      "description": "Nothing crosses the band while the hero fills the screen, and the nav indicator is meant to be absent there rather than guessing at a section.",
+      "file": "app/lib/activeSection.test.ts",
+      "format": "vitest",
+      "key": "pickActive › is null when nothing is visible",
+      "line": 9,
+      "registeredAt": "2026-08-26T22:20:16Z",
+      "runner": "tests"
+    },
+    {
+      "description": "An empty order is the pre-hydration case: no sections found in the DOM yet.",
+      "file": "app/lib/activeSection.test.ts",
+      "format": "vitest",
+      "key": "pickActive › is null when there is no ordered list",
+      "line": 48,
+      "registeredAt": "2026-08-26T22:20:16Z",
+      "runner": "tests"
+    },
+    {
+      "description": "Sections are contiguous, so during a scroll two can briefly both report visible. Document order breaks the tie, which keeps the indicator moving forward instead of flickering back and forth.",
+      "file": "app/lib/activeSection.test.ts",
+      "format": "vitest",
+      "key": "pickActive › prefers the earliest in document order when several are visible",
+      "line": 21,
+      "registeredAt": "2026-08-26T22:20:16Z",
+      "runner": "tests"
+    },
+    {
+      "description": "The ordinary case: exactly one section crosses the band.",
+      "file": "app/lib/activeSection.test.ts",
+      "format": "vitest",
+      "key": "pickActive › returns the one visible section",
+      "line": 14,
+      "registeredAt": "2026-08-26T22:20:16Z",
+      "runner": "tests"
+    },
+    {
+      "description": "The brand sitting at either end is a real case: no stray empty segment, and the rendered sentence must be byte-identical to the input.",
+      "file": "app/lib/text.test.ts",
+      "format": "vitest",
+      "key": "splitOnBrand › handles the brand at the start or the end",
+      "line": 36,
+      "registeredAt": "2026-08-26T22:17:48.634180+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Matching is case-sensitive on purpose: the brand is a proper noun, and linking a lowercase \"codeyam\" mid-sentence would be wrong.",
+      "file": "app/lib/text.test.ts",
+      "format": "vitest",
+      "key": "splitOnBrand › is case-sensitive",
+      "line": 47,
+      "registeredAt": "2026-08-26T22:17:48.634180+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Reassembly is the real invariant: before + brand + after must reproduce the original exactly, or the footer would quietly change her words.",
+      "file": "app/lib/text.test.ts",
+      "format": "vitest",
+      "key": "splitOnBrand › reassembles to the original string",
+      "line": 60,
+      "registeredAt": "2026-08-26T22:17:48.634180+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "If the copy is ever edited to drop the brand, the whole string must still render — silently losing the signoff would be worse than not linking it.",
+      "file": "app/lib/text.test.ts",
+      "format": "vitest",
+      "key": "splitOnBrand › returns the whole string when the brand is absent",
+      "line": 17,
+      "registeredAt": "2026-08-26T22:17:48.634180+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "The footer signoff is one authored string with the brand inside it. The split is what lets the brand become a link without hard-coding the copy.",
+      "file": "app/lib/text.test.ts",
+      "format": "vitest",
+      "key": "splitOnBrand › splits a sentence around the brand",
+      "line": 7,
+      "registeredAt": "2026-08-26T22:17:48.634180+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Only the first occurrence is linked. Linking the same word twice in one line reads as a mistake, and the second half must keep its text.",
+      "file": "app/lib/text.test.ts",
+      "format": "vitest",
+      "key": "splitOnBrand › splits on the first occurrence only",
+      "line": 27,
+      "registeredAt": "2026-08-26T22:17:48.634180+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Empty inputs must not throw or produce undefined halves, since the result is spread straight into JSX.",
+      "file": "app/lib/text.test.ts",
+      "format": "vitest",
+      "key": "splitOnBrand › survives empty input",
+      "line": 53,
+      "registeredAt": "2026-08-26T22:17:48.634180+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "JSON from the wire is untrusted: a number, a null, or an object where a string belongs must collapse to empty rather than reach a length check.",
+      "file": "app/lib/validateMessage.test.ts",
+      "format": "vitest",
+      "key": "str › returns empty for a non-string",
+      "line": 18,
+      "registeredAt": "2026-08-26T22:17:48.634180+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Surrounding whitespace is the difference between a name and a name with a stray paste, so the coercion has to trim before anything else sees it.",
+      "file": "app/lib/validateMessage.test.ts",
+      "format": "vitest",
+      "key": "str › trims a string",
+      "line": 14,
+      "registeredAt": "2026-08-26T22:17:48.634180+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "The request shape is a contract with the route: POST, JSON content type, and sourcePage folded into the body alongside the form values.",
+      "file": "app/lib/submitMessage.test.ts",
+      "format": "vitest",
+      "key": "submitMessage › POSTs JSON to the contact route with sourcePage attached",
+      "line": 78,
+      "registeredAt": "2026-08-26T22:17:48.634180+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "An error response with no readable body still has to produce a message, because the form renders one unconditionally on failure.",
+      "file": "app/lib/submitMessage.test.ts",
+      "format": "vitest",
+      "key": "submitMessage › falls back to a message when the error body is unreadable",
+      "line": 58,
+      "registeredAt": "2026-08-26T22:17:48.634180+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A server error carries its own copy; the form should show that rather than inventing a message.",
+      "file": "app/lib/submitMessage.test.ts",
+      "format": "vitest",
+      "key": "submitMessage › passes through the server error message on a 500",
+      "line": 48,
+      "registeredAt": "2026-08-26T22:17:48.634180+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A thrown fetch means the request never landed. That is as likely to be the server as the connection, so the copy must not pick a culprit.",
+      "file": "app/lib/submitMessage.test.ts",
+      "format": "vitest",
+      "key": "submitMessage › reports a failure when fetch throws",
+      "line": 69,
+      "registeredAt": "2026-08-26T22:17:48.634180+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "The happy path. A 201 is the only signal the form uses to swap itself for the confirmation, so it must not be conflated with anything else.",
+      "file": "app/lib/submitMessage.test.ts",
+      "format": "vitest",
+      "key": "submitMessage › reports sent on a 2xx",
+      "line": 25,
+      "registeredAt": "2026-08-26T22:17:48.634180+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Field problems come back as a 422 and must reach the form as per-field messages, not as a generic failure that discards them.",
+      "file": "app/lib/submitMessage.test.ts",
+      "format": "vitest",
+      "key": "submitMessage › surfaces per-field problems from a 422",
+      "line": 32,
+      "registeredAt": "2026-08-26T22:17:48.634180+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A 422 with no problems object is a malformed response, not a field error. Treating it as \"invalid\" would leave the form with nothing to point at.",
+      "file": "app/lib/submitMessage.test.ts",
+      "format": "vitest",
+      "key": "submitMessage › treats a 422 without problems as a failure",
+      "line": 40,
+      "registeredAt": "2026-08-26T22:17:48.634180+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "The regression this file exists to prevent: the allow-list was written out by hand and drifted from the chips, so the form's own default selection (\"Working together\") came back 422 and the note could not be sent.",
+      "file": "app/lib/validateMessage.test.ts",
+      "format": "vitest",
+      "key": "the topic allow-list and the form agree › accepts every topic the form actually offers",
+      "line": 123,
+      "registeredAt": "2026-08-26T22:17:48.634180+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "The default is what someone sends if they never touch the chips, so it has to be valid even more surely than the rest.",
+      "file": "app/lib/validateMessage.test.ts",
+      "format": "vitest",
+      "key": "the topic allow-list and the form agree › accepts the chip the form selects by default",
+      "line": 140,
+      "registeredAt": "2026-08-26T22:17:48.634180+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "The baseline: an ordinary note passes clean and hands back the parsed value, which is what the route persists.",
+      "file": "app/lib/validateMessage.test.ts",
+      "format": "vitest",
+      "key": "validateMessage › accepts a well-formed message",
+      "line": 29,
+      "registeredAt": "2026-08-26T22:17:48.634180+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Deliberately permissive. Plus-addressing, apostrophes, and subdomains are all real addresses that a clever pattern would turn away.",
+      "file": "app/lib/validateMessage.test.ts",
+      "format": "vitest",
+      "key": "validateMessage › accepts addresses a stricter pattern would wrongly reject",
+      "line": 78,
+      "registeredAt": "2026-08-26T22:17:48.634180+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Topic is a closed set backing the form's chips. Anything outside it is a forged payload, and an empty topic is the unset case.",
+      "file": "app/lib/validateMessage.test.ts",
+      "format": "vitest",
+      "key": "validateMessage › accepts every listed topic and rejects anything else",
+      "line": 45,
+      "registeredAt": "2026-08-26T22:17:48.634180+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "sourcePage is optional context for triage, so it passes through when sent and becomes an explicit null rather than undefined when it is not.",
+      "file": "app/lib/validateMessage.test.ts",
+      "format": "vitest",
+      "key": "validateMessage › carries sourcePage through, or null when absent",
+      "line": 105,
+      "registeredAt": "2026-08-26T22:17:48.634180+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "The limits guard the column widths. Checking the boundary both ways proves the comparison is not off by one and does not reject a legitimate maximum.",
+      "file": "app/lib/validateMessage.test.ts",
+      "format": "vitest",
+      "key": "validateMessage › enforces the length limits",
+      "line": 86,
+      "registeredAt": "2026-08-26T22:17:48.634180+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "The one thing worth rejecting is an address that cannot receive a reply: no @, nothing either side of it, or a domain with no dot.",
+      "file": "app/lib/validateMessage.test.ts",
+      "format": "vitest",
+      "key": "validateMessage › rejects an address with no @ or no dotted domain",
+      "line": 70,
+      "registeredAt": "2026-08-26T22:17:48.634180+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "The form marks every bad field at once. Bailing on the first problem would walk someone through their mistakes one reload at a time.",
+      "file": "app/lib/validateMessage.test.ts",
+      "format": "vitest",
+      "key": "validateMessage › reports every problem at once, not just the first",
+      "line": 96,
+      "registeredAt": "2026-08-26T22:17:48.634180+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A note with no name or no reply address cannot be answered, which is the only thing this form exists to make possible.",
+      "file": "app/lib/validateMessage.test.ts",
+      "format": "vitest",
+      "key": "validateMessage › requires a name, an email, and a body",
+      "line": 55,
+      "registeredAt": "2026-08-26T22:17:48.634180+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A body that is not an object at all must fail as invalid input rather than throwing, so the route can answer 422 instead of 500.",
+      "file": "app/lib/validateMessage.test.ts",
+      "format": "vitest",
+      "key": "validateMessage › survives a non-object payload",
+      "line": 112,
+      "registeredAt": "2026-08-26T22:17:48.634180+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Spaces and newlines are not content. Without this, a field holding only whitespace passes the truthiness check and stores as blank.",
+      "file": "app/lib/validateMessage.test.ts",
+      "format": "vitest",
+      "key": "validateMessage › treats whitespace-only input as missing",
+      "line": 63,
+      "registeredAt": "2026-08-26T22:17:48.634180+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Trimming has to happen before validation, not after, or a padded name both passes the empty check and gets stored with its padding.",
+      "file": "app/lib/validateMessage.test.ts",
+      "format": "vitest",
+      "key": "validateMessage › trims every field before validating",
+      "line": 38,
+      "registeredAt": "2026-08-26T22:17:48.634180+00:00",
+      "runner": "tests"
+    }
+  ],
+  "version": 2
+}

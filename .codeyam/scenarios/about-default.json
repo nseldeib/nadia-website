@@ -1,0 +1,12 @@
+{
+  "name": "About - Default",
+  "id": "2d386494-6cbd-4b26-a22a-49299526ebbd",
+  "url": "/isolated-components/About?s=Default",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "About",
+  "scenarioType": "component",
+  "description": "Section 02, the page's one light surface, carrying the most body copy."
+}

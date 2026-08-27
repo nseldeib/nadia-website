@@ -1,0 +1,12 @@
+{
+  "name": "TypedHeadline - ShortLine",
+  "id": "c9097c41-8fc0-4f11-8412-90a2c016a8bc",
+  "url": "/isolated-components/TypedHeadline?s=ShortLine",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "TypedHeadline",
+  "scenarioType": "component",
+  "description": "A single short line, checking the cursor sits on the text edge."
+}

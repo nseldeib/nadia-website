@@ -1,0 +1,12 @@
+{
+  "name": "ExternalLinkIcon - Default",
+  "id": "3a1d656f-638a-4e15-878a-fbfaa378f4f3",
+  "url": "/isolated-components/ExternalLinkIcon?s=Default",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "ExternalLinkIcon",
+  "scenarioType": "component",
+  "description": "The arrow marking a link as leaving the site."
+}

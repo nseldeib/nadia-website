@@ -1,0 +1,18 @@
+[
+  {
+    "name": "Message",
+    "description": "A note someone sends through the contact form. This is the only data the site persists — the page content itself lives in the repo as files, not in the database, so the CMS can version it. The handler writes the row first and sends the email second, so a mail-provider failure can never lose a message. Production starts empty: nobody has written yet, and that is the correct day-one state.",
+    "category": "datastore",
+    "order": 1,
+    "fields": [
+      { "name": "id", "type": "number", "isId": true, "required": true },
+      { "name": "topic", "type": "string", "required": true },
+      { "name": "name", "type": "string", "required": true },
+      { "name": "email", "type": "string", "required": true },
+      { "name": "body", "type": "string", "required": true },
+      { "name": "createdAt", "type": "date", "required": true },
+      { "name": "emailedAt", "type": "date", "required": false },
+      { "name": "sourcePage", "type": "string", "required": false }
+    ]
+  }
+]

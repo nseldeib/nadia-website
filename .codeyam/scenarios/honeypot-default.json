@@ -1,0 +1,12 @@
+{
+  "name": "Honeypot - Default",
+  "id": "cbb875a1-747f-47c2-8f4c-f862781b0303",
+  "url": "/isolated-components/Honeypot?s=Default",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "Honeypot",
+  "scenarioType": "component",
+  "description": "Hidden from people by design, so an empty capture is the assertion."
+}

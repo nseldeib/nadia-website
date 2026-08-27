@@ -1,0 +1,12 @@
+{
+  "name": "Nav - Default",
+  "id": "69dd3ec3-f813-459f-b228-1f44b0425be7",
+  "url": "/isolated-components/Nav?s=Default",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "Nav",
+  "scenarioType": "component",
+  "description": "The header and its section indicator, with the number to the left of the label mirroring the section heads."
+}

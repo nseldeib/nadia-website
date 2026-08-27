@@ -1,0 +1,42 @@
+{
+  "seed": {
+    "Message": [
+      {
+        "topic": "consulting",
+        "name": "Priya Raghunathan",
+        "email": "priya@northfieldlabs.com",
+        "body": "We're four people building a research tool for materials scientists and we keep rebuilding the same simulation UI three different ways. Saw the CodeYam demo and wondered whether you'd be up for a conversation about where we're going wrong before we commit to another rewrite.",
+        "createdAt": "2026-08-24T09:12:00.000Z",
+        "emailedAt": "2026-08-24T09:12:04.000Z",
+        "sourcePage": "/"
+      },
+      {
+        "topic": "speaking",
+        "name": "Tom\u00e1s Berrio",
+        "email": "tberrio@frontendconf.eu",
+        "body": "Frontend Conf, Lisbon, March. We have a 30-minute slot on the second morning and I'd love it to be about software simulation \u2014 most of our audience has never heard the term and I think that's exactly why it would land. Travel and accommodation covered.",
+        "createdAt": "2026-08-21T16:40:00.000Z",
+        "emailedAt": "2026-08-21T16:40:03.000Z",
+        "sourcePage": "/"
+      },
+      {
+        "topic": "press",
+        "name": "Dana Whitlock",
+        "email": "d.whitlock@theinformation.com",
+        "body": "Working on a piece about the shift from AI coding assistants to AI development environments, and CodeYam Editor came up twice in my reporting this week. Any chance of 20 minutes before Friday?",
+        "createdAt": "2026-08-19T22:05:00.000Z",
+        "emailedAt": null,
+        "sourcePage": "/"
+      },
+      {
+        "topic": "hello",
+        "name": "Sam",
+        "email": "sam.okonkwo@gmail.com",
+        "body": "Just wanted to say the piece on creativity being the constraint put words to something I've been circling for a year. No ask. Thanks for writing it.",
+        "createdAt": "2026-08-18T07:33:00.000Z",
+        "emailedAt": "2026-08-18T07:33:02.000Z",
+        "sourcePage": "/"
+      }
+    ]
+  }
+}

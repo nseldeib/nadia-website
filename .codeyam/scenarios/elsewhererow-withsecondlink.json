@@ -1,0 +1,12 @@
+{
+  "name": "ElsewhereRow - WithSecondLink",
+  "id": "4d3dbbb2-6982-4507-9807-a4b18806afc4",
+  "url": "/isolated-components/ElsewhereRow?s=WithSecondLink",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "ElsewhereRow",
+  "scenarioType": "component",
+  "description": "A row carrying a second home, which renders the extra IMDb link."
+}

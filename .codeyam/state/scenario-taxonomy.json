@@ -1,0 +1,36 @@
+{
+  "views": {
+    "Page": {
+      "empty": {
+        "status": "n-a",
+        "reason": "Every collection on this page (posts, Elsewhere rows, socials, cities, facts) comes from content/site.json at build time, not from a queryable store, so no seed can produce a zero-row route. The Message table the scenario seeds is write-only from a visitor's side and never rendered. Emptiness is covered where it is actually controllable, at component level: photorotator-empty and typedheadline-empty."
+      },
+      "single": {
+        "status": "n-a",
+        "reason": "Same reason as empty: collection sizes are authored content, not runtime data. The empty-to-many boundary is covered at component level by worklinklist-single and photorotator-single."
+      },
+      "typical": {
+        "status": "covered"
+      },
+      "many": {
+        "status": "n-a",
+        "reason": "Same reason as empty: no seed can grow an authored collection. Overflow behaviour is covered at component level by photorotator-many and typedheadline-many."
+      },
+      "loading": {
+        "status": "n-a",
+        "reason": "The route is server-rendered from a content module with no client fetch on load, so there is no pending state to show. The only async work a visitor triggers is the contact submit, whose in-flight state is the disabled Sending button inside ContactForm."
+      },
+      "edge": {
+        "status": "n-a",
+        "reason": "Copy lengths are fixed authored text rather than variable data, so long, short, and missing-optional cases cannot arise at runtime. They are covered at component level by typedheadline-shortline, footersignoff-nobrand, and elsewhererow-default versus elsewhererow-withsecondlink."
+      },
+      "error": {
+        "status": "n-a",
+        "reason": "The page itself has no failure path: it reads no store and awaits nothing. The one thing that can fail is sending a note, and that state has its own captured scenario, formfailure-default."
+      },
+      "key-interaction": {
+        "status": "covered"
+      }
+    }
+  }
+}

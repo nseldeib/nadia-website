@@ -1,0 +1,12 @@
+{
+  "name": "HeroBackdrop - Default",
+  "id": "f5f32f05-daa7-476a-a0a6-ec11faa51778",
+  "url": "/isolated-components/HeroBackdrop?s=Default",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "HeroBackdrop",
+  "scenarioType": "component",
+  "description": "The full-bleed rotation behind the headline."
+}

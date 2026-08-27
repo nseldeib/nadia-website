@@ -1,0 +1,12 @@
+{
+  "name": "TopicChips - LastSelected",
+  "id": "cb8d5ed0-11f4-4703-bd98-225719d2d502",
+  "url": "/isolated-components/TopicChips?s=LastSelected",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "TopicChips",
+  "scenarioType": "component",
+  "description": "The last chip selected, proving the style is not tied to first position."
+}

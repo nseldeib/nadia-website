@@ -1,0 +1,12 @@
+{
+  "name": "FooterSignoff - Linked",
+  "id": "c12ced13-e8c4-4da9-9f53-f1b530227af4",
+  "url": "/isolated-components/FooterSignoff?s=Linked",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "FooterSignoff",
+  "scenarioType": "component",
+  "description": "The linked case stated literally, so the brand is unambiguously a link."
+}

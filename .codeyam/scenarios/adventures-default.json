@@ -1,0 +1,12 @@
+{
+  "name": "Adventures - Default",
+  "id": "a2f4a038-8ee1-4f11-886f-92c812f32351",
+  "url": "/isolated-components/Adventures?s=Default",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "Adventures",
+  "scenarioType": "component",
+  "description": "Section 04. Three paragraphs and one rotating frame."
+}

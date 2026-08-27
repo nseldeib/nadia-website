@@ -1,0 +1,131 @@
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 40;
+  --navink: #fff;
+  --navaccent: #f3b58c;
+  --navline: rgba(255, 255, 255, 0.5);
+  transition: background var(--transition-base), backdrop-filter var(--transition-base);
+  /* Over the hero photo: a scrim keeps light type readable. */
+  background: linear-gradient(to bottom, rgba(20, 17, 14, 0.42), rgba(20, 17, 14, 0));
+}
+
+/* Past the hero the bar goes solid and the ink flips to the page palette. */
+.solid {
+  --navink: var(--ink);
+  --navaccent: var(--rust);
+  --navline: var(--rule);
+  background: rgba(20, 17, 15, 0.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--rule);
+}
+
+.wrap {
+  max-width: var(--wrap-max);
+  margin: 0 auto;
+  padding: 0 var(--wrap-pad);
+  height: var(--nav-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: height var(--transition-base);
+}
+.solid .wrap {
+  height: var(--nav-height-scrolled);
+}
+
+.mark {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-bold);
+  font-size: 18px;
+  letter-spacing: var(--tracking-tight);
+  color: var(--navink);
+  text-decoration: none;
+}
+.mark em {
+  font-style: normal;
+  color: var(--navaccent);
+}
+
+.links {
+  display: flex;
+  gap: 30px;
+  font-size: var(--text-nav);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.link {
+  position: relative;
+  color: var(--navink);
+  opacity: 0.82;
+  text-decoration: none;
+  transition: opacity var(--transition-base);
+}
+.link[data-active] {
+  opacity: 1;
+}
+
+/* The number lives in the existing 30px gap, so its arrival costs no layout. */
+.link::before {
+  content: attr(data-n);
+  position: absolute;
+  right: 100%;
+  margin-right: 7px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-mono-stack);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--navaccent);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-base);
+}
+.link[data-active]::before {
+  opacity: 1;
+}
+
+.link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 1px;
+  background: var(--navaccent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--transition-base);
+}
+.link[data-active]::after,
+.link:hover::after {
+  transform: scaleX(1);
+}
+
+.cta {
+  font-size: var(--text-nav);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--navink);
+  border: 1px solid var(--navline);
+  border-radius: var(--radius-pill);
+  padding: 8px 16px;
+  text-decoration: none;
+  transition: background var(--transition-base), color var(--transition-base),
+    border-color var(--transition-base);
+}
+.cta:hover,
+.cta[data-here] {
+  background: var(--navink);
+  color: #14110f;
+  border-color: var(--navink);
+}
+
+@media (max-width: 860px) {
+  .links {
+    display: none;
+  }
+}

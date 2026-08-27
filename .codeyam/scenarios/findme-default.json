@@ -1,0 +1,12 @@
+{
+  "name": "FindMe - Default",
+  "id": "ad7b3b4c-517d-4afa-9574-71b2ffd99a9b",
+  "url": "/isolated-components/FindMe?s=Default",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "FindMe",
+  "scenarioType": "component",
+  "description": "The profiles and where she is, sharing the section with the form."
+}

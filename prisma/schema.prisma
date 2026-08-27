@@ -21,3 +21,20 @@ datasource db {
 // generate a client with no model accessors until
 // you add one.
 // ──────────────────────────────────────────────
+
+// The only thing this site persists. Page content lives in the repo as files so
+// the CMS can version it; this table holds notes people send through the form.
+// The handler writes the row first and mails second, so `emailedAt` staying null
+// is the durable record that a message arrived but delivery failed.
+model Message {
+  id         Int      @id @default(autoincrement())
+  topic      String
+  name       String
+  email      String
+  body       String
+  createdAt  DateTime @default(now())
+  emailedAt  DateTime?
+  sourcePage String?
+
+  @@index([createdAt])
+}

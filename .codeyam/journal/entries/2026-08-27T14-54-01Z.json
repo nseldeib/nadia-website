@@ -1,0 +1,1463 @@
+{
+  "timestamp": "2026-08-27T14:54:01Z",
+  "title": "Rebuild nadiaeldeib.com",
+  "type": "feature",
+  "userRequest": "sounds good, soften the language as you proposed. write out the build plan.",
+  "description": "Built the approved Night Field design as a working Next.js site: one route composed of six numbered sections (Work, About, Writing, Adventures, Elsewhere, Contact), 17 photographs cross-fading on a shared eight-second slot so every rotation lands on one beat, and a contact form that writes its row before attempting delivery, so a note survives a mail outage with emailedAt left null rather than being lost. There is deliberately no email address anywhere on the site; the form is the way in. Extraction pulled the decision logic out of the components into tested units (validateMessage, splitOnBrand, submitMessage, pickActive) and split every section into sub-components, covered by 55 component scenarios and 1 application scenario. 36 tests pass and the audit is clean.\n\nTwo real defects surfaced and were fixed. The contact form's own default chip was rejected: the validator restated the topic allow-list by hand as 'working-together' while the form submits 'consulting', so anyone who never touched the chips got a 422. The list now derives from content/site.json, with a regression test that submits every chip the form actually offers. Separately, all six PhotoRotator scenarios were capturing blank frames, because the isolation-route wrapper used width:100% inside a centered flex container and collapsed to zero width; text components survived on their intrinsic width, but the rotator's absolutely-positioned images had none. Fixed to explicit widths and recaptured, and the rotator scenario set was then differentiated by frame count (1, 2, 3, 4, 6, and empty) so each selects a distinct keyframe set and opens on a distinct photograph, since a capture freezes the first frame.\n\nSCOPE VERDICT. Delivered: (1) rebuild nadiaeldeib.com as a fresh site carrying over the existing content, (2) redesign the aesthetic with new typography, color, layout and motion rather than a reskin, (3) explore multiple design directions across rounds and lock one in, which produced six mockups with 03 selected and 01 parked in history/01-clean-direction/. Deferred: (4) publish live at nadiaeldeib.com and (5) point nseldeib.com at the same site. Both deferrals are user-planned, not agent-decided: both rows are marked assist-track non-build, and the user's own build plan sequences deploy after commit, since it still needs Resend wiring, a SQLite to Postgres swap for Vercel, and adopting the nadia-website remote. Nothing was deferred without the user's decision.\n\nOne environmental limitation to record: preview-verify could not run for this entire session. The editor process advertises 127.0.0.1:14350, pinned by open-codeyam.sh, but is bound to 54407, and that value lives in the running process, so no config file reaches it and restart-server does not clear it. A structural exception was recorded at the Demo step. Every other path, including component capture, scenario registration, and the full-page screenshot, resolves the correct port and works.",
+  "modifiedFiles": [
+    {
+      "path": ".codeyam/capture.js",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/editor.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenario-handlers.js",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenario-interactivity.js",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenario-issues.js",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenario-metrics.js",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenario-mocks.js",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenario-playwright.js",
+      "status": "modified"
+    },
+    {
+      "path": ".env",
+      "status": "deleted"
+    },
+    {
+      "path": "README.md",
+      "status": "modified"
+    },
+    {
+      "path": "app/globals.css",
+      "status": "modified"
+    },
+    {
+      "path": "app/layout.tsx",
+      "status": "modified"
+    },
+    {
+      "path": "app/page.tsx",
+      "status": "modified"
+    },
+    {
+      "path": "prisma/schema.prisma",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/data-structure.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/dependency-graph.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/glossary.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/per-test-evidence.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/about-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/aboutfacts-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/adventures-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/advisorycard-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/cityrotator-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/contact-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/contactform-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/coverage-plan/page.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/elsewhere-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/elsewhererow-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/elsewhererow-withsecondlink.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/externallinkicon-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/field-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/field-textarea.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/field-withproblem.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/findme-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/footer-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/footersignoff-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/footersignoff-linked.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/footersignoff-nobrand.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/footersignoff-unlinked.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/formfailure-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/hero-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/herobackdrop-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/home-full-page.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/honeypot-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/nav-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/navlinks-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/navlinks-elsewhereactive.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/navlinks-workactive.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/navmark-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/photorotator-adventures.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/photorotator-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/photorotator-deferred.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/photorotator-empty.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/photorotator-many.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/photorotator-single.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/postlist-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/.capture-pipeline.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/about-default--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/about-default--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/aboutfacts-default--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/aboutfacts-default--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/adventures-default--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/adventures-default--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/advisorycard-default--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/advisorycard-default--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/cityrotator-default--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/cityrotator-default--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/contact-default--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/contact-default--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/contactform-default--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/contactform-default--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/elsewhere-default--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/elsewhere-default--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/elsewhererow-default--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/elsewhererow-default--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/elsewhererow-withsecondlink--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/elsewhererow-withsecondlink--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/externallinkicon-default--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/externallinkicon-default--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/field-default--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/field-default--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/field-textarea--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/field-textarea--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/field-withproblem--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/field-withproblem--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/findme-default--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/findme-default--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/footer-default--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/footer-default--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/footersignoff-default--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/footersignoff-default--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/footersignoff-linked--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/footersignoff-linked--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/footersignoff-nobrand--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/footersignoff-nobrand--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/footersignoff-unlinked--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/footersignoff-unlinked--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/formfailure-default--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/formfailure-default--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/hero-default--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/hero-default--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/herobackdrop-default--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/herobackdrop-default--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/home-full-page--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/home-full-page--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/honeypot-default--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/honeypot-default--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/nav-default--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/nav-default--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/navlinks-default--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/navlinks-default--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/navlinks-elsewhereactive--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/navlinks-elsewhereactive--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/navlinks-workactive--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/navlinks-workactive--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/navmark-default--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/navmark-default--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/photorotator-adventures--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/photorotator-adventures--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/photorotator-default--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/photorotator-default--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/photorotator-deferred--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/photorotator-deferred--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/photorotator-empty--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/photorotator-empty--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/photorotator-many--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/photorotator-many--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/photorotator-single--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/photorotator-single--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/postlist-default--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/postlist-default--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/scrollcue-default--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/scrollcue-default--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/sectionhead-contact--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/sectionhead-contact--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/sectionhead-default--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/sectionhead-default--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/sentconfirmation-default--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/sentconfirmation-default--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/sociallist-default--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/sociallist-default--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/topicchips-default--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/topicchips-default--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/topicchips-lastselected--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/topicchips-lastselected--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/typedheadline-default--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/typedheadline-default--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/typedheadline-empty--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/typedheadline-empty--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/typedheadline-many--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/typedheadline-many--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/typedheadline-shortline--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/typedheadline-shortline--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/work-default--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/work-default--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/worklinklist-default--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/worklinklist-default--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/worklinklist-single--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/worklinklist-single--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/worknarrative-default--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/worknarrative-default--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/writing-default--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/writing-default--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/writingintro-default--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/writingintro-default--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/scrollcue-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/sectionhead-contact.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/sectionhead-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/sentconfirmation-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/sociallist-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/topicchips-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/topicchips-lastselected.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/typedheadline-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/typedheadline-empty.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/typedheadline-many.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/typedheadline-shortline.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/work-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/worklinklist-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/worklinklist-single.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/worknarrative-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/writing-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/writingintro-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/seed-data/messages-received.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/state/change-origin.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/state/finalize-debt.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/state/scenario-taxonomy.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/test-cache.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/test-cache/all.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/test-cache/blobs/54b0ef2aee333053025fe3aeb489d301368b449bebc968366e294d9e410b026c.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/test-cache/blobs/c44cd89a0ed399740b2f7c9671167d27b8cdf58f64738ae631257fb42e863c3c.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/test-registry.json",
+      "status": "added"
+    },
+    {
+      "path": ".env.example",
+      "status": "added"
+    },
+    {
+      "path": "AGENTS.md",
+      "status": "added"
+    },
+    {
+      "path": "CLAUDE.md",
+      "status": "added"
+    },
+    {
+      "path": "app/api/contact/route.ts",
+      "status": "added"
+    },
+    {
+      "path": "app/isolated-components/About/page.tsx",
+      "status": "added"
+    },
+    {
+      "path": "app/isolated-components/AboutFacts/page.tsx",
+      "status": "added"
+    },
+    {
+      "path": "app/isolated-components/Adventures/page.tsx",
+      "status": "added"
+    },
+    {
+      "path": "app/isolated-components/AdvisoryCard/page.tsx",
+      "status": "added"
+    },
+    {
+      "path": "app/isolated-components/CityRotator/page.tsx",
+      "status": "added"
+    },
+    {
+      "path": "app/isolated-components/Contact/page.tsx",
+      "status": "added"
+    },
+    {
+      "path": "app/isolated-components/ContactForm/page.tsx",
+      "status": "added"
+    },
+    {
+      "path": "app/isolated-components/Elsewhere/page.tsx",
+      "status": "added"
+    },
+    {
+      "path": "app/isolated-components/ElsewhereRow/page.tsx",
+      "status": "added"
+    },
+    {
+      "path": "app/isolated-components/ExternalLinkIcon/page.tsx",
+      "status": "added"
+    },
+    {
+      "path": "app/isolated-components/Field/page.tsx",
+      "status": "added"
+    },
+    {
+      "path": "app/isolated-components/FindMe/page.tsx",
+      "status": "added"
+    },
+    {
+      "path": "app/isolated-components/Footer/page.tsx",
+      "status": "added"
+    },
+    {
+      "path": "app/isolated-components/FooterSignoff/page.tsx",
+      "status": "added"
+    },
+    {
+      "path": "app/isolated-components/FormFailure/page.tsx",
+      "status": "added"
+    },
+    {
+      "path": "app/isolated-components/Hero/page.tsx",
+      "status": "added"
+    },
+    {
+      "path": "app/isolated-components/HeroBackdrop/page.tsx",
+      "status": "added"
+    },
+    {
+      "path": "app/isolated-components/Honeypot/Harness.tsx",
+      "status": "added"
+    },
+    {
+      "path": "app/isolated-components/Honeypot/page.tsx",
+      "status": "added"
+    },
+    {
+      "path": "app/isolated-components/Nav/page.tsx",
+      "status": "added"
+    },
+    {
+      "path": "app/isolated-components/NavLinks/page.tsx",
+      "status": "added"
+    },
+    {
+      "path": "app/isolated-components/NavMark/page.tsx",
+      "status": "added"
+    },
+    {
+      "path": "app/isolated-components/PhotoRotator/page.tsx",
+      "status": "added"
+    },
+    {
+      "path": "app/isolated-components/PostList/page.tsx",
+      "status": "added"
+    },
+    {
+      "path": "app/isolated-components/ScrollCue/page.tsx",
+      "status": "added"
+    },
+    {
+      "path": "app/isolated-components/SectionHead/page.tsx",
+      "status": "added"
+    },
+    {
+      "path": "app/isolated-components/SentConfirmation/page.tsx",
+      "status": "added"
+    },
+    {
+      "path": "app/isolated-components/SocialList/page.tsx",
+      "status": "added"
+    },
+    {
+      "path": "app/isolated-components/TopicChips/Harness.tsx",
+      "status": "added"
+    },
+    {
+      "path": "app/isolated-components/TopicChips/page.tsx",
+      "status": "added"
+    },
+    {
+      "path": "app/isolated-components/TypedHeadline/page.tsx",
+      "status": "added"
+    },
+    {
+      "path": "app/isolated-components/Work/page.tsx",
+      "status": "added"
+    },
+    {
+      "path": "app/isolated-components/WorkLinkList/page.tsx",
+      "status": "added"
+    },
+    {
+      "path": "app/isolated-components/WorkNarrative/page.tsx",
+      "status": "added"
+    },
+    {
+      "path": "app/isolated-components/Writing/page.tsx",
+      "status": "added"
+    },
+    {
+      "path": "app/isolated-components/WritingIntro/page.tsx",
+      "status": "added"
+    },
+    {
+      "path": "app/isolated-components/layout.tsx",
+      "status": "added"
+    },
+    {
+      "path": "app/lib/activeSection.test.ts",
+      "status": "added"
+    },
+    {
+      "path": "app/lib/activeSection.ts",
+      "status": "added"
+    },
+    {
+      "path": "app/lib/submitMessage.test.ts",
+      "status": "added"
+    },
+    {
+      "path": "app/lib/submitMessage.ts",
+      "status": "added"
+    },
+    {
+      "path": "app/lib/text.test.ts",
+      "status": "added"
+    },
+    {
+      "path": "app/lib/text.ts",
+      "status": "added"
+    },
+    {
+      "path": "app/lib/validateMessage.test.ts",
+      "status": "added"
+    },
+    {
+      "path": "app/lib/validateMessage.ts",
+      "status": "added"
+    },
+    {
+      "path": "components/About.module.css",
+      "status": "added"
+    },
+    {
+      "path": "components/About.tsx",
+      "status": "added"
+    },
+    {
+      "path": "components/Adventures.module.css",
+      "status": "added"
+    },
+    {
+      "path": "components/Adventures.tsx",
+      "status": "added"
+    },
+    {
+      "path": "components/Contact.module.css",
+      "status": "added"
+    },
+    {
+      "path": "components/Contact.tsx",
+      "status": "added"
+    },
+    {
+      "path": "components/ContactForm.tsx",
+      "status": "added"
+    },
+    {
+      "path": "components/Elsewhere.module.css",
+      "status": "added"
+    },
+    {
+      "path": "components/Elsewhere.tsx",
+      "status": "added"
+    },
+    {
+      "path": "components/Footer.module.css",
+      "status": "added"
+    },
+    {
+      "path": "components/Footer.tsx",
+      "status": "added"
+    },
+    {
+      "path": "components/Hero.module.css",
+      "status": "added"
+    },
+    {
+      "path": "components/Hero.tsx",
+      "status": "added"
+    },
+    {
+      "path": "components/Nav.module.css",
+      "status": "added"
+    },
+    {
+      "path": "components/Nav.tsx",
+      "status": "added"
+    },
+    {
+      "path": "components/PhotoRotator.module.css",
+      "status": "added"
+    },
+    {
+      "path": "components/PhotoRotator.tsx",
+      "status": "added"
+    },
+    {
+      "path": "components/Section.module.css",
+      "status": "added"
+    },
+    {
+      "path": "components/SectionHead.module.css",
+      "status": "added"
+    },
+    {
+      "path": "components/SectionHead.tsx",
+      "status": "added"
+    },
+    {
+      "path": "components/Work.module.css",
+      "status": "added"
+    },
+    {
+      "path": "components/Work.tsx",
+      "status": "added"
+    },
+    {
+      "path": "components/Writing.module.css",
+      "status": "added"
+    },
+    {
+      "path": "components/Writing.tsx",
+      "status": "added"
+    },
+    {
+      "path": "components/about/AboutFacts.tsx",
+      "status": "added"
+    },
+    {
+      "path": "components/about/CityRotator.tsx",
+      "status": "added"
+    },
+    {
+      "path": "components/contact/Field.tsx",
+      "status": "added"
+    },
+    {
+      "path": "components/contact/FindMe.tsx",
+      "status": "added"
+    },
+    {
+      "path": "components/contact/FormFailure.tsx",
+      "status": "added"
+    },
+    {
+      "path": "components/contact/Honeypot.tsx",
+      "status": "added"
+    },
+    {
+      "path": "components/contact/SentConfirmation.tsx",
+      "status": "added"
+    },
+    {
+      "path": "components/contact/SocialList.tsx",
+      "status": "added"
+    },
+    {
+      "path": "components/contact/TopicChips.tsx",
+      "status": "added"
+    },
+    {
+      "path": "components/elsewhere/ElsewhereRow.tsx",
+      "status": "added"
+    },
+    {
+      "path": "components/hero/HeroBackdrop.tsx",
+      "status": "added"
+    },
+    {
+      "path": "components/hero/ScrollCue.tsx",
+      "status": "added"
+    },
+    {
+      "path": "components/hero/TypedHeadline.tsx",
+      "status": "added"
+    },
+    {
+      "path": "components/work/AdvisoryCard.tsx",
+      "status": "added"
+    },
+    {
+      "path": "components/work/WorkLinkList.tsx",
+      "status": "added"
+    },
+    {
+      "path": "components/work/WorkNarrative.tsx",
+      "status": "added"
+    },
+    {
+      "path": "components/writing/ExternalLinkIcon.tsx",
+      "status": "added"
+    },
+    {
+      "path": "components/writing/PostList.tsx",
+      "status": "added"
+    },
+    {
+      "path": "components/writing/WritingIntro.tsx",
+      "status": "added"
+    },
+    {
+      "path": "content/site.json",
+      "status": "added"
+    },
+    {
+      "path": "content/site.ts",
+      "status": "added"
+    },
+    {
+      "path": "hooks/useActiveSection.ts",
+      "status": "added"
+    },
+    {
+      "path": "hooks/useScrolledPast.ts",
+      "status": "added"
+    },
+    {
+      "path": "open-codeyam.sh",
+      "status": "added"
+    },
+    {
+      "path": "public/images/at-a-founders-day-event.jpg",
+      "status": "added"
+    },
+    {
+      "path": "public/images/bouldering-on-a-rooftop-with-the-manhattan-skyline-b.jpg",
+      "status": "added"
+    },
+    {
+      "path": "public/images/getting-a-surfboard-ready-on-the-beach.jpg",
+      "status": "added"
+    },
+    {
+      "path": "public/images/graduating-from-harvard-college.jpg",
+      "status": "added"
+    },
+    {
+      "path": "public/images/hero-r1.jpg",
+      "status": "added"
+    },
+    {
+      "path": "public/images/hero-r2.jpg",
+      "status": "added"
+    },
+    {
+      "path": "public/images/hero-r3.jpg",
+      "status": "added"
+    },
+    {
+      "path": "public/images/hero-r4.jpg",
+      "status": "added"
+    },
+    {
+      "path": "public/images/manifest.json",
+      "status": "added"
+    },
+    {
+      "path": "public/images/nadia-working.jpg",
+      "status": "added"
+    },
+    {
+      "path": "public/images/on-a-balcony-over-the-nile-in-cairo.jpg",
+      "status": "added"
+    },
+    {
+      "path": "public/images/presenting-codeyam-at-the-vercel-ai-accelerator-demo.jpg",
+      "status": "added"
+    },
+    {
+      "path": "public/images/riding-with-the-lyft-bikes-scooters-team-in-san-fran.jpg",
+      "status": "added"
+    },
+    {
+      "path": "public/images/running-the-full-marathon-at-boulderthon.jpg",
+      "status": "added"
+    },
+    {
+      "path": "public/images/snowboarding-in-deep-snow.jpg",
+      "status": "added"
+    },
+    {
+      "path": "public/images/trail-running-below-pikes-peak.jpg",
+      "status": "added"
+    },
+    {
+      "path": "public/images/with-the-lyft-bikes-scooters-team-holding-a-bike-whe.jpg",
+      "status": "added"
+    },
+    {
+      "path": "public/images/working-through-a-ceo-evolution-map-at-founders-day.jpg",
+      "status": "added"
+    }
+  ],
+  "scenarioScreenshots": [
+    {
+      "name": "Home - Full page",
+      "screenshotPath": "home-full-page--desktop.png"
+    },
+    {
+      "name": "About - Default",
+      "screenshotPath": "about-default--desktop.png"
+    },
+    {
+      "name": "AboutFacts - Default",
+      "screenshotPath": "aboutfacts-default--desktop.png"
+    },
+    {
+      "name": "Adventures - Default",
+      "screenshotPath": "adventures-default--desktop.png"
+    },
+    {
+      "name": "AdvisoryCard - Default",
+      "screenshotPath": "advisorycard-default--desktop.png"
+    },
+    {
+      "name": "CityRotator - Default",
+      "screenshotPath": "cityrotator-default--desktop.png"
+    },
+    {
+      "name": "Contact - Default",
+      "screenshotPath": "contact-default--desktop.png"
+    },
+    {
+      "name": "ContactForm - Default",
+      "screenshotPath": "contactform-default--desktop.png"
+    },
+    {
+      "name": "Elsewhere - Default",
+      "screenshotPath": "elsewhere-default--desktop.png"
+    },
+    {
+      "name": "ElsewhereRow - Default",
+      "screenshotPath": "elsewhererow-default--desktop.png"
+    },
+    {
+      "name": "ElsewhereRow - WithSecondLink",
+      "screenshotPath": "elsewhererow-withsecondlink--desktop.png"
+    },
+    {
+      "name": "ExternalLinkIcon - Default",
+      "screenshotPath": "externallinkicon-default--desktop.png"
+    },
+    {
+      "name": "Field - Default",
+      "screenshotPath": "field-default--desktop.png"
+    },
+    {
+      "name": "Field - TextArea",
+      "screenshotPath": "field-textarea--desktop.png"
+    },
+    {
+      "name": "Field - WithProblem",
+      "screenshotPath": "field-withproblem--desktop.png"
+    },
+    {
+      "name": "FindMe - Default",
+      "screenshotPath": "findme-default--desktop.png"
+    },
+    {
+      "name": "Footer - Default",
+      "screenshotPath": "footer-default--desktop.png"
+    },
+    {
+      "name": "FooterSignoff - Default",
+      "screenshotPath": "footersignoff-default--desktop.png"
+    },
+    {
+      "name": "FooterSignoff - Linked",
+      "screenshotPath": "footersignoff-linked--desktop.png"
+    },
+    {
+      "name": "FooterSignoff - NoBrand",
+      "screenshotPath": "footersignoff-nobrand--desktop.png"
+    },
+    {
+      "name": "FooterSignoff - Unlinked",
+      "screenshotPath": "footersignoff-unlinked--desktop.png"
+    },
+    {
+      "name": "FormFailure - Default",
+      "screenshotPath": "formfailure-default--desktop.png"
+    },
+    {
+      "name": "Hero - Default",
+      "screenshotPath": "hero-default--desktop.png"
+    },
+    {
+      "name": "HeroBackdrop - Default",
+      "screenshotPath": "herobackdrop-default--desktop.png"
+    },
+    {
+      "name": "Honeypot - Default",
+      "screenshotPath": "honeypot-default--desktop.png"
+    },
+    {
+      "name": "Nav - Default",
+      "screenshotPath": "nav-default--desktop.png"
+    },
+    {
+      "name": "NavLinks - Default",
+      "screenshotPath": "navlinks-default--desktop.png"
+    },
+    {
+      "name": "NavLinks - ElsewhereActive",
+      "screenshotPath": "navlinks-elsewhereactive--desktop.png"
+    },
+    {
+      "name": "NavLinks - WorkActive",
+      "screenshotPath": "navlinks-workactive--desktop.png"
+    },
+    {
+      "name": "NavMark - Default",
+      "screenshotPath": "navmark-default--desktop.png"
+    },
+    {
+      "name": "PhotoRotator - Adventures",
+      "screenshotPath": "photorotator-adventures--desktop.png"
+    },
+    {
+      "name": "PhotoRotator - Default",
+      "screenshotPath": "photorotator-default--desktop.png"
+    },
+    {
+      "name": "PhotoRotator - Deferred",
+      "screenshotPath": "photorotator-deferred--desktop.png"
+    },
+    {
+      "name": "PhotoRotator - Empty",
+      "screenshotPath": "photorotator-empty--desktop.png"
+    },
+    {
+      "name": "PhotoRotator - Many",
+      "screenshotPath": "photorotator-many--desktop.png"
+    },
+    {
+      "name": "PhotoRotator - Single",
+      "screenshotPath": "photorotator-single--desktop.png"
+    },
+    {
+      "name": "PostList - Default",
+      "screenshotPath": "postlist-default--desktop.png"
+    },
+    {
+      "name": "ScrollCue - Default",
+      "screenshotPath": "scrollcue-default--desktop.png"
+    },
+    {
+      "name": "SectionHead - Contact",
+      "screenshotPath": "sectionhead-contact--desktop.png"
+    },
+    {
+      "name": "SectionHead - Default",
+      "screenshotPath": "sectionhead-default--desktop.png"
+    },
+    {
+      "name": "SentConfirmation - Default",
+      "screenshotPath": "sentconfirmation-default--desktop.png"
+    },
+    {
+      "name": "SocialList - Default",
+      "screenshotPath": "sociallist-default--desktop.png"
+    },
+    {
+      "name": "TopicChips - Default",
+      "screenshotPath": "topicchips-default--desktop.png"
+    },
+    {
+      "name": "TopicChips - LastSelected",
+      "screenshotPath": "topicchips-lastselected--desktop.png"
+    },
+    {
+      "name": "TypedHeadline - Default",
+      "screenshotPath": "typedheadline-default--desktop.png"
+    },
+    {
+      "name": "TypedHeadline - Empty",
+      "screenshotPath": "typedheadline-empty--desktop.png"
+    },
+    {
+      "name": "TypedHeadline - Many",
+      "screenshotPath": "typedheadline-many--desktop.png"
+    },
+    {
+      "name": "TypedHeadline - ShortLine",
+      "screenshotPath": "typedheadline-shortline--desktop.png"
+    },
+    {
+      "name": "Work - Default",
+      "screenshotPath": "work-default--desktop.png"
+    },
+    {
+      "name": "WorkLinkList - Default",
+      "screenshotPath": "worklinklist-default--desktop.png"
+    },
+    {
+      "name": "WorkLinkList - Single",
+      "screenshotPath": "worklinklist-single--desktop.png"
+    },
+    {
+      "name": "WorkNarrative - Default",
+      "screenshotPath": "worknarrative-default--desktop.png"
+    },
+    {
+      "name": "Writing - Default",
+      "screenshotPath": "writing-default--desktop.png"
+    },
+    {
+      "name": "WritingIntro - Default",
+      "screenshotPath": "writingintro-default--desktop.png"
+    }
+  ],
+  "testResults": {
+    "total": 36,
+    "passed": 36,
+    "failed": 0,
+    "runners": [
+      {
+        "name": "tests",
+        "total": 36,
+        "passed": 36
+      }
+    ]
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "name": "PhotoRotator - Empty",
+  "id": "8e29c5cc-d227-4e8d-9fd9-413b55463b10",
+  "url": "/isolated-components/PhotoRotator?s=Empty",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "PhotoRotator",
+  "scenarioType": "component",
+  "description": "No frames. The container holds its aspect rather than collapsing, so missing photographs do not shift the section.",
+  "allowMinimalRender": true
+}

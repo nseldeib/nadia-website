@@ -1,0 +1,12 @@
+{
+  "name": "SectionHead - Contact",
+  "id": "a2b67915-4f0e-46a4-83a3-b30c01cd8ed8",
+  "url": "/isolated-components/SectionHead?s=Contact",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "SectionHead",
+  "scenarioType": "component",
+  "description": "The last section's head, checking a longer word still aligns with its number."
+}

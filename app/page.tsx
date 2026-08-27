@@ -1,10 +1,27 @@
-export default function Home() {
+import Nav from '@/components/Nav';
+import Hero from '@/components/Hero';
+import Work from '@/components/Work';
+import About from '@/components/About';
+import Writing from '@/components/Writing';
+import Adventures from '@/components/Adventures';
+import Elsewhere from '@/components/Elsewhere';
+import Contact from '@/components/Contact';
+import Footer from '@/components/Footer';
+
+export default function Page() {
   return (
-    <main className="min-h-screen flex items-center justify-center">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome</h1>
-        <p className="text-gray-600">Your app is ready. Start building!</p>
-      </div>
-    </main>
+    <>
+      <Nav />
+      <main>
+        <Hero />
+        <Work />
+        <About />
+        <Writing />
+        <Adventures />
+        <Elsewhere />
+        <Contact />
+      </main>
+      <Footer />
+    </>
   );
 }

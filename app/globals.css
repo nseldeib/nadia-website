@@ -5,34 +5,177 @@
 @source "../app/**/*.{ts,tsx,js,jsx,mdx}";
 @source "../components/**/*.{ts,tsx,js,jsx,mdx}";
 
+/* ─────────────────────────────────────────────────────────────────────────
+   Night Field — design tokens
+   Ported from .codeyam/design/design_system.md and mockup 03.
+
+   This page commits to one visual world: a dark ground with a single light
+   band (About). It deliberately does NOT follow prefers-color-scheme — the
+   palette is the design, not a preference, so the scaffold's dark-mode media
+   query is gone rather than inherited. Every colour is declared explicitly so
+   the page holds on any host background.
+   ───────────────────────────────────────────────────────────────────────── */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-  /* System font stacks — no network fetch at dev-server start. A project
-     that wants a specific web font adds it deliberately (e.g. a <link>),
-     keeping the scaffold default zero-dependency and offline-instant. */
-  --font-geist-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  --font-geist-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas,
-    'Liberation Mono', monospace;
+  /* Surfaces and ink — the night ground */
+  --paper: #14110f;
+  --paper-2: #1d1916;
+  --ink: #f4efe6;
+  --ink-2: #b5aba0;
+  --rule: #342d27;
+
+  /* --ink-3 is for hairlines and borders only. It does NOT pass AA as text;
+     text that needs to be quiet uses --meta. */
+  --ink-3: #7c746a;
+
+  /* One accent. Rust does eyebrows, links, the primary button, the typing
+     cursor — nothing else competes. */
+  --rust: #e07a4a;
+
+  /* Surface-scoped text tokens. Every surface that inverts redefines these
+     two rather than dimming with opacity, which composites below AA. */
+  --meta: rgba(244, 239, 230, 0.8);
+  --accent-ink: #f0a272;
+
+  /* The one light surface */
+  --forest: #ede7da;
+
+  /* Type stacks. Futura has a small x-height and hates tight tracking, so
+     display tracking is opened rather than inherited from a grotesque. */
+  --font-display: "Futura", "Jost", "Century Gothic", "Avenir Next",
+    "Trebuchet MS", sans-serif;
+  --font-sans-stack: "Helvetica Neue", Helvetica, "Segoe UI", Arial, sans-serif;
+  --font-mono-stack: "Menlo", "SF Mono", Consolas, monospace;
+
+  /* Type scale — fluid where the mockup was fluid */
+  --text-hero: clamp(32px, 5vw, 60px);
+  --text-section: clamp(30px, 4.1vw, 48px);
+  --text-lead: clamp(18px, 2vw, 23px);
+  --text-body: 17px;
+  --text-body-sm: 15.5px;
+  --text-sub: 15px;
+  --text-label: 11px;
+  --text-mono-sm: 10.5px;
+  --text-nav: 12px;
+
+  --leading-display: 1.1;
+  --leading-body: 1.75;
+  --leading-tight: 1.2;
+
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Tracking — display tightens, mono eyebrows open up */
+  --tracking-display: -0.024em;
+  --tracking-tight: -0.02em;
+  --tracking-eyebrow: 0.2em;
+  --tracking-mono: 0.14em;
+
+  /* Spacing */
+  --spacing-2xs: 4px;
+  --spacing-xs: 8px;
+  --spacing-sm: 14px;
+  --spacing-md: 20px;
+  --spacing-lg: 34px;
+  --spacing-xl: 56px;
+  --spacing-2xl: 96px;
+  --spacing-section: 104px;
+
+  /* Radii */
+  --radius-pill: 999px;
+  --radius-card: 10px;
+  --radius-input: 3px;
+  --radius-round: 50%;
+
+  /* Layout */
+  --wrap-max: 1120px;
+  --wrap-pad: 40px;
+  --measure: 62ch;
+  --nav-height: 78px;
+  --nav-height-scrolled: 62px;
+
+  /* Motion. Every photo rotation shares one 8s slot so each fade lands on the
+     same beat and the page is still in between — unsynchronised timers were
+     what made it feel restless. */
+  --rotate-slot: 8s;
+  --transition-fast: 0.18s ease;
+  --transition-base: 0.22s ease;
+
+  --shadow-scrim: 0 -60px 60px -30px rgba(20, 17, 15, 0.8);
+}
+
+/* The light band. Redefines the surface tokens as a set — never a single
+   colour in isolation, which is how a surface ends up with one theme's text
+   on the other theme's ground. Values carried from the contrast pass. */
+.surface-light {
+  --paper: var(--forest);
+  --paper-2: #dcd3c2;
+  --ink: #241f1b;
+  --ink-2: #4e463e;
+  --rule: #d8cebd;
+  --meta: #5f574c;
+  --accent-ink: #a8421f;
+
+  background: var(--paper);
+  color: var(--ink);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-rule: var(--rule);
+  --color-rust: var(--rust);
+  --color-meta: var(--meta);
+  --color-accent-ink: var(--accent-ink);
+  --font-display: var(--font-display);
+  --font-sans: var(--font-sans-stack);
+  --font-mono: var(--font-mono-stack);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink-2);
+  font-family: var(--font-sans-stack);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  color: var(--ink);
+  letter-spacing: var(--tracking-display);
+  line-height: var(--leading-display);
+  text-wrap: balance;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--rust);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

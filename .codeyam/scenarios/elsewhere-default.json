@@ -1,0 +1,12 @@
+{
+  "name": "Elsewhere - Default",
+  "id": "6ada1bac-c2ec-450b-a081-8cf546672f3d",
+  "url": "/isolated-components/Elsewhere?s=Default",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "Elsewhere",
+  "scenarioType": "component",
+  "description": "Section 05. Press, essays, and awards, newest first."
+}

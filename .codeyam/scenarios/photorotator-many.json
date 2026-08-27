@@ -1,0 +1,12 @@
+{
+  "name": "PhotoRotator - Many",
+  "id": "1ca5a178-b0f1-4768-a18b-ad72e98a195a",
+  "url": "/isolated-components/PhotoRotator?s=Many",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "PhotoRotator",
+  "scenarioType": "component",
+  "description": "Four frames, the largest set on the page and the only one selecting the rotate4 keyframes. A four-frame set runs 32s, still a multiple of the shared eight-second slot."
+}

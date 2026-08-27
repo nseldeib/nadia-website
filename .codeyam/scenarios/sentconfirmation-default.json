@@ -1,0 +1,12 @@
+{
+  "name": "SentConfirmation - Default",
+  "id": "888ea8d0-cf33-4d53-a8f2-0365140bb3bd",
+  "url": "/isolated-components/SentConfirmation?s=Default",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "SentConfirmation",
+  "scenarioType": "component",
+  "description": "Replaces the form on success, which makes a duplicate send impossible."
+}
