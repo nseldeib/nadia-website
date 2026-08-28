@@ -39,8 +39,8 @@ npx prisma studio
 `.gitignore` ignores both `.env` and `.env*.local`, so neither can be
 committed by accident — `.env.example` is the only one of the three that is
 tracked. `.env.local` is also where codeyam's Home → Setup flow writes the
-variables it manages, and where `AUTH_UPGRADE.md` tells you to put auth
-secrets. One file, one answer.
+variables it manages, and where any future third-party secret belongs. One
+file, one answer.
 
 | File           | Committed? | What belongs in it                          |
 | -------------- | ---------- | ------------------------------------------- |

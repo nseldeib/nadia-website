@@ -1,16 +1,14 @@
 # Feature Patterns
 
-When the feature you're building involves any of the patterns below, **read the linked doc before writing code**. These patterns are designed for this project's Postgres dev environment and upgrade cleanly to production services later.
+When the feature you're building involves any of the patterns below, **read this
+before writing code**. These patterns are designed for this project's Postgres
+dev environment and upgrade cleanly to production services later.
 
-## Authentication (login, sign-up, user sessions)
-
-**Read:** `AUTH_PATTERNS.md`
-
-Use the cookie + DB auth abstraction in `app/lib/auth.ts`. All consumer code imports from this single file. DO NOT use NextAuth, Clerk, better-auth, Supabase Auth, or any external auth provider during prototyping — they require infrastructure unavailable locally.
-
-**For scenarios:** Include User and Session seed rows so the app's server-side `getSession()` lookup has a row to find. There is no top-level `session` field on `ScenarioDefinition` — see `AUTH_PATTERNS.md` for why the browser cookie still needs to be set manually via the `/login` flow for now.
-
-**Upgrade path:** See `AUTH_UPGRADE.md` — only `app/lib/auth.ts` internals change; consumer code stays the same.
+This site has no authentication and no user accounts. The only Prisma model is
+`Message`, written by the contact form. If a feature ever needs sign-in, it
+starts from nothing — there is no auth abstraction here to extend, and the
+scaffold's auth guides were removed once it was clear this site would never
+grow one.
 
 ## External Services (payments, email, maps, weather APIs, etc.)
 
