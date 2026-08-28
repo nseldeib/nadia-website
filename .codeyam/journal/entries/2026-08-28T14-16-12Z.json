@@ -1,0 +1,85 @@
+{
+  "timestamp": "2026-08-28T14:16:12Z",
+  "title": "Canonical domain: nadiaeldeib.com, stated once and advertised to crawlers",
+  "type": "feature",
+  "userRequest": "Project context: https://nadiaeldeib.com/ is my personal website (there a reference folder for it, I believe it's nadia-website locally but verify this). I also have https://www.nseldeib.com/ which I've used for testing (but am happier with the other site). I want to rebuild and redesign the website and update the aesthetic to be more modern and see a variety of options for how to improve it. I'll likely want to have both websites point to the same thing if I succeed.",
+  "description": "Established nadiaeldeib.com as the site's single canonical address in code, and registered it on Vercel ready for the DNS cutover.\n\nThe origin now lives once in app/lib/siteUrl.ts and is consumed by the document metadata, robots.txt and sitemap.xml. Before this it was hardcoded in three places in the layout metadata, and the two new metadata routes would have made it five. The siteUrl() join helper exists rather than a template literal per call site because a path passed without its leading slash concatenates into nadiaeldeib.comsitemap.xml -- a URL that looks plausible and is wrong. The site previously served no robots.txt and no sitemap.xml at all; both returned 404 in production. robots.txt allows every crawler the whole site and disallows nothing deliberately: the 35 isolated-component routes and the scenario route already 404 in production, and robots.txt is public, so a Disallow advertises a path rather than hiding it. sitemap.xml carries exactly one entry, because the six numbered sections are anchors within '/' rather than routes. 13 new tests, all passing; audit clean at 71 entries with zero findings.\n\nOn Vercel, nadiaeldeib.com and www.nadiaeldeib.com are registered on the nadia-website project with www set to 301 into the bare domain. The nseldeib.com redirects were deliberately NOT flipped: pointing them at nadiaeldeib.com before the DNS cutover would redirect a working live site to the old GitHub Pages one. That flip happens after the cutover verifies.\n\nDESIGN DECISION -- which domain is canonical. The user asked for an expert recommendation between nadiaeldeib.com and nseldeib.com. Chose nadiaeldeib.com on three grounds: it was registered March 2021 against nseldeib.com's August 2025 and has actually served the personal site, so it holds the search equity and any existing backlinks; it is the user's name, which is what press and people who meet her will search for, whereas nseldeib is a handle; and the code already declared it canonical, so it was the choice that changed the least. The counterargument -- social handles are @nseldeib -- was weighed and rejected because handle consistency matters most where the handle is the brand, and for a founder the legal name is the brand. The handle domain is preserved as a 301 rather than dropped. Separately corrected a user misconception: HTTPS is independent of the www-vs-apex choice, since Vercel provisions certificates per hostname either way, so that decision was made on convention (bare is the modern default for personal and tech sites) rather than on a nonexistent security difference.\n\nSCOPE VERDICT.\n\nDelivered this cycle: nothing that closes a deliverable outright.\n\nStill deferred: 'Publish the rebuilt site live at nadiaeldeib.com (deploy/hosting -- assist track, non-build)', decidedBy user. This cycle removed every blocker on the build side -- code, canonical metadata, crawler files, and both Vercel hostnames are in place and verified -- but the deliverable is NOT met and is deliberately not claimed. The apex still resolves to GitHub Pages (185.199.108-111.153) because the DNS records live in a Squarespace registration on Google Cloud nameservers that the agent has no credentials for. The exact A and CNAME values were handed to the user; the deliverable closes when they save them and verification passes.\n\nNo new deferrals were introduced, and no deferral on the board is agent-decided.\n\nSCOPE EXPANSION, approved by the user mid-cycle. Investigating the user's question -- 'can we set it up so I can test and deploy future changes easily?' -- surfaced three findings: the Vercel project has no Git connection, so every deploy so far was a manual `vercel --prod` from the laptop with no preview URLs; main still holds the OLD pre-rebuild site, with the entire rebuild sitting 16 commits ahead on rebuild-nextjs; and main still carries .github/workflows/deploy.yml plus a CNAME file naming nadiaeldeib.com, so any push to main republishes the old site to the domain. The user approved folding the fix into this cycle: merge rebuild-nextjs into main, connect Vercel git integration with main as production, and delete the Pages workflow and CNAME -- the last of these only AFTER the DNS cutover verifies, so GitHub Pages remains the rollback until then. That work is outstanding at the time of this entry.\n\nOPEN DECISIONS, parked by the user for after the site is verified live: whether to retire GitHub Pages entirely (leaning yes, but it is the rollback for now), and whether blog.nadiaeldeib.com should point at Substack so the blog lives under the name domain too.",
+  "modifiedFiles": [
+    {
+      "path": ".codeyam/dependency-graph.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/glossary.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache/all.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache/blobs/4755d0317dff41c3f924ba531fa1fffe3f50adcbab0a1ad148bbdd5ad4d5f9b8.json",
+      "status": "deleted"
+    },
+    {
+      "path": ".codeyam/test-cache/blobs/d13476e51108d3c8ef25693891e71b9271fc0922b8725f88375cd1a8e569f665.json",
+      "status": "deleted"
+    },
+    {
+      "path": ".codeyam/test-registry.json",
+      "status": "modified"
+    },
+    {
+      "path": "app/layout.tsx",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache/blobs/45a8b076055a1879b552816d19551ef18def5bf2672ecaf4b658251b45a346eb.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/test-cache/blobs/4a17efa46ec01adc8ae1fd11a05988e9177dbe19d8e6261c72558b0035b5646c.json",
+      "status": "added"
+    },
+    {
+      "path": "app/lib/siteUrl.test.ts",
+      "status": "added"
+    },
+    {
+      "path": "app/lib/siteUrl.ts",
+      "status": "added"
+    },
+    {
+      "path": "app/robots.test.ts",
+      "status": "added"
+    },
+    {
+      "path": "app/robots.ts",
+      "status": "added"
+    },
+    {
+      "path": "app/sitemap.test.ts",
+      "status": "added"
+    },
+    {
+      "path": "app/sitemap.ts",
+      "status": "added"
+    }
+  ],
+  "testResults": {
+    "total": 13,
+    "passed": 13,
+    "failed": 0,
+    "runners": [
+      {
+        "name": "tests",
+        "total": 13,
+        "passed": 13
+      }
+    ]
+  }
+}

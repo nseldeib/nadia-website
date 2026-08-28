@@ -437,6 +437,12 @@
     "testFile": "app/lib/prismaConnection.test.ts"
   },
   {
+    "description": "Generates robots.txt: every crawler may read the whole site, and the sitemap is advertised on the canonical host so no fetch pays a redirect hop. Nothing is disallowed on purpose — the editor's isolation routes already 404 in production, and robots.txt is public, so naming them would advertise paths rather than hide them.",
+    "filePath": "app/robots.ts",
+    "name": "robots",
+    "testFile": "app/robots.test.ts"
+  },
+  {
     "description": "The 201 reply carrying the new row id, returned whether or not the email went out, because the row exists either way and delivery is not the sender's problem.",
     "filePath": "app/lib/contactResponses.ts",
     "name": "saved",
@@ -459,6 +465,18 @@
     "filePath": "app/lib/contactResponses.ts",
     "name": "silentlyAccepted",
     "testFile": "app/lib/contactResponses.test.ts"
+  },
+  {
+    "description": "Joins the site's canonical origin (the SITE_URL constant in this file — the bare apex over https) to a root-relative path without producing a doubled slash, returning the bare origin for the site root whether asked by default or explicitly as '/'. The origin is stated once here because three consumers must agree on it — document metadata, robots.txt and sitemap.xml — and because four hostnames reach the app while only the apex is advertised, the other three being 301s. Exists rather than a template literal at each call site because a path passed without its leading slash would otherwise concatenate into nadiaeldeib.comsitemap.xml.",
+    "filePath": "app/lib/siteUrl.ts",
+    "name": "siteUrl",
+    "testFile": "app/lib/siteUrl.test.ts"
+  },
+  {
+    "description": "Generates sitemap.xml with the single entry the site actually has. The six numbered sections are anchors within '/', not routes, so listing them would offer crawlers several URLs resolving to one document. If the site ever grows a real second route, it belongs here.",
+    "filePath": "app/sitemap.ts",
+    "name": "sitemap",
+    "testFile": "app/sitemap.test.ts"
   },
   {
     "description": "Splits an authored sentence around the first occurrence of a brand name so it can be linked in place. The signoff stays one piece of copy instead of being assembled from fragments, and reassembly is exact.",

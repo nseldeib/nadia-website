@@ -64,6 +64,24 @@
       "runner": "tests"
     },
     {
+      "description": "Pins the canonical origin's exact shape. Three consumers concatenate onto it — document metadata, robots.txt, sitemap.xml — so a trailing slash here silently becomes \"//sitemap.xml\" in the advertised sitemap link.",
+      "file": "app/lib/siteUrl.test.ts",
+      "format": "vitest",
+      "key": "SITE_URL › is the bare apex over https, with no trailing slash",
+      "line": 8,
+      "registeredAt": "2026-08-28T14:05:55Z",
+      "runner": "tests"
+    },
+    {
+      "description": "Guards against canonicalising a host that only redirects. www.nadiaeldeib.com and both forms of nseldeib.com 301 to the apex; naming any of them here would point every crawler and share link at a redirect instead of the real page.",
+      "file": "app/lib/siteUrl.test.ts",
+      "format": "vitest",
+      "key": "SITE_URL › names the apex rather than a redirecting host",
+      "line": 15,
+      "registeredAt": "2026-08-28T14:05:55Z",
+      "runner": "tests"
+    },
+    {
       "description": "The plain-text part must be the composed note exactly — it is the copy that survives every client.",
       "file": "app/lib/sendNotification.test.ts",
       "format": "vitest",
@@ -496,6 +514,33 @@
       "runner": "tests"
     },
     {
+      "description": "The editor's isolation routes already 404 in production. Naming them in a Disallow would publish a list of paths that do not exist — robots.txt is public, so a Disallow advertises a path rather than hiding it.",
+      "file": "app/robots.test.ts",
+      "format": "vitest",
+      "key": "robots › disallows nothing, so it cannot advertise the isolation routes",
+      "line": 24,
+      "registeredAt": "2026-08-28T14:05:55Z",
+      "runner": "tests"
+    },
+    {
+      "description": "The site is a public personal page with nothing to hide, so the rule must stay fully open. A stray Disallow here would quietly de-index the whole site, which is the single highest-cost mistake this file can make.",
+      "file": "app/robots.test.ts",
+      "format": "vitest",
+      "key": "robots › lets every crawler read the whole site",
+      "line": 9,
+      "registeredAt": "2026-08-28T14:05:55Z",
+      "runner": "tests"
+    },
+    {
+      "description": "The sitemap must be advertised on the canonical host. Pointing at a redirecting hostname costs a hop on every crawler fetch and muddies which domain owns the content — the exact ambiguity this cycle's redirects exist to remove.",
+      "file": "app/robots.test.ts",
+      "format": "vitest",
+      "key": "robots › points at the sitemap on the canonical host",
+      "line": 17,
+      "registeredAt": "2026-08-28T14:05:55Z",
+      "runner": "tests"
+    },
+    {
       "description": "Customer.io's regional hosts are separate deployments and a token issued in one is rejected by the other, so this defaulting is a real failure mode rather than cosmetics.",
       "file": "app/lib/sendNotification.test.ts",
       "format": "vitest",
@@ -520,6 +565,78 @@
       "key": "sendUrl › uses the EU host when the region says so, case-insensitively",
       "line": 91,
       "registeredAt": "2026-08-27T21:49:03Z",
+      "runner": "tests"
+    },
+    {
+      "description": "The ordinary case: a root-relative path appends cleanly. Since SITE_URL has no trailing slash and the path carries a leading one, naive concatenation is already correct here — this locks that in.",
+      "file": "app/lib/siteUrl.test.ts",
+      "format": "vitest",
+      "key": "siteUrl › joins a root-relative path without doubling the slash",
+      "line": 33,
+      "registeredAt": "2026-08-28T14:05:55Z",
+      "runner": "tests"
+    },
+    {
+      "description": "Sweeps the boundary inputs at once — root, empty, bare, rooted, and nested — to assert the invariant that no combination emits \"//\" after the origin. A doubled slash yields a URL that resolves but is treated as a distinct address by crawlers.",
+      "file": "app/lib/siteUrl.test.ts",
+      "format": "vitest",
+      "key": "siteUrl › never emits a doubled slash after the origin",
+      "line": 47,
+      "registeredAt": "2026-08-28T14:05:55Z",
+      "runner": "tests"
+    },
+    {
+      "description": "The site root must render as the bare origin, with no trailing slash, whether it is requested by default or explicitly as '/'. This is the value that lands in the sitemap's <loc> and in og:url.",
+      "file": "app/lib/siteUrl.test.ts",
+      "format": "vitest",
+      "key": "siteUrl › returns the bare origin for the site root",
+      "line": 25,
+      "registeredAt": "2026-08-28T14:05:55Z",
+      "runner": "tests"
+    },
+    {
+      "description": "A caller that omits the leading slash must not produce \"nadiaeldeib.comsitemap.xml\". This is the case naive concatenation gets wrong, so it is the reason the helper exists at all rather than a template literal at each call site.",
+      "file": "app/lib/siteUrl.test.ts",
+      "format": "vitest",
+      "key": "siteUrl › tolerates a path given without its leading slash",
+      "line": 40,
+      "registeredAt": "2026-08-28T14:05:55Z",
+      "runner": "tests"
+    },
+    {
+      "description": "Every <loc> must name the canonical apex. A sitemap listing www. or nseldeib.com would submit redirecting URLs for indexing, splitting the site's identity across hosts — the precise outcome the redirects in this cycle are meant to prevent.",
+      "file": "app/sitemap.test.ts",
+      "format": "vitest",
+      "key": "sitemap › advertises no host that only redirects",
+      "line": 33,
+      "registeredAt": "2026-08-28T14:05:55Z",
+      "runner": "tests"
+    },
+    {
+      "description": "With exactly one page, that page is by definition the most important one on the site, so priority must be the maximum.",
+      "file": "app/sitemap.test.ts",
+      "format": "vitest",
+      "key": "sitemap › gives the only page top priority",
+      "line": 17,
+      "registeredAt": "2026-08-28T14:05:55Z",
+      "runner": "tests"
+    },
+    {
+      "description": "The site is one page. Its six numbered sections are anchors within '/', not routes, so listing them would hand crawlers several URLs that all resolve to the same document. This fails loudly if someone adds anchors as if they were pages.",
+      "file": "app/sitemap.test.ts",
+      "format": "vitest",
+      "key": "sitemap › lists the single page the site actually has",
+      "line": 9,
+      "registeredAt": "2026-08-28T14:05:55Z",
+      "runner": "tests"
+    },
+    {
+      "description": "lastModified must be a real Date, not a string or an Invalid Date. Next serialises it into <lastmod>, and a malformed value there makes crawlers discard the freshness signal for the entry entirely.",
+      "file": "app/sitemap.test.ts",
+      "format": "vitest",
+      "key": "sitemap › stamps a real lastModified date",
+      "line": 24,
+      "registeredAt": "2026-08-28T14:05:55Z",
       "runner": "tests"
     },
     {

@@ -1,10 +1,15 @@
 {
   "POST /api/contact › answers malformed JSON with 400": {
     "file": "app/api/contact/route.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -39,10 +44,15 @@
   },
   "POST /api/contact › rejects an invalid submission with 422 and saves nothing": {
     "file": "app/api/contact/route.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -77,10 +87,15 @@
   },
   "POST /api/contact › returns 500 and does not attempt delivery when the write fails": {
     "file": "app/api/contact/route.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -115,10 +130,15 @@
   },
   "POST /api/contact › saves the note and still returns 201 when delivery fails": {
     "file": "app/api/contact/route.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -153,10 +173,15 @@
   },
   "POST /api/contact › stamps emailedAt once delivery succeeds": {
     "file": "app/api/contact/route.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -191,10 +216,15 @@
   },
   "POST /api/contact › still returns 201 when stamping fails after a successful send": {
     "file": "app/api/contact/route.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -229,10 +259,15 @@
   },
   "POST /api/contact › writes nothing when the honeypot is tripped": {
     "file": "app/api/contact/route.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -265,12 +300,43 @@
       }
     ]
   },
-  "buildSendPayload › carries the composed note as the plaintext part": {
-    "file": "app/lib/sendNotification.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+  "SITE_URL › is the bare apex over https, with no trailing slash": {
+    "file": "app/lib/siteUrl.test.ts",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      }
+    ]
+  },
+  "SITE_URL › names the apex rather than a redirecting host": {
+    "file": "app/lib/siteUrl.test.ts",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
+    "lastRunKind": "full",
+    "lastStatus": "pass",
+    "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      }
+    ]
+  },
+  "buildSendPayload › carries the composed note as the plaintext part": {
+    "file": "app/lib/sendNotification.test.ts",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
+    "lastRunKind": "full",
+    "lastStatus": "pass",
+    "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -310,10 +376,15 @@
   },
   "buildSendPayload › escapes the note inside the HTML part": {
     "file": "app/lib/sendNotification.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -353,10 +424,15 @@
   },
   "buildSendPayload › identifies the recipient by the inbox address": {
     "file": "app/lib/sendNotification.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -396,10 +472,15 @@
   },
   "buildSendPayload › puts the topic and the sender in the subject": {
     "file": "app/lib/sendNotification.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -439,10 +520,15 @@
   },
   "buildSendPayload › replies to the sender, and delivers to the configured inbox": {
     "file": "app/lib/sendNotification.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -482,10 +568,15 @@
   },
   "composeBody › omits the source line when there is no source page": {
     "file": "app/lib/sendNotification.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -525,10 +616,15 @@
   },
   "composeBody › puts the metadata first and the message last, verbatim": {
     "file": "app/lib/sendNotification.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -568,10 +664,15 @@
   },
   "contactResponses › answers a tripped honeypot exactly like a success": {
     "file": "app/lib/contactResponses.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -611,10 +712,15 @@
   },
   "contactResponses › answers unreadable input with 400": {
     "file": "app/lib/contactResponses.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -654,10 +760,15 @@
   },
   "contactResponses › reports the saved row with a 201": {
     "file": "app/lib/contactResponses.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -697,10 +808,15 @@
   },
   "contactResponses › returns the field problems with a 422": {
     "file": "app/lib/contactResponses.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -740,10 +856,15 @@
   },
   "contactResponses › says nothing was sent when the write failed": {
     "file": "app/lib/contactResponses.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -783,10 +904,15 @@
   },
   "deliverAndStamp › does not stamp when the provider rejects the send": {
     "file": "app/lib/deliverAndStamp.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -826,10 +952,15 @@
   },
   "deliverAndStamp › never throws, even when stamping blows up": {
     "file": "app/lib/deliverAndStamp.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -869,10 +1000,15 @@
   },
   "deliverAndStamp › reports delivered-unstamped when the row update fails": {
     "file": "app/lib/deliverAndStamp.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -912,10 +1048,15 @@
   },
   "deliverAndStamp › reports the provider reason on a failed send": {
     "file": "app/lib/deliverAndStamp.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -955,10 +1096,15 @@
   },
   "deliverAndStamp › sends before it stamps": {
     "file": "app/lib/deliverAndStamp.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -998,10 +1144,15 @@
   },
   "deliverAndStamp › stamps the saved row once the provider accepts": {
     "file": "app/lib/deliverAndStamp.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -1041,10 +1192,15 @@
   },
   "deliverAndStamp › works without an onProblem hook": {
     "file": "app/lib/deliverAndStamp.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -1084,10 +1240,15 @@
   },
   "describeSendFailure › includes the status and the provider detail": {
     "file": "app/lib/sendNotification.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -1127,10 +1288,15 @@
   },
   "describeSendFailure › omits the separator when there is no detail": {
     "file": "app/lib/sendNotification.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -1170,10 +1336,15 @@
   },
   "describeSendFailure › still reports the status when the body cannot be read": {
     "file": "app/lib/sendNotification.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -1213,10 +1384,15 @@
   },
   "describeSendFailure › truncates a long body": {
     "file": "app/lib/sendNotification.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -1256,10 +1432,15 @@
   },
   "escapeHtml › does not double-escape its own output": {
     "file": "app/lib/sendNotification.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -1299,10 +1480,15 @@
   },
   "escapeHtml › escapes the characters that could alter the markup": {
     "file": "app/lib/sendNotification.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -1342,10 +1528,15 @@
   },
   "isHoneypotTripped › does not trip for an ordinary submission": {
     "file": "app/lib/contactRequest.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -1385,10 +1576,15 @@
   },
   "isHoneypotTripped › does not trip on whitespace alone": {
     "file": "app/lib/contactRequest.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -1428,10 +1624,15 @@
   },
   "isHoneypotTripped › survives payloads that are not objects": {
     "file": "app/lib/contactRequest.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -1471,10 +1672,15 @@
   },
   "isHoneypotTripped › trips when the hidden field has content": {
     "file": "app/lib/contactRequest.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -1514,10 +1720,15 @@
   },
   "pickActive › can return the last section": {
     "file": "app/lib/activeSection.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -1560,11 +1771,6 @@
       },
       {
         "at": "2026-08-27T21:47:37.687565+00:00",
-        "kind": "changed",
-        "status": "pass"
-      },
-      {
-        "at": "2026-08-27T21:47:20.635416+00:00",
         "kind": "changed",
         "status": "pass"
       }
@@ -1572,10 +1778,15 @@
   },
   "pickActive › does not depend on the order ids were added to the set": {
     "file": "app/lib/activeSection.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -1618,11 +1829,6 @@
       },
       {
         "at": "2026-08-27T21:47:37.687565+00:00",
-        "kind": "changed",
-        "status": "pass"
-      },
-      {
-        "at": "2026-08-27T21:47:20.635416+00:00",
         "kind": "changed",
         "status": "pass"
       }
@@ -1630,10 +1836,15 @@
   },
   "pickActive › ignores ids that are not in the ordered list": {
     "file": "app/lib/activeSection.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -1676,11 +1887,6 @@
       },
       {
         "at": "2026-08-27T21:47:37.687565+00:00",
-        "kind": "changed",
-        "status": "pass"
-      },
-      {
-        "at": "2026-08-27T21:47:20.635416+00:00",
         "kind": "changed",
         "status": "pass"
       }
@@ -1688,10 +1894,15 @@
   },
   "pickActive › is null when nothing is visible": {
     "file": "app/lib/activeSection.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -1734,11 +1945,6 @@
       },
       {
         "at": "2026-08-27T21:47:37.687565+00:00",
-        "kind": "changed",
-        "status": "pass"
-      },
-      {
-        "at": "2026-08-27T21:47:20.635416+00:00",
         "kind": "changed",
         "status": "pass"
       }
@@ -1746,10 +1952,15 @@
   },
   "pickActive › is null when there is no ordered list": {
     "file": "app/lib/activeSection.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -1792,11 +2003,6 @@
       },
       {
         "at": "2026-08-27T21:47:37.687565+00:00",
-        "kind": "changed",
-        "status": "pass"
-      },
-      {
-        "at": "2026-08-27T21:47:20.635416+00:00",
         "kind": "changed",
         "status": "pass"
       }
@@ -1804,10 +2010,15 @@
   },
   "pickActive › prefers the earliest in document order when several are visible": {
     "file": "app/lib/activeSection.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -1850,11 +2061,6 @@
       },
       {
         "at": "2026-08-27T21:47:37.687565+00:00",
-        "kind": "changed",
-        "status": "pass"
-      },
-      {
-        "at": "2026-08-27T21:47:20.635416+00:00",
         "kind": "changed",
         "status": "pass"
       }
@@ -1862,10 +2068,15 @@
   },
   "pickActive › returns the one visible section": {
     "file": "app/lib/activeSection.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -1910,20 +2121,20 @@
         "at": "2026-08-27T21:47:37.687565+00:00",
         "kind": "changed",
         "status": "pass"
-      },
-      {
-        "at": "2026-08-27T21:47:20.635416+00:00",
-        "kind": "changed",
-        "status": "pass"
       }
     ]
   },
   "readJsonBody › accepts valid JSON that is not an object": {
     "file": "app/lib/contactRequest.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -1963,10 +2174,15 @@
   },
   "readJsonBody › reports failure instead of throwing on malformed JSON": {
     "file": "app/lib/contactRequest.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -2006,10 +2222,15 @@
   },
   "readJsonBody › reports failure on an empty body": {
     "file": "app/lib/contactRequest.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -2049,10 +2270,15 @@
   },
   "readJsonBody › returns the parsed payload for valid JSON": {
     "file": "app/lib/contactRequest.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -2092,10 +2318,15 @@
   },
   "readMailConfig › names every missing variable without revealing any value": {
     "file": "app/lib/sendNotification.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -2135,10 +2366,15 @@
   },
   "readMailConfig › names only the one that is absent": {
     "file": "app/lib/sendNotification.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -2178,10 +2414,15 @@
   },
   "readMailConfig › returns the config once all three are present": {
     "file": "app/lib/sendNotification.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -2221,10 +2462,15 @@
   },
   "readMailConfig › treats an empty string as unset": {
     "file": "app/lib/sendNotification.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -2264,10 +2510,15 @@
   },
   "requireConnectionString › names where the value belongs": {
     "file": "app/lib/prismaConnection.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -2307,10 +2558,15 @@
   },
   "requireConnectionString › returns the connection string when it is set": {
     "file": "app/lib/prismaConnection.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -2350,10 +2606,15 @@
   },
   "requireConnectionString › throws when DATABASE_URL is absent": {
     "file": "app/lib/prismaConnection.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -2393,10 +2654,15 @@
   },
   "requireConnectionString › treats an empty string as unset": {
     "file": "app/lib/prismaConnection.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -2434,12 +2700,56 @@
       }
     ]
   },
-  "sendUrl › defaults to the US host": {
-    "file": "app/lib/sendNotification.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+  "robots › disallows nothing, so it cannot advertise the isolation routes": {
+    "file": "app/robots.test.ts",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      }
+    ]
+  },
+  "robots › lets every crawler read the whole site": {
+    "file": "app/robots.test.ts",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
+    "lastRunKind": "full",
+    "lastStatus": "pass",
+    "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      }
+    ]
+  },
+  "robots › points at the sitemap on the canonical host": {
+    "file": "app/robots.test.ts",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
+    "lastRunKind": "full",
+    "lastStatus": "pass",
+    "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      }
+    ]
+  },
+  "sendUrl › defaults to the US host": {
+    "file": "app/lib/sendNotification.test.ts",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
+    "lastRunKind": "full",
+    "lastStatus": "pass",
+    "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -2479,10 +2789,15 @@
   },
   "sendUrl › falls back to US for an unrecognised region": {
     "file": "app/lib/sendNotification.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -2522,10 +2837,15 @@
   },
   "sendUrl › uses the EU host when the region says so, case-insensitively": {
     "file": "app/lib/sendNotification.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -2563,12 +2883,121 @@
       }
     ]
   },
-  "splitOnBrand › handles the brand at the start or the end": {
-    "file": "app/lib/text.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+  "siteUrl › joins a root-relative path without doubling the slash": {
+    "file": "app/lib/siteUrl.test.ts",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      }
+    ]
+  },
+  "siteUrl › never emits a doubled slash after the origin": {
+    "file": "app/lib/siteUrl.test.ts",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
+    "lastRunKind": "full",
+    "lastStatus": "pass",
+    "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      }
+    ]
+  },
+  "siteUrl › returns the bare origin for the site root": {
+    "file": "app/lib/siteUrl.test.ts",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
+    "lastRunKind": "full",
+    "lastStatus": "pass",
+    "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      }
+    ]
+  },
+  "siteUrl › tolerates a path given without its leading slash": {
+    "file": "app/lib/siteUrl.test.ts",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
+    "lastRunKind": "full",
+    "lastStatus": "pass",
+    "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      }
+    ]
+  },
+  "sitemap › advertises no host that only redirects": {
+    "file": "app/sitemap.test.ts",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
+    "lastRunKind": "full",
+    "lastStatus": "pass",
+    "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      }
+    ]
+  },
+  "sitemap › gives the only page top priority": {
+    "file": "app/sitemap.test.ts",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
+    "lastRunKind": "full",
+    "lastStatus": "pass",
+    "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      }
+    ]
+  },
+  "sitemap › lists the single page the site actually has": {
+    "file": "app/sitemap.test.ts",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
+    "lastRunKind": "full",
+    "lastStatus": "pass",
+    "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      }
+    ]
+  },
+  "sitemap › stamps a real lastModified date": {
+    "file": "app/sitemap.test.ts",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
+    "lastRunKind": "full",
+    "lastStatus": "pass",
+    "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      }
+    ]
+  },
+  "splitOnBrand › handles the brand at the start or the end": {
+    "file": "app/lib/text.test.ts",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
+    "lastRunKind": "full",
+    "lastStatus": "pass",
+    "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -2611,11 +3040,6 @@
       },
       {
         "at": "2026-08-27T21:47:37.687565+00:00",
-        "kind": "changed",
-        "status": "pass"
-      },
-      {
-        "at": "2026-08-27T21:47:20.635416+00:00",
         "kind": "changed",
         "status": "pass"
       }
@@ -2623,10 +3047,15 @@
   },
   "splitOnBrand › is case-sensitive": {
     "file": "app/lib/text.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -2669,11 +3098,6 @@
       },
       {
         "at": "2026-08-27T21:47:37.687565+00:00",
-        "kind": "changed",
-        "status": "pass"
-      },
-      {
-        "at": "2026-08-27T21:47:20.635416+00:00",
         "kind": "changed",
         "status": "pass"
       }
@@ -2681,10 +3105,15 @@
   },
   "splitOnBrand › reassembles to the original string": {
     "file": "app/lib/text.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -2727,11 +3156,6 @@
       },
       {
         "at": "2026-08-27T21:47:37.687565+00:00",
-        "kind": "changed",
-        "status": "pass"
-      },
-      {
-        "at": "2026-08-27T21:47:20.635416+00:00",
         "kind": "changed",
         "status": "pass"
       }
@@ -2739,10 +3163,15 @@
   },
   "splitOnBrand › returns the whole string when the brand is absent": {
     "file": "app/lib/text.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -2785,11 +3214,6 @@
       },
       {
         "at": "2026-08-27T21:47:37.687565+00:00",
-        "kind": "changed",
-        "status": "pass"
-      },
-      {
-        "at": "2026-08-27T21:47:20.635416+00:00",
         "kind": "changed",
         "status": "pass"
       }
@@ -2797,10 +3221,15 @@
   },
   "splitOnBrand › splits a sentence around the brand": {
     "file": "app/lib/text.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -2843,11 +3272,6 @@
       },
       {
         "at": "2026-08-27T21:47:37.687565+00:00",
-        "kind": "changed",
-        "status": "pass"
-      },
-      {
-        "at": "2026-08-27T21:47:20.635416+00:00",
         "kind": "changed",
         "status": "pass"
       }
@@ -2855,10 +3279,15 @@
   },
   "splitOnBrand › splits on the first occurrence only": {
     "file": "app/lib/text.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -2901,11 +3330,6 @@
       },
       {
         "at": "2026-08-27T21:47:37.687565+00:00",
-        "kind": "changed",
-        "status": "pass"
-      },
-      {
-        "at": "2026-08-27T21:47:20.635416+00:00",
         "kind": "changed",
         "status": "pass"
       }
@@ -2913,10 +3337,15 @@
   },
   "splitOnBrand › survives empty input": {
     "file": "app/lib/text.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -2959,11 +3388,6 @@
       },
       {
         "at": "2026-08-27T21:47:37.687565+00:00",
-        "kind": "changed",
-        "status": "pass"
-      },
-      {
-        "at": "2026-08-27T21:47:20.635416+00:00",
         "kind": "changed",
         "status": "pass"
       }
@@ -2971,10 +3395,15 @@
   },
   "str › returns empty for a non-string": {
     "file": "app/lib/validateMessage.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -3017,11 +3446,6 @@
       },
       {
         "at": "2026-08-27T21:47:37.687565+00:00",
-        "kind": "changed",
-        "status": "pass"
-      },
-      {
-        "at": "2026-08-27T21:47:20.635416+00:00",
         "kind": "changed",
         "status": "pass"
       }
@@ -3029,10 +3453,15 @@
   },
   "str › trims a string": {
     "file": "app/lib/validateMessage.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -3075,11 +3504,6 @@
       },
       {
         "at": "2026-08-27T21:47:37.687565+00:00",
-        "kind": "changed",
-        "status": "pass"
-      },
-      {
-        "at": "2026-08-27T21:47:20.635416+00:00",
         "kind": "changed",
         "status": "pass"
       }
@@ -3087,10 +3511,15 @@
   },
   "submitMessage › POSTs JSON to the contact route with sourcePage attached": {
     "file": "app/lib/submitMessage.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -3133,11 +3562,6 @@
       },
       {
         "at": "2026-08-27T21:47:37.687565+00:00",
-        "kind": "changed",
-        "status": "pass"
-      },
-      {
-        "at": "2026-08-27T21:47:20.635416+00:00",
         "kind": "changed",
         "status": "pass"
       }
@@ -3145,10 +3569,15 @@
   },
   "submitMessage › falls back to a message when the error body is unreadable": {
     "file": "app/lib/submitMessage.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -3191,11 +3620,6 @@
       },
       {
         "at": "2026-08-27T21:47:37.687565+00:00",
-        "kind": "changed",
-        "status": "pass"
-      },
-      {
-        "at": "2026-08-27T21:47:20.635416+00:00",
         "kind": "changed",
         "status": "pass"
       }
@@ -3203,10 +3627,15 @@
   },
   "submitMessage › passes through the server error message on a 500": {
     "file": "app/lib/submitMessage.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -3249,11 +3678,6 @@
       },
       {
         "at": "2026-08-27T21:47:37.687565+00:00",
-        "kind": "changed",
-        "status": "pass"
-      },
-      {
-        "at": "2026-08-27T21:47:20.635416+00:00",
         "kind": "changed",
         "status": "pass"
       }
@@ -3261,10 +3685,15 @@
   },
   "submitMessage › reports a failure when fetch throws": {
     "file": "app/lib/submitMessage.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -3307,11 +3736,6 @@
       },
       {
         "at": "2026-08-27T21:47:37.687565+00:00",
-        "kind": "changed",
-        "status": "pass"
-      },
-      {
-        "at": "2026-08-27T21:47:20.635416+00:00",
         "kind": "changed",
         "status": "pass"
       }
@@ -3319,10 +3743,15 @@
   },
   "submitMessage › reports sent on a 2xx": {
     "file": "app/lib/submitMessage.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -3365,11 +3794,6 @@
       },
       {
         "at": "2026-08-27T21:47:37.687565+00:00",
-        "kind": "changed",
-        "status": "pass"
-      },
-      {
-        "at": "2026-08-27T21:47:20.635416+00:00",
         "kind": "changed",
         "status": "pass"
       }
@@ -3377,10 +3801,15 @@
   },
   "submitMessage › surfaces per-field problems from a 422": {
     "file": "app/lib/submitMessage.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -3423,11 +3852,6 @@
       },
       {
         "at": "2026-08-27T21:47:37.687565+00:00",
-        "kind": "changed",
-        "status": "pass"
-      },
-      {
-        "at": "2026-08-27T21:47:20.635416+00:00",
         "kind": "changed",
         "status": "pass"
       }
@@ -3435,10 +3859,15 @@
   },
   "submitMessage › treats a 422 without problems as a failure": {
     "file": "app/lib/submitMessage.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -3483,20 +3912,20 @@
         "at": "2026-08-27T21:47:37.687565+00:00",
         "kind": "changed",
         "status": "pass"
-      },
-      {
-        "at": "2026-08-27T21:47:20.635416+00:00",
-        "kind": "changed",
-        "status": "pass"
       }
     ]
   },
   "summarize › counts delivered and undelivered separately": {
     "file": "prisma/seedRows.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -3536,10 +3965,15 @@
   },
   "summarize › reads correctly for an empty set": {
     "file": "prisma/seedRows.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -3579,10 +4013,15 @@
   },
   "the topic allow-list and the form agree › accepts every topic the form actually offers": {
     "file": "app/lib/validateMessage.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -3625,11 +4064,6 @@
       },
       {
         "at": "2026-08-27T21:47:37.687565+00:00",
-        "kind": "changed",
-        "status": "pass"
-      },
-      {
-        "at": "2026-08-27T21:47:20.635416+00:00",
         "kind": "changed",
         "status": "pass"
       }
@@ -3637,10 +4071,15 @@
   },
   "the topic allow-list and the form agree › accepts the chip the form selects by default": {
     "file": "app/lib/validateMessage.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -3685,20 +4124,20 @@
         "at": "2026-08-27T21:47:37.687565+00:00",
         "kind": "changed",
         "status": "pass"
-      },
-      {
-        "at": "2026-08-27T21:47:20.635416+00:00",
-        "kind": "changed",
-        "status": "pass"
       }
     ]
   },
   "toMessageRow › converts both timestamps when present": {
     "file": "prisma/seedRows.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -3738,10 +4177,15 @@
   },
   "toMessageRow › distinguishes an absent createdAt from an absent emailedAt": {
     "file": "prisma/seedRows.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -3781,10 +4225,15 @@
   },
   "toMessageRow › keeps an explicit null emailedAt": {
     "file": "prisma/seedRows.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -3824,10 +4273,15 @@
   },
   "toMessageRow › normalises a missing sourcePage to null": {
     "file": "prisma/seedRows.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -3867,10 +4321,15 @@
   },
   "validateMessage › accepts a well-formed message": {
     "file": "app/lib/validateMessage.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -3913,11 +4372,6 @@
       },
       {
         "at": "2026-08-27T21:47:37.687565+00:00",
-        "kind": "changed",
-        "status": "pass"
-      },
-      {
-        "at": "2026-08-27T21:47:20.635416+00:00",
         "kind": "changed",
         "status": "pass"
       }
@@ -3925,10 +4379,15 @@
   },
   "validateMessage › accepts addresses a stricter pattern would wrongly reject": {
     "file": "app/lib/validateMessage.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -3971,11 +4430,6 @@
       },
       {
         "at": "2026-08-27T21:47:37.687565+00:00",
-        "kind": "changed",
-        "status": "pass"
-      },
-      {
-        "at": "2026-08-27T21:47:20.635416+00:00",
         "kind": "changed",
         "status": "pass"
       }
@@ -3983,10 +4437,15 @@
   },
   "validateMessage › accepts every listed topic and rejects anything else": {
     "file": "app/lib/validateMessage.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -4029,11 +4488,6 @@
       },
       {
         "at": "2026-08-27T21:47:37.687565+00:00",
-        "kind": "changed",
-        "status": "pass"
-      },
-      {
-        "at": "2026-08-27T21:47:20.635416+00:00",
         "kind": "changed",
         "status": "pass"
       }
@@ -4041,10 +4495,15 @@
   },
   "validateMessage › carries sourcePage through, or null when absent": {
     "file": "app/lib/validateMessage.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -4087,11 +4546,6 @@
       },
       {
         "at": "2026-08-27T21:47:37.687565+00:00",
-        "kind": "changed",
-        "status": "pass"
-      },
-      {
-        "at": "2026-08-27T21:47:20.635416+00:00",
         "kind": "changed",
         "status": "pass"
       }
@@ -4099,10 +4553,15 @@
   },
   "validateMessage › enforces the length limits": {
     "file": "app/lib/validateMessage.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -4145,11 +4604,6 @@
       },
       {
         "at": "2026-08-27T21:47:37.687565+00:00",
-        "kind": "changed",
-        "status": "pass"
-      },
-      {
-        "at": "2026-08-27T21:47:20.635416+00:00",
         "kind": "changed",
         "status": "pass"
       }
@@ -4157,10 +4611,15 @@
   },
   "validateMessage › rejects an address with no @ or no dotted domain": {
     "file": "app/lib/validateMessage.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -4203,11 +4662,6 @@
       },
       {
         "at": "2026-08-27T21:47:37.687565+00:00",
-        "kind": "changed",
-        "status": "pass"
-      },
-      {
-        "at": "2026-08-27T21:47:20.635416+00:00",
         "kind": "changed",
         "status": "pass"
       }
@@ -4215,10 +4669,15 @@
   },
   "validateMessage › reports every problem at once, not just the first": {
     "file": "app/lib/validateMessage.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -4261,11 +4720,6 @@
       },
       {
         "at": "2026-08-27T21:47:37.687565+00:00",
-        "kind": "changed",
-        "status": "pass"
-      },
-      {
-        "at": "2026-08-27T21:47:20.635416+00:00",
         "kind": "changed",
         "status": "pass"
       }
@@ -4273,10 +4727,15 @@
   },
   "validateMessage › requires a name, an email, and a body": {
     "file": "app/lib/validateMessage.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -4319,11 +4778,6 @@
       },
       {
         "at": "2026-08-27T21:47:37.687565+00:00",
-        "kind": "changed",
-        "status": "pass"
-      },
-      {
-        "at": "2026-08-27T21:47:20.635416+00:00",
         "kind": "changed",
         "status": "pass"
       }
@@ -4331,10 +4785,15 @@
   },
   "validateMessage › survives a non-object payload": {
     "file": "app/lib/validateMessage.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -4377,11 +4836,6 @@
       },
       {
         "at": "2026-08-27T21:47:37.687565+00:00",
-        "kind": "changed",
-        "status": "pass"
-      },
-      {
-        "at": "2026-08-27T21:47:20.635416+00:00",
         "kind": "changed",
         "status": "pass"
       }
@@ -4389,10 +4843,15 @@
   },
   "validateMessage › treats whitespace-only input as missing": {
     "file": "app/lib/validateMessage.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -4435,11 +4894,6 @@
       },
       {
         "at": "2026-08-27T21:47:37.687565+00:00",
-        "kind": "changed",
-        "status": "pass"
-      },
-      {
-        "at": "2026-08-27T21:47:20.635416+00:00",
         "kind": "changed",
         "status": "pass"
       }
@@ -4447,10 +4901,15 @@
   },
   "validateMessage › trims every field before validating": {
     "file": "app/lib/validateMessage.test.ts",
-    "lastRunAt": "2026-08-28T01:08:16.364981+00:00",
+    "lastRunAt": "2026-08-28T14:18:32.541402+00:00",
     "lastRunKind": "full",
     "lastStatus": "pass",
     "recentStatuses": [
+      {
+        "at": "2026-08-28T14:18:32.541402+00:00",
+        "kind": "full",
+        "status": "pass"
+      },
       {
         "at": "2026-08-28T01:08:16.364981+00:00",
         "kind": "full",
@@ -4493,11 +4952,6 @@
       },
       {
         "at": "2026-08-27T21:47:37.687565+00:00",
-        "kind": "changed",
-        "status": "pass"
-      },
-      {
-        "at": "2026-08-27T21:47:20.635416+00:00",
         "kind": "changed",
         "status": "pass"
       }
