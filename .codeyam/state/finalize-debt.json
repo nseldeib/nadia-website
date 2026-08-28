@@ -1,7 +1,7 @@
 {
-  "lastFinalizedAt": "2026-08-28T01:06:09Z",
-  "lastFinalizedSha": "b6df03a9fd222fdadcec15be63d6a4e36ba6b1fa",
-  "lastFullFinalizeSha": "b6df03a9fd222fdadcec15be63d6a4e36ba6b1fa",
+  "lastFinalizedAt": "2026-08-28T01:09:16Z",
+  "lastFinalizedSha": "ca0ddff39af9a9862db941afd054c0dbfa7e7ebb",
+  "lastFullFinalizeSha": "ca0ddff39af9a9862db941afd054c0dbfa7e7ebb",
   "lastFullFinalizeTree": "e5b8364f334318d1b0df9d3d45be4f29c09fb13cc7300da4756cb4c90a07514a",
   "deferred": []
 }

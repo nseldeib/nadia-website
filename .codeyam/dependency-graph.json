@@ -1,299 +1,5 @@
 {
   "files": {
-    "components/contact/FormFailure.tsx": {
-      "imports": [
-        "components/Contact.module.css"
-      ],
-      "importedBy": [
-        "app/isolated-components/FormFailure/page.tsx",
-        "components/ContactForm.tsx"
-      ]
-    },
-    "app/lib/validateMessage.ts": {
-      "imports": [
-        "content/site.ts"
-      ],
-      "importedBy": [
-        "app/lib/validateMessage.test.ts",
-        "app/lib/submitMessage.ts",
-        "app/lib/contactResponses.ts",
-        "app/lib/contactRequest.ts",
-        "app/api/contact/route.ts",
-        "components/ContactForm.tsx"
-      ]
-    },
-    "app/isolated-components/PhotoRotator/page.tsx": {
-      "imports": [
-        "components/PhotoRotator.tsx",
-        "content/site.ts"
-      ],
-      "importedBy": []
-    },
-    "components/Footer.tsx": {
-      "imports": [
-        "content/site.ts",
-        "app/lib/text.ts",
-        "components/Footer.module.css"
-      ],
-      "importedBy": [
-        "app/isolated-components/Footer/page.tsx",
-        "app/isolated-components/FooterSignoff/page.tsx",
-        "app/page.tsx"
-      ]
-    },
-    "app/isolated-components/HeroBackdrop/page.tsx": {
-      "imports": [
-        "components/hero/HeroBackdrop.tsx",
-        "content/site.ts"
-      ],
-      "importedBy": []
-    },
-    "components/Hero": {
-      "imports": [],
-      "importedBy": [
-        "app/isolated-components/Hero/page.tsx"
-      ]
-    },
-    "app/isolated-components/layout.tsx": {
-      "imports": [],
-      "importedBy": []
-    },
-    "components/Work.module.css": {
-      "imports": [],
-      "importedBy": [
-        "components/Work.tsx",
-        "components/work/AdvisoryCard.tsx",
-        "components/work/WorkNarrative.tsx",
-        "components/work/WorkLinkList.tsx"
-      ]
-    },
-    "app/isolated-components/Field/page.tsx": {
-      "imports": [
-        "components/contact/Field.tsx",
-        "components/Contact.module.css"
-      ],
-      "importedBy": []
-    },
-    "components/Footer.module.css": {
-      "imports": [],
-      "importedBy": [
-        "components/Footer.tsx"
-      ]
-    },
-    ".claude/skills/review-session/scripts/extract-session.mjs": {
-      "imports": [
-        ".claude/skills/review-session/scripts/extract-session-helpers.mjs"
-      ],
-      "importedBy": []
-    },
-    "app/isolated-components/Honeypot/Harness.tsx": {
-      "imports": [
-        "components/contact/Honeypot.tsx"
-      ],
-      "importedBy": [
-        "app/isolated-components/Honeypot/page.tsx"
-      ]
-    },
-    "components/Contact": {
-      "imports": [],
-      "importedBy": [
-        "app/isolated-components/Contact/page.tsx"
-      ]
-    },
-    "app/isolated-components/FindMe/page.tsx": {
-      "imports": [
-        "components/contact/FindMe.tsx",
-        "content/site.ts"
-      ],
-      "importedBy": []
-    },
-    "components/PhotoRotator.tsx": {
-      "imports": [
-        "components/PhotoRotator.module.css"
-      ],
-      "importedBy": [
-        "app/isolated-components/PhotoRotator/page.tsx",
-        "components/Work.tsx",
-        "components/Adventures.tsx",
-        "components/About.tsx"
-      ]
-    },
-    "app/isolated-components/ElsewhereRow/page.tsx": {
-      "imports": [
-        "components/elsewhere/ElsewhereRow.tsx",
-        "content/site.ts"
-      ],
-      "importedBy": []
-    },
-    "prisma/seedRows.ts": {
-      "imports": [],
-      "importedBy": [
-        "prisma/seedRows.test.ts",
-        "prisma/seed.ts"
-      ]
-    },
-    "app/isolated-components/SocialList/page.tsx": {
-      "imports": [
-        "components/contact/SocialList.tsx",
-        "content/site.ts"
-      ],
-      "importedBy": []
-    },
-    "app/isolated-components/WorkNarrative/page.tsx": {
-      "imports": [
-        "components/work/WorkNarrative.tsx",
-        "content/site.ts"
-      ],
-      "importedBy": []
-    },
-    "components/NotFound.module.css": {
-      "imports": [],
-      "importedBy": [
-        "components/NotFound.tsx"
-      ]
-    },
-    "app/lib/prismaConnection.ts": {
-      "imports": [],
-      "importedBy": [
-        "app/lib/prisma.ts",
-        "app/lib/prismaConnection.test.ts",
-        "prisma/seed.ts"
-      ]
-    },
-    "app/lib/sendNotification.test.ts": {
-      "imports": [
-        "app/lib/sendNotification.ts",
-        "app/lib/sendNotification.ts"
-      ],
-      "importedBy": []
-    },
-    "components/Writing.module.css": {
-      "imports": [],
-      "importedBy": [
-        "components/Writing.tsx",
-        "components/writing/PostList.tsx",
-        "components/writing/WritingIntro.tsx"
-      ]
-    },
-    "components/Adventures.tsx": {
-      "imports": [
-        "content/site.ts",
-        "components/PhotoRotator.tsx",
-        "components/SectionHead.tsx",
-        "components/Section.module.css",
-        "components/Adventures.module.css"
-      ],
-      "importedBy": [
-        "app/isolated-components/Adventures/page.tsx",
-        "app/page.tsx"
-      ]
-    },
-    "app/isolated-components/ContactForm/page.tsx": {
-      "imports": [
-        "components/ContactForm.tsx"
-      ],
-      "importedBy": []
-    },
-    "components/Contact.module.css": {
-      "imports": [],
-      "importedBy": [
-        "app/isolated-components/Field/page.tsx",
-        "components/contact/SentConfirmation.tsx",
-        "components/contact/FormFailure.tsx",
-        "components/contact/Field.tsx",
-        "components/contact/TopicChips.tsx",
-        "components/contact/FindMe.tsx",
-        "components/contact/Honeypot.tsx",
-        "components/contact/SocialList.tsx",
-        "components/ContactForm.tsx"
-      ]
-    },
-    "app/isolated-components/WorkLinkList/page.tsx": {
-      "imports": [
-        "components/work/WorkLinkList.tsx",
-        "content/site.ts"
-      ],
-      "importedBy": []
-    },
-    "components/hero/ScrollCue.tsx": {
-      "imports": [
-        "components/Hero.module.css"
-      ],
-      "importedBy": [
-        "app/isolated-components/ScrollCue/page.tsx",
-        "components/Hero.tsx"
-      ]
-    },
-    ".codeyam/scenario-metrics.js": {
-      "imports": [],
-      "importedBy": [
-        ".codeyam/capture.js",
-        ".codeyam/scenario-playwright.js"
-      ]
-    },
-    "components/Elsewhere.tsx": {
-      "imports": [
-        "content/site.ts",
-        "components/SectionHead.tsx",
-        "components/elsewhere/ElsewhereRow.tsx",
-        "components/Section.module.css",
-        "components/Elsewhere.module.css"
-      ],
-      "importedBy": [
-        "app/page.tsx"
-      ]
-    },
-    "app/not-found.tsx": {
-      "imports": [
-        "components/NotFound.tsx"
-      ],
-      "importedBy": []
-    },
-    "content/site.json": {
-      "imports": [],
-      "importedBy": [
-        "content/site.ts"
-      ]
-    },
-    "components/Adventures.module.css": {
-      "imports": [],
-      "importedBy": [
-        "components/Adventures.tsx"
-      ]
-    },
-    ".claude/skills/review-session/scripts/find-last-session-helpers.mjs": {
-      "imports": [],
-      "importedBy": [
-        ".claude/skills/review-session/scripts/find-last-session.mjs"
-      ]
-    },
-    "prisma/seed.ts": {
-      "imports": [
-        "app/lib/loadEnv.ts",
-        "app/lib/prismaConnection.ts",
-        "prisma/seedRows.ts"
-      ],
-      "importedBy": []
-    },
-    "app/isolated-components/Honeypot/page.tsx": {
-      "imports": [
-        "app/isolated-components/Honeypot/Harness.tsx"
-      ],
-      "importedBy": []
-    },
-    "app/isolated-components/Nav/page.tsx": {
-      "imports": [
-        "components/Nav.tsx"
-      ],
-      "importedBy": []
-    },
-    "components/writing/ExternalLinkIcon.tsx": {
-      "imports": [],
-      "importedBy": [
-        "app/isolated-components/ExternalLinkIcon/page.tsx",
-        "components/writing/WritingIntro.tsx"
-      ]
-    },
     "components/elsewhere/ElsewhereRow.tsx": {
       "imports": [
         "components/Elsewhere.module.css"
@@ -303,29 +9,42 @@
         "components/Elsewhere.tsx"
       ]
     },
-    "app/isolated-components/Hero/page.tsx": {
+    "app/isolated-components/Contact/page.tsx": {
       "imports": [
-        "components/Hero"
+        "components/Contact"
       ],
       "importedBy": []
     },
-    "app/isolated-components/Work/page.tsx": {
+    "app/isolated-components/FooterSignoff/page.tsx": {
       "imports": [
-        "components/Work"
+        "components/Footer.tsx",
+        "content/site.ts"
       ],
       "importedBy": []
+    },
+    "eslint.config.mjs": {
+      "imports": [],
+      "importedBy": []
+    },
+    "components/contact/TopicChips.tsx": {
+      "imports": [
+        "components/Contact.module.css"
+      ],
+      "importedBy": [
+        "app/isolated-components/TopicChips/Harness.tsx",
+        "components/ContactForm.tsx"
+      ]
     },
     ".claude/hooks/_step_metadata.py": {
       "imports": [],
       "importedBy": []
     },
-    "components/about/CityRotator.tsx": {
-      "imports": [
-        "components/About.module.css"
-      ],
+    "app/lib/loadEnv.ts": {
+      "imports": [],
       "importedBy": [
-        "app/isolated-components/CityRotator/page.tsx",
-        "components/about/AboutFacts.tsx"
+        "prisma/seed.ts",
+        "prisma.config.ts",
+        "vitest.config.ts"
       ]
     },
     "app/isolated-components/TopicChips/page.tsx": {
@@ -335,36 +54,73 @@
       ],
       "importedBy": []
     },
-    "app/lib/deliverAndStamp.ts": {
+    "components/work/AdvisoryCard.tsx": {
       "imports": [
-        "app/lib/sendNotification.ts"
+        "components/Work.module.css"
       ],
       "importedBy": [
-        "app/lib/deliverAndStamp.test.ts",
-        "app/api/contact/route.ts"
+        "app/isolated-components/AdvisoryCard/page.tsx",
+        "components/Work.tsx"
       ]
     },
-    "app/isolated-components/Contact/page.tsx": {
+    "app/page.tsx": {
       "imports": [
-        "components/Contact"
+        "components/Nav.tsx",
+        "components/Hero.tsx",
+        "components/Work.tsx",
+        "components/About.tsx",
+        "components/Writing.tsx",
+        "components/Adventures.tsx",
+        "components/Elsewhere.tsx",
+        "components/Contact.tsx",
+        "components/Footer.tsx"
       ],
       "importedBy": []
     },
-    "app/isolated-components/ScrollCue/page.tsx": {
+    "app/lib/contactResponses.ts": {
       "imports": [
-        "components/hero/ScrollCue.tsx",
+        "app/lib/validateMessage.ts"
+      ],
+      "importedBy": [
+        "app/lib/contactResponses.test.ts",
+        "app/api/contact/route.ts"
+      ]
+    },
+    ".claude/skills/review-session/scripts/extract-session-helpers.mjs": {
+      "imports": [],
+      "importedBy": [
+        ".claude/skills/review-session/scripts/extract-session.mjs"
+      ]
+    },
+    ".codeyam/capture.js": {
+      "imports": [
+        ".codeyam/scenario-metrics.js",
+        ".codeyam/scenario-issues.js",
+        ".codeyam/scenario-mocks.js",
+        ".codeyam/scenario-playwright.js",
+        ".codeyam/scenario-handlers.js",
+        ".codeyam/scenario-interactivity.js"
+      ],
+      "importedBy": []
+    },
+    "components/hero/HeroBackdrop.tsx": {
+      "imports": [
+        "components/Hero.module.css"
+      ],
+      "importedBy": [
+        "app/isolated-components/HeroBackdrop/page.tsx",
+        "components/Hero.tsx"
+      ]
+    },
+    "app/isolated-components/SentConfirmation/page.tsx": {
+      "imports": [
+        "components/contact/SentConfirmation.tsx",
         "content/site.ts"
       ],
       "importedBy": []
     },
-    ".claude/hooks/editor-step-hook.py": {
+    ".claude/hooks/editor-pretool-hook.py": {
       "imports": [],
-      "importedBy": []
-    },
-    "app/lib/submitMessage.test.ts": {
-      "imports": [
-        "app/lib/submitMessage.ts"
-      ],
       "importedBy": []
     },
     "components/SectionHead.tsx": {
@@ -381,24 +137,71 @@
         "components/About.tsx"
       ]
     },
-    "app/isolated-components/Footer/page.tsx": {
+    "components/Section.module.css": {
+      "imports": [],
+      "importedBy": [
+        "components/Elsewhere.tsx",
+        "components/Work.tsx",
+        "components/Contact.tsx",
+        "components/Adventures.tsx",
+        "components/work/WorkNarrative.tsx",
+        "components/Writing.tsx",
+        "components/About.tsx"
+      ]
+    },
+    "app/isolated-components/PostList/page.tsx": {
       "imports": [
-        "components/Footer.tsx"
+        "components/writing/PostList.tsx",
+        "content/site.ts"
       ],
       "importedBy": []
     },
-    "components/contact/TopicChips.tsx": {
+    ".codeyam/scenario-handlers.js": {
+      "imports": [
+        ".codeyam/scenario-issues.js"
+      ],
+      "importedBy": [
+        ".codeyam/capture.js"
+      ]
+    },
+    ".codeyam/scenario-metrics.js": {
+      "imports": [],
+      "importedBy": [
+        ".codeyam/capture.js",
+        ".codeyam/scenario-playwright.js"
+      ]
+    },
+    ".next/dev/types/root-params.d.ts": {
+      "imports": [],
+      "importedBy": [
+        "next-env.d.ts"
+      ]
+    },
+    "components/contact/Honeypot.tsx": {
       "imports": [
         "components/Contact.module.css"
       ],
       "importedBy": [
-        "app/isolated-components/TopicChips/Harness.tsx",
+        "app/isolated-components/Honeypot/Harness.tsx",
         "components/ContactForm.tsx"
       ]
     },
-    "vitest.config.ts": {
+    "components/hero/ScrollCue.tsx": {
       "imports": [
-        "app/lib/loadEnv.ts"
+        "components/Hero.module.css"
+      ],
+      "importedBy": [
+        "app/isolated-components/ScrollCue/page.tsx",
+        "components/Hero.tsx"
+      ]
+    },
+    "app/api/__codeyam_revalidate/route.ts": {
+      "imports": [],
+      "importedBy": []
+    },
+    "app/isolated-components/Footer/page.tsx": {
+      "imports": [
+        "components/Footer.tsx"
       ],
       "importedBy": []
     },
@@ -408,31 +211,110 @@
       ],
       "importedBy": []
     },
-    "app/isolated-components/TypedHeadline/page.tsx": {
+    "components/PhotoRotator.module.css": {
+      "imports": [],
+      "importedBy": [
+        "components/PhotoRotator.tsx"
+      ]
+    },
+    "app/not-found.tsx": {
       "imports": [
-        "components/hero/TypedHeadline.tsx",
-        "content/site.ts"
+        "components/NotFound.tsx"
       ],
       "importedBy": []
     },
-    "app/lib/prismaConnection.test.ts": {
-      "imports": [
-        "app/lib/prismaConnection.ts"
-      ],
-      "importedBy": []
+    "components/Elsewhere": {
+      "imports": [],
+      "importedBy": [
+        "app/isolated-components/Elsewhere/page.tsx"
+      ]
     },
-    "app/layout.tsx": {
+    "components/writing/PostList.tsx": {
       "imports": [
-        "app/globals.css"
-      ],
-      "importedBy": []
-    },
-    "app/lib/prisma.ts": {
-      "imports": [
-        "app/lib/prismaConnection.ts"
+        "components/Writing.module.css"
       ],
       "importedBy": [
+        "app/isolated-components/PostList/page.tsx",
+        "components/Writing.tsx"
+      ]
+    },
+    "app/api/contact/route.ts": {
+      "imports": [
+        "app/lib/prisma.ts",
+        "app/lib/sendNotification.ts",
+        "app/lib/validateMessage.ts",
+        "app/lib/contactRequest.ts",
+        "app/lib/deliverAndStamp.ts",
+        "app/lib/contactResponses.ts"
+      ],
+      "importedBy": [
+        "app/api/contact/route.test.ts"
+      ]
+    },
+    "app/api/contact/route.test.ts": {
+      "imports": [
         "app/api/contact/route.ts"
+      ],
+      "importedBy": []
+    },
+    "components/PhotoRotator.tsx": {
+      "imports": [
+        "components/PhotoRotator.module.css"
+      ],
+      "importedBy": [
+        "app/isolated-components/PhotoRotator/page.tsx",
+        "components/Work.tsx",
+        "components/Adventures.tsx",
+        "components/About.tsx"
+      ]
+    },
+    ".codeyam/scenario-playwright.js": {
+      "imports": [
+        ".codeyam/scenario-metrics.js"
+      ],
+      "importedBy": [
+        ".codeyam/capture.js"
+      ]
+    },
+    "vitest.config.ts": {
+      "imports": [
+        "app/lib/loadEnv.ts"
+      ],
+      "importedBy": []
+    },
+    "components/ContactForm.tsx": {
+      "imports": [
+        "content/site.ts",
+        "app/lib/submitMessage.ts",
+        "app/lib/validateMessage.ts",
+        "components/contact/Field.tsx",
+        "components/contact/FormFailure.tsx",
+        "components/contact/Honeypot.tsx",
+        "components/contact/SentConfirmation.tsx",
+        "components/contact/TopicChips.tsx",
+        "components/Contact.module.css"
+      ],
+      "importedBy": [
+        "app/isolated-components/ContactForm/page.tsx",
+        "components/Contact.tsx"
+      ]
+    },
+    "components/Elsewhere.tsx": {
+      "imports": [
+        "content/site.ts",
+        "components/SectionHead.tsx",
+        "components/elsewhere/ElsewhereRow.tsx",
+        "components/Section.module.css",
+        "components/Elsewhere.module.css"
+      ],
+      "importedBy": [
+        "app/page.tsx"
+      ]
+    },
+    "components/Hero": {
+      "imports": [],
+      "importedBy": [
+        "app/isolated-components/Hero/page.tsx"
       ]
     },
     "components/Nav.tsx": {
@@ -448,132 +330,68 @@
         "app/page.tsx"
       ]
     },
-    "app/lib/submitMessage.ts": {
+    "app/lib/validateMessage.ts": {
       "imports": [
-        "app/lib/validateMessage.ts"
+        "content/site.ts"
       ],
       "importedBy": [
-        "app/lib/submitMessage.test.ts",
+        "app/lib/validateMessage.test.ts",
+        "app/lib/submitMessage.ts",
+        "app/lib/contactResponses.ts",
+        "app/lib/contactRequest.ts",
+        "app/api/contact/route.ts",
         "components/ContactForm.tsx"
       ]
     },
-    "eslint.config.mjs": {
-      "imports": [],
-      "importedBy": []
-    },
-    "app/isolated-components/WritingIntro/page.tsx": {
-      "imports": [
-        "components/writing/WritingIntro.tsx",
-        "content/site.ts"
-      ],
-      "importedBy": []
-    },
-    "hooks/useActiveSection.ts": {
-      "imports": [
-        "app/lib/activeSection.ts"
-      ],
-      "importedBy": [
-        "components/Nav.tsx"
-      ]
-    },
-    ".claude/skills/review-session/scripts/extract-session-helpers.mjs": {
-      "imports": [],
-      "importedBy": [
-        ".claude/skills/review-session/scripts/extract-session.mjs"
-      ]
-    },
-    "app/isolated-components/PostList/page.tsx": {
-      "imports": [
-        "components/writing/PostList.tsx",
-        "content/site.ts"
-      ],
-      "importedBy": []
-    },
-    "components/contact/Field.tsx": {
-      "imports": [
-        "components/Contact.module.css"
-      ],
-      "importedBy": [
-        "app/isolated-components/Field/page.tsx",
-        "components/ContactForm.tsx"
-      ]
-    },
-    "prisma.config.ts": {
-      "imports": [
-        "app/lib/loadEnv.ts"
-      ],
-      "importedBy": []
-    },
-    "app/lib/contactRequest.ts": {
-      "imports": [
-        "app/lib/validateMessage.ts"
-      ],
-      "importedBy": [
-        "app/lib/contactRequest.test.ts",
-        "app/api/contact/route.ts"
-      ]
-    },
-    "app/lib/contactRequest.test.ts": {
-      "imports": [
-        "app/lib/contactRequest.ts"
-      ],
-      "importedBy": []
-    },
-    "components/Writing.tsx": {
+    "components/Contact.tsx": {
       "imports": [
         "content/site.ts",
+        "components/ContactForm.tsx",
         "components/SectionHead.tsx",
-        "components/writing/PostList.tsx",
-        "components/writing/WritingIntro.tsx",
-        "components/Section.module.css",
-        "components/Writing.module.css"
+        "components/contact/FindMe.tsx",
+        "components/Section.module.css"
       ],
       "importedBy": [
         "app/page.tsx"
       ]
     },
-    "app/isolated-components/ExternalLinkIcon/page.tsx": {
+    "content/site.json": {
+      "imports": [],
+      "importedBy": [
+        "content/site.ts"
+      ]
+    },
+    "app/isolated-components/NotFound/page.tsx": {
       "imports": [
-        "components/writing/ExternalLinkIcon.tsx"
+        "components/NotFound.tsx"
       ],
       "importedBy": []
     },
-    "components/About.module.css": {
+    ".claude/skills/review-session/scripts/find-last-session-helpers.mjs": {
       "imports": [],
       "importedBy": [
+        ".claude/skills/review-session/scripts/find-last-session.mjs"
+      ]
+    },
+    "app/isolated-components/CityRotator/page.tsx": {
+      "imports": [
         "components/about/CityRotator.tsx",
-        "components/about/AboutFacts.tsx",
-        "components/About.tsx"
-      ]
-    },
-    "app/lib/activeSection.ts": {
-      "imports": [],
-      "importedBy": [
-        "app/lib/activeSection.test.ts",
-        "hooks/useActiveSection.ts"
-      ]
-    },
-    "app/api/__codeyam_revalidate/route.ts": {
-      "imports": [],
-      "importedBy": []
-    },
-    "app/api/contact/route.test.ts": {
-      "imports": [
-        "app/api/contact/route.ts"
+        "content/site.ts"
       ],
       "importedBy": []
     },
-    "app/scenario/[slug]/page.tsx": {
-      "imports": [],
-      "importedBy": []
-    },
-    "components/contact/Honeypot.tsx": {
+    "components/Work.tsx": {
       "imports": [
-        "components/Contact.module.css"
+        "content/site.ts",
+        "components/PhotoRotator.tsx",
+        "components/SectionHead.tsx",
+        "components/work/AdvisoryCard.tsx",
+        "components/work/WorkNarrative.tsx",
+        "components/Section.module.css",
+        "components/Work.module.css"
       ],
       "importedBy": [
-        "app/isolated-components/Honeypot/Harness.tsx",
-        "components/ContactForm.tsx"
+        "app/page.tsx"
       ]
     },
     "components/work/WorkLinkList.tsx": {
@@ -585,45 +403,36 @@
         "components/work/WorkNarrative.tsx"
       ]
     },
-    "components/contact/SocialList.tsx": {
-      "imports": [
-        "components/Contact.module.css"
-      ],
+    "components/NotFound.module.css": {
+      "imports": [],
       "importedBy": [
-        "app/isolated-components/SocialList/page.tsx",
-        "components/contact/FindMe.tsx"
+        "components/NotFound.tsx"
       ]
     },
-    "components/About.tsx": {
+    "next.config.ts": {
+      "imports": [],
+      "importedBy": []
+    },
+    "app/isolated-components/ScrollCue/page.tsx": {
       "imports": [
-        "content/site.ts",
+        "components/hero/ScrollCue.tsx",
+        "content/site.ts"
+      ],
+      "importedBy": []
+    },
+    "app/isolated-components/PhotoRotator/page.tsx": {
+      "imports": [
         "components/PhotoRotator.tsx",
-        "components/SectionHead.tsx",
-        "components/about/AboutFacts.tsx",
-        "components/Section.module.css",
-        "components/About.module.css"
+        "content/site.ts"
       ],
-      "importedBy": [
-        "app/page.tsx"
-      ]
+      "importedBy": []
     },
-    "app/lib/contactResponses.ts": {
+    "app/lib/prisma.ts": {
       "imports": [
-        "app/lib/validateMessage.ts"
+        "app/lib/prismaConnection.ts"
       ],
       "importedBy": [
-        "app/lib/contactResponses.test.ts",
         "app/api/contact/route.ts"
-      ]
-    },
-    "components/contact/FindMe.tsx": {
-      "imports": [
-        "components/Contact.module.css",
-        "components/contact/SocialList.tsx"
-      ],
-      "importedBy": [
-        "app/isolated-components/FindMe/page.tsx",
-        "components/Contact.tsx"
       ]
     },
     "content/site.ts": {
@@ -665,136 +474,38 @@
         "components/About.tsx"
       ]
     },
-    "components/writing/WritingIntro.tsx": {
+    "app/lib/contactResponses.test.ts": {
       "imports": [
-        "components/Writing.module.css",
-        "components/writing/ExternalLinkIcon.tsx"
+        "app/lib/contactResponses.ts"
       ],
-      "importedBy": [
-        "app/isolated-components/WritingIntro/page.tsx",
-        "components/Writing.tsx"
-      ]
+      "importedBy": []
     },
-    "app/lib/validateMessage.test.ts": {
+    "app/layout.tsx": {
       "imports": [
-        "app/lib/validateMessage.ts",
-        "content/site.ts",
+        "app/globals.css"
+      ],
+      "importedBy": []
+    },
+    "app/isolated-components/WritingIntro/page.tsx": {
+      "imports": [
+        "components/writing/WritingIntro.tsx",
         "content/site.ts"
       ],
       "importedBy": []
     },
-    "components/Section.module.css": {
-      "imports": [],
-      "importedBy": [
-        "components/Elsewhere.tsx",
-        "components/Work.tsx",
-        "components/Contact.tsx",
-        "components/Adventures.tsx",
-        "components/work/WorkNarrative.tsx",
-        "components/Writing.tsx",
-        "components/About.tsx"
-      ]
-    },
-    "app/isolated-components/NavLinks/page.tsx": {
+    "app/isolated-components/Nav/page.tsx": {
       "imports": [
         "components/Nav.tsx"
       ],
       "importedBy": []
     },
-    "components/NotFound.tsx": {
+    "components/contact/SocialList.tsx": {
       "imports": [
-        "content/site.ts",
-        "components/NotFound.module.css"
+        "components/Contact.module.css"
       ],
       "importedBy": [
-        "app/isolated-components/NotFound/page.tsx",
-        "app/not-found.tsx"
-      ]
-    },
-    "open-codeyam.sh": {
-      "imports": [],
-      "importedBy": []
-    },
-    "components/Hero.module.css": {
-      "imports": [],
-      "importedBy": [
-        "components/Hero.tsx",
-        "components/hero/TypedHeadline.tsx",
-        "components/hero/HeroBackdrop.tsx",
-        "components/hero/ScrollCue.tsx"
-      ]
-    },
-    "next-env.d.ts": {
-      "imports": [
-        ".next/dev/types/routes.d.ts",
-        ".next/dev/types/root-params.d.ts"
-      ],
-      "importedBy": []
-    },
-    "app/lib/activeSection.test.ts": {
-      "imports": [
-        "app/lib/activeSection.ts"
-      ],
-      "importedBy": []
-    },
-    "hooks/useScrolledPast.ts": {
-      "imports": [],
-      "importedBy": [
-        "components/Nav.tsx"
-      ]
-    },
-    "app/isolated-components/About/page.tsx": {
-      "imports": [
-        "components/About"
-      ],
-      "importedBy": []
-    },
-    "next.config.ts": {
-      "imports": [],
-      "importedBy": []
-    },
-    "app/isolated-components/NavMark/page.tsx": {
-      "imports": [
-        "components/Nav.tsx"
-      ],
-      "importedBy": []
-    },
-    "app/isolated-components/CityRotator/page.tsx": {
-      "imports": [
-        "components/about/CityRotator.tsx",
-        "content/site.ts"
-      ],
-      "importedBy": []
-    },
-    "app/isolated-components/FormFailure/page.tsx": {
-      "imports": [
-        "components/contact/FormFailure.tsx",
-        "content/site.ts"
-      ],
-      "importedBy": []
-    },
-    "prisma/seedRows.test.ts": {
-      "imports": [
-        "prisma/seedRows.ts"
-      ],
-      "importedBy": []
-    },
-    "components/Work": {
-      "imports": [],
-      "importedBy": [
-        "app/isolated-components/Work/page.tsx"
-      ]
-    },
-    "components/Contact.tsx": {
-      "imports": [
-        "content/site.ts",
-        "components/ContactForm.tsx",
-        "components/SectionHead.tsx",
-        "components/contact/FindMe.tsx",
-        "components/Section.module.css"
-      ],
-      "importedBy": [
-        "app/page.tsx"
+        "app/isolated-components/SocialList/page.tsx",
+        "components/contact/FindMe.tsx"
       ]
     },
     "components/work/WorkNarrative.tsx": {
@@ -808,27 +519,97 @@
         "components/Work.tsx"
       ]
     },
-    "components/hero/HeroBackdrop.tsx": {
+    "app/lib/validateMessage.test.ts": {
       "imports": [
-        "components/Hero.module.css"
+        "app/lib/validateMessage.ts",
+        "content/site.ts",
+        "content/site.ts"
       ],
-      "importedBy": [
-        "app/isolated-components/HeroBackdrop/page.tsx",
-        "components/Hero.tsx"
-      ]
+      "importedBy": []
     },
-    ".codeyam/scenario-interactivity.js": {
+    "postcss.config.mjs": {
+      "imports": [],
+      "importedBy": []
+    },
+    "app/isolated-components/SocialList/page.tsx": {
       "imports": [
-        ".codeyam/scenario-issues.js"
+        "components/contact/SocialList.tsx",
+        "content/site.ts"
       ],
-      "importedBy": [
-        ".codeyam/capture.js"
-      ]
+      "importedBy": []
     },
-    "components/PhotoRotator.module.css": {
+    ".codeyam/scenario-issues.js": {
       "imports": [],
       "importedBy": [
-        "components/PhotoRotator.tsx"
+        ".codeyam/capture.js",
+        ".codeyam/scenario-handlers.js",
+        ".codeyam/scenario-interactivity.js"
+      ]
+    },
+    "app/isolated-components/FindMe/page.tsx": {
+      "imports": [
+        "components/contact/FindMe.tsx",
+        "content/site.ts"
+      ],
+      "importedBy": []
+    },
+    "app/lib/deliverAndStamp.ts": {
+      "imports": [
+        "app/lib/sendNotification.ts"
+      ],
+      "importedBy": [
+        "app/lib/deliverAndStamp.test.ts",
+        "app/api/contact/route.ts"
+      ]
+    },
+    "components/Writing": {
+      "imports": [],
+      "importedBy": [
+        "app/isolated-components/Writing/page.tsx"
+      ]
+    },
+    "prisma/seedRows.test.ts": {
+      "imports": [
+        "prisma/seedRows.ts"
+      ],
+      "importedBy": []
+    },
+    "app/lib/activeSection.test.ts": {
+      "imports": [
+        "app/lib/activeSection.ts"
+      ],
+      "importedBy": []
+    },
+    "app/lib/contactRequest.ts": {
+      "imports": [
+        "app/lib/validateMessage.ts"
+      ],
+      "importedBy": [
+        "app/lib/contactRequest.test.ts",
+        "app/api/contact/route.ts"
+      ]
+    },
+    "app/lib/text.ts": {
+      "imports": [],
+      "importedBy": [
+        "app/lib/text.test.ts",
+        "components/Footer.tsx"
+      ]
+    },
+    "components/Elsewhere.module.css": {
+      "imports": [],
+      "importedBy": [
+        "components/Elsewhere.tsx",
+        "components/elsewhere/ElsewhereRow.tsx"
+      ]
+    },
+    "components/Hero.module.css": {
+      "imports": [],
+      "importedBy": [
+        "components/Hero.tsx",
+        "components/hero/TypedHeadline.tsx",
+        "components/hero/HeroBackdrop.tsx",
+        "components/hero/ScrollCue.tsx"
       ]
     },
     "app/lib/sendNotification.ts": {
@@ -841,11 +622,111 @@
         "app/api/contact/route.ts"
       ]
     },
-    "components/Elsewhere.module.css": {
+    "prisma.config.ts": {
+      "imports": [
+        "app/lib/loadEnv.ts"
+      ],
+      "importedBy": []
+    },
+    "app/isolated-components/AboutFacts/page.tsx": {
+      "imports": [
+        "components/about/AboutFacts.tsx",
+        "content/site.ts"
+      ],
+      "importedBy": []
+    },
+    "app/lib/submitMessage.test.ts": {
+      "imports": [
+        "app/lib/submitMessage.ts"
+      ],
+      "importedBy": []
+    },
+    ".claude/skills/review-session/scripts/find-last-session.mjs": {
+      "imports": [
+        ".claude/skills/review-session/scripts/find-last-session-helpers.mjs"
+      ],
+      "importedBy": []
+    },
+    "components/about/AboutFacts.tsx": {
+      "imports": [
+        "components/About.module.css",
+        "components/about/CityRotator.tsx"
+      ],
+      "importedBy": [
+        "app/isolated-components/AboutFacts/page.tsx",
+        "components/About.tsx"
+      ]
+    },
+    "app/isolated-components/NavLinks/page.tsx": {
+      "imports": [
+        "components/Nav.tsx"
+      ],
+      "importedBy": []
+    },
+    "app/isolated-components/Work/page.tsx": {
+      "imports": [
+        "components/Work"
+      ],
+      "importedBy": []
+    },
+    "app/isolated-components/Field/page.tsx": {
+      "imports": [
+        "components/contact/Field.tsx",
+        "components/Contact.module.css"
+      ],
+      "importedBy": []
+    },
+    "components/hero/TypedHeadline.tsx": {
+      "imports": [
+        "components/Hero.module.css"
+      ],
+      "importedBy": [
+        "app/isolated-components/TypedHeadline/page.tsx",
+        "components/Hero.tsx"
+      ]
+    },
+    "app/isolated-components/WorkLinkList/page.tsx": {
+      "imports": [
+        "components/work/WorkLinkList.tsx",
+        "content/site.ts"
+      ],
+      "importedBy": []
+    },
+    "app/globals.css": {
       "imports": [],
       "importedBy": [
-        "components/Elsewhere.tsx",
-        "components/elsewhere/ElsewhereRow.tsx"
+        "app/layout.tsx"
+      ]
+    },
+    "app/isolated-components/WorkNarrative/page.tsx": {
+      "imports": [
+        "components/work/WorkNarrative.tsx",
+        "content/site.ts"
+      ],
+      "importedBy": []
+    },
+    "app/isolated-components/FormFailure/page.tsx": {
+      "imports": [
+        "components/contact/FormFailure.tsx",
+        "content/site.ts"
+      ],
+      "importedBy": []
+    },
+    "prisma/seed.ts": {
+      "imports": [
+        "app/lib/loadEnv.ts",
+        "app/lib/prismaConnection.ts",
+        "prisma/seedRows.ts"
+      ],
+      "importedBy": []
+    },
+    "components/contact/FormFailure.tsx": {
+      "imports": [
+        "components/Contact.module.css"
+      ],
+      "importedBy": [
+        "app/isolated-components/FormFailure/page.tsx",
+        "components/ContactForm.tsx"
       ]
     },
     "components/Nav.module.css": {
@@ -854,17 +735,154 @@
         "components/Nav.tsx"
       ]
     },
-    "app/api/contact/route.ts": {
+    "components/writing/WritingIntro.tsx": {
       "imports": [
-        "app/lib/prisma.ts",
-        "app/lib/sendNotification.ts",
-        "app/lib/validateMessage.ts",
-        "app/lib/contactRequest.ts",
-        "app/lib/deliverAndStamp.ts",
-        "app/lib/contactResponses.ts"
+        "components/Writing.module.css",
+        "components/writing/ExternalLinkIcon.tsx"
       ],
       "importedBy": [
-        "app/api/contact/route.test.ts"
+        "app/isolated-components/WritingIntro/page.tsx",
+        "components/Writing.tsx"
+      ]
+    },
+    "app/isolated-components/TypedHeadline/page.tsx": {
+      "imports": [
+        "components/hero/TypedHeadline.tsx",
+        "content/site.ts"
+      ],
+      "importedBy": []
+    },
+    "app/isolated-components/Honeypot/Harness.tsx": {
+      "imports": [
+        "components/contact/Honeypot.tsx"
+      ],
+      "importedBy": [
+        "app/isolated-components/Honeypot/page.tsx"
+      ]
+    },
+    "app/isolated-components/ContactForm/page.tsx": {
+      "imports": [
+        "components/ContactForm.tsx"
+      ],
+      "importedBy": []
+    },
+    "components/Contact": {
+      "imports": [],
+      "importedBy": [
+        "app/isolated-components/Contact/page.tsx"
+      ]
+    },
+    "components/Footer.tsx": {
+      "imports": [
+        "content/site.ts",
+        "app/lib/text.ts",
+        "components/Footer.module.css"
+      ],
+      "importedBy": [
+        "app/isolated-components/Footer/page.tsx",
+        "app/isolated-components/FooterSignoff/page.tsx",
+        "app/page.tsx"
+      ]
+    },
+    "components/contact/SentConfirmation.tsx": {
+      "imports": [
+        "components/Contact.module.css"
+      ],
+      "importedBy": [
+        "app/isolated-components/SentConfirmation/page.tsx",
+        "components/ContactForm.tsx"
+      ]
+    },
+    ".codeyam/scenario-interactivity.js": {
+      "imports": [
+        ".codeyam/scenario-issues.js"
+      ],
+      "importedBy": [
+        ".codeyam/capture.js"
+      ]
+    },
+    "components/Contact.module.css": {
+      "imports": [],
+      "importedBy": [
+        "app/isolated-components/Field/page.tsx",
+        "components/contact/SentConfirmation.tsx",
+        "components/contact/FormFailure.tsx",
+        "components/contact/Field.tsx",
+        "components/contact/TopicChips.tsx",
+        "components/contact/FindMe.tsx",
+        "components/contact/Honeypot.tsx",
+        "components/contact/SocialList.tsx",
+        "components/ContactForm.tsx"
+      ]
+    },
+    "app/isolated-components/HeroBackdrop/page.tsx": {
+      "imports": [
+        "components/hero/HeroBackdrop.tsx",
+        "content/site.ts"
+      ],
+      "importedBy": []
+    },
+    "open-codeyam.sh": {
+      "imports": [],
+      "importedBy": []
+    },
+    "app/lib/prismaConnection.ts": {
+      "imports": [],
+      "importedBy": [
+        "app/lib/prisma.ts",
+        "app/lib/prismaConnection.test.ts",
+        "prisma/seed.ts"
+      ]
+    },
+    "components/writing/ExternalLinkIcon.tsx": {
+      "imports": [],
+      "importedBy": [
+        "app/isolated-components/ExternalLinkIcon/page.tsx",
+        "components/writing/WritingIntro.tsx"
+      ]
+    },
+    "app/lib/submitMessage.ts": {
+      "imports": [
+        "app/lib/validateMessage.ts"
+      ],
+      "importedBy": [
+        "app/lib/submitMessage.test.ts",
+        "components/ContactForm.tsx"
+      ]
+    },
+    "app/isolated-components/ExternalLinkIcon/page.tsx": {
+      "imports": [
+        "components/writing/ExternalLinkIcon.tsx"
+      ],
+      "importedBy": []
+    },
+    "components/Work.module.css": {
+      "imports": [],
+      "importedBy": [
+        "components/Work.tsx",
+        "components/work/AdvisoryCard.tsx",
+        "components/work/WorkNarrative.tsx",
+        "components/work/WorkLinkList.tsx"
+      ]
+    },
+    "components/Footer.module.css": {
+      "imports": [],
+      "importedBy": [
+        "components/Footer.tsx"
+      ]
+    },
+    "app/isolated-components/NavMark/page.tsx": {
+      "imports": [
+        "components/Nav.tsx"
+      ],
+      "importedBy": []
+    },
+    "hooks/useActiveSection.ts": {
+      "imports": [
+        "app/lib/activeSection.ts"
+      ],
+      "importedBy": [
+        "components/Nav.tsx"
       ]
     },
     ".next/dev/types/routes.d.ts": {
@@ -873,10 +891,99 @@
         "next-env.d.ts"
       ]
     },
-    "components/Elsewhere": {
+    "components/About.module.css": {
       "imports": [],
       "importedBy": [
-        "app/isolated-components/Elsewhere/page.tsx"
+        "components/about/CityRotator.tsx",
+        "components/about/AboutFacts.tsx",
+        "components/About.tsx"
+      ]
+    },
+    "components/contact/Field.tsx": {
+      "imports": [
+        "components/Contact.module.css"
+      ],
+      "importedBy": [
+        "app/isolated-components/Field/page.tsx",
+        "components/ContactForm.tsx"
+      ]
+    },
+    "prisma/seedRows.ts": {
+      "imports": [],
+      "importedBy": [
+        "prisma/seedRows.test.ts",
+        "prisma/seed.ts"
+      ]
+    },
+    "app/lib/deliverAndStamp.test.ts": {
+      "imports": [
+        "app/lib/deliverAndStamp.ts",
+        "app/lib/sendNotification.ts"
+      ],
+      "importedBy": []
+    },
+    "app/lib/activeSection.ts": {
+      "imports": [],
+      "importedBy": [
+        "app/lib/activeSection.test.ts",
+        "hooks/useActiveSection.ts"
+      ]
+    },
+    "app/lib/contactRequest.test.ts": {
+      "imports": [
+        "app/lib/contactRequest.ts"
+      ],
+      "importedBy": []
+    },
+    "app/isolated-components/TopicChips/Harness.tsx": {
+      "imports": [
+        "components/contact/TopicChips.tsx"
+      ],
+      "importedBy": [
+        "app/isolated-components/TopicChips/page.tsx"
+      ]
+    },
+    "app/lib/sendNotification.test.ts": {
+      "imports": [
+        "app/lib/sendNotification.ts",
+        "app/lib/sendNotification.ts"
+      ],
+      "importedBy": []
+    },
+    "components/contact/FindMe.tsx": {
+      "imports": [
+        "components/Contact.module.css",
+        "components/contact/SocialList.tsx"
+      ],
+      "importedBy": [
+        "app/isolated-components/FindMe/page.tsx",
+        "components/Contact.tsx"
+      ]
+    },
+    "components/About.tsx": {
+      "imports": [
+        "content/site.ts",
+        "components/PhotoRotator.tsx",
+        "components/SectionHead.tsx",
+        "components/about/AboutFacts.tsx",
+        "components/Section.module.css",
+        "components/About.module.css"
+      ],
+      "importedBy": [
+        "app/page.tsx"
+      ]
+    },
+    "components/Writing.tsx": {
+      "imports": [
+        "content/site.ts",
+        "components/SectionHead.tsx",
+        "components/writing/PostList.tsx",
+        "components/writing/WritingIntro.tsx",
+        "components/Section.module.css",
+        "components/Writing.module.css"
+      ],
+      "importedBy": [
+        "app/page.tsx"
       ]
     },
     "components/Hero.tsx": {
@@ -891,235 +998,9 @@
         "app/page.tsx"
       ]
     },
-    "app/isolated-components/TopicChips/Harness.tsx": {
+    "app/isolated-components/About/page.tsx": {
       "imports": [
-        "components/contact/TopicChips.tsx"
-      ],
-      "importedBy": [
-        "app/isolated-components/TopicChips/page.tsx"
-      ]
-    },
-    "app/lib/contactResponses.test.ts": {
-      "imports": [
-        "app/lib/contactResponses.ts"
-      ],
-      "importedBy": []
-    },
-    "components/writing/PostList.tsx": {
-      "imports": [
-        "components/Writing.module.css"
-      ],
-      "importedBy": [
-        "app/isolated-components/PostList/page.tsx",
-        "components/Writing.tsx"
-      ]
-    },
-    ".codeyam/scenario-issues.js": {
-      "imports": [],
-      "importedBy": [
-        ".codeyam/capture.js",
-        ".codeyam/scenario-handlers.js",
-        ".codeyam/scenario-interactivity.js"
-      ]
-    },
-    "app/isolated-components/NotFound/page.tsx": {
-      "imports": [
-        "components/NotFound.tsx"
-      ],
-      "importedBy": []
-    },
-    "app/lib/text.test.ts": {
-      "imports": [
-        "app/lib/text.ts"
-      ],
-      "importedBy": []
-    },
-    "app/lib/text.ts": {
-      "imports": [],
-      "importedBy": [
-        "app/lib/text.test.ts",
-        "components/Footer.tsx"
-      ]
-    },
-    "app/isolated-components/SectionHead/page.tsx": {
-      "imports": [
-        "components/SectionHead.tsx",
-        "content/site.ts"
-      ],
-      "importedBy": []
-    },
-    "app/isolated-components/Adventures/page.tsx": {
-      "imports": [
-        "components/Adventures.tsx"
-      ],
-      "importedBy": []
-    },
-    "app/lib/loadEnv.ts": {
-      "imports": [],
-      "importedBy": [
-        "prisma/seed.ts",
-        "prisma.config.ts",
-        "vitest.config.ts"
-      ]
-    },
-    ".claude/skills/review-session/scripts/find-last-session.mjs": {
-      "imports": [
-        ".claude/skills/review-session/scripts/find-last-session-helpers.mjs"
-      ],
-      "importedBy": []
-    },
-    "components/SectionHead.module.css": {
-      "imports": [],
-      "importedBy": [
-        "components/SectionHead.tsx"
-      ]
-    },
-    "app/isolated-components/FooterSignoff/page.tsx": {
-      "imports": [
-        "components/Footer.tsx",
-        "content/site.ts"
-      ],
-      "importedBy": []
-    },
-    "components/work/AdvisoryCard.tsx": {
-      "imports": [
-        "components/Work.module.css"
-      ],
-      "importedBy": [
-        "app/isolated-components/AdvisoryCard/page.tsx",
-        "components/Work.tsx"
-      ]
-    },
-    ".codeyam/scenario-playwright.js": {
-      "imports": [
-        ".codeyam/scenario-metrics.js"
-      ],
-      "importedBy": [
-        ".codeyam/capture.js"
-      ]
-    },
-    "app/page.tsx": {
-      "imports": [
-        "components/Nav.tsx",
-        "components/Hero.tsx",
-        "components/Work.tsx",
-        "components/About.tsx",
-        "components/Writing.tsx",
-        "components/Adventures.tsx",
-        "components/Elsewhere.tsx",
-        "components/Contact.tsx",
-        "components/Footer.tsx"
-      ],
-      "importedBy": []
-    },
-    "components/ContactForm.tsx": {
-      "imports": [
-        "content/site.ts",
-        "app/lib/submitMessage.ts",
-        "app/lib/validateMessage.ts",
-        "components/contact/Field.tsx",
-        "components/contact/FormFailure.tsx",
-        "components/contact/Honeypot.tsx",
-        "components/contact/SentConfirmation.tsx",
-        "components/contact/TopicChips.tsx",
-        "components/Contact.module.css"
-      ],
-      "importedBy": [
-        "app/isolated-components/ContactForm/page.tsx",
-        "components/Contact.tsx"
-      ]
-    },
-    "app/isolated-components/AboutFacts/page.tsx": {
-      "imports": [
-        "components/about/AboutFacts.tsx",
-        "content/site.ts"
-      ],
-      "importedBy": []
-    },
-    "app/isolated-components/SentConfirmation/page.tsx": {
-      "imports": [
-        "components/contact/SentConfirmation.tsx",
-        "content/site.ts"
-      ],
-      "importedBy": []
-    },
-    ".codeyam/capture.js": {
-      "imports": [
-        ".codeyam/scenario-metrics.js",
-        ".codeyam/scenario-issues.js",
-        ".codeyam/scenario-mocks.js",
-        ".codeyam/scenario-playwright.js",
-        ".codeyam/scenario-handlers.js",
-        ".codeyam/scenario-interactivity.js"
-      ],
-      "importedBy": []
-    },
-    "components/about/AboutFacts.tsx": {
-      "imports": [
-        "components/About.module.css",
-        "components/about/CityRotator.tsx"
-      ],
-      "importedBy": [
-        "app/isolated-components/AboutFacts/page.tsx",
-        "components/About.tsx"
-      ]
-    },
-    "components/Work.tsx": {
-      "imports": [
-        "content/site.ts",
-        "components/PhotoRotator.tsx",
-        "components/SectionHead.tsx",
-        "components/work/AdvisoryCard.tsx",
-        "components/work/WorkNarrative.tsx",
-        "components/Section.module.css",
-        "components/Work.module.css"
-      ],
-      "importedBy": [
-        "app/page.tsx"
-      ]
-    },
-    "app/lib/deliverAndStamp.test.ts": {
-      "imports": [
-        "app/lib/deliverAndStamp.ts",
-        "app/lib/sendNotification.ts"
-      ],
-      "importedBy": []
-    },
-    "app/isolated-components/AdvisoryCard/page.tsx": {
-      "imports": [
-        "components/work/AdvisoryCard.tsx",
-        "content/site.ts"
-      ],
-      "importedBy": []
-    },
-    "components/contact/SentConfirmation.tsx": {
-      "imports": [
-        "components/Contact.module.css"
-      ],
-      "importedBy": [
-        "app/isolated-components/SentConfirmation/page.tsx",
-        "components/ContactForm.tsx"
-      ]
-    },
-    ".claude/hooks/editor-pretool-hook.py": {
-      "imports": [],
-      "importedBy": []
-    },
-    "app/globals.css": {
-      "imports": [],
-      "importedBy": [
-        "app/layout.tsx"
-      ]
-    },
-    ".next/dev/types/root-params.d.ts": {
-      "imports": [],
-      "importedBy": [
-        "next-env.d.ts"
-      ]
-    },
-    "app/isolated-components/Writing/page.tsx": {
-      "imports": [
-        "components/Writing"
+        "components/About"
       ],
       "importedBy": []
     },
@@ -1129,21 +1010,32 @@
         "app/isolated-components/About/page.tsx"
       ]
     },
-    ".codeyam/scenario-handlers.js": {
+    "components/NotFound.tsx": {
       "imports": [
-        ".codeyam/scenario-issues.js"
+        "content/site.ts",
+        "components/NotFound.module.css"
       ],
       "importedBy": [
-        ".codeyam/capture.js"
+        "app/isolated-components/NotFound/page.tsx",
+        "app/not-found.tsx"
       ]
     },
-    "app/codeyam-isolate/layout.tsx": {
+    "app/isolated-components/ElsewhereRow/page.tsx": {
+      "imports": [
+        "components/elsewhere/ElsewhereRow.tsx",
+        "content/site.ts"
+      ],
+      "importedBy": []
+    },
+    ".claude/hooks/editor-step-hook.py": {
       "imports": [],
       "importedBy": []
     },
-    "postcss.config.mjs": {
+    "components/Adventures.module.css": {
       "imports": [],
-      "importedBy": []
+      "importedBy": [
+        "components/Adventures.tsx"
+      ]
     },
     ".codeyam/scenario-mocks.js": {
       "imports": [],
@@ -1151,46 +1043,218 @@
         ".codeyam/capture.js"
       ]
     },
-    "components/Writing": {
+    "app/scenario/[slug]/page.tsx": {
+      "imports": [],
+      "importedBy": []
+    },
+    "app/isolated-components/layout.tsx": {
+      "imports": [],
+      "importedBy": []
+    },
+    "components/SectionHead.module.css": {
       "imports": [],
       "importedBy": [
-        "app/isolated-components/Writing/page.tsx"
+        "components/SectionHead.tsx"
       ]
     },
-    "components/hero/TypedHeadline.tsx": {
+    "next-env.d.ts": {
       "imports": [
-        "components/Hero.module.css"
+        ".next/dev/types/routes.d.ts",
+        ".next/dev/types/root-params.d.ts"
+      ],
+      "importedBy": []
+    },
+    "app/codeyam-isolate/layout.tsx": {
+      "imports": [],
+      "importedBy": []
+    },
+    "components/Adventures.tsx": {
+      "imports": [
+        "content/site.ts",
+        "components/PhotoRotator.tsx",
+        "components/SectionHead.tsx",
+        "components/Section.module.css",
+        "components/Adventures.module.css"
       ],
       "importedBy": [
-        "app/isolated-components/TypedHeadline/page.tsx",
-        "components/Hero.tsx"
+        "app/isolated-components/Adventures/page.tsx",
+        "app/page.tsx"
       ]
+    },
+    "app/isolated-components/Hero/page.tsx": {
+      "imports": [
+        "components/Hero"
+      ],
+      "importedBy": []
+    },
+    "components/about/CityRotator.tsx": {
+      "imports": [
+        "components/About.module.css"
+      ],
+      "importedBy": [
+        "app/isolated-components/CityRotator/page.tsx",
+        "components/about/AboutFacts.tsx"
+      ]
+    },
+    "app/isolated-components/Adventures/page.tsx": {
+      "imports": [
+        "components/Adventures.tsx"
+      ],
+      "importedBy": []
+    },
+    "hooks/useScrolledPast.ts": {
+      "imports": [],
+      "importedBy": [
+        "components/Nav.tsx"
+      ]
+    },
+    "app/lib/text.test.ts": {
+      "imports": [
+        "app/lib/text.ts"
+      ],
+      "importedBy": []
+    },
+    "components/Work": {
+      "imports": [],
+      "importedBy": [
+        "app/isolated-components/Work/page.tsx"
+      ]
+    },
+    "app/isolated-components/AdvisoryCard/page.tsx": {
+      "imports": [
+        "components/work/AdvisoryCard.tsx",
+        "content/site.ts"
+      ],
+      "importedBy": []
+    },
+    ".claude/skills/review-session/scripts/extract-session.mjs": {
+      "imports": [
+        ".claude/skills/review-session/scripts/extract-session-helpers.mjs"
+      ],
+      "importedBy": []
+    },
+    "app/lib/prismaConnection.test.ts": {
+      "imports": [
+        "app/lib/prismaConnection.ts"
+      ],
+      "importedBy": []
+    },
+    "components/Writing.module.css": {
+      "imports": [],
+      "importedBy": [
+        "components/Writing.tsx",
+        "components/writing/PostList.tsx",
+        "components/writing/WritingIntro.tsx"
+      ]
+    },
+    "app/isolated-components/SectionHead/page.tsx": {
+      "imports": [
+        "components/SectionHead.tsx",
+        "content/site.ts"
+      ],
+      "importedBy": []
+    },
+    "app/isolated-components/Writing/page.tsx": {
+      "imports": [
+        "components/Writing"
+      ],
+      "importedBy": []
+    },
+    "app/isolated-components/Honeypot/page.tsx": {
+      "imports": [
+        "app/isolated-components/Honeypot/Harness.tsx"
+      ],
+      "importedBy": []
     }
   },
   "entities": {
-    "components/About.module.css::__file_root__": {
-      "filePath": "components/About.module.css",
+    "components/PhotoRotator.module.css::__file_root__": {
+      "filePath": "components/PhotoRotator.module.css",
       "name": "__file_root__",
       "imports": [],
       "importedBy": [
-        "components/about/CityRotator.tsx::__file_root__",
-        "components/about/AboutFacts.tsx::__file_root__",
-        "components/About.tsx::__file_root__"
+        "components/PhotoRotator.tsx::__file_root__"
       ]
     },
-    "hooks/useActiveSection.ts::__file_root__": {
-      "filePath": "hooks/useActiveSection.ts",
+    "app/isolated-components/Nav/page.tsx::__file_root__": {
+      "filePath": "app/isolated-components/Nav/page.tsx",
+      "name": "__file_root__",
+      "imports": [
+        "components/Nav.tsx::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "components/contact/FormFailure.tsx::FormFailure": {
+      "filePath": "components/contact/FormFailure.tsx",
+      "name": "FormFailure",
+      "imports": [],
+      "importedBy": [
+        "components/ContactForm.tsx::__file_root__"
+      ]
+    },
+    "app/isolated-components/Adventures/page.tsx::__file_root__": {
+      "filePath": "app/isolated-components/Adventures/page.tsx",
+      "name": "__file_root__",
+      "imports": [
+        "components/Adventures.tsx::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "components/contact/FindMe.tsx::FindMe": {
+      "filePath": "components/contact/FindMe.tsx",
+      "name": "FindMe",
+      "imports": [],
+      "importedBy": [
+        "components/Contact.tsx::__file_root__"
+      ]
+    },
+    "app/isolated-components/TopicChips/Harness.tsx::__file_root__": {
+      "filePath": "app/isolated-components/TopicChips/Harness.tsx",
+      "name": "__file_root__",
+      "imports": [
+        "components/contact/TopicChips.tsx::TopicChips"
+      ],
+      "importedBy": []
+    },
+    "app/lib/activeSection.test.ts::__file_root__": {
+      "filePath": "app/lib/activeSection.test.ts",
       "name": "__file_root__",
       "imports": [
         "app/lib/activeSection.ts::pickActive"
       ],
       "importedBy": []
     },
-    "components/contact/SentConfirmation.tsx::__file_root__": {
-      "filePath": "components/contact/SentConfirmation.tsx",
+    "components/About::__file_root__": {
+      "filePath": "components/About",
+      "name": "__file_root__",
+      "imports": [],
+      "importedBy": [
+        "app/isolated-components/About/page.tsx::__file_root__"
+      ]
+    },
+    "app/isolated-components/NotFound/page.tsx::__file_root__": {
+      "filePath": "app/isolated-components/NotFound/page.tsx",
       "name": "__file_root__",
       "imports": [
-        "components/Contact.module.css::__file_root__"
+        "components/NotFound.tsx::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "prisma/seedRows.test.ts::__file_root__": {
+      "filePath": "prisma/seedRows.test.ts",
+      "name": "__file_root__",
+      "imports": [
+        "prisma/seedRows.ts::SeedMessage",
+        "prisma/seedRows.ts::summarize",
+        "prisma/seedRows.ts::toMessageRow"
+      ],
+      "importedBy": []
+    },
+    "app/isolated-components/Contact/page.tsx::__file_root__": {
+      "filePath": "app/isolated-components/Contact/page.tsx",
+      "name": "__file_root__",
+      "imports": [
+        "components/Contact::__file_root__"
       ],
       "importedBy": []
     },
@@ -1202,17 +1266,101 @@
         "components/Adventures.tsx::__file_root__"
       ]
     },
-    "app/isolated-components/Honeypot/Harness.tsx::Harness": {
-      "filePath": "app/isolated-components/Honeypot/Harness.tsx",
-      "name": "Harness",
+    ".codeyam/capture.js::{\n  getInitScript,\n  handleConsoleMessage,\n  handlePageError,\n  handleRequestFailed,\n}": {
+      "filePath": ".codeyam/capture.js",
+      "name": "{\n  getInitScript,\n  handleConsoleMessage,\n  handlePageError,\n  handleRequestFailed,\n}",
+      "imports": [
+        ".codeyam/scenario-handlers.js::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "app/isolated-components/TopicChips/page.tsx::__file_root__": {
+      "filePath": "app/isolated-components/TopicChips/page.tsx",
+      "name": "__file_root__",
+      "imports": [
+        "content/site.ts::__file_root__",
+        "app/isolated-components/TopicChips/Harness.tsx::Harness"
+      ],
+      "importedBy": []
+    },
+    "app/isolated-components/FindMe/page.tsx::__file_root__": {
+      "filePath": "app/isolated-components/FindMe/page.tsx",
+      "name": "__file_root__",
+      "imports": [
+        "components/contact/FindMe.tsx::__file_root__",
+        "content/site.ts::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "app/lib/contactResponses.ts::silentlyAccepted": {
+      "filePath": "app/lib/contactResponses.ts",
+      "name": "silentlyAccepted",
       "imports": [],
       "importedBy": [
-        "app/isolated-components/Honeypot/page.tsx::__file_root__"
+        "app/api/contact/route.ts::__file_root__"
       ]
     },
-    "app/lib/sendNotification.ts::buildSendPayload": {
+    "app/lib/contactResponses.ts::unreadableRequest": {
+      "filePath": "app/lib/contactResponses.ts",
+      "name": "unreadableRequest",
+      "imports": [],
+      "importedBy": [
+        "app/api/contact/route.ts::__file_root__"
+      ]
+    },
+    "app/not-found.tsx::__file_root__": {
+      "filePath": "app/not-found.tsx",
+      "name": "__file_root__",
+      "imports": [
+        "components/NotFound.tsx::NotFound"
+      ],
+      "importedBy": []
+    },
+    "components/elsewhere/ElsewhereRow.tsx::__file_root__": {
+      "filePath": "components/elsewhere/ElsewhereRow.tsx",
+      "name": "__file_root__",
+      "imports": [
+        "components/Elsewhere.module.css::__file_root__"
+      ],
+      "importedBy": []
+    },
+    ".claude/skills/review-session/scripts/find-last-session.mjs::__file_root__": {
+      "filePath": ".claude/skills/review-session/scripts/find-last-session.mjs",
+      "name": "__file_root__",
+      "imports": [
+        ".claude/skills/review-session/scripts/find-last-session-helpers.mjs::claudeProjectHashFromPath"
+      ],
+      "importedBy": []
+    },
+    "next-env.d.ts::__file_root__": {
+      "filePath": "next-env.d.ts",
+      "name": "__file_root__",
+      "imports": [
+        ".next/dev/types/routes.d.ts::__file_root__",
+        ".next/dev/types/root-params.d.ts::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "components/SectionHead.tsx::SectionHead": {
+      "filePath": "components/SectionHead.tsx",
+      "name": "SectionHead",
+      "imports": [],
+      "importedBy": [
+        "components/Writing.tsx::__file_root__",
+        "components/About.tsx::__file_root__"
+      ]
+    },
+    "components/about/CityRotator.tsx::CityRotator": {
+      "filePath": "components/about/CityRotator.tsx",
+      "name": "CityRotator",
+      "imports": [],
+      "importedBy": [
+        "components/about/AboutFacts.tsx::__file_root__"
+      ]
+    },
+    "app/lib/sendNotification.ts::escapeHtml": {
       "filePath": "app/lib/sendNotification.ts",
-      "name": "buildSendPayload",
+      "name": "escapeHtml",
       "imports": [],
       "importedBy": [
         "app/lib/sendNotification.test.ts::__file_root__"
@@ -1227,19 +1375,204 @@
       ],
       "importedBy": []
     },
-    "prisma.config.ts::__file_root__": {
-      "filePath": "prisma.config.ts",
+    "components/Writing.tsx::__file_root__": {
+      "filePath": "components/Writing.tsx",
       "name": "__file_root__",
       "imports": [
-        "app/lib/loadEnv.ts::__file_root__"
+        "content/site.ts::__file_root__",
+        "components/SectionHead.tsx::SectionHead",
+        "components/writing/PostList.tsx::PostList",
+        "components/writing/WritingIntro.tsx::WritingIntro",
+        "components/Section.module.css::__file_root__",
+        "components/Writing.module.css::__file_root__"
       ],
       "importedBy": []
     },
-    "app/lib/submitMessage.test.ts::__file_root__": {
-      "filePath": "app/lib/submitMessage.test.ts",
+    ".codeyam/capture.js::{\n  waitForHydration,\n}": {
+      "filePath": ".codeyam/capture.js",
+      "name": "{\n  waitForHydration,\n}",
+      "imports": [
+        ".codeyam/scenario-interactivity.js::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "app/isolated-components/About/page.tsx::__file_root__": {
+      "filePath": "app/isolated-components/About/page.tsx",
       "name": "__file_root__",
       "imports": [
-        "app/lib/submitMessage.ts::submitMessage"
+        "components/About::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "content/site.json::__file_root__": {
+      "filePath": "content/site.json",
+      "name": "__file_root__",
+      "imports": [],
+      "importedBy": [
+        "content/site.ts::__file_root__"
+      ]
+    },
+    "app/layout.tsx::__file_root__": {
+      "filePath": "app/layout.tsx",
+      "name": "__file_root__",
+      "imports": [
+        "app/globals.css::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "components/Contact::__file_root__": {
+      "filePath": "components/Contact",
+      "name": "__file_root__",
+      "imports": [],
+      "importedBy": [
+        "app/isolated-components/Contact/page.tsx::__file_root__"
+      ]
+    },
+    "app/lib/contactRequest.test.ts::__file_root__": {
+      "filePath": "app/lib/contactRequest.test.ts",
+      "name": "__file_root__",
+      "imports": [
+        "app/lib/contactRequest.ts::isHoneypotTripped",
+        "app/lib/contactRequest.ts::readJsonBody"
+      ],
+      "importedBy": []
+    },
+    "app/lib/deliverAndStamp.ts::__file_root__": {
+      "filePath": "app/lib/deliverAndStamp.ts",
+      "name": "__file_root__",
+      "imports": [
+        "app/lib/sendNotification.ts::DeliveryResult",
+        "app/lib/sendNotification.ts::NotifiableMessage"
+      ],
+      "importedBy": []
+    },
+    "hooks/useActiveSection.ts::__file_root__": {
+      "filePath": "hooks/useActiveSection.ts",
+      "name": "__file_root__",
+      "imports": [
+        "app/lib/activeSection.ts::pickActive"
+      ],
+      "importedBy": []
+    },
+    "app/lib/validateMessage.test.ts::r": {
+      "filePath": "app/lib/validateMessage.test.ts",
+      "name": "r",
+      "imports": [
+        "content/site.ts::__file_root__",
+        "content/site.ts::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "app/isolated-components/Honeypot/page.tsx::__file_root__": {
+      "filePath": "app/isolated-components/Honeypot/page.tsx",
+      "name": "__file_root__",
+      "imports": [
+        "app/isolated-components/Honeypot/Harness.tsx::Harness"
+      ],
+      "importedBy": []
+    },
+    "app/isolated-components/WorkLinkList/page.tsx::__file_root__": {
+      "filePath": "app/isolated-components/WorkLinkList/page.tsx",
+      "name": "__file_root__",
+      "imports": [
+        "components/work/WorkLinkList.tsx::__file_root__",
+        "content/site.ts::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "components/Nav.module.css::__file_root__": {
+      "filePath": "components/Nav.module.css",
+      "name": "__file_root__",
+      "imports": [],
+      "importedBy": [
+        "components/Nav.tsx::__file_root__"
+      ]
+    },
+    "components/hero/TypedHeadline.tsx::__file_root__": {
+      "filePath": "components/hero/TypedHeadline.tsx",
+      "name": "__file_root__",
+      "imports": [
+        "components/Hero.module.css::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "app/lib/contactResponses.ts::needsAnotherLook": {
+      "filePath": "app/lib/contactResponses.ts",
+      "name": "needsAnotherLook",
+      "imports": [],
+      "importedBy": [
+        "app/api/contact/route.ts::__file_root__"
+      ]
+    },
+    "prisma/seed.ts::__file_root__": {
+      "filePath": "prisma/seed.ts",
+      "name": "__file_root__",
+      "imports": [
+        "app/lib/loadEnv.ts::__file_root__",
+        "app/lib/prismaConnection.ts::requireConnectionString",
+        "prisma/seedRows.ts::SeedMessage",
+        "prisma/seedRows.ts::summarize",
+        "prisma/seedRows.ts::toMessageRow"
+      ],
+      "importedBy": []
+    },
+    ".next/dev/types/routes.d.ts::__file_root__": {
+      "filePath": ".next/dev/types/routes.d.ts",
+      "name": "__file_root__",
+      "imports": [],
+      "importedBy": [
+        "next-env.d.ts::__file_root__"
+      ]
+    },
+    "components/NotFound.module.css::__file_root__": {
+      "filePath": "components/NotFound.module.css",
+      "name": "__file_root__",
+      "imports": [],
+      "importedBy": [
+        "components/NotFound.tsx::__file_root__"
+      ]
+    },
+    "app/isolated-components/FooterSignoff/page.tsx::__file_root__": {
+      "filePath": "app/isolated-components/FooterSignoff/page.tsx",
+      "name": "__file_root__",
+      "imports": [
+        "components/Footer.tsx::__file_root__",
+        "content/site.ts::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "app/lib/prismaConnection.test.ts::__file_root__": {
+      "filePath": "app/lib/prismaConnection.test.ts",
+      "name": "__file_root__",
+      "imports": [
+        "app/lib/prismaConnection.ts::__file_root__",
+        "app/lib/prismaConnection.ts::requireConnectionString"
+      ],
+      "importedBy": []
+    },
+    "components/SectionHead.module.css::__file_root__": {
+      "filePath": "components/SectionHead.module.css",
+      "name": "__file_root__",
+      "imports": [],
+      "importedBy": [
+        "components/SectionHead.tsx::__file_root__"
+      ]
+    },
+    "components/Footer.tsx::__file_root__": {
+      "filePath": "components/Footer.tsx",
+      "name": "__file_root__",
+      "imports": [
+        "content/site.ts::__file_root__",
+        "app/lib/text.ts::splitOnBrand",
+        "components/Footer.module.css::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "app/lib/validateMessage.ts::__file_root__": {
+      "filePath": "app/lib/validateMessage.ts",
+      "name": "__file_root__",
+      "imports": [
+        "content/site.ts::__file_root__"
       ],
       "importedBy": []
     },
@@ -1252,132 +1585,28 @@
         "components/Footer.tsx::__file_root__"
       ]
     },
-    "app/lib/sendNotification.ts::composeBody": {
-      "filePath": "app/lib/sendNotification.ts",
-      "name": "composeBody",
+    "app/lib/validateMessage.ts::validateMessage": {
+      "filePath": "app/lib/validateMessage.ts",
+      "name": "validateMessage",
       "imports": [],
       "importedBy": [
-        "app/lib/sendNotification.test.ts::__file_root__"
+        "app/api/contact/route.ts::__file_root__"
       ]
     },
-    "app/isolated-components/WritingIntro/page.tsx::__file_root__": {
-      "filePath": "app/isolated-components/WritingIntro/page.tsx",
+    "components/hero/ScrollCue.tsx::__file_root__": {
+      "filePath": "components/hero/ScrollCue.tsx",
       "name": "__file_root__",
       "imports": [
-        "components/writing/WritingIntro.tsx::__file_root__",
-        "content/site.ts::__file_root__"
-      ],
-      "importedBy": []
-    },
-    "app/lib/activeSection.test.ts::__file_root__": {
-      "filePath": "app/lib/activeSection.test.ts",
-      "name": "__file_root__",
-      "imports": [
-        "app/lib/activeSection.ts::pickActive"
-      ],
-      "importedBy": []
-    },
-    "components/Footer.module.css::__file_root__": {
-      "filePath": "components/Footer.module.css",
-      "name": "__file_root__",
-      "imports": [],
-      "importedBy": [
-        "components/Footer.tsx::__file_root__"
-      ]
-    },
-    "components/Hero.tsx::__file_root__": {
-      "filePath": "components/Hero.tsx",
-      "name": "__file_root__",
-      "imports": [
-        "content/site.ts::__file_root__",
-        "components/hero/HeroBackdrop.tsx::HeroBackdrop",
-        "components/hero/ScrollCue.tsx::ScrollCue",
-        "components/hero/TypedHeadline.tsx::TypedHeadline",
         "components/Hero.module.css::__file_root__"
       ],
       "importedBy": []
     },
-    ".codeyam/capture.js::{\n  findScenarioError,\n  SCENARIO_ERROR_MARKER,\n  hasRenderableContent,\n  buildSettleAdvisory,\n  describeBlankReason,\n}": {
-      "filePath": ".codeyam/capture.js",
-      "name": "{\n  findScenarioError,\n  SCENARIO_ERROR_MARKER,\n  hasRenderableContent,\n  buildSettleAdvisory,\n  describeBlankReason,\n}",
-      "imports": [
-        ".codeyam/scenario-metrics.js::__file_root__"
-      ],
-      "importedBy": []
-    },
-    "app/isolated-components/HeroBackdrop/page.tsx::__file_root__": {
-      "filePath": "app/isolated-components/HeroBackdrop/page.tsx",
-      "name": "__file_root__",
-      "imports": [
-        "components/hero/HeroBackdrop.tsx::__file_root__",
-        "content/site.ts::__file_root__"
-      ],
-      "importedBy": []
-    },
-    "app/lib/sendNotification.ts::sendUrl": {
-      "filePath": "app/lib/sendNotification.ts",
-      "name": "sendUrl",
+    "components/about/AboutFacts.tsx::AboutFacts": {
+      "filePath": "components/about/AboutFacts.tsx",
+      "name": "AboutFacts",
       "imports": [],
       "importedBy": [
-        "app/lib/sendNotification.test.ts::__file_root__"
-      ]
-    },
-    "app/isolated-components/TopicChips/page.tsx::__file_root__": {
-      "filePath": "app/isolated-components/TopicChips/page.tsx",
-      "name": "__file_root__",
-      "imports": [
-        "content/site.ts::__file_root__",
-        "app/isolated-components/TopicChips/Harness.tsx::Harness"
-      ],
-      "importedBy": []
-    },
-    "app/isolated-components/FooterSignoff/page.tsx::__file_root__": {
-      "filePath": "app/isolated-components/FooterSignoff/page.tsx",
-      "name": "__file_root__",
-      "imports": [
-        "components/Footer.tsx::__file_root__",
-        "content/site.ts::__file_root__"
-      ],
-      "importedBy": []
-    },
-    "app/isolated-components/NotFound/page.tsx::__file_root__": {
-      "filePath": "app/isolated-components/NotFound/page.tsx",
-      "name": "__file_root__",
-      "imports": [
-        "components/NotFound.tsx::__file_root__"
-      ],
-      "importedBy": []
-    },
-    ".codeyam/capture.js::{\n  getInitScript,\n  handleConsoleMessage,\n  handlePageError,\n  handleRequestFailed,\n}": {
-      "filePath": ".codeyam/capture.js",
-      "name": "{\n  getInitScript,\n  handleConsoleMessage,\n  handlePageError,\n  handleRequestFailed,\n}",
-      "imports": [
-        ".codeyam/scenario-handlers.js::__file_root__"
-      ],
-      "importedBy": []
-    },
-    ".codeyam/scenario-handlers.js::{ createIssue }": {
-      "filePath": ".codeyam/scenario-handlers.js",
-      "name": "{ createIssue }",
-      "imports": [
-        ".codeyam/scenario-issues.js::__file_root__"
-      ],
-      "importedBy": []
-    },
-    "components/about/CityRotator.tsx::CityRotator": {
-      "filePath": "components/about/CityRotator.tsx",
-      "name": "CityRotator",
-      "imports": [],
-      "importedBy": [
-        "components/about/AboutFacts.tsx::__file_root__"
-      ]
-    },
-    "components/Elsewhere::__file_root__": {
-      "filePath": "components/Elsewhere",
-      "name": "__file_root__",
-      "imports": [],
-      "importedBy": [
-        "app/isolated-components/Elsewhere/page.tsx::__file_root__"
+        "components/About.tsx::__file_root__"
       ]
     },
     "app/lib/contactResponses.test.ts::__file_root__": {
@@ -1408,81 +1637,120 @@
       ],
       "importedBy": []
     },
-    "components/SectionHead.tsx::__file_root__": {
-      "filePath": "components/SectionHead.tsx",
+    "app/isolated-components/SocialList/page.tsx::__file_root__": {
+      "filePath": "app/isolated-components/SocialList/page.tsx",
       "name": "__file_root__",
       "imports": [
-        "components/SectionHead.module.css::__file_root__"
+        "components/contact/SocialList.tsx::__file_root__",
+        "content/site.ts::__file_root__"
       ],
       "importedBy": []
     },
-    "components/hero/ScrollCue.tsx::__file_root__": {
-      "filePath": "components/hero/ScrollCue.tsx",
+    "components/Work.tsx::__file_root__": {
+      "filePath": "components/Work.tsx",
       "name": "__file_root__",
       "imports": [
-        "components/Hero.module.css::__file_root__"
+        "content/site.ts::__file_root__",
+        "components/PhotoRotator.tsx::PhotoRotator",
+        "components/SectionHead.tsx::SectionHead",
+        "components/work/AdvisoryCard.tsx::AdvisoryCard",
+        "components/work/WorkNarrative.tsx::WorkNarrative",
+        "components/Section.module.css::__file_root__",
+        "components/Work.module.css::__file_root__"
       ],
       "importedBy": []
     },
-    "components/Contact::__file_root__": {
-      "filePath": "components/Contact",
-      "name": "__file_root__",
-      "imports": [],
-      "importedBy": [
-        "app/isolated-components/Contact/page.tsx::__file_root__"
-      ]
-    },
-    "prisma/seedRows.test.ts::__file_root__": {
-      "filePath": "prisma/seedRows.test.ts",
-      "name": "__file_root__",
-      "imports": [
-        "prisma/seedRows.ts::SeedMessage",
-        "prisma/seedRows.ts::summarize",
-        "prisma/seedRows.ts::toMessageRow"
-      ],
-      "importedBy": []
-    },
-    "components/contact/Field.tsx::Field": {
-      "filePath": "components/contact/Field.tsx",
-      "name": "Field",
+    "components/contact/SentConfirmation.tsx::SentConfirmation": {
+      "filePath": "components/contact/SentConfirmation.tsx",
+      "name": "SentConfirmation",
       "imports": [],
       "importedBy": [
         "components/ContactForm.tsx::__file_root__"
       ]
     },
-    ".codeyam/scenario-metrics.js::__file_root__": {
-      "filePath": ".codeyam/scenario-metrics.js",
-      "name": "__file_root__",
-      "imports": [],
-      "importedBy": [
-        ".codeyam/scenario-playwright.js::{\n  hasLoadingMarkers,\n  shouldStopWaitingForImages,\n}"
-      ]
-    },
-    "components/hero/TypedHeadline.tsx::__file_root__": {
-      "filePath": "components/hero/TypedHeadline.tsx",
+    "app/lib/sendNotification.test.ts::__file_root__": {
+      "filePath": "app/lib/sendNotification.test.ts",
       "name": "__file_root__",
       "imports": [
-        "components/Hero.module.css::__file_root__"
+        "app/lib/sendNotification.ts::MailConfig",
+        "app/lib/sendNotification.ts::buildSendPayload",
+        "app/lib/sendNotification.ts::composeBody",
+        "app/lib/sendNotification.ts::describeSendFailure",
+        "app/lib/sendNotification.ts::escapeHtml",
+        "app/lib/sendNotification.ts::readMailConfig",
+        "app/lib/sendNotification.ts::sendUrl",
+        "app/lib/sendNotification.ts::NotifiableMessage"
       ],
       "importedBy": []
     },
-    "app/lib/sendNotification.ts::DeliveryResult": {
-      "filePath": "app/lib/sendNotification.ts",
-      "name": "DeliveryResult",
-      "imports": [],
-      "importedBy": [
-        "app/lib/deliverAndStamp.ts::__file_root__"
-      ]
-    },
-    "components/Hero.module.css::__file_root__": {
-      "filePath": "components/Hero.module.css",
+    "components/Writing.module.css::__file_root__": {
+      "filePath": "components/Writing.module.css",
       "name": "__file_root__",
       "imports": [],
       "importedBy": [
-        "components/Hero.tsx::__file_root__",
-        "components/hero/TypedHeadline.tsx::__file_root__",
-        "components/hero/HeroBackdrop.tsx::__file_root__",
-        "components/hero/ScrollCue.tsx::__file_root__"
+        "components/Writing.tsx::__file_root__",
+        "components/writing/PostList.tsx::__file_root__",
+        "components/writing/WritingIntro.tsx::__file_root__"
+      ]
+    },
+    "app/globals.css::__file_root__": {
+      "filePath": "app/globals.css",
+      "name": "__file_root__",
+      "imports": [],
+      "importedBy": [
+        "app/layout.tsx::__file_root__"
+      ]
+    },
+    "components/writing/PostList.tsx::__file_root__": {
+      "filePath": "components/writing/PostList.tsx",
+      "name": "__file_root__",
+      "imports": [
+        "components/Writing.module.css::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "components/PhotoRotator.tsx::PhotoRotator": {
+      "filePath": "components/PhotoRotator.tsx",
+      "name": "PhotoRotator",
+      "imports": [],
+      "importedBy": [
+        "components/Adventures.tsx::__file_root__",
+        "components/About.tsx::__file_root__"
+      ]
+    },
+    "components/about/AboutFacts.tsx::__file_root__": {
+      "filePath": "components/about/AboutFacts.tsx",
+      "name": "__file_root__",
+      "imports": [
+        "components/About.module.css::__file_root__",
+        "components/about/CityRotator.tsx::CityRotator"
+      ],
+      "importedBy": []
+    },
+    "components/About.module.css::__file_root__": {
+      "filePath": "components/About.module.css",
+      "name": "__file_root__",
+      "imports": [],
+      "importedBy": [
+        "components/about/CityRotator.tsx::__file_root__",
+        "components/about/AboutFacts.tsx::__file_root__",
+        "components/About.tsx::__file_root__"
+      ]
+    },
+    "app/isolated-components/ExternalLinkIcon/page.tsx::__file_root__": {
+      "filePath": "app/isolated-components/ExternalLinkIcon/page.tsx",
+      "name": "__file_root__",
+      "imports": [
+        "components/writing/ExternalLinkIcon.tsx::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "components/Writing::__file_root__": {
+      "filePath": "components/Writing",
+      "name": "__file_root__",
+      "imports": [],
+      "importedBy": [
+        "app/isolated-components/Writing/page.tsx::__file_root__"
       ]
     },
     "components/Elsewhere.tsx::__file_root__": {
@@ -1497,45 +1765,146 @@
       ],
       "importedBy": []
     },
-    "app/isolated-components/About/page.tsx::__file_root__": {
-      "filePath": "app/isolated-components/About/page.tsx",
+    "components/work/WorkNarrative.tsx::__file_root__": {
+      "filePath": "components/work/WorkNarrative.tsx",
       "name": "__file_root__",
       "imports": [
-        "components/About::__file_root__"
+        "components/Section.module.css::__file_root__",
+        "components/Work.module.css::__file_root__",
+        "components/work/WorkLinkList.tsx::WorkLinkList"
       ],
       "importedBy": []
     },
-    ".claude/skills/review-session/scripts/find-last-session.mjs::__file_root__": {
-      "filePath": ".claude/skills/review-session/scripts/find-last-session.mjs",
+    "components/contact/FindMe.tsx::__file_root__": {
+      "filePath": "components/contact/FindMe.tsx",
       "name": "__file_root__",
       "imports": [
-        ".claude/skills/review-session/scripts/find-last-session-helpers.mjs::claudeProjectHashFromPath"
+        "components/Contact.module.css::__file_root__",
+        "components/contact/SocialList.tsx::SocialList"
       ],
       "importedBy": []
     },
-    "components/work/AdvisoryCard.tsx::__file_root__": {
-      "filePath": "components/work/AdvisoryCard.tsx",
-      "name": "__file_root__",
-      "imports": [
-        "components/Work.module.css::__file_root__"
-      ],
-      "importedBy": []
+    "app/isolated-components/Honeypot/Harness.tsx::Harness": {
+      "filePath": "app/isolated-components/Honeypot/Harness.tsx",
+      "name": "Harness",
+      "imports": [],
+      "importedBy": [
+        "app/isolated-components/Honeypot/page.tsx::__file_root__"
+      ]
     },
-    "components/NotFound.module.css::__file_root__": {
-      "filePath": "components/NotFound.module.css",
+    "components/Contact.module.css::__file_root__": {
+      "filePath": "components/Contact.module.css",
       "name": "__file_root__",
       "imports": [],
       "importedBy": [
-        "components/NotFound.tsx::__file_root__"
+        "app/isolated-components/Field/page.tsx::__file_root__",
+        "components/contact/SentConfirmation.tsx::__file_root__",
+        "components/contact/FormFailure.tsx::__file_root__",
+        "components/contact/Field.tsx::__file_root__",
+        "components/contact/TopicChips.tsx::__file_root__",
+        "components/contact/FindMe.tsx::__file_root__",
+        "components/contact/Honeypot.tsx::__file_root__",
+        "components/contact/SocialList.tsx::__file_root__",
+        "components/ContactForm.tsx::__file_root__"
       ]
     },
-    "app/lib/validateMessage.ts::str": {
-      "filePath": "app/lib/validateMessage.ts",
-      "name": "str",
+    "app/lib/deliverAndStamp.ts::deliverAndStamp": {
+      "filePath": "app/lib/deliverAndStamp.ts",
+      "name": "deliverAndStamp",
       "imports": [],
       "importedBy": [
-        "app/lib/contactRequest.ts::__file_root__"
+        "app/api/contact/route.ts::__file_root__"
       ]
+    },
+    ".next/dev/types/root-params.d.ts::__file_root__": {
+      "filePath": ".next/dev/types/root-params.d.ts",
+      "name": "__file_root__",
+      "imports": [],
+      "importedBy": [
+        "next-env.d.ts::__file_root__"
+      ]
+    },
+    ".codeyam/scenario-interactivity.js::{ createIssue }": {
+      "filePath": ".codeyam/scenario-interactivity.js",
+      "name": "{ createIssue }",
+      "imports": [
+        ".codeyam/scenario-issues.js::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "app/lib/activeSection.ts::pickActive": {
+      "filePath": "app/lib/activeSection.ts",
+      "name": "pickActive",
+      "imports": [],
+      "importedBy": [
+        "hooks/useActiveSection.ts::__file_root__"
+      ]
+    },
+    "components/writing/WritingIntro.tsx::__file_root__": {
+      "filePath": "components/writing/WritingIntro.tsx",
+      "name": "__file_root__",
+      "imports": [
+        "components/Writing.module.css::__file_root__",
+        "components/writing/ExternalLinkIcon.tsx::ExternalLinkIcon"
+      ],
+      "importedBy": []
+    },
+    "app/isolated-components/Honeypot/Harness.tsx::__file_root__": {
+      "filePath": "app/isolated-components/Honeypot/Harness.tsx",
+      "name": "__file_root__",
+      "imports": [
+        "components/contact/Honeypot.tsx::Honeypot"
+      ],
+      "importedBy": []
+    },
+    "vitest.config.ts::__file_root__": {
+      "filePath": "vitest.config.ts",
+      "name": "__file_root__",
+      "imports": [
+        "app/lib/loadEnv.ts::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "app/lib/sendNotification.ts::buildSendPayload": {
+      "filePath": "app/lib/sendNotification.ts",
+      "name": "buildSendPayload",
+      "imports": [],
+      "importedBy": [
+        "app/lib/sendNotification.test.ts::__file_root__"
+      ]
+    },
+    "components/contact/TopicChips.tsx::__file_root__": {
+      "filePath": "components/contact/TopicChips.tsx",
+      "name": "__file_root__",
+      "imports": [
+        "components/Contact.module.css::__file_root__"
+      ],
+      "importedBy": []
+    },
+    ".codeyam/scenario-handlers.js::{ createIssue }": {
+      "filePath": ".codeyam/scenario-handlers.js",
+      "name": "{ createIssue }",
+      "imports": [
+        ".codeyam/scenario-issues.js::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "components/NotFound.tsx::__file_root__": {
+      "filePath": "components/NotFound.tsx",
+      "name": "__file_root__",
+      "imports": [
+        "content/site.ts::__file_root__",
+        "components/NotFound.module.css::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "app/isolated-components/Footer/page.tsx::__file_root__": {
+      "filePath": "app/isolated-components/Footer/page.tsx",
+      "name": "__file_root__",
+      "imports": [
+        "components/Footer.tsx::__file_root__"
+      ],
+      "importedBy": []
     },
     "components/contact/Field.tsx::__file_root__": {
       "filePath": "components/contact/Field.tsx",
@@ -1545,12 +1914,33 @@
       ],
       "importedBy": []
     },
-    "app/isolated-components/AboutFacts/page.tsx::__file_root__": {
-      "filePath": "app/isolated-components/AboutFacts/page.tsx",
+    "app/isolated-components/CityRotator/page.tsx::__file_root__": {
+      "filePath": "app/isolated-components/CityRotator/page.tsx",
       "name": "__file_root__",
       "imports": [
-        "components/about/AboutFacts.tsx::__file_root__",
+        "components/about/CityRotator.tsx::__file_root__",
         "content/site.ts::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "app/lib/prismaConnection.ts::requireConnectionString": {
+      "filePath": "app/lib/prismaConnection.ts",
+      "name": "requireConnectionString",
+      "imports": [],
+      "importedBy": [
+        "prisma/seed.ts::__file_root__"
+      ]
+    },
+    "components/About.tsx::__file_root__": {
+      "filePath": "components/About.tsx",
+      "name": "__file_root__",
+      "imports": [
+        "content/site.ts::__file_root__",
+        "components/PhotoRotator.tsx::PhotoRotator",
+        "components/SectionHead.tsx::SectionHead",
+        "components/about/AboutFacts.tsx::AboutFacts",
+        "components/Section.module.css::__file_root__",
+        "components/About.module.css::__file_root__"
       ],
       "importedBy": []
     },
@@ -1572,52 +1962,103 @@
       ],
       "importedBy": []
     },
-    "app/isolated-components/TopicChips/Harness.tsx::Harness": {
-      "filePath": "app/isolated-components/TopicChips/Harness.tsx",
-      "name": "Harness",
-      "imports": [],
-      "importedBy": [
-        "app/isolated-components/TopicChips/page.tsx::__file_root__"
-      ]
-    },
-    "app/api/contact/route.test.ts::__file_root__": {
-      "filePath": "app/api/contact/route.test.ts",
-      "name": "__file_root__",
+    ".codeyam/capture.js::{\n  assertAppPortReachable,\n  loadScenarioInIframe,\n  loadScenarioTopLevel,\n  resolveHarnessOrigin,\n  waitForStablePage,\n  createNetworkTracker,\n  waitForNetworkQuiet,\n  collectContentState,\n  scrollThroughDocument,\n  collectVisibleTextLength,\n  forceFinalVisualState,\n  centerCaptureWrapper,\n  performInteraction,\n  waitForPredicate,\n  performInteractionSequence,\n}": {
+      "filePath": ".codeyam/capture.js",
+      "name": "{\n  assertAppPortReachable,\n  loadScenarioInIframe,\n  loadScenarioTopLevel,\n  resolveHarnessOrigin,\n  waitForStablePage,\n  createNetworkTracker,\n  waitForNetworkQuiet,\n  collectContentState,\n  scrollThroughDocument,\n  collectVisibleTextLength,\n  forceFinalVisualState,\n  centerCaptureWrapper,\n  performInteraction,\n  waitForPredicate,\n  performInteractionSequence,\n}",
       "imports": [
-        "app/api/contact/route.ts::__file_root__"
+        ".codeyam/scenario-playwright.js::__file_root__"
       ],
       "importedBy": []
     },
-    "components/contact/Honeypot.tsx::Honeypot": {
-      "filePath": "components/contact/Honeypot.tsx",
-      "name": "Honeypot",
+    "components/contact/SocialList.tsx::__file_root__": {
+      "filePath": "components/contact/SocialList.tsx",
+      "name": "__file_root__",
+      "imports": [
+        "components/Contact.module.css::__file_root__"
+      ],
+      "importedBy": []
+    },
+    ".codeyam/capture.js::{\n  createIssue,\n  pushIssue,\n  buildResult,\n}": {
+      "filePath": ".codeyam/capture.js",
+      "name": "{\n  createIssue,\n  pushIssue,\n  buildResult,\n}",
+      "imports": [
+        ".codeyam/scenario-issues.js::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "app/lib/validateMessage.ts::Problems": {
+      "filePath": "app/lib/validateMessage.ts",
+      "name": "Problems",
       "imports": [],
       "importedBy": [
         "components/ContactForm.tsx::__file_root__"
       ]
     },
-    "app/lib/sendNotification.test.ts::__file_root__": {
-      "filePath": "app/lib/sendNotification.test.ts",
+    "app/isolated-components/Writing/page.tsx::__file_root__": {
+      "filePath": "app/isolated-components/Writing/page.tsx",
       "name": "__file_root__",
       "imports": [
-        "app/lib/sendNotification.ts::MailConfig",
-        "app/lib/sendNotification.ts::buildSendPayload",
-        "app/lib/sendNotification.ts::composeBody",
-        "app/lib/sendNotification.ts::describeSendFailure",
-        "app/lib/sendNotification.ts::escapeHtml",
-        "app/lib/sendNotification.ts::readMailConfig",
-        "app/lib/sendNotification.ts::sendUrl",
-        "app/lib/sendNotification.ts::NotifiableMessage"
+        "components/Writing::__file_root__"
       ],
       "importedBy": []
     },
-    "app/lib/contactResponses.ts::needsAnotherLook": {
-      "filePath": "app/lib/contactResponses.ts",
-      "name": "needsAnotherLook",
+    "app/lib/validateMessage.ts::str": {
+      "filePath": "app/lib/validateMessage.ts",
+      "name": "str",
       "imports": [],
       "importedBy": [
-        "app/api/contact/route.ts::__file_root__"
+        "app/lib/contactRequest.ts::__file_root__"
       ]
+    },
+    "app/lib/sendNotification.ts::describeSendFailure": {
+      "filePath": "app/lib/sendNotification.ts",
+      "name": "describeSendFailure",
+      "imports": [],
+      "importedBy": [
+        "app/lib/sendNotification.test.ts::__file_root__"
+      ]
+    },
+    "app/isolated-components/WritingIntro/page.tsx::__file_root__": {
+      "filePath": "app/isolated-components/WritingIntro/page.tsx",
+      "name": "__file_root__",
+      "imports": [
+        "components/writing/WritingIntro.tsx::__file_root__",
+        "content/site.ts::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "app/lib/sendNotification.ts::composeBody": {
+      "filePath": "app/lib/sendNotification.ts",
+      "name": "composeBody",
+      "imports": [],
+      "importedBy": [
+        "app/lib/sendNotification.test.ts::__file_root__"
+      ]
+    },
+    "app/lib/sendNotification.ts::sendUrl": {
+      "filePath": "app/lib/sendNotification.ts",
+      "name": "sendUrl",
+      "imports": [],
+      "importedBy": [
+        "app/lib/sendNotification.test.ts::__file_root__"
+      ]
+    },
+    "app/isolated-components/NavLinks/page.tsx::__file_root__": {
+      "filePath": "app/isolated-components/NavLinks/page.tsx",
+      "name": "__file_root__",
+      "imports": [
+        "components/Nav.tsx::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "app/isolated-components/ElsewhereRow/page.tsx::__file_root__": {
+      "filePath": "app/isolated-components/ElsewhereRow/page.tsx",
+      "name": "__file_root__",
+      "imports": [
+        "components/elsewhere/ElsewhereRow.tsx::__file_root__",
+        "content/site.ts::__file_root__"
+      ],
+      "importedBy": []
     },
     "components/Adventures.tsx::__file_root__": {
       "filePath": "components/Adventures.tsx",
@@ -1631,38 +2072,14 @@
       ],
       "importedBy": []
     },
-    "components/elsewhere/ElsewhereRow.tsx::__file_root__": {
-      "filePath": "components/elsewhere/ElsewhereRow.tsx",
+    "app/lib/prisma.ts::__file_root__": {
+      "filePath": "app/lib/prisma.ts",
       "name": "__file_root__",
       "imports": [
-        "components/Elsewhere.module.css::__file_root__"
+        "app/lib/prismaConnection.ts::requireConnectionString"
       ],
-      "importedBy": []
-    },
-    "app/isolated-components/ScrollCue/page.tsx::__file_root__": {
-      "filePath": "app/isolated-components/ScrollCue/page.tsx",
-      "name": "__file_root__",
-      "imports": [
-        "components/hero/ScrollCue.tsx::__file_root__",
-        "content/site.ts::__file_root__"
-      ],
-      "importedBy": []
-    },
-    "app/lib/deliverAndStamp.ts::__file_root__": {
-      "filePath": "app/lib/deliverAndStamp.ts",
-      "name": "__file_root__",
-      "imports": [
-        "app/lib/sendNotification.ts::DeliveryResult",
-        "app/lib/sendNotification.ts::NotifiableMessage"
-      ],
-      "importedBy": []
-    },
-    "app/lib/sendNotification.ts::MailConfig": {
-      "filePath": "app/lib/sendNotification.ts",
-      "name": "MailConfig",
-      "imports": [],
       "importedBy": [
-        "app/lib/sendNotification.test.ts::__file_root__"
+        "app/api/contact/route.ts::__file_root__"
       ]
     },
     "app/isolated-components/SectionHead/page.tsx::__file_root__": {
@@ -1674,263 +2091,87 @@
       ],
       "importedBy": []
     },
-    "app/isolated-components/Honeypot/page.tsx::__file_root__": {
-      "filePath": "app/isolated-components/Honeypot/page.tsx",
+    "app/isolated-components/HeroBackdrop/page.tsx::__file_root__": {
+      "filePath": "app/isolated-components/HeroBackdrop/page.tsx",
       "name": "__file_root__",
       "imports": [
-        "app/isolated-components/Honeypot/Harness.tsx::Harness"
-      ],
-      "importedBy": []
-    },
-    "app/lib/validateMessage.ts::validateMessage": {
-      "filePath": "app/lib/validateMessage.ts",
-      "name": "validateMessage",
-      "imports": [],
-      "importedBy": [
-        "app/api/contact/route.ts::__file_root__"
-      ]
-    },
-    "app/lib/contactRequest.ts::readJsonBody": {
-      "filePath": "app/lib/contactRequest.ts",
-      "name": "readJsonBody",
-      "imports": [],
-      "importedBy": [
-        "app/api/contact/route.ts::__file_root__"
-      ]
-    },
-    "app/lib/validateMessage.test.ts::r": {
-      "filePath": "app/lib/validateMessage.test.ts",
-      "name": "r",
-      "imports": [
-        "content/site.ts::__file_root__",
+        "components/hero/HeroBackdrop.tsx::__file_root__",
         "content/site.ts::__file_root__"
       ],
       "importedBy": []
     },
-    "app/isolated-components/FormFailure/page.tsx::__file_root__": {
-      "filePath": "app/isolated-components/FormFailure/page.tsx",
-      "name": "__file_root__",
-      "imports": [
-        "components/contact/FormFailure.tsx::__file_root__",
-        "content/site.ts::__file_root__"
-      ],
-      "importedBy": []
-    },
-    "app/lib/activeSection.ts::pickActive": {
-      "filePath": "app/lib/activeSection.ts",
-      "name": "pickActive",
-      "imports": [],
-      "importedBy": [
-        "hooks/useActiveSection.ts::__file_root__"
-      ]
-    },
-    ".codeyam/capture.js::{\n  waitForHydration,\n}": {
-      "filePath": ".codeyam/capture.js",
-      "name": "{\n  waitForHydration,\n}",
-      "imports": [
-        ".codeyam/scenario-interactivity.js::__file_root__"
-      ],
-      "importedBy": []
-    },
-    "app/isolated-components/AdvisoryCard/page.tsx::__file_root__": {
-      "filePath": "app/isolated-components/AdvisoryCard/page.tsx",
-      "name": "__file_root__",
-      "imports": [
-        "components/work/AdvisoryCard.tsx::__file_root__",
-        "content/site.ts::__file_root__"
-      ],
-      "importedBy": []
-    },
-    "app/isolated-components/Hero/page.tsx::__file_root__": {
-      "filePath": "app/isolated-components/Hero/page.tsx",
-      "name": "__file_root__",
-      "imports": [
-        "components/Hero::__file_root__"
-      ],
-      "importedBy": []
-    },
-    "components/Work.tsx::__file_root__": {
-      "filePath": "components/Work.tsx",
-      "name": "__file_root__",
-      "imports": [
-        "content/site.ts::__file_root__",
-        "components/PhotoRotator.tsx::PhotoRotator",
-        "components/SectionHead.tsx::SectionHead",
-        "components/work/AdvisoryCard.tsx::AdvisoryCard",
-        "components/work/WorkNarrative.tsx::WorkNarrative",
-        "components/Section.module.css::__file_root__",
-        "components/Work.module.css::__file_root__"
-      ],
-      "importedBy": []
-    },
-    "app/layout.tsx::__file_root__": {
-      "filePath": "app/layout.tsx",
-      "name": "__file_root__",
-      "imports": [
-        "app/globals.css::__file_root__"
-      ],
-      "importedBy": []
-    },
-    "components/Nav.tsx::__file_root__": {
-      "filePath": "components/Nav.tsx",
-      "name": "__file_root__",
-      "imports": [
-        "hooks/useActiveSection.ts::useActiveSection",
-        "hooks/useScrolledPast.ts::useScrolledPast",
-        "components/Nav.module.css::__file_root__"
-      ],
-      "importedBy": []
-    },
-    "components/contact/FormFailure.tsx::__file_root__": {
-      "filePath": "components/contact/FormFailure.tsx",
-      "name": "__file_root__",
-      "imports": [
-        "components/Contact.module.css::__file_root__"
-      ],
-      "importedBy": []
-    },
-    "components/work/WorkNarrative.tsx::__file_root__": {
-      "filePath": "components/work/WorkNarrative.tsx",
-      "name": "__file_root__",
-      "imports": [
-        "components/Section.module.css::__file_root__",
-        "components/Work.module.css::__file_root__",
-        "components/work/WorkLinkList.tsx::WorkLinkList"
-      ],
-      "importedBy": []
-    },
-    "app/lib/sendNotification.ts::readMailConfig": {
+    "app/lib/sendNotification.ts::NotifiableMessage": {
       "filePath": "app/lib/sendNotification.ts",
-      "name": "readMailConfig",
+      "name": "NotifiableMessage",
       "imports": [],
       "importedBy": [
-        "app/lib/sendNotification.test.ts::__file_root__"
+        "app/lib/deliverAndStamp.test.ts::__file_root__",
+        "app/lib/sendNotification.test.ts::__file_root__",
+        "app/lib/deliverAndStamp.ts::__file_root__"
       ]
     },
-    "components/Work.module.css::__file_root__": {
-      "filePath": "components/Work.module.css",
+    "components/contact/TopicChips.tsx::TopicChips": {
+      "filePath": "components/contact/TopicChips.tsx",
+      "name": "TopicChips",
+      "imports": [],
+      "importedBy": [
+        "components/ContactForm.tsx::__file_root__"
+      ]
+    },
+    "components/SectionHead.tsx::__file_root__": {
+      "filePath": "components/SectionHead.tsx",
+      "name": "__file_root__",
+      "imports": [
+        "components/SectionHead.module.css::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "components/Elsewhere::__file_root__": {
+      "filePath": "components/Elsewhere",
       "name": "__file_root__",
       "imports": [],
       "importedBy": [
-        "components/Work.tsx::__file_root__",
-        "components/work/AdvisoryCard.tsx::__file_root__",
-        "components/work/WorkNarrative.tsx::__file_root__",
-        "components/work/WorkLinkList.tsx::__file_root__"
+        "app/isolated-components/Elsewhere/page.tsx::__file_root__"
       ]
     },
-    "app/isolated-components/Footer/page.tsx::__file_root__": {
-      "filePath": "app/isolated-components/Footer/page.tsx",
-      "name": "__file_root__",
+    ".codeyam/scenario-playwright.js::{\n  hasLoadingMarkers,\n  shouldStopWaitingForImages,\n}": {
+      "filePath": ".codeyam/scenario-playwright.js",
+      "name": "{\n  hasLoadingMarkers,\n  shouldStopWaitingForImages,\n}",
       "imports": [
-        "components/Footer.tsx::__file_root__"
+        ".codeyam/scenario-metrics.js::__file_root__"
       ],
       "importedBy": []
     },
-    "app/isolated-components/CityRotator/page.tsx::__file_root__": {
-      "filePath": "app/isolated-components/CityRotator/page.tsx",
+    "app/isolated-components/TopicChips/Harness.tsx::Harness": {
+      "filePath": "app/isolated-components/TopicChips/Harness.tsx",
+      "name": "Harness",
+      "imports": [],
+      "importedBy": [
+        "app/isolated-components/TopicChips/page.tsx::__file_root__"
+      ]
+    },
+    "components/PhotoRotator.tsx::__file_root__": {
+      "filePath": "components/PhotoRotator.tsx",
       "name": "__file_root__",
       "imports": [
-        "components/about/CityRotator.tsx::__file_root__",
-        "content/site.ts::__file_root__"
+        "components/PhotoRotator.module.css::__file_root__"
       ],
       "importedBy": []
     },
-    "app/isolated-components/Elsewhere/page.tsx::__file_root__": {
-      "filePath": "app/isolated-components/Elsewhere/page.tsx",
-      "name": "__file_root__",
-      "imports": [
-        "components/Elsewhere::__file_root__"
-      ],
-      "importedBy": []
-    },
-    "app/lib/submitMessage.ts::__file_root__": {
+    "app/lib/submitMessage.ts::submitMessage": {
       "filePath": "app/lib/submitMessage.ts",
-      "name": "__file_root__",
-      "imports": [
-        "app/lib/validateMessage.ts::Problems"
-      ],
-      "importedBy": []
-    },
-    "app/lib/contactRequest.ts::__file_root__": {
-      "filePath": "app/lib/contactRequest.ts",
-      "name": "__file_root__",
-      "imports": [
-        "app/lib/validateMessage.ts::str"
-      ],
-      "importedBy": []
-    },
-    "app/isolated-components/Writing/page.tsx::__file_root__": {
-      "filePath": "app/isolated-components/Writing/page.tsx",
-      "name": "__file_root__",
-      "imports": [
-        "components/Writing::__file_root__"
-      ],
-      "importedBy": []
-    },
-    "app/lib/validateMessage.test.ts::__file_root__": {
-      "filePath": "app/lib/validateMessage.test.ts",
-      "name": "__file_root__",
-      "imports": [
-        "app/lib/validateMessage.ts::TOPICS",
-        "app/lib/validateMessage.ts::__file_root__",
-        "app/lib/validateMessage.ts::str",
-        "app/lib/validateMessage.ts::validateMessage"
-      ],
-      "importedBy": []
-    },
-    "app/lib/contactRequest.test.ts::__file_root__": {
-      "filePath": "app/lib/contactRequest.test.ts",
-      "name": "__file_root__",
-      "imports": [
-        "app/lib/contactRequest.ts::isHoneypotTripped",
-        "app/lib/contactRequest.ts::readJsonBody"
-      ],
-      "importedBy": []
-    },
-    "app/isolated-components/FindMe/page.tsx::__file_root__": {
-      "filePath": "app/isolated-components/FindMe/page.tsx",
-      "name": "__file_root__",
-      "imports": [
-        "components/contact/FindMe.tsx::__file_root__",
-        "content/site.ts::__file_root__"
-      ],
-      "importedBy": []
-    },
-    "app/lib/prismaConnection.test.ts::__file_root__": {
-      "filePath": "app/lib/prismaConnection.test.ts",
-      "name": "__file_root__",
-      "imports": [
-        "app/lib/prismaConnection.ts::__file_root__",
-        "app/lib/prismaConnection.ts::requireConnectionString"
-      ],
-      "importedBy": []
-    },
-    "components/Writing::__file_root__": {
-      "filePath": "components/Writing",
-      "name": "__file_root__",
+      "name": "submitMessage",
       "imports": [],
       "importedBy": [
-        "app/isolated-components/Writing/page.tsx::__file_root__"
+        "app/lib/submitMessage.test.ts::__file_root__",
+        "components/ContactForm.tsx::__file_root__"
       ]
     },
-    "components/About.tsx::__file_root__": {
-      "filePath": "components/About.tsx",
+    "app/isolated-components/WorkNarrative/page.tsx::__file_root__": {
+      "filePath": "app/isolated-components/WorkNarrative/page.tsx",
       "name": "__file_root__",
       "imports": [
-        "content/site.ts::__file_root__",
-        "components/PhotoRotator.tsx::PhotoRotator",
-        "components/SectionHead.tsx::SectionHead",
-        "components/about/AboutFacts.tsx::AboutFacts",
-        "components/Section.module.css::__file_root__",
-        "components/About.module.css::__file_root__"
-      ],
-      "importedBy": []
-    },
-    "app/isolated-components/PhotoRotator/page.tsx::__file_root__": {
-      "filePath": "app/isolated-components/PhotoRotator/page.tsx",
-      "name": "__file_root__",
-      "imports": [
-        "components/PhotoRotator.tsx::__file_root__",
+        "components/work/WorkNarrative.tsx::__file_root__",
         "content/site.ts::__file_root__"
       ],
       "importedBy": []
@@ -1947,51 +2188,120 @@
       ],
       "importedBy": []
     },
-    "components/Section.module.css::__file_root__": {
-      "filePath": "components/Section.module.css",
+    "components/Hero::__file_root__": {
+      "filePath": "components/Hero",
       "name": "__file_root__",
       "imports": [],
       "importedBy": [
-        "components/Elsewhere.tsx::__file_root__",
-        "components/Work.tsx::__file_root__",
-        "components/Contact.tsx::__file_root__",
-        "components/Adventures.tsx::__file_root__",
-        "components/work/WorkNarrative.tsx::__file_root__",
-        "components/Writing.tsx::__file_root__",
-        "components/About.tsx::__file_root__"
+        "app/isolated-components/Hero/page.tsx::__file_root__"
       ]
     },
-    "components/hero/HeroBackdrop.tsx::__file_root__": {
-      "filePath": "components/hero/HeroBackdrop.tsx",
+    "app/isolated-components/AdvisoryCard/page.tsx::__file_root__": {
+      "filePath": "app/isolated-components/AdvisoryCard/page.tsx",
       "name": "__file_root__",
       "imports": [
+        "components/work/AdvisoryCard.tsx::__file_root__",
+        "content/site.ts::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "app/lib/deliverAndStamp.test.ts::__file_root__": {
+      "filePath": "app/lib/deliverAndStamp.test.ts",
+      "name": "__file_root__",
+      "imports": [
+        "app/lib/deliverAndStamp.ts::deliverAndStamp",
+        "app/lib/sendNotification.ts::NotifiableMessage"
+      ],
+      "importedBy": []
+    },
+    "components/Hero.tsx::__file_root__": {
+      "filePath": "components/Hero.tsx",
+      "name": "__file_root__",
+      "imports": [
+        "content/site.ts::__file_root__",
+        "components/hero/HeroBackdrop.tsx::HeroBackdrop",
+        "components/hero/ScrollCue.tsx::ScrollCue",
+        "components/hero/TypedHeadline.tsx::TypedHeadline",
         "components/Hero.module.css::__file_root__"
       ],
       "importedBy": []
     },
-    "components/PhotoRotator.tsx::__file_root__": {
-      "filePath": "components/PhotoRotator.tsx",
+    "app/isolated-components/NavMark/page.tsx::__file_root__": {
+      "filePath": "app/isolated-components/NavMark/page.tsx",
       "name": "__file_root__",
       "imports": [
-        "components/PhotoRotator.module.css::__file_root__"
+        "components/Nav.tsx::__file_root__"
       ],
       "importedBy": []
     },
-    "components/about/CityRotator.tsx::__file_root__": {
-      "filePath": "components/about/CityRotator.tsx",
+    "app/isolated-components/ContactForm/page.tsx::__file_root__": {
+      "filePath": "app/isolated-components/ContactForm/page.tsx",
       "name": "__file_root__",
       "imports": [
-        "components/About.module.css::__file_root__"
+        "components/ContactForm.tsx::__file_root__"
       ],
       "importedBy": []
     },
-    "components/SectionHead.module.css::__file_root__": {
-      "filePath": "components/SectionHead.module.css",
+    "app/lib/loadEnv.ts::__file_root__": {
+      "filePath": "app/lib/loadEnv.ts",
       "name": "__file_root__",
       "imports": [],
       "importedBy": [
-        "components/SectionHead.tsx::__file_root__"
+        "prisma/seed.ts::__file_root__",
+        "prisma.config.ts::__file_root__",
+        "vitest.config.ts::__file_root__"
       ]
+    },
+    "components/Footer.module.css::__file_root__": {
+      "filePath": "components/Footer.module.css",
+      "name": "__file_root__",
+      "imports": [],
+      "importedBy": [
+        "components/Footer.tsx::__file_root__"
+      ]
+    },
+    "components/Work::__file_root__": {
+      "filePath": "components/Work",
+      "name": "__file_root__",
+      "imports": [],
+      "importedBy": [
+        "app/isolated-components/Work/page.tsx::__file_root__"
+      ]
+    },
+    "app/lib/sendNotification.ts::MailConfig": {
+      "filePath": "app/lib/sendNotification.ts",
+      "name": "MailConfig",
+      "imports": [],
+      "importedBy": [
+        "app/lib/sendNotification.test.ts::__file_root__"
+      ]
+    },
+    "app/lib/contactRequest.ts::readJsonBody": {
+      "filePath": "app/lib/contactRequest.ts",
+      "name": "readJsonBody",
+      "imports": [],
+      "importedBy": [
+        "app/api/contact/route.ts::__file_root__"
+      ]
+    },
+    "components/Hero.module.css::__file_root__": {
+      "filePath": "components/Hero.module.css",
+      "name": "__file_root__",
+      "imports": [],
+      "importedBy": [
+        "components/Hero.tsx::__file_root__",
+        "components/hero/TypedHeadline.tsx::__file_root__",
+        "components/hero/HeroBackdrop.tsx::__file_root__",
+        "components/hero/ScrollCue.tsx::__file_root__"
+      ]
+    },
+    "components/work/WorkLinkList.tsx::__file_root__": {
+      "filePath": "components/work/WorkLinkList.tsx",
+      "name": "__file_root__",
+      "imports": [
+        "components/Work.module.css::__file_root__"
+      ],
+      "importedBy": []
     },
     "app/isolated-components/Field/page.tsx::__file_root__": {
       "filePath": "app/isolated-components/Field/page.tsx",
@@ -2002,115 +2312,29 @@
       ],
       "importedBy": []
     },
-    "app/isolated-components/ExternalLinkIcon/page.tsx::__file_root__": {
-      "filePath": "app/isolated-components/ExternalLinkIcon/page.tsx",
-      "name": "__file_root__",
-      "imports": [
-        "components/writing/ExternalLinkIcon.tsx::__file_root__"
-      ],
-      "importedBy": []
-    },
-    "app/lib/deliverAndStamp.ts::deliverAndStamp": {
-      "filePath": "app/lib/deliverAndStamp.ts",
-      "name": "deliverAndStamp",
-      "imports": [],
-      "importedBy": [
-        "app/api/contact/route.ts::__file_root__"
-      ]
-    },
-    "app/lib/submitMessage.ts::submitMessage": {
-      "filePath": "app/lib/submitMessage.ts",
-      "name": "submitMessage",
-      "imports": [],
-      "importedBy": [
-        "app/lib/submitMessage.test.ts::__file_root__",
-        "components/ContactForm.tsx::__file_root__"
-      ]
-    },
-    "vitest.config.ts::__file_root__": {
-      "filePath": "vitest.config.ts",
-      "name": "__file_root__",
-      "imports": [
-        "app/lib/loadEnv.ts::__file_root__"
-      ],
-      "importedBy": []
-    },
-    "components/Hero::__file_root__": {
-      "filePath": "components/Hero",
-      "name": "__file_root__",
-      "imports": [],
-      "importedBy": [
-        "app/isolated-components/Hero/page.tsx::__file_root__"
-      ]
-    },
-    "app/isolated-components/Nav/page.tsx::__file_root__": {
-      "filePath": "app/isolated-components/Nav/page.tsx",
-      "name": "__file_root__",
-      "imports": [
-        "components/Nav.tsx::__file_root__"
-      ],
-      "importedBy": []
-    },
-    "components/contact/Honeypot.tsx::__file_root__": {
-      "filePath": "components/contact/Honeypot.tsx",
-      "name": "__file_root__",
-      "imports": [
-        "components/Contact.module.css::__file_root__"
-      ],
-      "importedBy": []
-    },
-    "app/isolated-components/WorkNarrative/page.tsx::__file_root__": {
-      "filePath": "app/isolated-components/WorkNarrative/page.tsx",
-      "name": "__file_root__",
-      "imports": [
-        "components/work/WorkNarrative.tsx::__file_root__",
-        "content/site.ts::__file_root__"
-      ],
-      "importedBy": []
-    },
-    "components/work/WorkLinkList.tsx::__file_root__": {
-      "filePath": "components/work/WorkLinkList.tsx",
+    "components/work/AdvisoryCard.tsx::__file_root__": {
+      "filePath": "components/work/AdvisoryCard.tsx",
       "name": "__file_root__",
       "imports": [
         "components/Work.module.css::__file_root__"
       ],
       "importedBy": []
     },
-    "app/lib/prisma.ts::__file_root__": {
-      "filePath": "app/lib/prisma.ts",
+    "app/lib/submitMessage.ts::__file_root__": {
+      "filePath": "app/lib/submitMessage.ts",
       "name": "__file_root__",
       "imports": [
-        "app/lib/prismaConnection.ts::requireConnectionString"
+        "app/lib/validateMessage.ts::Problems"
       ],
-      "importedBy": [
+      "importedBy": []
+    },
+    "app/api/contact/route.test.ts::__file_root__": {
+      "filePath": "app/api/contact/route.test.ts",
+      "name": "__file_root__",
+      "imports": [
         "app/api/contact/route.ts::__file_root__"
-      ]
-    },
-    "components/NotFound.tsx::__file_root__": {
-      "filePath": "components/NotFound.tsx",
-      "name": "__file_root__",
-      "imports": [
-        "content/site.ts::__file_root__",
-        "components/NotFound.module.css::__file_root__"
       ],
       "importedBy": []
-    },
-    "app/isolated-components/Contact/page.tsx::__file_root__": {
-      "filePath": "app/isolated-components/Contact/page.tsx",
-      "name": "__file_root__",
-      "imports": [
-        "components/Contact::__file_root__"
-      ],
-      "importedBy": []
-    },
-    "components/PhotoRotator.tsx::PhotoRotator": {
-      "filePath": "components/PhotoRotator.tsx",
-      "name": "PhotoRotator",
-      "imports": [],
-      "importedBy": [
-        "components/Adventures.tsx::__file_root__",
-        "components/About.tsx::__file_root__"
-      ]
     },
     "app/isolated-components/PostList/page.tsx::__file_root__": {
       "filePath": "app/isolated-components/PostList/page.tsx",
@@ -2121,114 +2345,22 @@
       ],
       "importedBy": []
     },
-    "app/lib/sendNotification.ts::sendNotification": {
-      "filePath": "app/lib/sendNotification.ts",
-      "name": "sendNotification",
+    "components/Elsewhere.module.css::__file_root__": {
+      "filePath": "components/Elsewhere.module.css",
+      "name": "__file_root__",
+      "imports": [],
+      "importedBy": [
+        "components/Elsewhere.tsx::__file_root__",
+        "components/elsewhere/ElsewhereRow.tsx::__file_root__"
+      ]
+    },
+    "app/lib/contactRequest.ts::isHoneypotTripped": {
+      "filePath": "app/lib/contactRequest.ts",
+      "name": "isHoneypotTripped",
       "imports": [],
       "importedBy": [
         "app/api/contact/route.ts::__file_root__"
       ]
-    },
-    "components/contact/TopicChips.tsx::__file_root__": {
-      "filePath": "components/contact/TopicChips.tsx",
-      "name": "__file_root__",
-      "imports": [
-        "components/Contact.module.css::__file_root__"
-      ],
-      "importedBy": []
-    },
-    ".codeyam/capture.js::{\n  assertAppPortReachable,\n  loadScenarioInIframe,\n  loadScenarioTopLevel,\n  resolveHarnessOrigin,\n  waitForStablePage,\n  createNetworkTracker,\n  waitForNetworkQuiet,\n  collectContentState,\n  scrollThroughDocument,\n  collectVisibleTextLength,\n  forceFinalVisualState,\n  centerCaptureWrapper,\n  performInteraction,\n  waitForPredicate,\n  performInteractionSequence,\n}": {
-      "filePath": ".codeyam/capture.js",
-      "name": "{\n  assertAppPortReachable,\n  loadScenarioInIframe,\n  loadScenarioTopLevel,\n  resolveHarnessOrigin,\n  waitForStablePage,\n  createNetworkTracker,\n  waitForNetworkQuiet,\n  collectContentState,\n  scrollThroughDocument,\n  collectVisibleTextLength,\n  forceFinalVisualState,\n  centerCaptureWrapper,\n  performInteraction,\n  waitForPredicate,\n  performInteractionSequence,\n}",
-      "imports": [
-        ".codeyam/scenario-playwright.js::__file_root__"
-      ],
-      "importedBy": []
-    },
-    "components/about/AboutFacts.tsx::__file_root__": {
-      "filePath": "components/about/AboutFacts.tsx",
-      "name": "__file_root__",
-      "imports": [
-        "components/About.module.css::__file_root__",
-        "components/about/CityRotator.tsx::CityRotator"
-      ],
-      "importedBy": []
-    },
-    "app/isolated-components/TopicChips/Harness.tsx::__file_root__": {
-      "filePath": "app/isolated-components/TopicChips/Harness.tsx",
-      "name": "__file_root__",
-      "imports": [
-        "components/contact/TopicChips.tsx::TopicChips"
-      ],
-      "importedBy": []
-    },
-    "components/Footer.tsx::__file_root__": {
-      "filePath": "components/Footer.tsx",
-      "name": "__file_root__",
-      "imports": [
-        "content/site.ts::__file_root__",
-        "app/lib/text.ts::splitOnBrand",
-        "components/Footer.module.css::__file_root__"
-      ],
-      "importedBy": []
-    },
-    "components/contact/FormFailure.tsx::FormFailure": {
-      "filePath": "components/contact/FormFailure.tsx",
-      "name": "FormFailure",
-      "imports": [],
-      "importedBy": [
-        "components/ContactForm.tsx::__file_root__"
-      ]
-    },
-    "components/contact/SocialList.tsx::__file_root__": {
-      "filePath": "components/contact/SocialList.tsx",
-      "name": "__file_root__",
-      "imports": [
-        "components/Contact.module.css::__file_root__"
-      ],
-      "importedBy": []
-    },
-    "app/lib/sendNotification.ts::NotifiableMessage": {
-      "filePath": "app/lib/sendNotification.ts",
-      "name": "NotifiableMessage",
-      "imports": [],
-      "importedBy": [
-        "app/lib/deliverAndStamp.test.ts::__file_root__",
-        "app/lib/sendNotification.test.ts::__file_root__",
-        "app/lib/deliverAndStamp.ts::__file_root__"
-      ]
-    },
-    "app/isolated-components/NavMark/page.tsx::__file_root__": {
-      "filePath": "app/isolated-components/NavMark/page.tsx",
-      "name": "__file_root__",
-      "imports": [
-        "components/Nav.tsx::__file_root__"
-      ],
-      "importedBy": []
-    },
-    "app/lib/text.test.ts::__file_root__": {
-      "filePath": "app/lib/text.test.ts",
-      "name": "__file_root__",
-      "imports": [
-        "app/lib/text.ts::splitOnBrand"
-      ],
-      "importedBy": []
-    },
-    "components/Nav.module.css::__file_root__": {
-      "filePath": "components/Nav.module.css",
-      "name": "__file_root__",
-      "imports": [],
-      "importedBy": [
-        "components/Nav.tsx::__file_root__"
-      ]
-    },
-    "app/isolated-components/Adventures/page.tsx::__file_root__": {
-      "filePath": "app/isolated-components/Adventures/page.tsx",
-      "name": "__file_root__",
-      "imports": [
-        "components/Adventures.tsx::__file_root__"
-      ],
-      "importedBy": []
     },
     "content/site.ts::__file_root__": {
       "filePath": "content/site.ts",
@@ -2249,160 +2381,176 @@
         "components/About.tsx::__file_root__"
       ]
     },
-    ".codeyam/scenario-interactivity.js::{ createIssue }": {
-      "filePath": ".codeyam/scenario-interactivity.js",
-      "name": "{ createIssue }",
+    "components/contact/FormFailure.tsx::__file_root__": {
+      "filePath": "components/contact/FormFailure.tsx",
+      "name": "__file_root__",
       "imports": [
-        ".codeyam/scenario-issues.js::__file_root__"
+        "components/Contact.module.css::__file_root__"
       ],
       "importedBy": []
     },
-    "components/SectionHead.tsx::SectionHead": {
-      "filePath": "components/SectionHead.tsx",
-      "name": "SectionHead",
+    "components/contact/Honeypot.tsx::__file_root__": {
+      "filePath": "components/contact/Honeypot.tsx",
+      "name": "__file_root__",
+      "imports": [
+        "components/Contact.module.css::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "components/contact/Honeypot.tsx::Honeypot": {
+      "filePath": "components/contact/Honeypot.tsx",
+      "name": "Honeypot",
       "imports": [],
       "importedBy": [
-        "components/Writing.tsx::__file_root__",
-        "components/About.tsx::__file_root__"
+        "components/ContactForm.tsx::__file_root__"
       ]
     },
-    ".next/dev/types/root-params.d.ts::__file_root__": {
-      "filePath": ".next/dev/types/root-params.d.ts",
+    "app/lib/validateMessage.test.ts::__file_root__": {
+      "filePath": "app/lib/validateMessage.test.ts",
       "name": "__file_root__",
-      "imports": [],
-      "importedBy": [
-        "next-env.d.ts::__file_root__"
-      ]
-    },
-    "app/globals.css::__file_root__": {
-      "filePath": "app/globals.css",
-      "name": "__file_root__",
-      "imports": [],
-      "importedBy": [
-        "app/layout.tsx::__file_root__"
-      ]
-    },
-    ".codeyam/capture.js::{\n  attachHttpMocks,\n  isDeclaredErrorMock,\n  unmockedRouteFrom,\n}": {
-      "filePath": ".codeyam/capture.js",
-      "name": "{\n  attachHttpMocks,\n  isDeclaredErrorMock,\n  unmockedRouteFrom,\n}",
       "imports": [
-        ".codeyam/scenario-mocks.js::__file_root__"
+        "app/lib/validateMessage.ts::TOPICS",
+        "app/lib/validateMessage.ts::__file_root__",
+        "app/lib/validateMessage.ts::str",
+        "app/lib/validateMessage.ts::validateMessage"
       ],
       "importedBy": []
     },
-    "components/contact/FindMe.tsx::__file_root__": {
-      "filePath": "components/contact/FindMe.tsx",
+    "components/contact/SentConfirmation.tsx::__file_root__": {
+      "filePath": "components/contact/SentConfirmation.tsx",
       "name": "__file_root__",
       "imports": [
-        "components/Contact.module.css::__file_root__",
-        "components/contact/SocialList.tsx::SocialList"
+        "components/Contact.module.css::__file_root__"
       ],
       "importedBy": []
     },
-    "app/isolated-components/Honeypot/Harness.tsx::__file_root__": {
-      "filePath": "app/isolated-components/Honeypot/Harness.tsx",
+    "app/lib/submitMessage.test.ts::__file_root__": {
+      "filePath": "app/lib/submitMessage.test.ts",
       "name": "__file_root__",
       "imports": [
-        "components/contact/Honeypot.tsx::Honeypot"
+        "app/lib/submitMessage.ts::submitMessage"
       ],
       "importedBy": []
     },
-    "components/Writing.tsx::__file_root__": {
-      "filePath": "components/Writing.tsx",
+    "app/isolated-components/Work/page.tsx::__file_root__": {
+      "filePath": "app/isolated-components/Work/page.tsx",
       "name": "__file_root__",
       "imports": [
-        "content/site.ts::__file_root__",
-        "components/SectionHead.tsx::SectionHead",
-        "components/writing/PostList.tsx::PostList",
-        "components/writing/WritingIntro.tsx::WritingIntro",
-        "components/Section.module.css::__file_root__",
-        "components/Writing.module.css::__file_root__"
+        "components/Work::__file_root__"
       ],
       "importedBy": []
     },
-    "app/lib/contactRequest.ts::isHoneypotTripped": {
-      "filePath": "app/lib/contactRequest.ts",
-      "name": "isHoneypotTripped",
-      "imports": [],
-      "importedBy": [
-        "app/api/contact/route.ts::__file_root__"
-      ]
-    },
-    "app/not-found.tsx::__file_root__": {
-      "filePath": "app/not-found.tsx",
+    "app/isolated-components/AboutFacts/page.tsx::__file_root__": {
+      "filePath": "app/isolated-components/AboutFacts/page.tsx",
       "name": "__file_root__",
       "imports": [
-        "components/NotFound.tsx::NotFound"
-      ],
-      "importedBy": []
-    },
-    ".codeyam/capture.js::{\n  createIssue,\n  pushIssue,\n  buildResult,\n}": {
-      "filePath": ".codeyam/capture.js",
-      "name": "{\n  createIssue,\n  pushIssue,\n  buildResult,\n}",
-      "imports": [
-        ".codeyam/scenario-issues.js::__file_root__"
-      ],
-      "importedBy": []
-    },
-    "app/lib/contactResponses.ts::__file_root__": {
-      "filePath": "app/lib/contactResponses.ts",
-      "name": "__file_root__",
-      "imports": [
-        "app/lib/validateMessage.ts::Problems"
-      ],
-      "importedBy": [
-        "app/api/contact/route.ts::__file_root__"
-      ]
-    },
-    "app/isolated-components/SocialList/page.tsx::__file_root__": {
-      "filePath": "app/isolated-components/SocialList/page.tsx",
-      "name": "__file_root__",
-      "imports": [
-        "components/contact/SocialList.tsx::__file_root__",
+        "components/about/AboutFacts.tsx::__file_root__",
         "content/site.ts::__file_root__"
       ],
       "importedBy": []
     },
-    "components/Writing.module.css::__file_root__": {
-      "filePath": "components/Writing.module.css",
+    "app/isolated-components/ScrollCue/page.tsx::__file_root__": {
+      "filePath": "app/isolated-components/ScrollCue/page.tsx",
       "name": "__file_root__",
-      "imports": [],
-      "importedBy": [
-        "components/Writing.tsx::__file_root__",
-        "components/writing/PostList.tsx::__file_root__",
-        "components/writing/WritingIntro.tsx::__file_root__"
-      ]
+      "imports": [
+        "components/hero/ScrollCue.tsx::__file_root__",
+        "content/site.ts::__file_root__"
+      ],
+      "importedBy": []
     },
-    "components/Work::__file_root__": {
-      "filePath": "components/Work",
+    "app/isolated-components/FormFailure/page.tsx::__file_root__": {
+      "filePath": "app/isolated-components/FormFailure/page.tsx",
       "name": "__file_root__",
-      "imports": [],
-      "importedBy": [
-        "app/isolated-components/Work/page.tsx::__file_root__"
-      ]
+      "imports": [
+        "components/contact/FormFailure.tsx::__file_root__",
+        "content/site.ts::__file_root__"
+      ],
+      "importedBy": []
     },
-    "app/lib/contactResponses.ts::couldNotSave": {
-      "filePath": "app/lib/contactResponses.ts",
-      "name": "couldNotSave",
+    "app/lib/text.test.ts::__file_root__": {
+      "filePath": "app/lib/text.test.ts",
+      "name": "__file_root__",
+      "imports": [
+        "app/lib/text.ts::splitOnBrand"
+      ],
+      "importedBy": []
+    },
+    "components/about/CityRotator.tsx::__file_root__": {
+      "filePath": "components/about/CityRotator.tsx",
+      "name": "__file_root__",
+      "imports": [
+        "components/About.module.css::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "app/lib/sendNotification.ts::sendNotification": {
+      "filePath": "app/lib/sendNotification.ts",
+      "name": "sendNotification",
       "imports": [],
       "importedBy": [
         "app/api/contact/route.ts::__file_root__"
       ]
     },
-    "app/lib/prismaConnection.ts::requireConnectionString": {
-      "filePath": "app/lib/prismaConnection.ts",
-      "name": "requireConnectionString",
+    "components/contact/Field.tsx::Field": {
+      "filePath": "components/contact/Field.tsx",
+      "name": "Field",
       "imports": [],
       "importedBy": [
-        "prisma/seed.ts::__file_root__"
+        "components/ContactForm.tsx::__file_root__"
       ]
     },
-    "components/writing/WritingIntro.tsx::__file_root__": {
-      "filePath": "components/writing/WritingIntro.tsx",
+    "prisma.config.ts::__file_root__": {
+      "filePath": "prisma.config.ts",
       "name": "__file_root__",
       "imports": [
-        "components/Writing.module.css::__file_root__",
-        "components/writing/ExternalLinkIcon.tsx::ExternalLinkIcon"
+        "app/lib/loadEnv.ts::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "app/isolated-components/TypedHeadline/page.tsx::__file_root__": {
+      "filePath": "app/isolated-components/TypedHeadline/page.tsx",
+      "name": "__file_root__",
+      "imports": [
+        "components/hero/TypedHeadline.tsx::__file_root__",
+        "content/site.ts::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "app/lib/sendNotification.ts::readMailConfig": {
+      "filePath": "app/lib/sendNotification.ts",
+      "name": "readMailConfig",
+      "imports": [],
+      "importedBy": [
+        "app/lib/sendNotification.test.ts::__file_root__"
+      ]
+    },
+    "components/hero/HeroBackdrop.tsx::__file_root__": {
+      "filePath": "components/hero/HeroBackdrop.tsx",
+      "name": "__file_root__",
+      "imports": [
+        "components/Hero.module.css::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "components/Section.module.css::__file_root__": {
+      "filePath": "components/Section.module.css",
+      "name": "__file_root__",
+      "imports": [],
+      "importedBy": [
+        "components/Elsewhere.tsx::__file_root__",
+        "components/Work.tsx::__file_root__",
+        "components/Contact.tsx::__file_root__",
+        "components/Adventures.tsx::__file_root__",
+        "components/work/WorkNarrative.tsx::__file_root__",
+        "components/Writing.tsx::__file_root__",
+        "components/About.tsx::__file_root__"
+      ]
+    },
+    "app/lib/contactRequest.ts::__file_root__": {
+      "filePath": "app/lib/contactRequest.ts",
+      "name": "__file_root__",
+      "imports": [
+        "app/lib/validateMessage.ts::str"
       ],
       "importedBy": []
     },
@@ -2416,68 +2564,67 @@
       ],
       "importedBy": []
     },
-    "app/lib/validateMessage.ts::Problems": {
-      "filePath": "app/lib/validateMessage.ts",
-      "name": "Problems",
-      "imports": [],
-      "importedBy": [
-        "components/ContactForm.tsx::__file_root__"
-      ]
-    },
-    "components/Contact.module.css::__file_root__": {
-      "filePath": "components/Contact.module.css",
+    "components/Nav.tsx::__file_root__": {
+      "filePath": "components/Nav.tsx",
       "name": "__file_root__",
-      "imports": [],
-      "importedBy": [
-        "app/isolated-components/Field/page.tsx::__file_root__",
-        "components/contact/SentConfirmation.tsx::__file_root__",
-        "components/contact/FormFailure.tsx::__file_root__",
-        "components/contact/Field.tsx::__file_root__",
-        "components/contact/TopicChips.tsx::__file_root__",
-        "components/contact/FindMe.tsx::__file_root__",
-        "components/contact/Honeypot.tsx::__file_root__",
-        "components/contact/SocialList.tsx::__file_root__",
-        "components/ContactForm.tsx::__file_root__"
-      ]
+      "imports": [
+        "hooks/useActiveSection.ts::useActiveSection",
+        "hooks/useScrolledPast.ts::useScrolledPast",
+        "components/Nav.module.css::__file_root__"
+      ],
+      "importedBy": []
     },
-    "content/site.json::__file_root__": {
-      "filePath": "content/site.json",
+    ".codeyam/capture.js::{\n  attachHttpMocks,\n  isDeclaredErrorMock,\n  unmockedRouteFrom,\n}": {
+      "filePath": ".codeyam/capture.js",
+      "name": "{\n  attachHttpMocks,\n  isDeclaredErrorMock,\n  unmockedRouteFrom,\n}",
+      "imports": [
+        ".codeyam/scenario-mocks.js::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "app/lib/contactResponses.ts::__file_root__": {
+      "filePath": "app/lib/contactResponses.ts",
       "name": "__file_root__",
-      "imports": [],
+      "imports": [
+        "app/lib/validateMessage.ts::Problems"
+      ],
       "importedBy": [
-        "content/site.ts::__file_root__"
+        "app/api/contact/route.ts::__file_root__"
       ]
     },
-    "app/lib/sendNotification.ts::describeSendFailure": {
+    "app/isolated-components/Elsewhere/page.tsx::__file_root__": {
+      "filePath": "app/isolated-components/Elsewhere/page.tsx",
+      "name": "__file_root__",
+      "imports": [
+        "components/Elsewhere::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "app/lib/sendNotification.ts::DeliveryResult": {
       "filePath": "app/lib/sendNotification.ts",
-      "name": "describeSendFailure",
+      "name": "DeliveryResult",
       "imports": [],
       "importedBy": [
-        "app/lib/sendNotification.test.ts::__file_root__"
+        "app/lib/deliverAndStamp.ts::__file_root__"
       ]
     },
-    ".next/dev/types/routes.d.ts::__file_root__": {
-      "filePath": ".next/dev/types/routes.d.ts",
+    ".codeyam/capture.js::{\n  findScenarioError,\n  SCENARIO_ERROR_MARKER,\n  hasRenderableContent,\n  buildSettleAdvisory,\n  describeBlankReason,\n}": {
+      "filePath": ".codeyam/capture.js",
+      "name": "{\n  findScenarioError,\n  SCENARIO_ERROR_MARKER,\n  hasRenderableContent,\n  buildSettleAdvisory,\n  describeBlankReason,\n}",
+      "imports": [
+        ".codeyam/scenario-metrics.js::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "components/Work.module.css::__file_root__": {
+      "filePath": "components/Work.module.css",
       "name": "__file_root__",
       "imports": [],
       "importedBy": [
-        "next-env.d.ts::__file_root__"
-      ]
-    },
-    "components/contact/FindMe.tsx::FindMe": {
-      "filePath": "components/contact/FindMe.tsx",
-      "name": "FindMe",
-      "imports": [],
-      "importedBy": [
-        "components/Contact.tsx::__file_root__"
-      ]
-    },
-    "components/PhotoRotator.module.css::__file_root__": {
-      "filePath": "components/PhotoRotator.module.css",
-      "name": "__file_root__",
-      "imports": [],
-      "importedBy": [
-        "components/PhotoRotator.tsx::__file_root__"
+        "components/Work.tsx::__file_root__",
+        "components/work/AdvisoryCard.tsx::__file_root__",
+        "components/work/WorkNarrative.tsx::__file_root__",
+        "components/work/WorkLinkList.tsx::__file_root__"
       ]
     },
     "components/ContactForm.tsx::__file_root__": {
@@ -2496,186 +2643,39 @@
       ],
       "importedBy": []
     },
-    "components/contact/TopicChips.tsx::TopicChips": {
-      "filePath": "components/contact/TopicChips.tsx",
-      "name": "TopicChips",
-      "imports": [],
-      "importedBy": [
-        "components/ContactForm.tsx::__file_root__"
-      ]
-    },
-    "components/writing/PostList.tsx::__file_root__": {
-      "filePath": "components/writing/PostList.tsx",
+    "app/isolated-components/Hero/page.tsx::__file_root__": {
+      "filePath": "app/isolated-components/Hero/page.tsx",
       "name": "__file_root__",
       "imports": [
-        "components/Writing.module.css::__file_root__"
+        "components/Hero::__file_root__"
       ],
       "importedBy": []
     },
-    "next-env.d.ts::__file_root__": {
-      "filePath": "next-env.d.ts",
+    "app/isolated-components/PhotoRotator/page.tsx::__file_root__": {
+      "filePath": "app/isolated-components/PhotoRotator/page.tsx",
       "name": "__file_root__",
       "imports": [
-        ".next/dev/types/routes.d.ts::__file_root__",
-        ".next/dev/types/root-params.d.ts::__file_root__"
-      ],
-      "importedBy": []
-    },
-    "app/lib/validateMessage.ts::__file_root__": {
-      "filePath": "app/lib/validateMessage.ts",
-      "name": "__file_root__",
-      "imports": [
+        "components/PhotoRotator.tsx::__file_root__",
         "content/site.ts::__file_root__"
       ],
       "importedBy": []
     },
-    "app/lib/deliverAndStamp.test.ts::__file_root__": {
-      "filePath": "app/lib/deliverAndStamp.test.ts",
-      "name": "__file_root__",
-      "imports": [
-        "app/lib/deliverAndStamp.ts::deliverAndStamp",
-        "app/lib/sendNotification.ts::NotifiableMessage"
-      ],
-      "importedBy": []
-    },
-    "app/isolated-components/NavLinks/page.tsx::__file_root__": {
-      "filePath": "app/isolated-components/NavLinks/page.tsx",
-      "name": "__file_root__",
-      "imports": [
-        "components/Nav.tsx::__file_root__"
-      ],
-      "importedBy": []
-    },
-    "app/lib/contactResponses.ts::unreadableRequest": {
+    "app/lib/contactResponses.ts::couldNotSave": {
       "filePath": "app/lib/contactResponses.ts",
-      "name": "unreadableRequest",
+      "name": "couldNotSave",
       "imports": [],
       "importedBy": [
         "app/api/contact/route.ts::__file_root__"
       ]
     },
-    "app/isolated-components/WorkLinkList/page.tsx::__file_root__": {
-      "filePath": "app/isolated-components/WorkLinkList/page.tsx",
-      "name": "__file_root__",
-      "imports": [
-        "components/work/WorkLinkList.tsx::__file_root__",
-        "content/site.ts::__file_root__"
-      ],
-      "importedBy": []
-    },
-    "app/isolated-components/ContactForm/page.tsx::__file_root__": {
-      "filePath": "app/isolated-components/ContactForm/page.tsx",
-      "name": "__file_root__",
-      "imports": [
-        "components/ContactForm.tsx::__file_root__"
-      ],
-      "importedBy": []
-    },
-    "components/About::__file_root__": {
-      "filePath": "components/About",
+    ".codeyam/scenario-metrics.js::__file_root__": {
+      "filePath": ".codeyam/scenario-metrics.js",
       "name": "__file_root__",
       "imports": [],
       "importedBy": [
-        "app/isolated-components/About/page.tsx::__file_root__"
-      ]
-    },
-    "app/isolated-components/ElsewhereRow/page.tsx::__file_root__": {
-      "filePath": "app/isolated-components/ElsewhereRow/page.tsx",
-      "name": "__file_root__",
-      "imports": [
-        "components/elsewhere/ElsewhereRow.tsx::__file_root__",
-        "content/site.ts::__file_root__"
-      ],
-      "importedBy": []
-    },
-    "prisma/seed.ts::__file_root__": {
-      "filePath": "prisma/seed.ts",
-      "name": "__file_root__",
-      "imports": [
-        "app/lib/loadEnv.ts::__file_root__",
-        "app/lib/prismaConnection.ts::requireConnectionString",
-        "prisma/seedRows.ts::SeedMessage",
-        "prisma/seedRows.ts::summarize",
-        "prisma/seedRows.ts::toMessageRow"
-      ],
-      "importedBy": []
-    },
-    "app/lib/loadEnv.ts::__file_root__": {
-      "filePath": "app/lib/loadEnv.ts",
-      "name": "__file_root__",
-      "imports": [],
-      "importedBy": [
-        "prisma/seed.ts::__file_root__",
-        "prisma.config.ts::__file_root__",
-        "vitest.config.ts::__file_root__"
-      ]
-    },
-    "app/isolated-components/TypedHeadline/page.tsx::__file_root__": {
-      "filePath": "app/isolated-components/TypedHeadline/page.tsx",
-      "name": "__file_root__",
-      "imports": [
-        "components/hero/TypedHeadline.tsx::__file_root__",
-        "content/site.ts::__file_root__"
-      ],
-      "importedBy": []
-    },
-    ".codeyam/scenario-playwright.js::{\n  hasLoadingMarkers,\n  shouldStopWaitingForImages,\n}": {
-      "filePath": ".codeyam/scenario-playwright.js",
-      "name": "{\n  hasLoadingMarkers,\n  shouldStopWaitingForImages,\n}",
-      "imports": [
-        ".codeyam/scenario-metrics.js::__file_root__"
-      ],
-      "importedBy": []
-    },
-    "components/Elsewhere.module.css::__file_root__": {
-      "filePath": "components/Elsewhere.module.css",
-      "name": "__file_root__",
-      "imports": [],
-      "importedBy": [
-        "components/Elsewhere.tsx::__file_root__",
-        "components/elsewhere/ElsewhereRow.tsx::__file_root__"
-      ]
-    },
-    "app/lib/sendNotification.ts::escapeHtml": {
-      "filePath": "app/lib/sendNotification.ts",
-      "name": "escapeHtml",
-      "imports": [],
-      "importedBy": [
-        "app/lib/sendNotification.test.ts::__file_root__"
-      ]
-    },
-    "components/about/AboutFacts.tsx::AboutFacts": {
-      "filePath": "components/about/AboutFacts.tsx",
-      "name": "AboutFacts",
-      "imports": [],
-      "importedBy": [
-        "components/About.tsx::__file_root__"
-      ]
-    },
-    "app/isolated-components/Work/page.tsx::__file_root__": {
-      "filePath": "app/isolated-components/Work/page.tsx",
-      "name": "__file_root__",
-      "imports": [
-        "components/Work::__file_root__"
-      ],
-      "importedBy": []
-    },
-    "app/lib/contactResponses.ts::silentlyAccepted": {
-      "filePath": "app/lib/contactResponses.ts",
-      "name": "silentlyAccepted",
-      "imports": [],
-      "importedBy": [
-        "app/api/contact/route.ts::__file_root__"
-      ]
-    },
-    "components/contact/SentConfirmation.tsx::SentConfirmation": {
-      "filePath": "components/contact/SentConfirmation.tsx",
-      "name": "SentConfirmation",
-      "imports": [],
-      "importedBy": [
-        "components/ContactForm.tsx::__file_root__"
+        ".codeyam/scenario-playwright.js::{\n  hasLoadingMarkers,\n  shouldStopWaitingForImages,\n}"
       ]
     }
   },
-  "lastUpdated": "2026-08-28T01:06:05Z"
+  "lastUpdated": "2026-08-28T01:09:12Z"
 }
