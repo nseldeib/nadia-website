@@ -1,0 +1,12 @@
+{
+  "name": "SocialIcon - Default",
+  "id": "69528da9-29b3-45e0-8adf-c2a4eeb21ec5",
+  "url": "/isolated-components/SocialIcon?s=Default",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "SocialIcon",
+  "scenarioType": "component",
+  "description": "A known service's brand mark, drawn in currentColor at the size the row uses."
+}

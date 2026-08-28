@@ -1,0 +1,12 @@
+{
+  "name": "ContactForm - Mobile",
+  "id": "29462b01-a648-400f-872d-d309a2afcc13",
+  "url": "/isolated-components/ContactForm?s=Default",
+  "dimensions": [
+    "Mobile"
+  ],
+  "mocks": {},
+  "componentName": "ContactForm",
+  "scenarioType": "component",
+  "description": "The note form at phone width, where name and email stop sharing a row and stack instead. This is the layout the contact section's sizing was tuned against so the Send note button still clears the fold on a phone."
+}

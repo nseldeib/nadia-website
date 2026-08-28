@@ -166,8 +166,8 @@
     ]
   },
   {
-    "description": "The section links. The number sits to the left of the label, mirroring the section heads, and is absolutely positioned into the gap that already exists between items so nothing reflows when it appears and no space is reserved when nothing is active.",
-    "filePath": "components/Nav.tsx",
+    "description": "The section links in the header. Each carries its section number, absolutely positioned into the existing gap so its arrival costs no layout; hover and focus reveal the same number the active state shows.",
+    "filePath": "components/nav/NavLinks.tsx",
     "name": "NavLinks",
     "scenarios": [
       "navlinks-default",
@@ -176,8 +176,8 @@
     ]
   },
   {
-    "description": "The wordmark linking back to the top of the page.",
-    "filePath": "components/Nav.tsx",
+    "description": "The wordmark in the header, and the way back to the top of the page.",
+    "filePath": "components/nav/NavMark.tsx",
     "name": "NavMark",
     "scenarios": [
       "navmark-default"
@@ -246,6 +246,15 @@
     }
   },
   {
+    "description": "The sections the nav indexes, in page order, plus the contact id and the combined id list the active-section observer watches. Shared by Nav and NavLinks so neither has to import the other.",
+    "filePath": "components/nav/sections.ts",
+    "name": "SECTIONS",
+    "untestabilityReason": {
+      "justification": "a static content table and one derived id list; no branching or computed logic to exercise",
+      "kind": "trivial-wrapper"
+    }
+  },
+  {
     "description": "Editor-installed route that resolves a scenario slug to its real URL and redirects there, so a scenario can be opened by slug alone.",
     "filePath": "app/scenario/[slug]/page.tsx",
     "name": "ScenarioRedirectPage",
@@ -280,11 +289,38 @@
     ]
   },
   {
+    "description": "The brand mark for one profile, keyed by the service name the row already shows. Each glyph is a single path drawn in currentColor so the row's hover colour carries it, and an unknown name renders nothing rather than a placeholder.",
+    "filePath": "components/contact/SocialIcon.tsx",
+    "name": "SocialIcon",
+    "scenarios": [
+      "socialicon-default",
+      "socialrow-noicon"
+    ]
+  },
+  {
     "description": "The profiles, ordered the way she actually uses them.",
     "filePath": "components/contact/SocialList.tsx",
     "name": "SocialList",
     "scenarios": [
       "sociallist-default"
+    ]
+  },
+  {
+    "description": "One profile in the Find-me-online list: brand mark and service name on the left, handle right-aligned. The whole row is the link, so the icon and handle follow the anchor's hover colour instead of holding their own.",
+    "filePath": "components/contact/SocialRow.tsx",
+    "name": "SocialRow",
+    "scenarios": [
+      "socialrow-default",
+      "socialrow-noicon"
+    ]
+  },
+  {
+    "description": "The contact form's closing row — the send button and the note about when she replies. Every Get in touch link scrolls here, so this is the row the contact section's sizing is tuned around.",
+    "filePath": "components/contact/SubmitRow.tsx",
+    "name": "SubmitRow",
+    "scenarios": [
+      "submitrow-default",
+      "submitrow-sending"
     ]
   },
   {
@@ -339,7 +375,15 @@
     ]
   },
   {
-    "description": "What she writes about, and the link through to everything else.",
+    "description": "The link through to the newsletter, placed after the post list so the invitation to subscribe lands only once the three sample posts have been read past.",
+    "filePath": "components/writing/WritingCta.tsx",
+    "name": "WritingCta",
+    "scenarios": [
+      "writingcta-default"
+    ]
+  },
+  {
+    "description": "The lede under the Writing heading, saying what she writes about. It sits directly below the heading rather than beside it, and no longer carries the newsletter link — that moved to WritingCta, below the post list.",
     "filePath": "components/writing/WritingIntro.tsx",
     "name": "WritingIntro",
     "scenarios": [

@@ -1,6 +1,6 @@
 [
   {
-    "file": "/images/hero-r1.jpg",
+    "file": "/images/hero-r1.088455d9.jpg",
     "alt": "",
     "width": 1500,
     "height": 731,
@@ -8,7 +8,7 @@
     "where": "hero background r1"
   },
   {
-    "file": "/images/hero-r2.jpg",
+    "file": "/images/hero-r2.8c7c90a5.jpg",
     "alt": "",
     "width": 1500,
     "height": 731,
@@ -16,7 +16,7 @@
     "where": "hero background r2"
   },
   {
-    "file": "/images/hero-r3.jpg",
+    "file": "/images/hero-r3.1e7c330d.jpg",
     "alt": "",
     "width": 1500,
     "height": 731,
@@ -24,12 +24,12 @@
     "where": "hero background r3"
   },
   {
-    "file": "/images/hero-r4.jpg",
+    "file": "/images/hero-summit.e6c47185.jpg",
     "alt": "",
-    "width": 2200,
-    "height": 1057,
-    "aspect": 2.081,
-    "where": "hero background r4"
+    "width": 2000,
+    "height": 975,
+    "aspect": 2.051,
+    "where": "hero background — chosen because the subject sits at 66-76%, clear of the left-aligned headline at every viewport width. The Cairo photo was tried here first and failed exactly that test at 40%"
   },
   {
     "file": "/images/nadia-working.jpg",
@@ -88,51 +88,59 @@
     "where": "ap ap4"
   },
   {
-    "file": "/images/running-the-full-marathon-at-boulderthon.jpg",
+    "file": "/images/running-the-full-marathon-at-boulderthon.9a944bb0.jpg",
     "alt": "Running the full marathon at Boulderthon",
-    "width": 1000,
-    "height": 781,
+    "width": 1500,
+    "height": 1172,
     "aspect": 1.28,
-    "where": "adv adv1"
+    "where": "adv adv1 — recropped from the ACR04903 original at full width"
   },
   {
-    "file": "/images/trail-running-below-pikes-peak.jpg",
-    "alt": "Trail running below Pikes Peak",
-    "width": 667,
-    "height": 521,
-    "aspect": 1.28,
-    "where": "adv adv2"
-  },
-  {
-    "file": "/images/snowboarding-in-deep-snow.jpg",
+    "file": "/images/snowboarding-in-deep-snow.15f28e37.jpg",
     "alt": "Snowboarding in deep snow",
     "width": 1000,
     "height": 781,
     "aspect": 1.28,
-    "where": "adv adv3"
+    "where": "adv adv2"
   },
   {
-    "file": "/images/getting-a-surfboard-ready-on-the-beach.jpg",
+    "file": "/images/getting-a-surfboard-ready-on-the-beach.0e6429ae.jpg",
     "alt": "Getting a surfboard ready on the beach",
-    "width": 792,
-    "height": 618,
-    "aspect": 1.282,
-    "where": "adv adv4"
-  },
-  {
-    "file": "/images/bouldering-on-a-rooftop-with-the-manhattan-skyline-b.jpg",
-    "alt": "Bouldering on a rooftop with the Manhattan skyline behind",
-    "width": 1000,
-    "height": 781,
+    "width": 1500,
+    "height": 1172,
     "aspect": 1.28,
-    "where": "adv adv5"
+    "where": "adv adv3 — recropped from the IMG_1304 original at full height"
   },
   {
-    "file": "/images/on-a-balcony-over-the-nile-in-cairo.jpg",
+    "file": "/images/bouldering-on-a-rooftop-with-the-manhattan-skyline-b.1041410b.jpg",
+    "alt": "Bouldering on a rooftop with the Manhattan skyline behind",
+    "width": 948,
+    "height": 741,
+    "aspect": 1.279,
+    "where": "adv adv4 — bottom trimmed to crop out a bystander's head"
+  },
+  {
+    "file": "/images/above-cape-town-from-table-mountain.b0aa4873.jpg",
+    "alt": "Above Cape Town from Table Mountain",
+    "width": 1600,
+    "height": 1250,
+    "aspect": 1.28,
+    "where": "adv adv5 — replaced the Cairo frame in this slot, whose 2.17 source lost 41% of its width to this crop"
+  },
+  {
+    "file": "/images/fencing-for-harvard.bb665645.jpg",
+    "alt": "Fencing for Harvard",
+    "width": 1600,
+    "height": 1250,
+    "aspect": 1.28,
+    "where": "adv adv6 — cropped from the IMG_4655 original, which unlike the retired hero-r4.jpg is not mirrored and keeps the whole blade"
+  },
+  {
+    "file": "/images/on-a-balcony-over-the-nile-in-cairo.04b53c64.jpg",
     "alt": "On a balcony over the Nile in Cairo",
-    "width": 637,
-    "height": 497,
-    "aspect": 1.282,
-    "where": "adv adv6"
+    "width": 1200,
+    "height": 938,
+    "aspect": 1.279,
+    "where": "adv adv7 — recropped to 1.28 for the rotation after it was cut from the hero"
   }
 ]

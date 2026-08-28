@@ -11,5 +11,10 @@
 }
 @media (max-width: 860px) {
   .grid { grid-template-columns: 1fr; gap: var(--spacing-lg); }
-  .frame { position: static; }
+  /* `relative`, never `static` — see About.module.css: this is PhotoRotator's
+     containing block, and `static` lets its absolutely-positioned frames
+     escape and cover the page. `relative` cancels sticky and keeps them in,
+     and `top: auto` clears the sticky offset, which would otherwise become a
+     real 96px nudge on a relative box and push the photo over the text. */
+  .frame { position: relative; top: auto; }
 }

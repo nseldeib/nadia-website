@@ -1,0 +1,52 @@
+{
+  "name": "Home - Mobile",
+  "id": "14aa8f73-dfdd-4842-b8f3-bf5bd0febad5",
+  "url": "/",
+  "dimensions": [
+    "Mobile"
+  ],
+  "mocks": {},
+  "seed": {
+    "Message": [
+      {
+        "body": "We're four people building a research tool for materials scientists and we keep rebuilding the same simulation UI three different ways. Saw the CodeYam demo and wondered whether you'd be up for a conversation about where we're going wrong before we commit to another rewrite.",
+        "createdAt": "2026-08-24T09:12:00.000Z",
+        "email": "priya@northfieldlabs.com",
+        "emailedAt": "2026-08-24T09:12:04.000Z",
+        "name": "Priya Raghunathan",
+        "sourcePage": "/",
+        "topic": "consulting"
+      },
+      {
+        "body": "Frontend Conf, Lisbon, March. We have a 30-minute slot on the second morning and I'd love it to be about software simulation — most of our audience has never heard the term and I think that's exactly why it would land. Travel and accommodation covered.",
+        "createdAt": "2026-08-21T16:40:00.000Z",
+        "email": "tberrio@frontendconf.eu",
+        "emailedAt": "2026-08-21T16:40:03.000Z",
+        "name": "Tomás Berrio",
+        "sourcePage": "/",
+        "topic": "speaking"
+      },
+      {
+        "body": "Working on a piece about the shift from AI coding assistants to AI development environments, and CodeYam Editor came up twice in my reporting this week. Any chance of 20 minutes before Friday?",
+        "createdAt": "2026-08-19T22:05:00.000Z",
+        "email": "d.whitlock@theinformation.com",
+        "emailedAt": null,
+        "name": "Dana Whitlock",
+        "sourcePage": "/",
+        "topic": "press"
+      },
+      {
+        "body": "Just wanted to say the piece on creativity being the constraint put words to something I've been circling for a year. No ask. Thanks for writing it.",
+        "createdAt": "2026-08-18T07:33:00.000Z",
+        "email": "sam.okonkwo@gmail.com",
+        "emailedAt": "2026-08-18T07:33:02.000Z",
+        "name": "Sam",
+        "sourcePage": "/",
+        "topic": "hello"
+      }
+    ]
+  },
+  "scenarioType": "application",
+  "pageFilePath": "app/page.tsx",
+  "description": "The opening viewport at phone width. Captures are viewport-sized, so this is the hero as a phone visitor first meets it: the wordmark and Get in touch sharing one bar, the headline broken across three lines with its second line in rust, and the scroll cue naming the section it leads to."
+}

@@ -1,6 +1,12 @@
 /* The form is flat type on hairlines, like every other list on the page —
    it used to be the last card, with its own ground and boxed inputs. */
-.form { max-width: 600px; margin-top: var(--spacing-lg); }
+/* Every "Get in touch" link lands here, so the whole form — through the Send
+   note button — has to clear the fold on a laptop. The section is tightened
+   against the page's standard rhythm for that reason: a contact form you have
+   to scroll to finish is a contact form that doesn't get sent. */
+.contact { padding-top: var(--spacing-xl); }
+
+.form { max-width: 600px; margin-top: var(--spacing-md); }
 .formHeading { font-size: 20px; margin: 0; }
 .formSub {
   margin: 6px 0 0;
@@ -8,7 +14,7 @@
   font-size: var(--text-sub);
   color: var(--meta);
 }
-.field { margin-top: 26px; border: 0; padding: 0; }
+.field { margin-top: 20px; border: 0; padding: 0; }
 .label {
   display: block;
   margin-bottom: 7px;
@@ -52,7 +58,7 @@
 }
 .input:focus, .textarea:focus { outline: none; border-bottom-color: var(--rust); }
 .input::placeholder, .textarea::placeholder { color: rgba(244, 239, 230, 0.38); }
-.textarea { min-height: 96px; resize: vertical; }
+.textarea { min-height: 84px; resize: vertical; }
 .input[aria-invalid], .textarea[aria-invalid] { border-bottom-color: #e0754a; }
 .problem { margin: 7px 0 0; font-size: 13px; color: #f0a272; }
 
@@ -72,8 +78,8 @@
   display: flex;
   align-items: center;
   gap: 18px;
-  margin-top: 30px;
-  padding-top: 22px;
+  margin-top: 22px;
+  padding-top: 18px;
   border-top: 1px solid var(--rule);
 }
 .submit {
@@ -120,20 +126,42 @@
 .socials a {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: center;
   gap: 14px;
   padding: 16px 0;
   text-decoration: none;
   color: var(--ink);
   transition: color var(--transition-fast);
 }
-.socials a:hover { color: var(--rust); }
+.socialLeft {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+}
+.socialIcon {
+  width: 17px;
+  height: 17px;
+  flex: none;
+  color: var(--meta);
+  transition: color var(--transition-fast);
+}
 .socialName { font-size: 16.5px; }
 .socialHandle {
   font-family: var(--font-mono-stack);
   font-size: var(--text-label);
   color: var(--meta);
+  transition: color var(--transition-fast);
 }
+/* The whole row is the link, so the whole row answers to the hover — the
+   handle and the icon set their own colour and would otherwise stay grey
+   while only the name moved. */
+.socials a:hover,
+.socials a:hover .socialIcon,
+.socials a:hover .socialHandle,
+.socials a:focus-visible,
+.socials a:focus-visible .socialIcon,
+.socials a:focus-visible .socialHandle { color: var(--rust); }
 .place {
   display: flex;
   flex-wrap: wrap;
@@ -154,4 +182,18 @@
 @media (max-width: 860px) {
   .row2 { grid-template-columns: 1fr; gap: var(--spacing-md); }
   .socials { grid-template-columns: 1fr; }
+  /* Phones stack name and email into two rows and lose ~60px to it, so the
+     top padding gives way further to keep Send note above the fold here too. */
+  .contact { padding-top: var(--spacing-lg); }
+}
+
+/* Short viewports — a 1366x768 laptop leaves ~668px once browser chrome is
+   taken — compress on HEIGHT rather than width, since that is the axis the
+   button is actually falling off. Roomy screens keep the looser rhythm.
+   `height` (not min-height) is what shrinks the box: the textarea's rendered
+   size comes from its rows attribute, which min-height alone cannot pull in. */
+@media (max-height: 720px) {
+  .contact { padding-top: var(--spacing-lg); }
+  .field { margin-top: 16px; }
+  .textarea { height: 84px; min-height: 0; }
 }

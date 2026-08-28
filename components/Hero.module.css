@@ -18,13 +18,82 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: var(--focus, 50% 50%);
   opacity: 0;
-  animation: heroRotate 32s ease-in-out infinite both;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-fill-mode: both;
 }
-@keyframes heroRotate {
-  0%, 1% { opacity: 0; }
-  4%, 22% { opacity: 1; }
-  25%, 100% { opacity: 0; }
+
+/* Stacked opacity does NOT cross-fade: two frames at 50% let 25% of the page
+   background through, which on a full-bleed dark hero reads as the screen
+   going dark mid-transition. So nothing ever fades out under a fading-in
+   frame. Instead the outgoing frame holds full opacity while the next fades
+   in ON TOP of it (later siblings paint over earlier ones), and only drops to
+   zero once it is completely covered.
+   That leaves the wrap from the last frame back to the first, where the
+   incoming frame is UNDERNEATH and cannot be covered. The first frame is
+   therefore a permanent base layer at full opacity, and the last frame fades
+   out to reveal it. Every transition is then a real cross-fade with no
+   background showing at any point.
+   One keyframe set per frame-count, because percentages cannot come from a
+   custom property; a count with no rule here would never become visible. */
+.bg[data-frames='3'] .frame:not(:first-child) { animation-name: heroRotate3; }
+.bg[data-frames='4'] .frame:not(:first-child) { animation-name: heroRotate4; }
+.bg[data-frames='3'] .frame:last-child { animation-name: heroLast3; }
+.bg[data-frames='4'] .frame:last-child { animation-name: heroLast4; }
+.bg .frame:first-child { animation-name: none; opacity: 1; }
+
+/* The one width breakpoint on the site, and it earns itself: a phone crops
+   these 2:1 photos to a portrait sliver, so the desktop crop — which pans the
+   subject clear of the copy — would pan them out of frame entirely. Below this
+   width the copy spans the full column anyway, so there is nothing to stay
+   clear of and the subject's own position is the right target. */
+@media (max-width: 700px) {
+  .frame {
+    object-position: var(--focus-mobile, var(--focus, 50% 50%));
+  }
+}
+/* The fade-out of one frame and the fade-in of the next occupy the SAME
+   interval, so something is always on screen. The earlier sets finished
+   fading out before the next began, leaving roughly a second of the dark
+   page background between every pair — the "black screen" between photos.
+   The hold therefore ends exactly on the slot boundary (25% of a 4-frame
+   cycle, 33.3% of a 3-frame one), which is where the next frame's own 0%
+   falls once its delay is applied. */
+/* Middle frames: fade in on top of the frame below, hold, then cut away only
+   once the NEXT frame has fully covered them — the cut is invisible, and at no
+   point are two frames both semi-transparent. */
+@keyframes heroRotate4 {
+  0% { opacity: 0; }
+  6.25% { opacity: 1; }
+  31.25% { opacity: 1; }
+  31.26% { opacity: 0; }
+  100% { opacity: 0; }
+}
+@keyframes heroRotate3 {
+  0% { opacity: 0; }
+  8.33% { opacity: 1; }
+  41.66% { opacity: 1; }
+  41.67% { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+/* The last frame has nothing above it to hide behind, so it is the one that
+   genuinely fades — revealing the permanently-opaque first frame underneath. */
+@keyframes heroLast4 {
+  0% { opacity: 0; }
+  6.25% { opacity: 1; }
+  25% { opacity: 1; }
+  31.25% { opacity: 0; }
+  100% { opacity: 0; }
+}
+@keyframes heroLast3 {
+  0% { opacity: 0; }
+  8.33% { opacity: 1; }
+  33.33% { opacity: 1; }
+  41.66% { opacity: 0; }
+  100% { opacity: 0; }
 }
 
 /* Darkens the left third so the copy stays readable whatever the photo does. */

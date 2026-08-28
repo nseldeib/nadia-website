@@ -11,35 +11,42 @@
     "cueTitle": "What I’m building",
     "frames": [
       {
-        "src": "/images/hero-r1.jpg",
+        "src": "/images/hero-r1.088455d9.jpg",
         "width": 1500,
-        "height": 731
+        "height": 731,
+        "focusMobile": "72% 50%"
       },
       {
-        "src": "/images/hero-r2.jpg",
+        "src": "/images/hero-r2.8c7c90a5.jpg",
         "width": 1500,
-        "height": 731
+        "height": 731,
+        "focus": "0% 50%",
+        "focusMobile": "53% 50%"
       },
       {
-        "src": "/images/hero-r3.jpg",
+        "src": "/images/hero-r3.1e7c330d.jpg",
         "width": 1500,
-        "height": 731
+        "height": 731,
+        "focus": "0% 50%",
+        "focusMobile": "50% 50%"
       },
       {
-        "src": "/images/hero-r4.jpg",
-        "width": 2200,
-        "height": 1057
+        "src": "/images/hero-summit.e6c47185.jpg",
+        "width": 2000,
+        "height": 975,
+        "focusMobile": "71% 50%"
       }
     ]
   },
   "work": {
     "eyebrow": "Work",
     "number": "01",
-    "heading": "Ideas should be the constraint, not the available technology.",
+    "heading": "What I’m building",
     "paragraphs": [
-      "My north star throughout my career has been working to improve people’s lives and the world at scale, especially through new technology. I am relentlessly curious and love learning and solving creative, complex problems.",
-      "At CodeYam, I am working to make it possible for more people to build beautifully designed, highly maintainable software with AI. For non-technical people and vibe coders, that means being able to build good software at all. For developers and teams, it means moving faster and working better together.",
-      "We built, launched, scaled, and iterated on several products, and that R&D led to our breakthrough: CodeYam Editor. It installs as a Claude Desktop integration or runs from the command line, connects to the AI agents you already work with, and generates software simulation. The workflows around it are built to make both the person and the agent better at creating and changing software. I co-founded the company and am in the product nearly every day."
+      "My north star is improving people’s lives and the world at scale, primarily through technology. I am relentlessly curious and love learning and solving creative, complex problems.",
+      "At CodeYam, I’m working to make it possible for more people to build beautifully designed, highly maintainable software with AI. For non-technical builders and vibe coders, that means being able to build good software at all. For developers and teams, it means moving faster and working better together.",
+      "After building and iterating on several products, our R&D led to CodeYam Editor. It works with the AI agents you already use to generate interactive software simulations and help both people and agents get better at creating and changing software.",
+      "I co-founded CodeYam and am in the product nearly every day."
     ],
     "subhead": "What I’m building at CodeYam",
     "links": [
@@ -62,14 +69,8 @@
     "proof": "Backed by South Park Commons, boldstart, and others",
     "advisory": {
       "label": "Advising and collaborating",
-      "body": "I sometimes advise and build alongside people working on something interesting, especially early on. If you are trying to get an idea off the ground, I am always happy to talk.",
-      "cta": "Get in touch →",
-      "summary": "What that usually looks like",
-      "bullets": [
-        "Talking through ideas with people building with AI",
-        "Getting hands on when it helps, not just offering opinions",
-        "Sometimes one conversation, sometimes something longer"
-      ]
+      "body": "I sometimes advise and build alongside people tackling something new or interesting. If you’re getting an idea off the ground, I’m always happy to talk.",
+      "cta": "Get in touch →"
     },
     "frames": [
       {
@@ -97,8 +98,9 @@
     "number": "02",
     "heading": "How I got here",
     "paragraphs": [
-      "Before becoming a founder, I spent my career building and launching new products at Lyft, where I was a founding member of the Bikes & Scooters team and helped take a new business from zero to millions of riders. I was also on the team behind the award-winning redesign of the rider app . My role scaled from a generalist product marketing IC to acting head of marketing for the line of business, running a 30-person org across product marketing, growth, and local marketing, and then back to an IC as product lead for transit, bike, and scooter payments, where we shipped Lyft’s first transit payment integration. I am oriented toward impact and solving the hardest problems for the business and its users, which results in a non-linear journey I would not change.",
-      "I currently serve as Director of Growth on the Board of Harvard Alumni in Tech. I was a South Park Commons Founder Fellow in the inaugural 2021 cohort and an Alliance DAO alum from cohort nine. I graduated from Harvard College, where I was an NCAA Division I fencer. Now based in New York City, I enjoy running and surfing nearby."
+      "Before becoming a founder, I built and launched new products at Lyft. As a founding member of the Bikes & Scooters team, I helped grow a new business from zero to millions of riders and worked on the award-winning redesign of the rider app.",
+      "My path at Lyft was non-linear: from product marketing IC to leading a 30+ person marketing org to product lead for transit, bike, and scooter payments. I’ve always gravitated toward the hardest problems where I can have the most impact.",
+      "Today, in addition to being CodeYam’s CEO & Cofounder, I serve as Director of Growth on the Board of Harvard Alumni in Tech. I was a South Park Commons Founder Fellow and am an Alliance DAO alum. I graduated from Harvard College, where I was an NCAA Division I fencer. I’m now based in New York City and spend my free time reading, building, running, and surfing."
     ],
     "facts": [
       {
@@ -182,48 +184,55 @@
   "adventures": {
     "eyebrow": "Adventures",
     "number": "04",
-    "heading": "The places I go and the things I do outside of work",
+    "heading": "Exploring, learning, and creating my own momentum",
     "paragraphs": [
-      "I’ve always been active. My first love was soccer as a kid, though I multitasked and experimented (hello basketball, softball, horseback riding, guitar, photography, baking, writing). I dreamed of surfing, which I finally learned when I moved to San Francisco. I dabbled in running there (Bay to Breakers, twice) before getting more deeply into the roads and trails in Colorado and now NYC. I picked up yoga, bouldering, and snowboarding along the way. I’m now content being a fast, serious reader and a slow, fun runner.",
-      "I started fencing the summer before high school and quickly ended up a nationally and world-ranked junior fencer. Harvard recruited me for their NCAA Division I team, where I was a four-year starter.",
-      "A Californian at heart, but after nearly a decade on the West Coast it was time to move back east. I’m newly in New York City, after three years in Denver. Favorites over the years: safari and hiking in South Africa, surfing in Costa Rica, Mexico, Cornwall, and Bali, and time in Cairo, Sydney, and New Zealand. I also get out for as many semi-local adventures as I can: Salida for the hill climb and FIBArk, Rockaway Beach from New York, Steamboat Springs and the Front Range from Denver."
+      "I’ve always been active and curious. Reading and soccer were my first loves, followed by experimenting with everything from horseback riding to photography and baking.",
+      "Although I dreamed of surfing as a kid, I started fencing the summer before high school instead. I quickly became a nationally and world-ranked junior fencer, then a four-year starter on Harvard’s NCAA Division I team.",
+      "When I moved to San Francisco in my early 20s, I finally learned to surf. I also started running, though my only race was Bay to Breakers (twice). Years later, I discovered the roads and trails of Colorado, and now run and surf in New York. Along the way, I picked up yoga, bouldering, and snowboarding. These days, I’m a fast, serious reader and a slow, happy runner.",
+      "After nearly a decade on the West Coast and three years in Denver, I’m back east in New York City. Favorite adventures include hiking and safari in South Africa; surfing in Costa Rica, Mexico, Cornwall, Bali, and Del Mar, where I spent a couple of magical years; and exploring Cairo, Sydney, and New Zealand. I love semi-local adventures too, from Colorado mountain towns and fourteeners to exploring in and around New York City."
     ],
     "frames": [
       {
-        "src": "/images/running-the-full-marathon-at-boulderthon.jpg",
+        "src": "/images/running-the-full-marathon-at-boulderthon.9a944bb0.jpg",
         "alt": "Running the full marathon at Boulderthon",
-        "width": 1000,
-        "height": 781
+        "width": 1500,
+        "height": 1172
       },
       {
-        "src": "/images/trail-running-below-pikes-peak.jpg",
-        "alt": "Trail running below Pikes Peak",
-        "width": 667,
-        "height": 521
-      },
-      {
-        "src": "/images/snowboarding-in-deep-snow.jpg",
+        "src": "/images/snowboarding-in-deep-snow.15f28e37.jpg",
         "alt": "Snowboarding in deep snow",
         "width": 1000,
         "height": 781
       },
       {
-        "src": "/images/getting-a-surfboard-ready-on-the-beach.jpg",
+        "src": "/images/getting-a-surfboard-ready-on-the-beach.0e6429ae.jpg",
         "alt": "Getting a surfboard ready on the beach",
-        "width": 792,
-        "height": 618
+        "width": 1500,
+        "height": 1172
       },
       {
-        "src": "/images/bouldering-on-a-rooftop-with-the-manhattan-skyline-b.jpg",
+        "src": "/images/bouldering-on-a-rooftop-with-the-manhattan-skyline-b.1041410b.jpg",
         "alt": "Bouldering on a rooftop with the Manhattan skyline behind",
-        "width": 1000,
-        "height": 781
+        "width": 948,
+        "height": 741
       },
       {
-        "src": "/images/on-a-balcony-over-the-nile-in-cairo.jpg",
+        "src": "/images/above-cape-town-from-table-mountain.b0aa4873.jpg",
+        "alt": "Above Cape Town from Table Mountain",
+        "width": 1600,
+        "height": 1250
+      },
+      {
+        "src": "/images/fencing-for-harvard.bb665645.jpg",
+        "alt": "Fencing for Harvard",
+        "width": 1600,
+        "height": 1250
+      },
+      {
+        "src": "/images/on-a-balcony-over-the-nile-in-cairo.04b53c64.jpg",
         "alt": "On a balcony over the Nile in Cairo",
-        "width": 637,
-        "height": 497
+        "width": 1200,
+        "height": 938
       }
     ]
   },

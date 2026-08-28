@@ -1,4 +1,4 @@
-import { NavLinks as Component } from "../../../components/Nav";
+import Component from "../../../components/nav/NavLinks";
 import type { ComponentProps } from "react";
 
 type Props = ComponentProps<typeof Component>;

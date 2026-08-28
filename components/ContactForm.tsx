@@ -8,6 +8,7 @@ import Field from './contact/Field';
 import FormFailure from './contact/FormFailure';
 import Honeypot from './contact/Honeypot';
 import SentConfirmation from './contact/SentConfirmation';
+import SubmitRow from './contact/SubmitRow';
 import TopicChips from './contact/TopicChips';
 import styles from './Contact.module.css';
 
@@ -106,7 +107,7 @@ export default function ContactForm() {
             value={values.body}
             onChange={set('body')}
             aria-invalid={problems.body ? true : undefined}
-            rows={5}
+            rows={4}
           />
         </Field>
       </div>
@@ -117,12 +118,7 @@ export default function ContactForm() {
         <FormFailure message={failure} socials={findMe.socials} />
       ) : null}
 
-      <div className={styles.foot}>
-        <button className={styles.submit} type="submit" disabled={status === 'sending'}>
-          {status === 'sending' ? 'Sending…' : form.submit}
-        </button>
-        <span className={styles.reply}>{form.reply}</span>
-      </div>
+      <SubmitRow label={form.submit} reply={form.reply} sending={status === 'sending'} />
     </form>
   );
 }

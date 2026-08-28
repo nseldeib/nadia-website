@@ -1,4 +1,4 @@
-import { NavMark as Component } from "../../../components/Nav";
+import Component from "../../../components/nav/NavMark";
 
 /** The wordmark linking back to the top of the page. It takes no props. */
 export default async function Page({

@@ -3,6 +3,7 @@ import ContactForm from './ContactForm';
 import SectionHead from './SectionHead';
 import FindMe from './contact/FindMe';
 import section from './Section.module.css';
+import styles from './Contact.module.css';
 
 /**
  * One section, two blocks: the note and the profiles. They answer the same
@@ -13,7 +14,7 @@ export default function Contact() {
   const { contact } = site;
 
   return (
-    <section className={section.section} id="contact">
+    <section className={`${section.section} ${styles.contact}`} id="contact">
       <div className={section.wrap}>
         <SectionHead n={contact.number} eyebrow={contact.eyebrow} />
         <h2 className={section.heading}>{contact.heading}</h2>

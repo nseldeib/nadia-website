@@ -1,0 +1,12 @@
+{
+  "name": "SocialRow - LongHandle",
+  "id": "4f32cf14-2067-435a-97be-134235ae10a3",
+  "url": "/isolated-components/SocialRow?s=LongHandle",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "SocialRow",
+  "scenarioType": "component",
+  "description": "The longest handle in the set, where the left and right halves of the row come closest to meeting."
+}

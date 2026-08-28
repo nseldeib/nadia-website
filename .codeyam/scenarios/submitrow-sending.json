@@ -1,0 +1,12 @@
+{
+  "name": "SubmitRow - Sending",
+  "id": "9d8fdc1b-0f07-4776-ba1c-08783a3ec471",
+  "url": "/isolated-components/SubmitRow?s=Sending",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "SubmitRow",
+  "scenarioType": "component",
+  "description": "Mid-send. The button is disabled, which is what makes a double submit impossible."
+}

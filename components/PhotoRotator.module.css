@@ -21,30 +21,96 @@
 /* One keyframe set per frame-count: each photo holds full opacity for its
    share of the cycle with a short cross-fade at either end. Percentages can't
    come from a custom property, so the sets are explicit. */
-.frame[data-frames='2'] .photo { animation-name: rotate2; }
-.frame[data-frames='3'] .photo { animation-name: rotate3; }
-.frame[data-frames='4'] .photo { animation-name: rotate4; }
-.frame[data-frames='6'] .photo { animation-name: rotate6; }
+.frame[data-frames='2'] .photo:not(:first-child) { animation-name: rotate2; }
+.frame[data-frames='3'] .photo:not(:first-child) { animation-name: rotate3; }
+.frame[data-frames='4'] .photo:not(:first-child) { animation-name: rotate4; }
+.frame[data-frames='6'] .photo:not(:first-child) { animation-name: rotate6; }
+.frame[data-frames='7'] .photo:not(:first-child) { animation-name: rotate7; }
+.frame[data-frames='8'] .photo:not(:first-child) { animation-name: rotate8; }
 
+.frame[data-frames='2'] .photo:last-child { animation-name: rotateLast2; }
+.frame[data-frames='3'] .photo:last-child { animation-name: rotateLast3; }
+.frame[data-frames='4'] .photo:last-child { animation-name: rotateLast4; }
+.frame[data-frames='6'] .photo:last-child { animation-name: rotateLast6; }
+.frame[data-frames='7'] .photo:last-child { animation-name: rotateLast7; }
+.frame[data-frames='8'] .photo:last-child { animation-name: rotateLast8; }
+
+/* The first photo is the base layer: permanently opaque beneath the others, so
+   the wrap back to it is a cross-fade rather than a cut through the frame's
+   own background. See the keyframes below for why nothing fades out under a
+   fading-in sibling.
+
+   It also stays IN FLOW, which is what gives the frame a real height. With
+   every photo absolutely positioned the container had no in-flow content and
+   its height rested entirely on `aspect-ratio` — which grid row sizing
+   under-computed, leaving the box shorter than the photograph and letting the
+   following text slide underneath it on phones. An in-flow first frame sizes
+   the box from the image itself; the later frames stack on top of it. */
+.frame .photo:first-child {
+  animation-name: none;
+  opacity: 1;
+  position: relative;
+  height: auto;
+}
+
+/* Each set holds until its slot boundary (100/n %) and then fades out across
+   exactly the interval the next frame fades in over — the next frame's 0% is
+   that same boundary once its delay is applied. The earlier sets finished
+   fading out BEFORE the next started, so the container's own background
+   showed through between every pair; on the full-bleed hero that read as a
+   black screen, and here as a flash of paper. */
+/* Middle frames hold full opacity until the NEXT frame has completely covered
+   them, then cut away unseen. Nothing ever fades out beneath a fading-in
+   sibling, because two frames at half opacity are not a cross-fade — they let
+   the container's background through. The last frame is the exception: it has
+   nothing above it, so it fades out to reveal the permanently-opaque first. */
 @keyframes rotate2 {
-  0%, 2% { opacity: 0; }
-  5%, 44% { opacity: 1; }
-  50%, 100% { opacity: 0; }
+  0% { opacity: 0; } 12.5% { opacity: 1; } 62.5% { opacity: 1; }
+  62.51% { opacity: 0; } 100% { opacity: 0; }
+}
+@keyframes rotateLast2 {
+  0% { opacity: 0; } 12.5% { opacity: 1; } 50% { opacity: 1; }
+  62.5% { opacity: 0; } 100% { opacity: 0; }
 }
 @keyframes rotate3 {
-  0%, 2% { opacity: 0; }
-  5%, 29% { opacity: 1; }
-  33%, 100% { opacity: 0; }
+  0% { opacity: 0; } 8.33% { opacity: 1; } 41.66% { opacity: 1; }
+  41.67% { opacity: 0; } 100% { opacity: 0; }
+}
+@keyframes rotateLast3 {
+  0% { opacity: 0; } 8.33% { opacity: 1; } 33.33% { opacity: 1; }
+  41.66% { opacity: 0; } 100% { opacity: 0; }
 }
 @keyframes rotate4 {
-  0%, 1% { opacity: 0; }
-  4%, 22% { opacity: 1; }
-  25%, 100% { opacity: 0; }
+  0% { opacity: 0; } 6.25% { opacity: 1; } 31.25% { opacity: 1; }
+  31.26% { opacity: 0; } 100% { opacity: 0; }
+}
+@keyframes rotateLast4 {
+  0% { opacity: 0; } 6.25% { opacity: 1; } 25% { opacity: 1; }
+  31.25% { opacity: 0; } 100% { opacity: 0; }
 }
 @keyframes rotate6 {
-  0%, 1% { opacity: 0; }
-  3%, 15% { opacity: 1; }
-  16.6%, 100% { opacity: 0; }
+  0% { opacity: 0; } 4.16% { opacity: 1; } 20.83% { opacity: 1; }
+  20.84% { opacity: 0; } 100% { opacity: 0; }
+}
+@keyframes rotateLast6 {
+  0% { opacity: 0; } 4.16% { opacity: 1; } 16.66% { opacity: 1; }
+  20.83% { opacity: 0; } 100% { opacity: 0; }
+}
+@keyframes rotate7 {
+  0% { opacity: 0; } 3.57% { opacity: 1; } 17.85% { opacity: 1; }
+  17.86% { opacity: 0; } 100% { opacity: 0; }
+}
+@keyframes rotateLast7 {
+  0% { opacity: 0; } 3.57% { opacity: 1; } 14.28% { opacity: 1; }
+  17.85% { opacity: 0; } 100% { opacity: 0; }
+}
+@keyframes rotate8 {
+  0% { opacity: 0; } 3.12% { opacity: 1; } 15.62% { opacity: 1; }
+  15.63% { opacity: 0; } 100% { opacity: 0; }
+}
+@keyframes rotateLast8 {
+  0% { opacity: 0; } 3.12% { opacity: 1; } 12.5% { opacity: 1; }
+  15.62% { opacity: 0; } 100% { opacity: 0; }
 }
 
 /* A single frame never animates. */

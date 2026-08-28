@@ -32,8 +32,6 @@ export default function Work() {
         <AdvisoryCard
           label={work.advisory.label}
           body={work.advisory.body}
-          summary={work.advisory.summary}
-          bullets={work.advisory.bullets}
           cta={work.advisory.cta}
         />
       </div>

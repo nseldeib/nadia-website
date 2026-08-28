@@ -64,7 +64,9 @@
   text-decoration: none;
   transition: opacity var(--transition-base);
 }
-.link[data-active] {
+.link[data-active],
+.link:hover,
+.link:focus-visible {
   opacity: 1;
 }
 
@@ -84,7 +86,12 @@
   pointer-events: none;
   transition: opacity var(--transition-base);
 }
-.link[data-active]::before {
+/* Hover previews the same indicator the active state shows, so pointing at a
+   link tells you its number before you commit to the jump — the underline
+   below already pairs these two states the same way. */
+.link[data-active]::before,
+.link:hover::before,
+.link:focus-visible::before {
   opacity: 1;
 }
 

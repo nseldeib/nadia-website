@@ -1,21 +1,10 @@
 import styles from '../Writing.module.css';
-import ExternalLinkIcon from './ExternalLinkIcon';
 
-/** What she writes about, and the way through to everything else. */
-export default function WritingIntro({
-  lede,
-  cta,
-}: {
-  lede: string;
-  cta: { href: string; label: string };
-}) {
-  return (
-    <div>
-      <p className={styles.lede}>{lede}</p>
-      <a className={styles.cta} href={cta.href} target="_blank" rel="noopener noreferrer">
-        {cta.label}
-        <ExternalLinkIcon />
-      </a>
-    </div>
-  );
+/**
+ * What she writes about. It sits directly under the heading rather than in a
+ * second column beside it — a lede reads as a subheading only when it follows
+ * the heading, and set alongside it competed with it instead.
+ */
+export default function WritingIntro({ lede }: { lede: string }) {
+  return <p className={styles.lede}>{lede}</p>;
 }

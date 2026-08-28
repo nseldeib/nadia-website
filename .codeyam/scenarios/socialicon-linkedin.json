@@ -1,0 +1,12 @@
+{
+  "name": "SocialIcon - LinkedIn",
+  "id": "d53afcff-acf0-4ccc-ac82-963451dfc3c3",
+  "url": "/isolated-components/SocialIcon?s=LinkedIn",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "SocialIcon",
+  "scenarioType": "component",
+  "description": "The LinkedIn mark, the only one that fills its whole square."
+}

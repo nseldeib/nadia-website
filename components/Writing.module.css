@@ -1,21 +1,15 @@
-.top {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--spacing-xl);
-  align-items: start;
-}
 .lede {
-  margin: 0;
-  max-width: 48ch;
+  margin: var(--spacing-md) 0 0;
+  max-width: 62ch;
   font-size: var(--text-lead);
   line-height: 1.6;
   color: var(--ink-2);
 }
+.ctaRow { margin-top: var(--spacing-lg); }
 .cta {
   display: inline-flex;
   align-items: center;
   gap: 9px;
-  margin-top: var(--spacing-md);
   font-family: var(--font-display);
   font-weight: var(--font-weight-semibold);
   font-size: var(--text-lead);
@@ -55,7 +49,6 @@
 .arrow { color: var(--meta); }
 
 @media (max-width: 860px) {
-  .top { grid-template-columns: 1fr; gap: var(--spacing-lg); }
   .posts a { grid-template-columns: 70px 1fr auto; gap: 12px; }
   .title { font-size: var(--text-body); }
 }

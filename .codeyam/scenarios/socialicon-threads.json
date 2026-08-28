@@ -1,0 +1,12 @@
+{
+  "name": "SocialIcon - Threads",
+  "id": "6dd53ae5-90e8-4825-b950-9341a618404c",
+  "url": "/isolated-components/SocialIcon?s=Threads",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "SocialIcon",
+  "scenarioType": "component",
+  "description": "The Threads mark."
+}

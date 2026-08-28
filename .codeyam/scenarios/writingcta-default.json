@@ -1,0 +1,12 @@
+{
+  "name": "WritingCta - Default",
+  "id": "f0195b8d-3974-40c4-9c33-e35786d08a9e",
+  "url": "/isolated-components/WritingCta?s=Default",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "WritingCta",
+  "scenarioType": "component",
+  "description": "The newsletter link as it sits below the post list, carrying the leaving-the-site arrow."
+}

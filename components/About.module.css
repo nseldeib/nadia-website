@@ -42,14 +42,19 @@
   color: var(--ink);
 }
 
-/* Five cities in one slot, on the same 8s beat as the photographs. The
-   container reserves the widest string so the row never reflows. */
+/* Five cities in one slot, on the same 8s beat as the photographs. The hidden
+   sizer inside (see CityRotator) reserves the widest name and — because it is
+   the only in-flow text here — gives the span the text baseline it needs to
+   sit level with the other facts. Height and width therefore come from real
+   type rather than an em guess, and `vertical-align` is left at its default
+   baseline instead of being forced to the bottom of the line box. */
 .cities {
   position: relative;
   display: inline-block;
-  min-width: 8.6em;
-  height: 1.25em;
-  vertical-align: bottom;
+}
+.citiesSizer {
+  visibility: hidden;
+  white-space: nowrap;
 }
 .cities i {
   position: absolute;
@@ -68,10 +73,21 @@
 
 @media (max-width: 860px) {
   .grid { grid-template-columns: 1fr; gap: var(--spacing-lg); }
-  .portrait { position: static; }
+  /* `relative`, never `static`: this element is PhotoRotator's containing
+     block, and its frames are absolutely positioned against it. `static`
+     drops it out of the positioning chain, so the photos resolve against a
+     far ancestor and blow out full-bleed over the rest of the page. This
+     still cancels the sticky behaviour, which is all the phone layout wants.
+     `top` must be reset with it: the sticky offset above is inert while
+     sticky is unstuck, but on a relative box it becomes a real 96px nudge
+     that pushes the photograph down over the paragraphs beneath it. */
+  .portrait { position: relative; top: auto; }
   .facts { grid-template-columns: 1fr 1fr; }
 }
 @media (prefers-reduced-motion: reduce) {
   .cities i { animation: none; opacity: 0; }
-  .cities i:first-child { opacity: 1; }
+  /* `first-of-type`, not `first-child`: the hidden sizer is the span's first
+     child, so `first-child` matches no <i> at all and the fact would render
+     blank for anyone who prefers reduced motion. */
+  .cities i:first-of-type { opacity: 1; }
 }

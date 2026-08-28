@@ -5,8 +5,8 @@ import site from "@/content/site";
 type Props = ComponentProps<typeof Component>;
 
 const scenarios: Record<string, Props> = {
-  // What she writes about, and the way through to the rest.
-  Default: { lede: site.writing.lede, cta: site.writing.cta },
+  // What she writes about, set as the heading's lede.
+  Default: { lede: site.writing.lede },
 };
 
 export default async function Page({

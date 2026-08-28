@@ -1,0 +1,12 @@
+{
+  "name": "SocialRow - NoIcon",
+  "id": "7b1b787e-a343-4f3c-9916-939284e42fee",
+  "url": "/isolated-components/SocialRow?s=NoIcon",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "SocialRow",
+  "scenarioType": "component",
+  "description": "A service with no glyph. The row keeps its layout and simply loses the mark, rather than collapsing the left column."
+}

@@ -1,0 +1,12 @@
+{
+  "name": "SocialIcon - X",
+  "id": "257a18e8-9cdc-427d-b9ac-1e17d314f0e7",
+  "url": "/isolated-components/SocialIcon?s=X",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "SocialIcon",
+  "scenarioType": "component",
+  "description": "The X mark, whose single-letter name makes it the one most easily confused with a missing glyph."
+}

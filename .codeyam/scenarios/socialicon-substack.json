@@ -1,0 +1,12 @@
+{
+  "name": "SocialIcon - Substack",
+  "id": "24fba0cb-6551-4a1b-be18-2b8f0dbb3a0e",
+  "url": "/isolated-components/SocialIcon?s=Substack",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "SocialIcon",
+  "scenarioType": "component",
+  "description": "The Substack mark. Each service is its own path, so every glyph in the set gets a frame — a wrong path is invisible any other way."
+}

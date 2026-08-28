@@ -119,4 +119,8 @@ States captured as runnable scenarios with codeyam-editor:
 ### Home - Full page
 
 <img src=".codeyam/scenarios/screenshots/home-full-page--desktop.png" alt="Home - Full page" width="280">
+
+### Home - Mobile
+
+<img src=".codeyam/scenarios/screenshots/home-mobile--mobile.png" alt="Home - Mobile" width="280">
 <!-- codeyam:scenario-gallery:end -->

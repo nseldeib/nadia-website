@@ -1,0 +1,12 @@
+{
+  "name": "SubmitRow - Mobile",
+  "id": "0f2f0a17-366f-4fb3-bce3-a26f2e94fa60",
+  "url": "/isolated-components/SubmitRow?s=Default",
+  "dimensions": [
+    "Mobile"
+  ],
+  "mocks": {},
+  "componentName": "SubmitRow",
+  "scenarioType": "component",
+  "description": "The send button and its reply note at phone width, where the row has the least horizontal space to share."
+}

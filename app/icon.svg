@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="NE">
+  <!--
+    The tab mark: her initials in the wordmark's rust on the site's paper.
+
+    The letterforms are drawn as strokes rather than set as text because a
+    favicon is rasterised without the page's webfonts — typed text would fall
+    back to whatever the renderer had and stop being the same mark.
+
+    Every stroke centreline is inset far enough that the 6-unit stroke (±3)
+    still lands inside the box: ink spans x 11–53 and y 17–47 of 64, so the
+    glyphs keep a clear margin on all four sides at any raster size and
+    nothing clips at the corners of the rounded ground.
+  -->
+  <rect width="64" height="64" rx="13" fill="#14110f"/>
+  <g fill="none" stroke="#e07a4a" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <!-- N -->
+    <path d="M14 44V20l14 24V20"/>
+    <!-- E -->
+    <path d="M50 20H36v24h14"/>
+    <path d="M36 32h11"/>
+  </g>
+</svg>

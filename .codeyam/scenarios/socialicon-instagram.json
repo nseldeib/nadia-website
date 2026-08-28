@@ -1,0 +1,12 @@
+{
+  "name": "SocialIcon - Instagram",
+  "id": "c68d643e-6f27-4d32-92d1-d030466f568e",
+  "url": "/isolated-components/SocialIcon?s=Instagram",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "SocialIcon",
+  "scenarioType": "component",
+  "description": "The Instagram mark, the densest path in the set."
+}

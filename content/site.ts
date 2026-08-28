@@ -20,7 +20,28 @@ export type Site = {
     role: string;
     cueLabel: string;
     cueTitle: string;
-    frames: { src: string; width: number; height: number }[];
+    /**
+     * `focus` and `focusMobile` are `object-position` values for the hero
+     * backdrop, which `cover`-crops these 2:1 photos into a much taller box.
+     *
+     * They differ because the two viewports have opposite problems. On a wide
+     * screen roughly a fifth of the width is cropped and the copy occupies the
+     * left, so `focus` pulls a centrally-framed subject clear of the headline —
+     * a lower percentage reveals more of the image's left side and carries the
+     * subject rightward. On a phone the box is portrait and only about a fifth
+     * of the photo survives, so `focusMobile` is simply the subject's own
+     * position: without it the crop keeps the middle of the frame and loses
+     * whoever was standing off-centre.
+     *
+     * Either may be omitted when the default centre crop already reads well.
+     */
+    frames: {
+      src: string;
+      width: number;
+      height: number;
+      focus?: string;
+      focusMobile?: string;
+    }[];
   };
   work: {
     number: string;
@@ -35,8 +56,6 @@ export type Site = {
       label: string;
       body: string;
       cta: string;
-      summary: string;
-      bullets: string[];
     };
   };
   about: {

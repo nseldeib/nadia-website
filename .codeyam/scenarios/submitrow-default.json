@@ -1,0 +1,12 @@
+{
+  "name": "SubmitRow - Default",
+  "id": "f936b716-fdf4-4386-8eec-2999dc13cb8e",
+  "url": "/isolated-components/SubmitRow?s=Default",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "SubmitRow",
+  "scenarioType": "component",
+  "description": "The send button at rest, with the note about when she replies."
+}

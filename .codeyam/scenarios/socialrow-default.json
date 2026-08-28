@@ -1,0 +1,12 @@
+{
+  "name": "SocialRow - Default",
+  "id": "682b21da-b404-4ee6-87e6-09554cad440a",
+  "url": "/isolated-components/SocialRow?s=Default",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "SocialRow",
+  "scenarioType": "component",
+  "description": "An ordinary profile row: brand mark and service name left, handle right-aligned."
+}

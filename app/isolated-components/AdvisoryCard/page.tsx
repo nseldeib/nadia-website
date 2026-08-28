@@ -5,12 +5,11 @@ import site from "@/content/site";
 type Props = ComponentProps<typeof Component>;
 
 const scenarios: Record<string, Props> = {
-  // Closed by default: the offer reads, the scope is one click away.
+  // The whole offer on one surface — the details toggle it used to hide the
+  // specifics behind was removed along with its bullets.
   Default: {
     label: site.work.advisory.label,
     body: site.work.advisory.body,
-    summary: site.work.advisory.summary,
-    bullets: site.work.advisory.bullets,
     cta: site.work.advisory.cta,
   },
 };

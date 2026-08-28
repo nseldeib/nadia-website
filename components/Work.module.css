@@ -37,8 +37,14 @@
 .proof {
   margin-top: var(--spacing-sm) !important;
   font-family: var(--font-mono-stack);
-  font-size: var(--text-label);
-  letter-spacing: var(--tracking-mono);
+  /* `.body p` outranks this rule (0,1,1 vs 0,1,0) and was overriding the label
+     size to --text-body, which is why the backers rendered at 17px and wrapped
+     to two lines — the same reason margin-top and color below need the flag.
+     At the intended label size the line fits the measure with room to spare;
+     nowrap keeps it one line if the backer list grows. */
+  font-size: var(--text-label) !important;
+  letter-spacing: var(--tracking-mono) !important;
+  white-space: nowrap;
   text-transform: uppercase;
   color: var(--meta) !important;
 }
@@ -91,4 +97,7 @@
 
 @media (max-width: 860px) {
   .grid { grid-template-columns: 1fr; gap: var(--spacing-lg); }
+  /* One line is a full-width luxury — a phone has to be allowed to wrap it
+     rather than run the backers off the edge of the screen. */
+  .proof { white-space: normal; }
 }
