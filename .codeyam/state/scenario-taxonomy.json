@@ -1,5 +1,38 @@
 {
   "views": {
+    "NotFound": {
+      "empty": {
+        "status": "n-a",
+        "reason": "The component renders three unconditional elements read from content/site.json at build time. There is no collection and no store read, so no seed or input can produce a zero-item state."
+      },
+      "single": {
+        "status": "n-a",
+        "reason": "Same reason as empty: nothing on this view is a collection, so the empty-to-many boundary does not exist for it."
+      },
+      "typical": {
+        "status": "covered"
+      },
+      "many": {
+        "status": "n-a",
+        "reason": "Same reason as empty: no data can grow. The copy is fixed authored text, not a list."
+      },
+      "loading": {
+        "status": "n-a",
+        "reason": "Server-rendered from a content module with no client fetch and nothing awaited, so there is no pending state a visitor can observe."
+      },
+      "edge": {
+        "status": "n-a",
+        "reason": "Copy length is fixed authored text rather than variable data, so long-text, short-text and missing-optional cases cannot arise at runtime. The heading is a single authored sentence."
+      },
+      "error": {
+        "status": "n-a",
+        "reason": "This view IS the error state — it is what Next.js serves for an unmatched route. It has no failure path of its own: it reads no store, calls no API, and awaits nothing, so nothing can fail while rendering it."
+      },
+      "key-interaction": {
+        "status": "n-a",
+        "reason": "The only action is the Back to the site link, a plain navigation to /. It changes no in-page state, so there is nothing to capture that the at-rest scenario does not already show, and its destination is already covered by home-full-page."
+      }
+    },
     "Page": {
       "empty": {
         "status": "n-a",

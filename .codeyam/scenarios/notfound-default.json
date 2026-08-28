@@ -1,0 +1,12 @@
+{
+  "name": "NotFound - Default",
+  "id": "23c325af-bd52-4d9c-9c54-336243cbd6e4",
+  "url": "/isolated-components/NotFound?s=Default",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "NotFound",
+  "scenarioType": "component",
+  "description": "What a visitor to a dead URL sees: the 404 eyebrow, the statement, and the way back. No explanation of what went wrong."
+}

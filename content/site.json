@@ -390,5 +390,11 @@
     ],
     "signoff": "Built with CodeYam and love",
     "signoffHref": "https://codeyam.com"
+  },
+  "notFound": {
+    "eyebrow": "404",
+    "heading": "This page doesn’t exist.",
+    "linkLabel": "Back to the site",
+    "linkHref": "/"
   }
 }

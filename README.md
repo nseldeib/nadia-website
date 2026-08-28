@@ -80,6 +80,9 @@ npm run db:drop-and-reseed # DESTRUCTIVE: drop every table, recreate, re-seed
 This project is built with [codeyam-editor](https://codeyam.com) — code and runnable data scenarios are authored side by side against a live preview.
 
 ```bash
+# Clone the repo
+git clone https://github.com/nseldeib/nadia-website && cd nadia-website
+
 # Install codeyam-editor
 npm install -g @codeyam-editor/codeyam-editor@latest
 

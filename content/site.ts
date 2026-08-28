@@ -100,6 +100,12 @@ export type Site = {
     signoff: string;
     signoffHref: string | null;
   };
+  notFound: {
+    eyebrow: string;
+    heading: string;
+    linkLabel: string;
+    linkHref: string;
+  };
 };
 
 export const site = data as unknown as Site;

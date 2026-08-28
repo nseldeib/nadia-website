@@ -184,6 +184,23 @@
     ]
   },
   {
+    "description": "What a visitor to a URL that does not exist sees: the 404 eyebrow, the statement, and the way back. Deliberately no explanation of what went wrong — the design system asks for restraint over helpfulness. Renders the body only; the 404 status comes from Next.js serving app/not-found.tsx.",
+    "filePath": "components/NotFound.tsx",
+    "name": "NotFound",
+    "scenarios": [
+      "notfound-default"
+    ]
+  },
+  {
+    "description": "The Next.js not-found route. Composition only: it returns <NotFound /> and declares the page metadata, including robots noindex so a crawler that reaches a dead URL drops it rather than indexing it.",
+    "filePath": "app/not-found.tsx",
+    "name": "NotFoundPage",
+    "untestabilityReason": {
+      "justification": "Returns <NotFound /> and nothing else, so its rendered output is identical to the NotFound component scenario notfound-default; a second capture would duplicate that image. An application scenario at the real route was attempted and is structurally impossible here: this page's CORRECT response is HTTP 404, and the capture pipeline treats a 404 as a failed capture — it settled, restarted the dev server, retried, then refused, leaving a screenshot-less ghost scenario that had to be deleted. Its only non-visual surface is the static metadata export.",
+      "kind": "trivial-wrapper"
+    }
+  },
+  {
     "description": "The contact endpoint. Answers the honeypot silently so a bot learns nothing, then writes the row before attempting delivery, so a message survives a mail outage with emailedAt left null rather than being lost. Validation logic lives in validateMessage and is tested there.",
     "filePath": "app/api/contact/route.ts",
     "name": "POST",

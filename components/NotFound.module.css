@@ -1,0 +1,60 @@
+/* Every value here is a token. The page inherits the night ground from
+   `body`, so this only has to own its own layout and type. */
+
+.wrap {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: var(--wrap-max);
+  margin: 0 auto;
+  padding: var(--spacing-2xl) var(--wrap-pad);
+}
+
+/* The mono eyebrow, matching SectionHead: uppercase, opened tracking, accent
+   ink. `--accent-ink` rather than `--rust` because this is accent TEXT on the
+   dark ground, and only the surface-scoped token is AA-safe at this size. */
+.eyebrow {
+  margin: 0 0 var(--spacing-sm);
+  font-family: var(--font-mono-stack);
+  font-size: var(--text-label);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--accent-ink);
+}
+
+.heading {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-section);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+  color: var(--ink);
+}
+
+/* Underlined in the accent rather than coloured in it: the link sits in prose
+   flow, and the Footer sign-off already establishes that pattern. */
+.link {
+  align-self: flex-start;
+  margin-top: var(--spacing-xl);
+  font-family: var(--font-mono-stack);
+  font-size: var(--text-mono-sm);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--meta);
+  text-decoration: underline;
+  text-decoration-color: var(--accent-ink);
+  text-underline-offset: 6px;
+  transition: color var(--transition-fast);
+}
+
+.link:hover {
+  color: var(--ink);
+}
+
+@media (max-width: 860px) {
+  .wrap {
+    padding: var(--spacing-2xl) 24px;
+  }
+}
