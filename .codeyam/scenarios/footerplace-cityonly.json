@@ -1,0 +1,12 @@
+{
+  "name": "FooterPlace - CityOnly",
+  "id": "4c27661a-c695-480e-aea6-edf5c55c7741",
+  "url": "/isolated-components/FooterPlace?s=CityOnly",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "FooterPlace",
+  "scenarioType": "component",
+  "description": "One part only. The middot joins two parts, so a lone city must not trail a separator."
+}

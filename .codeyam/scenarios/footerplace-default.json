@@ -1,0 +1,12 @@
+{
+  "name": "FooterPlace - Default",
+  "id": "f1451a0b-afd8-4bf7-b8aa-d72cc623181f",
+  "url": "/isolated-components/FooterPlace?s=Default",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "FooterPlace",
+  "scenarioType": "component",
+  "description": "The city and timezone as the footer's own line, joined by a middot and set in the footer's mono voice."
+}

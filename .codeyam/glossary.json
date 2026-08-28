@@ -116,6 +116,15 @@
     ]
   },
   {
+    "description": "The city and timezone as the footer's own line above the nav, joined by a middot and set in the footer's mono voice. It sits here rather than in the contact section, where it read as a footnote to the profile list.",
+    "filePath": "components/Footer.tsx",
+    "name": "FooterPlace",
+    "scenarios": [
+      "footerplace-default",
+      "footerplace-cityonly"
+    ]
+  },
+  {
     "description": "The signoff with the brand linked in place. The copy is authored as one sentence rather than assembled from fragments, so the link is found inside it via splitOnBrand; if the brand is ever edited out, the sentence still renders whole.",
     "filePath": "components/Footer.tsx",
     "name": "FooterSignoff",

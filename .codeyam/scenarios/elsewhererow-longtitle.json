@@ -1,0 +1,12 @@
+{
+  "name": "ElsewhereRow - LongTitle",
+  "id": "f107d322-358e-4dd6-8ef1-3004df809448",
+  "url": "/isolated-components/ElsewhereRow?s=LongTitle",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "ElsewhereRow",
+  "scenarioType": "component",
+  "description": "The longest title in the set, where the row's four columns come closest to colliding. Replaces the old WithSecondLink case, which went with the extra IMDb link."
+}
