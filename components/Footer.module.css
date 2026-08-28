@@ -17,6 +17,22 @@
   letter-spacing: 0.13em;
   text-transform: uppercase;
 }
+/* Sits ABOVE the footer's rule, closing the page content rather than opening
+   the footer band. Carries the wrap's own max-width and padding so it starts
+   on the same left edge as the nav below it. */
+.placeRow {
+  max-width: var(--wrap-max);
+  margin: 0 auto;
+  padding: 0 var(--wrap-pad) 30px;
+}
+.place {
+  font-family: var(--font-mono-stack);
+  font-size: 10.5px;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--meta);
+}
+
 /* Only the sign-off is underlined — the nav links are not links-in-prose. */
 .nav { display: flex; flex-wrap: wrap; gap: 20px; }
 .nav a { color: var(--meta); text-decoration: none; transition: color var(--transition-fast); }
@@ -28,4 +44,7 @@
   text-underline-offset: 3px;
 }
 .signoff a:hover { color: var(--accent-ink); }
-@media (max-width: 860px) { .wrap { padding: 0 24px; } }
+@media (max-width: 860px) {
+  .wrap { padding: 0 24px; }
+  .placeRow { padding: 0 24px 24px; }
+}

@@ -168,25 +168,6 @@
 .socials a:focus-visible,
 .socials a:focus-visible .socialIcon,
 .socials a:focus-visible .socialHandle { color: var(--rust); }
-/* The city and timezone as they sit beside the send button: an inline pair on
-   the button's own row, not the bordered block they used to be at the foot of
-   the section. `margin-left: auto` on wide rows would push them to the far
-   edge and break the association with the button, so they stay adjacent. */
-.footPlace {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 4px 14px;
-  margin: 0;
-}
-.now { font-family: var(--font-display); font-weight: var(--font-weight-semibold); color: var(--ink); }
-.tz {
-  font-family: var(--font-mono-stack);
-  font-size: var(--text-label);
-  letter-spacing: var(--tracking-mono);
-  text-transform: uppercase;
-  color: var(--meta);
-}
 @media (max-width: 860px) {
   .row2 { grid-template-columns: 1fr; gap: var(--spacing-md); }
   .socials { grid-template-columns: 1fr; }
