@@ -36,11 +36,11 @@
     {
       "id": "publish-the-rebuilt-site-live-at-nadiaeldeib",
       "text": "Publish the rebuilt site live at nadiaeldeib.com (deploy/hosting — assist track, non-build)",
-      "status": "deferred",
-      "resolvedAt": "2026-08-27T16:37:06.213004+00:00",
-      "resolvedInFeature": "Deployable contact pipeline: hosted Postgres + real email delivery",
+      "status": "delivered",
+      "resolvedAt": "2026-08-28T15:06:38.734509+00:00",
+      "resolvedInFeature": null,
       "planSlug": null,
-      "note": "Still deferred, confirmed by the user at this cycle's confirm-plan gate. This cycle removes the two blockers (SQLite to Postgres, and real email delivery); the Vercel deploy and the Squarespace DNS cutover are the cycle immediately after. Registrar is Squarespace Domains II LLC, not Google Cloud DNS as earlier inferred from the inherited ns-cloud-*.googledomains.com nameservers.",
+      "note": "DELIVERED 2026-08-28. nadiaeldeib.com now serves the rebuilt site on Vercel. DNS cut over at Squarespace (Google Cloud DNS zone): four GitHub Pages A records and four AAAA records removed, replaced with A 216.150.1.1 + 216.150.16.1; www CNAME moved from nseldeib.github.io to a38a0ecb2694caae.vercel-dns-016.com; the gv-* Google verification CNAME restored after being cleared. The AAAA records were the non-obvious part: leaving them would have served the OLD GitHub Pages site to every IPv6 visitor while IPv4 visitors got the new one. Vercel did not auto-issue TLS, so the cert was requested explicitly (Let's Encrypt, CN=nadiaeldeib.com, valid to 2026-11-26). Verified: apex 200 serving the rebuilt site; www.nadiaeldeib.com, nseldeib.com and www.nseldeib.com all 301 to the apex; http 308 to https; robots.txt and sitemap.xml both 200 naming the canonical host; blog.nseldeib.com still reaching Substack and nseldeib.com MX forwarding untouched. Also closed the deploy gap found mid-cycle: rebuild-nextjs merged to main (fast-forward, which removed the stale GitHub Pages workflow), Vercel linked to nseldeib/nadia-website with main as the production branch, and a production deploy shipped from that integration.",
       "decidedBy": "user"
     },
     {

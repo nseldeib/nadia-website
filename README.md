@@ -38,6 +38,26 @@ codeyam editor
 
 The editor provides a live preview alongside a Claude Code terminal for iterating on the app.
 
+## Deployment
+
+Hosted on Vercel, deployed from this repo. Pushing to `main` ships to production;
+any other branch or pull request gets its own preview URL, so a change can be
+clicked through before it is real.
+
+`nadiaeldeib.com` is the canonical address, and it is the only one advertised.
+`www.nadiaeldeib.com` and both forms of `nseldeib.com` are registered on the same
+Vercel project as 301 redirects to it, so every path ends at one address. The
+origin is declared once in `app/lib/siteUrl.ts`; the document metadata, `robots.ts`
+and `sitemap.ts` all read from it rather than repeating the domain.
+
+DNS for `nadiaeldeib.com` is a Squarespace registration on Google Cloud nameservers:
+two `A` records for the apex and a `CNAME` for `www`, both pointing at Vercel. There
+are deliberately no `AAAA` records — Vercel publishes no IPv6 address for apex
+domains, and IPv6 clients fall back to IPv4 cleanly.
+
+The site was previously served by GitHub Pages from this branch's root. That is
+retired; the pre-rebuild site remains on the `v1-original-site` branch.
+
 ## Content
 
 Copy and photography are data, not markup. `content/site.json` holds every section's
