@@ -181,12 +181,35 @@ count here. The text renderer says the same thing in a banner at the top and
 bottom of the body; `cacheFreshness` is the machine-readable form so you
 never have to parse the prose.
 
-Budget for it: resolving attribution walks `git log` per file touched by a
-finding, so on a large repo with accumulated drift this run takes minutes,
-not seconds — the same cost `--format text` and the `advance` audit gate
-already pay. It is a backgrounded long command like any other; wait on the
-completion sentinel rather than assuming it hung. When you only need the
-verdict and the missing-\* arrays, `--findings-only` is the fast path.
+Budget for it: on a scenario-heavy repo this run takes minutes, not seconds.
+It is a backgrounded long command like any other; wait on the completion
+sentinel rather than assuming it hung.
+
+**`--findings-only` is a smaller ANSWER, not a faster run — do not reach for
+it to save time.** It skips the per-file `git log` attribution walk and the
+per-entity evidence projection, and that is genuinely all it skips. Measured
+on codeyam-editor itself (1745 scenarios, a ~21-minute audit), attribution was
+**5s — 0.4% of the run**. An agent that picks `--findings-only` expecting a
+fast path waits essentially the full time and learns to distrust the docs,
+which costs more than the minutes. Pick it when you want the compact
+projection: the verdict, the missing-\* arrays, and a name+count summary.
+
+The lever that actually moves wall-clock is `--concurrency`, because the bulk
+of an audit is the per-scenario screenshot scan — one PNG decoded and
+perceptually hashed per captured scenario. It defaults to one thread per core;
+pass `--concurrency 1` to force the sequential path when you are debugging a
+run whose findings look wrong. Findings are identical at every setting.
+
+Which stage is slow is not a thing to guess at — `--timings` reports it:
+
+```
+codeyam-editor-dev editor audit --timings --format text     # table on stderr
+codeyam-editor-dev editor audit --timings --format json     # `timings` block in the document
+```
+
+Read the `unattributed` row as well as the named stages: a large one means the
+instrumentation is pointed at the wrong place, which is itself the finding.
+A stage reporting `calls: 2` is doing its work twice.
 
 Group findings by invariant id and by the commit that introduced them. Fixing
 blind, one failure at a time, wastes finalize cycles — each full
@@ -369,6 +392,42 @@ wants current evidence and screenshots.
 > A pure-backend / non-visual stack has no screenshots to refresh; this step is
 > a no-op there. Don't fabricate visual evidence for a stack that has none.
 
+> **A large sweep is not necessarily a two-hour sweep — `--concurrency` is the
+> knob.** `recapture-stale` dispatches one capture at a time by default, which
+> on a 1,700-scenario corpus measured ~7,400s (just over two hours) at ~4.4s
+> each. Pass `codeyam-editor-dev editor recapture-stale --concurrency <N>` to keep
+> N in flight (or set `scenarios.recaptureConcurrency` in `.codeyam/editor.json`
+> as a project default, since the right value is a property of the machine's
+> cores and memory, not of any one run).
+>
+> Raising it cannot corrupt a frame. The editor server takes its capture gate
+> EXCLUSIVELY for any capture that seeds, restarts the dev server, or resets a
+> sandbox or container, so those never overlap however many are dispatched;
+> only captures that mutate nothing share the gate. The real cost of too high a
+> value is memory — every capture spawns its own browser — so raise it in steps
+> and watch. Native-simulator stacks are pinned to 1 (one shared device) and
+> ignore the flag, and a content-collection stack sees little gain because
+> nearly every capture there is exclusive either way.
+>
+> Two consequences for reading the output. The JSON reports `concurrency`
+> (requested) and `effective_concurrency` (used) — read the latter, since a
+> native stack reports a request it did not honor. And it reports the cost in
+> two parts, which is the part worth internalizing:
+>
+> - `capture_seconds` — the capture loop alone. **This is the only number that
+>   shrinks when you raise concurrency.**
+> - `elapsed_seconds` — the whole invocation, which also includes the
+>   collision-isolation post-pass. That post-pass re-hashes every screenshot in
+>   the project, so it is a FIXED whole-project cost regardless of how many
+>   scenarios this run captured. A measured 4-scenario run spent ~40s capturing
+>   and ~1,090s there.
+>
+> So when you re-price a quoted estimate (e.g. `finalize-preview`'s "budget
+> roughly N minute(s) from this project's last M capture(s)" — derived from
+> *serial* timings), divide the **capture** portion by the effective
+> concurrency and leave the fixed portion alone. Dividing `elapsed_seconds`
+> wholesale is the same class of mis-pricing this reporting exists to stop.
+
 > GOTCHA — **a recapture that fails everything is ONE cause, not N.** When
 > `recapture-stale` fails every capture (or most of them), treat it as a single
 > environmental cause until proven otherwise — unrelated scenarios do not
@@ -426,7 +485,29 @@ there — revert that one removal and re-run.
 
 ## 7. Commit → finalize → the merge-ready gate
 
-This is the one expensive loop; run it *once*, cleanly.
+This is the expensive loop; still aim to run it *once*, cleanly — but two
+properties now make its cost proportional to the change rather than flat.
+
+**The cheap gates fail fast.** `verify-build` and the cross-target build run
+as a hoisted `Phase 0.5/5` pre-flight, ahead of the ~35-minute full suite,
+and their positions at Phase 4 / 4b become a no-op re-check. So a
+cargo-fmt, clippy, tsc, windows-portability, shell-tests, date-rot or
+cross-target failure surfaces in minutes instead of surfacing at minute 57
+of an otherwise-passing run.
+
+**A re-run after a small fix is no longer full price.** Each phase records a
+fingerprint of the inputs it actually consumes, and a later run skips a
+phase whose fingerprint is unchanged, logging `Phase N/5: skipped (inputs
+unchanged since <sha> at <time>)`. A one-file post-CI test fix therefore
+re-runs the phases that file affects and re-stamps the marker, instead of
+paying the whole hour again purely to move `lastFullFinalizeSha`. A
+fingerprint that cannot be computed counts as *changed*, so the failure
+direction is always "do the work".
+
+This does **not** relax the marker-stamp trap below — `verify-full-finalize`
+remains the only authority on merge-readiness. It also does not change what
+`--start-from-phase` means: that still skips by operator assertion rather
+than by evidence, and still cannot advance the marker.
 
 ```bash
 # Stop fast-intent so finalize stamps the real marker, not a deferred one.
