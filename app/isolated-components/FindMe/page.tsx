@@ -9,7 +9,6 @@ const scenarios: Record<string, Props> = {
   Default: {
     heading: site.contact.findMe.heading,
     socials: site.contact.findMe.socials,
-    place: site.contact.findMe.place,
   },
 };
 

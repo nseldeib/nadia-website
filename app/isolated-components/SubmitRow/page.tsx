@@ -4,15 +4,15 @@ import site from "@/content/site";
 
 type Props = ComponentProps<typeof Component>;
 
-const { form } = site.contact;
+const { form, findMe } = site.contact;
 
 const scenarios: Record<string, Props> = {
-  // At rest: the button as it waits to be pressed.
-  Default: { label: form.submit, reply: form.reply, sending: false },
+  // At rest: the button beside the city and timezone it is sent into.
+  Default: { label: form.submit, place: findMe.place, sending: false },
   // Mid-send. The button is disabled so a second press cannot double-submit.
-  Sending: { label: form.submit, reply: form.reply, sending: true },
-  // No reply note authored, so the row is the button alone.
-  NoReply: { label: form.submit, reply: null, sending: false },
+  Sending: { label: form.submit, place: findMe.place, sending: true },
+  // No place authored, so the row is the button alone and reserves no gap.
+  NoPlace: { label: form.submit, place: [], sending: false },
 };
 
 export default async function Page({

@@ -21,11 +21,7 @@ export default function Contact() {
 
         <ContactForm />
 
-        <FindMe
-          heading={contact.findMe.heading}
-          socials={contact.findMe.socials}
-          place={contact.findMe.place}
-        />
+        <FindMe heading={contact.findMe.heading} socials={contact.findMe.socials} />
       </div>
     </section>
   );

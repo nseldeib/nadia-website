@@ -100,7 +100,7 @@
     ]
   },
   {
-    "description": "Where else to find her, and where she is. It shares the section with the form rather than standing alone.",
+    "description": "Where else to find her. It shares the section with the form rather than standing alone, since both answer the same reader question. The city and timezone that used to close this block now sit beside the send button in SubmitRow.",
     "filePath": "components/contact/FindMe.tsx",
     "name": "FindMe",
     "scenarios": [
@@ -315,7 +315,7 @@
     ]
   },
   {
-    "description": "The contact form's closing row — the send button and the note about when she replies. Every Get in touch link scrolls here, so this is the row the contact section's sizing is tuned around.",
+    "description": "The contact form's closing row: the send button, and the city and timezone the note is sent into. Those sit here rather than at the foot of the section because they answer when she will see it, which the reader asks while deciding to send. Every Get in touch link scrolls here, so this row is what the section's sizing is tuned around.",
     "filePath": "components/contact/SubmitRow.tsx",
     "name": "SubmitRow",
     "scenarios": [

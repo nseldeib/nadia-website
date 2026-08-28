@@ -77,12 +77,19 @@
 .foot {
   display: flex;
   align-items: center;
+  /* Wraps so the place drops beneath the button on a narrow phone rather than
+     squeezing it — the button label must never break across two lines. */
+  flex-wrap: wrap;
   gap: 18px;
   margin-top: 22px;
   padding-top: 18px;
   border-top: 1px solid var(--rule);
 }
 .submit {
+  /* Never shrink and never wrap: the label is the action, and "Send / note"
+     across two lines is what a shrinking flex item does to it. */
+  flex: none;
+  white-space: nowrap;
   font-family: var(--font-sans-stack);
   font-size: 14.5px;
   font-weight: var(--font-weight-semibold);
@@ -96,7 +103,6 @@
 }
 .submit:hover:not(:disabled) { background: #fff; color: var(--paper-2); border-color: #fff; }
 .submit:disabled { opacity: 0.6; cursor: default; }
-.reply { font-size: 13px; color: var(--meta); }
 
 .confirm {
   max-width: 600px;
@@ -162,14 +168,16 @@
 .socials a:focus-visible,
 .socials a:focus-visible .socialIcon,
 .socials a:focus-visible .socialHandle { color: var(--rust); }
-.place {
+/* The city and timezone as they sit beside the send button: an inline pair on
+   the button's own row, not the bordered block they used to be at the foot of
+   the section. `margin-left: auto` on wide rows would push them to the far
+   edge and break the association with the button, so they stay adjacent. */
+.footPlace {
   display: flex;
   flex-wrap: wrap;
-  gap: 14px 30px;
-  align-items: center;
-  margin: 30px 0 0;
-  padding-top: 26px;
-  border-top: 1px solid var(--rule);
+  align-items: baseline;
+  gap: 4px 14px;
+  margin: 0;
 }
 .now { font-family: var(--font-display); font-weight: var(--font-weight-semibold); color: var(--ink); }
 .tz {

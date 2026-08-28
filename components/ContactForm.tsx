@@ -118,7 +118,7 @@ export default function ContactForm() {
         <FormFailure message={failure} socials={findMe.socials} />
       ) : null}
 
-      <SubmitRow label={form.submit} reply={form.reply} sending={status === 'sending'} />
+      <SubmitRow label={form.submit} place={findMe.place} sending={status === 'sending'} />
     </form>
   );
 }
