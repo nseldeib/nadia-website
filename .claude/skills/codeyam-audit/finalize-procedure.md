@@ -400,14 +400,27 @@ wants current evidence and screenshots.
 > as a project default, since the right value is a property of the machine's
 > cores and memory, not of any one run).
 >
-> Raising it cannot corrupt a frame. The editor server takes its capture gate
-> EXCLUSIVELY for any capture that seeds, restarts the dev server, or resets a
-> sandbox or container, so those never overlap however many are dispatched;
-> only captures that mutate nothing share the gate. The real cost of too high a
-> value is memory — every capture spawns its own browser — so raise it in steps
-> and watch. Native-simulator stacks are pinned to 1 (one shared device) and
-> ignore the flag, and a content-collection stack sees little gain because
-> nearly every capture there is exclusive either way.
+> Raising it is safe because the editor server takes its capture gate
+> EXCLUSIVELY for any capture that mutates shared state — one that seeds,
+> restarts the dev server, resets a sandbox or container, drives a shared
+> simulator, **or scripts streams or transcripts** (those overlay the scenario's
+> script onto the server's single shared mock engine for the whole render). Such
+> captures never overlap however many are dispatched; only captures that mutate
+> nothing share the gate.
+>
+> That list is exhaustive rather than illustrative, and it is worth knowing why:
+> the stream/transcript channel was MISSING until 2026-08-30, and its absence is
+> what let a `--concurrency 4` sweep screenshot one scenario showing a different
+> scenario's scripted transcript. So do not reason from "my scenarios don't
+> seed, therefore concurrency is free" — reason from the list. If you add a
+> capture path that touches server-side shared state, it needs a channel in
+> `crates/control-api/src/capture_lock_mode.rs::CaptureMutationInputs` before it
+> is safe to run concurrently.
+>
+> The real cost of too high a value is memory — every capture spawns its own
+> browser — so raise it in steps and watch. Native-simulator stacks are pinned
+> to 1 (one shared device) and ignore the flag, and a content-collection stack
+> sees little gain because nearly every capture there is exclusive either way.
 >
 > Two consequences for reading the output. The JSON reports `concurrency`
 > (requested) and `effective_concurrency` (used) — read the latter, since a
@@ -508,6 +521,12 @@ This does **not** relax the marker-stamp trap below — `verify-full-finalize`
 remains the only authority on merge-readiness. It also does not change what
 `--start-from-phase` means: that still skips by operator assertion rather
 than by evidence, and still cannot advance the marker.
+
+Nor is it a licence to run the loop repeatedly. The saving is per *phase*; the
+cost is per *cycle*, and a cheaper re-run is still a whole cycle — a
+`pre-commit-sync` claim, a finalize, and a push. What keeps the count at one is
+batching the fixes that trigger it: see 8a's *land the whole set in ONE commit*
+before you fix the first red check.
 
 ```bash
 # Stop fast-intent so finalize stamps the real marker, not a deferred one.
@@ -648,6 +667,27 @@ failure signature matches first.
 skill's job, not an outward action — the default is "root-cause and fix."
 Surface to the user only a genuine fork (approach A vs B with real ripple), as a
 real decision, never as a defer.
+
+**Land the whole set in ONE commit — a post-finalize commit un-stamps the
+branch.** A CI run reports *every* failure it found, so the complete set is in
+front of you before you fix the first one. Investigate all of them (steps 1–3
+above, per red check), then land the fixes together. The reason is mechanical
+rather than stylistic: `session-finalize` stamps `lastFullFinalizeSha` at the
+HEAD it verified, and a commit made after that stamp moves HEAD past it — the
+branch stops being merge-ready and `editor push` blocks with `Next valid action:
+codeyam-editor-dev editor session-finalize`. One fix per commit therefore buys one
+whole finalize cycle per fix. Measured on `editor-improvements-76`: that loop
+ran five times, 35–47 minutes each even with section 7's phase fingerprinting
+skipping unchanged phases, for three fixes a single CI run had already reported
+and that could have shipped in one commit.
+
+> GOTCHA — **the queue tenure does not survive the push.** Every re-finalize
+> needs a fresh `codeyam-editor-dev editor pre-commit-sync` first. The tenure claimed
+> for the previous finalize was released when `editor push` completed, so
+> `session-finalize` bails immediately with `Commit queue: finalize ran without
+> holding the queue head`. That message says what it is — *"this is a recovery,
+> not an error"* — so re-claim and re-run instead of investigating it as a
+> failure.
 
 **The flake bar — "flake" requires proof of non-determinism.** A check may be
 labeled a flake ONLY when it **passed on a re-run with no code change**, OR it
