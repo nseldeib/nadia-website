@@ -1,0 +1,145 @@
+/* The one light surface on a post page. `.surface-light` (globals.css)
+   redefines --paper/--ink/--meta as a set, so everything below reads its
+   colours from tokens and inverts correctly without naming a single hex. */
+.body {
+  padding: var(--spacing-2xl) 0;
+}
+
+/* Reading measure, centred. Images are allowed to break out of it below —
+   the text column is 62ch because that is comfortable to read, which is a
+   different question from how wide a photograph should be. */
+.measure {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 0 var(--wrap-pad);
+  font-size: var(--text-lead);
+  line-height: var(--leading-body);
+  color: var(--ink-2);
+}
+
+.measure p {
+  margin: 0 0 var(--spacing-md);
+}
+
+.measure h2,
+.measure h3,
+.measure h4 {
+  margin: var(--spacing-xl) 0 var(--spacing-sm);
+  color: var(--ink);
+  letter-spacing: var(--tracking-tight);
+  line-height: var(--leading-tight);
+}
+.measure h2 {
+  font-size: clamp(24px, 2.6vw, 31px);
+}
+.measure h3 {
+  font-size: clamp(20px, 2.1vw, 24px);
+}
+.measure h4 {
+  font-size: var(--text-lead);
+}
+
+/* Links carry the accent, which on this surface is the light-band's own
+   --accent-ink rather than the dark ground's rust. Underlined because inside
+   a wall of prose colour alone is not a reliable signal. */
+.measure a {
+  color: var(--accent-ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+.measure a:hover {
+  text-decoration-thickness: 2px;
+}
+
+.measure strong,
+.measure b {
+  color: var(--ink);
+  font-weight: var(--font-weight-semibold);
+}
+
+.measure ul,
+.measure ol {
+  margin: 0 0 var(--spacing-md);
+  padding-left: var(--spacing-md);
+}
+.measure li {
+  margin-bottom: var(--spacing-xs);
+}
+
+.measure blockquote {
+  margin: var(--spacing-lg) 0;
+  padding-left: var(--spacing-md);
+  border-left: 2px solid var(--rule);
+  color: var(--ink);
+  font-style: italic;
+}
+
+.measure hr {
+  margin: var(--spacing-xl) auto;
+  width: 64px;
+  border: 0;
+  border-top: 1px solid var(--ink-3);
+}
+
+.measure code {
+  font-family: var(--font-mono-stack);
+  font-size: var(--text-body-sm);
+}
+.measure pre {
+  overflow-x: auto;
+  padding: var(--spacing-md);
+  background: var(--paper-2);
+  border-radius: var(--radius-card);
+  font-size: var(--text-body-sm);
+}
+
+/* Photographs break the measure. Substack ships correct srcsets, so the img
+   stays responsive on its own once its wrappers are stripped. */
+.measure figure {
+  margin: var(--spacing-xl) 0;
+  /* Pull wider than the text column, but never wider than the viewport. */
+  width: min(calc(100vw - 2 * var(--wrap-pad)), 920px);
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+
+.measure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-card);
+}
+
+/* The caption returns to the reading measure — it belongs to the prose, not
+   to the photograph's width. */
+.measure figcaption {
+  max-width: var(--measure);
+  margin: var(--spacing-xs) auto 0;
+  font-size: var(--text-body-sm);
+  line-height: var(--leading-body);
+  color: var(--meta);
+  text-align: center;
+}
+
+/* An image that is itself a link should not pick up the prose underline. */
+.measure figure a {
+  text-decoration: none;
+}
+
+@media (max-width: 860px) {
+  .body {
+    padding: var(--spacing-xl) 0;
+  }
+  .measure {
+    padding: 0 24px;
+    font-size: var(--text-body);
+  }
+  /* Full-bleed breakout costs more than it earns on a phone, where the text
+     column is already the width of the screen. */
+  .measure figure {
+    width: 100%;
+    margin-left: 0;
+    transform: none;
+  }
+}

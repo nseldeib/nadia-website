@@ -1,0 +1,80 @@
+/* The writing pages have no hero, so this bar is solid from the first pixel
+   rather than fading in over a photo the way the homepage nav does. It borrows
+   the mark and link treatment so the two read as one site. */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: rgba(20, 17, 15, 0.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--rule);
+}
+
+.wrap {
+  max-width: var(--wrap-max);
+  margin: 0 auto;
+  padding: 0 var(--wrap-pad);
+  height: var(--nav-height-scrolled);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+}
+
+.mark {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-bold);
+  font-size: 18px;
+  letter-spacing: var(--tracking-tight);
+  color: var(--ink);
+  text-decoration: none;
+}
+.mark em {
+  font-style: normal;
+  color: var(--rust);
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  font-size: var(--text-nav);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.links a {
+  color: var(--meta);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+.links a:hover {
+  color: var(--ink);
+}
+.links a[aria-current='page'] {
+  color: var(--ink);
+}
+
+/* The one action in the bar, matching the homepage CTA's pill. */
+.cta {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-pill);
+  padding: var(--spacing-xs) var(--spacing-md);
+}
+.cta:hover {
+  border-color: var(--rust);
+  color: var(--rust) !important;
+}
+
+@media (max-width: 860px) {
+  .wrap {
+    padding: 0 24px;
+  }
+  .links {
+    gap: 18px;
+  }
+  /* At phone width the pill costs more than it earns beside the archive link. */
+  .cta {
+    display: none;
+  }
+}

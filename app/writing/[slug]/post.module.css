@@ -1,0 +1,62 @@
+/* The title block stays on the dark ground. The page reads as three bands —
+   dark title, light essay, dark footer — which is the same rhythm the homepage
+   already uses around its light About band. */
+.header {
+  padding: var(--spacing-2xl) 0 var(--spacing-xl);
+}
+
+.headerWrap {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 0 var(--wrap-pad);
+  text-align: center;
+}
+
+.meta {
+  margin: 0;
+  font-family: var(--font-mono-stack);
+  font-size: var(--text-mono-sm);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--meta);
+}
+
+.title {
+  margin: var(--spacing-sm) 0 0;
+  font-size: var(--text-section);
+}
+
+.subtitle {
+  margin: var(--spacing-md) 0 0;
+  font-size: var(--text-lead);
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+/* Quiet, and set apart from both the essay above and the footer below. */
+.origin {
+  max-width: var(--measure);
+  margin: var(--spacing-xl) auto 0;
+  padding: 0 var(--wrap-pad);
+  text-align: center;
+  font-size: var(--text-body-sm);
+  color: var(--meta);
+}
+.origin a {
+  color: var(--accent-ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.origin a:hover {
+  color: var(--rust);
+}
+
+@media (max-width: 860px) {
+  .header {
+    padding: var(--spacing-xl) 0 var(--spacing-lg);
+  }
+  .headerWrap,
+  .origin {
+    padding: 0 24px;
+  }
+}
