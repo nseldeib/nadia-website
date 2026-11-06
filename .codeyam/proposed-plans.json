@@ -138,6 +138,43 @@
       "status": "pending",
       "proposedAt": "2026-11-06T22:33:07.960162+00:00",
       "sightings": 1
+    },
+    {
+      "id": "split-the-posts-module-into-sync-and-read-halves",
+      "title": "Split the posts module into sync and read halves",
+      "mode": "backend",
+      "body": "## Summary\n\n`app/lib/posts.ts` has grown to 322 lines and now holds two unrelated jobs: reconciling the store with Substack (`storeIsFresh`, `syncPostsFromFeed`, `toPostRow`, `storedSlugs`, `selectBackfillCandidates`, `backfillFromArchive`, `reconcileWithinDeadline`, `syncPostsQuietly`) and reading posts for pages (`listPosts`, `recentPostsForHome`, `getPost`, `adjacentPosts`, `allPostSlugs`). Splitting them makes each easier to test and change without touching the other.\n\n## Key Decisions\n\n- Pure move, no behaviour change. Keep `app/lib/posts.ts` re-exporting both halves so existing imports (`app/page.tsx`, `app/sitemap.ts`, writing pages, tests) keep working, then migrate callers.\n- Split `app/lib/posts.test.ts` along the same line.\n\n## Implementation\n\n1. Create `app/lib/postSync.ts` with the sync functions and `SyncResult`, `RECONCILE_DEADLINE_MS`.\n2. Create `app/lib/postQueries.ts` with the read functions and `PostSummary`.\n3. Make `app/lib/posts.ts` a re-export barrel; update imports in `app/page.tsx` and `app/sitemap.ts`.\n4. Split `app/lib/posts.test.ts` into `postSync.test.ts` and `postQueries.test.ts`; run the full test suite.",
+      "reason": "app/lib/posts.ts is now 322 lines and mixes Substack syncing with page reads",
+      "severity": 2,
+      "source": "session-review",
+      "category": "debt",
+      "status": "pending",
+      "proposedAt": "2026-11-06T23:38:45.514652+00:00",
+      "kind": "tech-debt",
+      "rank": 7,
+      "sightings": 1
+    },
+    {
+      "id": "the-three-plan-scenarios-stale-homepage-picking-up-a-new-post-on-the-next-visit-homepage-while-substack-is-down-sitemap-listing-a-new-post-were-not-recorded-as-replayable-scenarios-each-piece-is-covered-by-tests-and-a-production-build",
+      "title": "The three plan scenarios (stale homepage picking up a new post on the next visit, homepage while Substack is down, sitemap listing a new post) were not recorded as replayable scenarios; each piece is covered by tests and a production build…",
+      "mode": "backend",
+      "body": "## Summary\n\nThe three plan scenarios (stale homepage picking up a new post on the next visit, homepage while Substack is down, sitemap listing a new post) were not recorded as replayable scenarios; each piece is covered by tests and a production build…\n\nAt the approval gate for \"New posts reach the homepage and sitemap on their own\" the user approved the built work past this gap: it differs from what the plan asked for. Built from plan `ne--keep-the-homepage-and-sitemap-current-with-new-posts` (now at `.codeyam/plans/completed/ne--keep-the-homepage-and-sitemap-current-with-new-posts.md`).\n\nA post you publish on Substack now shows up on the site without a redeploy or anyone opening /writing first.\n\n## What you can now do\n- Publish on Substack and see it in the homepage Writing section within about an hour\n- Rely on `/sitemap.xml` listing new post links for search engines, refreshed hourly\n- Keep the homepage fast: the feed check runs after the page is sent, and a Substack outage never breaks it\n\nRead that plan and the code it changed before planning how to close the gap.",
+      "reason": "Approved past at the approval gate for \"New posts reach the homepage and sitemap on their own\".",
+      "source": "session-review",
+      "status": "pending",
+      "proposedAt": "2026-11-06T23:38:45.514652+00:00",
+      "sightings": 1
+    },
+    {
+      "id": "no-test-exercises-the-real-next-after-response-hook-the-homepage-test-confirms-the-sync-is-handed-to-it-not-that-next-later-runs-it",
+      "title": "No test exercises the real Next after-response hook; the homepage test confirms the sync is handed to it, not that Next later runs it.",
+      "mode": "backend",
+      "body": "## Summary\n\nNo test exercises the real Next after-response hook; the homepage test confirms the sync is handed to it, not that Next later runs it.\n\nAt the approval gate for \"New posts reach the homepage and sitemap on their own\" the user approved the built work past this gap: it differs from what the plan asked for. Built from plan `ne--keep-the-homepage-and-sitemap-current-with-new-posts` (now at `.codeyam/plans/completed/ne--keep-the-homepage-and-sitemap-current-with-new-posts.md`).\n\nA post you publish on Substack now shows up on the site without a redeploy or anyone opening /writing first.\n\n## What you can now do\n- Publish on Substack and see it in the homepage Writing section within about an hour\n- Rely on `/sitemap.xml` listing new post links for search engines, refreshed hourly\n- Keep the homepage fast: the feed check runs after the page is sent, and a Substack outage never breaks it\n\nRead that plan and the code it changed before planning how to close the gap.",
+      "reason": "Approved past at the approval gate for \"New posts reach the homepage and sitemap on their own\".",
+      "source": "session-review",
+      "status": "pending",
+      "proposedAt": "2026-11-06T23:38:45.514652+00:00",
+      "sightings": 1
     }
   ],
   "rounds": [
@@ -185,6 +222,25 @@
         "capture-hydration-check-flags-links-rendered-through-innerhtml",
         "session-finalize-rejects-allow-pending-integration-that-recapture-stale-requires",
         "the-plan-asked-for-tests-of-the-existing-rss-parser-against-a-captured-feed-sample-those-were-not-added-and-the-new-archive-tests-use-hand-written-samples-shaped-like-the-live-responses-checked-on-2026-11-05"
+      ]
+    },
+    {
+      "at": "2026-11-06T23:38:45.514652+00:00",
+      "feature": "New posts reach the homepage and sitemap on their own",
+      "notes": "Small backend cycle: homepage after() sync plus hourly sitemap ISR. Smooth push, no queue wait. Kept the earlier ranking: the PGPORT leak and untested real-database writes still matter most. Added a low-severity split of app/lib/posts.ts (…",
+      "proposedIds": [
+        "split-the-posts-module-into-sync-and-read-halves",
+        "the-three-plan-scenarios-stale-homepage-picking-up-a-new-post-on-the-next-visit-homepage-while-substack-is-down-sitemap-listing-a-new-post-were-not-recorded-as-replayable-scenarios-each-piece-is-covered-by-tests-and-a-production-build",
+        "no-test-exercises-the-real-next-after-response-hook-the-homepage-test-confirms-the-sync-is-handed-to-it-not-that-next-later-runs-it"
+      ],
+      "rankedIds": [
+        "editor-s-pgport-leaks-into-the-app-and-hangs-every-database-page",
+        "database-writes-are-checked-against-a-stand-in-database-not-a-real-one-and-the-one-time-backfill-command-has-no-automated-test-neither-has-been-run-against-any-real-database-yet",
+        "isolation-fixture-migration-fails-every-route-and-rolls-back",
+        "capture-hydration-check-flags-links-rendered-through-innerhtml",
+        "session-finalize-rejects-allow-pending-integration-that-recapture-stale-requires",
+        "the-plan-asked-for-tests-of-the-existing-rss-parser-against-a-captured-feed-sample-those-were-not-added-and-the-new-archive-tests-use-hand-written-samples-shaped-like-the-live-responses-checked-on-2026-11-05",
+        "split-the-posts-module-into-sync-and-read-halves"
       ]
     }
   ]
