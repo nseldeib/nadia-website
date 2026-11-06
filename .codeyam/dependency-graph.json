@@ -797,6 +797,7 @@
         "app/lib/describeError.ts"
       ],
       "importedBy": [
+        "app/sitemap.test.ts",
         "app/lib/substackFeed.test.ts",
         "app/lib/posts.ts",
         "app/lib/posts.test.ts"
@@ -842,6 +843,12 @@
       ],
       "importedBy": []
     },
+    "app/page.test.ts": {
+      "imports": [
+        "app/page.tsx"
+      ],
+      "importedBy": []
+    },
     "app/page.tsx": {
       "imports": [
         "components/Nav.tsx",
@@ -855,7 +862,9 @@
         "components/Footer.tsx",
         "app/lib/posts.ts"
       ],
-      "importedBy": []
+      "importedBy": [
+        "app/page.test.ts"
+      ]
     },
     "app/robots.test.ts": {
       "imports": [
@@ -879,7 +888,8 @@
     "app/sitemap.test.ts": {
       "imports": [
         "app/lib/siteUrl.ts",
-        "app/sitemap.ts"
+        "app/sitemap.ts",
+        "app/lib/substackFeed.ts"
       ],
       "importedBy": []
     },
@@ -2699,6 +2709,14 @@
         "scripts/backfill-posts.ts::__file_root__"
       ]
     },
+    "app/lib/posts.ts::syncPostsQuietly": {
+      "filePath": "app/lib/posts.ts",
+      "name": "syncPostsQuietly",
+      "imports": [],
+      "importedBy": [
+        "app/page.tsx::__file_root__"
+      ]
+    },
     "app/lib/prisma.ts::__file_root__": {
       "filePath": "app/lib/prisma.ts",
       "name": "__file_root__",
@@ -2998,6 +3016,14 @@
       ],
       "importedBy": []
     },
+    "app/page.test.ts::__file_root__": {
+      "filePath": "app/page.test.ts",
+      "name": "__file_root__",
+      "imports": [
+        "app/page.tsx::__file_root__"
+      ],
+      "importedBy": []
+    },
     "app/page.tsx::__file_root__": {
       "filePath": "app/page.tsx",
       "name": "__file_root__",
@@ -3011,7 +3037,8 @@
         "components/Elsewhere.tsx::Elsewhere",
         "components/Contact.tsx::Contact",
         "components/Footer.tsx::Footer",
-        "app/lib/posts.ts::recentPostsForHome"
+        "app/lib/posts.ts::recentPostsForHome",
+        "app/lib/posts.ts::syncPostsQuietly"
       ],
       "importedBy": []
     },
@@ -3045,7 +3072,8 @@
       "name": "__file_root__",
       "imports": [
         "app/lib/siteUrl.ts::__file_root__",
-        "app/sitemap.ts::__file_root__"
+        "app/sitemap.ts::__file_root__",
+        "app/lib/substackFeed.ts::__file_root__"
       ],
       "importedBy": []
     },
@@ -3919,5 +3947,5 @@
       "importedBy": []
     }
   },
-  "lastUpdated": "2026-11-06T22:29:31Z"
+  "lastUpdated": "2026-11-06T23:14:27Z"
 }

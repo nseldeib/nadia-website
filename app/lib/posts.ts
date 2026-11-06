@@ -204,6 +204,22 @@ export async function reconcileWithinDeadline(
   ]);
 }
 
+/**
+ * Reconcile for nobody in particular — the shape a post-response hook needs.
+ *
+ * Nothing is waiting on this result, so there is nobody to report a failure
+ * to. A Substack outage or an unreachable database is swallowed here rather
+ * than surfacing as an unhandled rejection after the response has gone out;
+ * the next visitor's render simply sees whatever the store already held.
+ */
+export async function syncPostsQuietly(): Promise<void> {
+  try {
+    await syncPostsFromFeed();
+  } catch {
+    // Deliberately silent: see above.
+  }
+}
+
 /** The columns a list needs — never the body, which runs to 48K characters. */
 const LIST_FIELDS = {
   slug: true,
@@ -244,11 +260,12 @@ export async function listPosts(limit?: number): Promise<PostSummary[]> {
  * in one section, not the page. Every other surface here is allowed to fail
  * loudly; this one is not.
  *
- * It reads and never reconciles. Syncing here made the homepage wait on a
- * 640KB feed fetch plus a round trip per post to a database in another region,
- * which pushed first render past fifteen seconds and failed the dev server's
- * own health check. The archive and the post pages reconcile; the front door
- * only ever reads what they left behind.
+ * It reads and never reconciles, and the homepage never waits on a sync.
+ * Syncing inline made the homepage wait on a 640KB feed fetch plus a round
+ * trip per post to a database in another region, which pushed first render
+ * past fifteen seconds and failed the dev server's own health check. The
+ * homepage instead schedules a sync with `after()`, which runs once the
+ * response is sent, so the next visitor sees what it found.
  */
 export async function recentPostsForHome(limit = 3): Promise<PostSummary[]> {
   try {

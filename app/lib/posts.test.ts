@@ -37,6 +37,7 @@ const {
   selectBackfillCandidates,
   toPostRow,
   reconcileWithinDeadline,
+  syncPostsQuietly,
   listPosts,
   recentPostsForHome,
   getPost,
@@ -232,6 +233,43 @@ describe('reconcileWithinDeadline', () => {
     const res = await reconcileWithinDeadline(1000);
     expect(res).toMatchObject({ added: 0, updated: 0, backfilled: 0 });
     expect('failed' in res && res.failed).toContain('db unreachable');
+  });
+});
+
+describe('syncPostsQuietly', () => {
+  // A healthy reconcile still writes: quiet must not mean skipped.
+  it('runs the reconcile and resolves to nothing', async () => {
+    findFirst.mockResolvedValue(null);
+    fetchFeed.mockResolvedValue({ ok: true, posts: [feedPost('fresh')] });
+    fetchArchiveIndex.mockResolvedValue({ ok: false, reason: 'down' });
+
+    await expect(syncPostsQuietly()).resolves.toBeUndefined();
+    expect(upsert).toHaveBeenCalledOnce();
+  });
+
+  // A fresh store costs nothing, exactly as the unwrapped reconcile.
+  it('respects the freshness skip', async () => {
+    findFirst.mockResolvedValue({ updatedAt: new Date() });
+
+    await expect(syncPostsQuietly()).resolves.toBeUndefined();
+    expect(fetchFeed).not.toHaveBeenCalled();
+  });
+
+  // Runs after the response is sent, so a thrown reconcile must not escape
+  // as an unhandled rejection.
+  it('swallows a thrown reconcile', async () => {
+    findFirst.mockRejectedValue(new Error('db unreachable'));
+
+    await expect(syncPostsQuietly()).resolves.toBeUndefined();
+  });
+
+  // A failure partway through writing is swallowed too.
+  it('swallows a failed write after the feed was fetched', async () => {
+    findFirst.mockResolvedValue(null);
+    fetchFeed.mockResolvedValue({ ok: true, posts: [feedPost('fresh')] });
+    upsert.mockRejectedValue(new Error('write failed'));
+
+    await expect(syncPostsQuietly()).resolves.toBeUndefined();
   });
 });
 

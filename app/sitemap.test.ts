@@ -8,7 +8,9 @@ import { SITE_URL } from './lib/siteUrl';
 const listPosts = vi.hoisted(() => vi.fn());
 vi.mock('./lib/posts', () => ({ listPosts }));
 
-const { default: sitemap } = await import('./sitemap');
+const sitemapModule = await import('./sitemap');
+const { default: sitemap } = sitemapModule;
+const { FEED_REVALIDATE_SECONDS } = await import('./lib/substackFeed');
 
 function post(slug: string, iso: string) {
   return {
@@ -21,6 +23,13 @@ function post(slug: string, iso: string) {
 }
 
 describe('sitemap', () => {
+  // Without a revalidate window Next prerenders the sitemap once at build and
+  // serves it frozen, so a post published after deploy never reaches crawlers.
+  it('is revalidated on the feed cadence rather than frozen at build', () => {
+    expect(sitemapModule.revalidate).toBe(FEED_REVALIDATE_SECONDS);
+    expect(sitemapModule.revalidate).toBe(3600);
+  });
+
   // The site's six numbered sections are anchors within '/', not routes, so
   // listing them would hand crawlers several URLs resolving to one document.
   // The routes that DO belong here are the homepage, the archive, and one per

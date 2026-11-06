@@ -86,7 +86,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "adjacentPosts › previous is the next-older post and next is the next-newer one",
-      "line": 290,
+      "line": 328,
       "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     },
@@ -95,7 +95,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "adjacentPosts › returns nulls for an unknown slug",
-      "line": 283,
+      "line": 321,
       "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     },
@@ -104,7 +104,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "allPostSlugs › returns every stored slug, newest first",
-      "line": 307,
+      "line": 345,
       "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     },
@@ -644,7 +644,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "getPost › looks a post up by slug",
-      "line": 274,
+      "line": 312,
       "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     },
@@ -673,6 +673,42 @@
       "key": "groupPostsByYear › returns no groups for no posts",
       "line": 44,
       "registeredAt": "2026-11-06T15:15:12.641309+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "The visitor must never wait on Substack: scheduling is not running.",
+      "file": "app/page.test.ts",
+      "format": "vitest",
+      "key": "homepage data wiring › does not run the sync during the render itself",
+      "line": 31,
+      "registeredAt": "2026-11-06T23:11:47.194301+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "The Writing section reads the three newest stored posts.",
+      "file": "app/page.test.ts",
+      "format": "vitest",
+      "key": "homepage data wiring › reads three recent posts for the Writing section",
+      "line": 38,
+      "registeredAt": "2026-11-06T23:11:47.194301+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A post published today must reach the homepage without anyone opening the archive first, so every render schedules a reconcile.",
+      "file": "app/page.test.ts",
+      "format": "vitest",
+      "key": "homepage data wiring › schedules a quiet feed sync to run after the response",
+      "line": 23,
+      "registeredAt": "2026-11-06T23:11:47.194301+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A cached render would freeze whichever posts existed at build time.",
+      "file": "app/page.test.ts",
+      "format": "vitest",
+      "key": "homepage data wiring › stays rendered per request",
+      "line": 45,
+      "registeredAt": "2026-11-06T23:11:47.194301+00:00",
       "runner": "tests"
     },
     {
@@ -761,7 +797,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "listPosts › applies a limit when given one",
-      "line": 251,
+      "line": 289,
       "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     },
@@ -770,7 +806,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "listPosts › reads newest first without the body, uncapped by default",
-      "line": 240,
+      "line": 278,
       "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     },
@@ -1040,7 +1076,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "recentPostsForHome › returns an empty list instead of throwing",
-      "line": 266,
+      "line": 304,
       "registeredAt": "2026-11-06T15:13:34.949047+00:00",
       "runner": "tests"
     },
@@ -1049,7 +1085,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "recentPostsForHome › returns the three most recent posts",
-      "line": 259,
+      "line": 297,
       "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     },
@@ -1058,7 +1094,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "reconcileWithinDeadline › returns the sync result when it finishes in time",
-      "line": 218,
+      "line": 219,
       "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     },
@@ -1067,7 +1103,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "reconcileWithinDeadline › stops waiting at the deadline",
-      "line": 224,
+      "line": 225,
       "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     },
@@ -1076,7 +1112,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "reconcileWithinDeadline › turns a thrown reconcile into a failed result",
-      "line": 230,
+      "line": 231,
       "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     },
@@ -1238,7 +1274,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "selectBackfillCandidates › drops posts already in the feed",
-      "line": 164,
+      "line": 165,
       "registeredAt": "2026-11-06T02:18:20Z",
       "runner": "tests"
     },
@@ -1247,7 +1283,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "selectBackfillCandidates › keeps only public posts",
-      "line": 157,
+      "line": 158,
       "registeredAt": "2026-11-06T02:18:20Z",
       "runner": "tests"
     },
@@ -1256,7 +1292,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "selectBackfillCandidates › returns nothing for an empty archive",
-      "line": 169,
+      "line": 170,
       "registeredAt": "2026-11-06T02:18:20Z",
       "runner": "tests"
     },
@@ -1328,7 +1364,7 @@
       "file": "app/sitemap.test.ts",
       "format": "vitest",
       "key": "sitemap › advertises no host that only redirects",
-      "line": 84,
+      "line": 93,
       "registeredAt": "2026-08-28T14:05:55Z",
       "runner": "tests"
     },
@@ -1337,8 +1373,17 @@
       "file": "app/sitemap.test.ts",
       "format": "vitest",
       "key": "sitemap › gives the homepage top priority",
-      "line": 46,
+      "line": 55,
       "registeredAt": "2026-11-06T02:18:20Z",
+      "runner": "tests"
+    },
+    {
+      "description": "Without a revalidate window Next prerenders the sitemap once at build and serves it frozen, so a post published after deploy never reaches crawlers.",
+      "file": "app/sitemap.test.ts",
+      "format": "vitest",
+      "key": "sitemap › is revalidated on the feed cadence rather than frozen at build",
+      "line": 28,
+      "registeredAt": "2026-11-06T23:11:47.194301+00:00",
       "runner": "tests"
     },
     {
@@ -1346,7 +1391,7 @@
       "file": "app/sitemap.test.ts",
       "format": "vitest",
       "key": "sitemap › lists the homepage, the archive, and one entry per post",
-      "line": 28,
+      "line": 37,
       "registeredAt": "2026-11-06T02:18:20Z",
       "runner": "tests"
     },
@@ -1355,7 +1400,7 @@
       "file": "app/sitemap.test.ts",
       "format": "vitest",
       "key": "sitemap › stamps every entry with a real date, dating posts by publication",
-      "line": 57,
+      "line": 66,
       "registeredAt": "2026-11-06T02:18:20Z",
       "runner": "tests"
     },
@@ -1364,7 +1409,7 @@
       "file": "app/sitemap.test.ts",
       "format": "vitest",
       "key": "sitemap › still serves the fixed routes when the store cannot be read",
-      "line": 73,
+      "line": 82,
       "registeredAt": "2026-11-06T02:18:20Z",
       "runner": "tests"
     },
@@ -1463,7 +1508,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "storeIsFresh via syncPostsFromFeed › consults the feed when the newest row is older than the window",
-      "line": 198,
+      "line": 199,
       "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     },
@@ -1472,7 +1517,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "storeIsFresh via syncPostsFromFeed › consults the feed when the store is empty",
-      "line": 207,
+      "line": 208,
       "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     },
@@ -1481,7 +1526,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "storeIsFresh via syncPostsFromFeed › skips the feed when the newest row was updated within the revalidate window",
-      "line": 188,
+      "line": 189,
       "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     },
@@ -1589,7 +1634,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "syncPostsFromFeed backfill › backfills posts that have aged out of the RSS window",
-      "line": 73,
+      "line": 74,
       "registeredAt": "2026-11-06T02:18:20Z",
       "runner": "tests"
     },
@@ -1598,7 +1643,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "syncPostsFromFeed backfill › does not backfill when the feed itself fails",
-      "line": 145,
+      "line": 146,
       "registeredAt": "2026-11-06T02:18:20Z",
       "runner": "tests"
     },
@@ -1607,7 +1652,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "syncPostsFromFeed backfill › never throws when a backfill write fails",
-      "line": 133,
+      "line": 134,
       "registeredAt": "2026-11-06T02:18:20Z",
       "runner": "tests"
     },
@@ -1616,7 +1661,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "syncPostsFromFeed backfill › reports an archive failure without losing the feed results",
-      "line": 107,
+      "line": 108,
       "registeredAt": "2026-11-06T02:18:20Z",
       "runner": "tests"
     },
@@ -1625,7 +1670,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "syncPostsFromFeed backfill › skips archive posts the store already holds",
-      "line": 91,
+      "line": 92,
       "registeredAt": "2026-11-06T02:18:20Z",
       "runner": "tests"
     },
@@ -1634,8 +1679,44 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "syncPostsFromFeed backfill › stores the posts it can and reports the ones it cannot",
-      "line": 118,
+      "line": 119,
       "registeredAt": "2026-11-06T02:18:20Z",
+      "runner": "tests"
+    },
+    {
+      "description": "A fresh store costs nothing, exactly as the unwrapped reconcile.",
+      "file": "app/lib/posts.test.ts",
+      "format": "vitest",
+      "key": "syncPostsQuietly › respects the freshness skip",
+      "line": 251,
+      "registeredAt": "2026-11-06T23:11:47.194301+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A healthy reconcile still writes: quiet must not mean skipped.",
+      "file": "app/lib/posts.test.ts",
+      "format": "vitest",
+      "key": "syncPostsQuietly › runs the reconcile and resolves to nothing",
+      "line": 241,
+      "registeredAt": "2026-11-06T23:11:47.194301+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A failure partway through writing is swallowed too.",
+      "file": "app/lib/posts.test.ts",
+      "format": "vitest",
+      "key": "syncPostsQuietly › swallows a failed write after the feed was fetched",
+      "line": 267,
+      "registeredAt": "2026-11-06T23:11:47.194301+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Runs after the response is sent, so a thrown reconcile must not escape as an unhandled rejection.",
+      "file": "app/lib/posts.test.ts",
+      "format": "vitest",
+      "key": "syncPostsQuietly › swallows a thrown reconcile",
+      "line": 260,
+      "registeredAt": "2026-11-06T23:11:47.194301+00:00",
       "runner": "tests"
     },
     {
@@ -1697,7 +1778,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "toPostRow › sanitizes the body and keeps every other field",
-      "line": 177,
+      "line": 178,
       "registeredAt": "2026-11-06T02:18:20Z",
       "runner": "tests"
     },

@@ -2,6 +2,18 @@ import type { MetadataRoute } from 'next';
 import { siteUrl } from './lib/siteUrl';
 import { listPosts } from './lib/posts';
 
+/* Without a revalidate window Next prerenders this once at build and serves
+   that frozen list forever: a post published after deploy never reaches
+   crawlers, and a build with no database lists no posts at all. Regenerating
+   on the feed's own cadence keeps it current while crawlers still get a cached
+   response.
+
+   This is the literal value of FEED_REVALIDATE_SECONDS, not an import of it:
+   Next reads segment config at compile time and fails `next build` with
+   "Invalid segment configuration export" on anything but a literal.
+   app/sitemap.test.ts asserts the two stay equal. */
+export const revalidate = 3600;
+
 /**
  * The homepage, the writing archive, and every post that has been seen.
  *

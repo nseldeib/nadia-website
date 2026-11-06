@@ -1,0 +1,151 @@
+{
+  "timestamp": "2026-11-06T23:23:05Z",
+  "title": "ne -- Keep the homepage and sitemap current with new posts",
+  "type": "feature",
+  "userRequest": "## Summary\n\nNew posts don't reach the two surfaces that only read the store. **The sitemap is prerendered once at build time** (`○ /sitemap.xml` in the build output). Its post list freezes at deploy, and if the store is empty at build it lists no posts at all. **The homepage never reconciles.** `recentPostsForHome` deliberately only reads, so a post published this morning won't appear in the homepage Writing section until someone happens to visit `/writing` or a post page. After this change, both stay current within the existing one-hour freshness window, with no redeploy and no `/writing` visit needed.\n\n## Key Decisions\n\n- **Sitemap: `export const revalidate = FEED_REVALIDATE_SECONDS`** rather than `force-dynamic`. Per `node_modules/next/dist/docs/01-app/03-api-reference/03-file-conventions/01-metadata/sitemap.md`, the sitemap is cached unless it uses a dynamic config option. Hourly regeneration matches the feed cadence, and crawlers still get a cached response. The existing try/catch already makes a build with no DB return the two fixed routes.\n- **Homepage: reconcile inside `after()` from `next/server`.** This runs after the response is sent, so the homepage keeps its \"read only, never wait\" guarantee (the 15-second first render described in `recentPostsForHome`'s comment is exactly what we must not bring back). The next visitor sees the new post. `syncPostsFromFeed` already skips work when the store is under an hour old (`storeIsFresh`), so most visits cost one query.\n- **Swallow errors inside the `after` callback.** `after` runs even when the response fails. A Substack outage must not produce unhandled rejections in logs.\n- **Considered a Vercel cron and declined it.** It would need a secret-protected route plus a `vercel.json` schedule for a site that gets steady enough traffic. `after()` gets the same result with no new surface.\n\n## Implementation\n\n### 1. Revalidate the sitemap hourly\n\n**File**: `app/sitemap.ts`\n\nAdd `export const revalidate = FEED_REVALIDATE_SECONDS;` (import from `./lib/substackFeed`). Confirm in the build output that `/sitemap.xml` is no longer plain static (`○` → ISR).\n\n### 2. Reconcile after the homepage responds\n\n**File**: `app/page.tsx`\n\nCall `after(() => syncPostsFromFeed().catch(() => {}))` inside `Page`, alongside `recentPostsForHome(3)`. Update the comment in `app/lib/posts.ts` above `recentPostsForHome` so it no longer says the homepage never triggers a sync: it still never *waits* on one.\n\n### 3. Tests\n\n**File**: `app/sitemap.test.ts`, **New file**: `app/page.test.ts`\n\n## Reused existing code\n\n- `syncPostsFromFeed`, `recentPostsForHome` from `app/lib/posts.ts`\n- `FEED_REVALIDATE_SECONDS` from `app/lib/substackFeed.ts`\n- `sitemap` from `app/sitemap.ts` (glossary entry: `sitemap`, test `app/sitemap.test.ts`)\n\n## Reproduction Test\n\nThe sitemap has no revalidation config, so Next prerenders it once and never updates it.\n\n**Target**: `app/sitemap.test.ts`. Run with `codeyam-editor editor refresh-tests --test sitemap`.\n\n```ts\n// The sitemap must regenerate so newly stored posts reach crawlers without a redeploy.\nit(\"is revalidated on the feed cadence rather than frozen at build\", async () => {\n  const mod = await import(\"./sitemap\");\n  expect(mod.revalidate).toBe(3600);\n});\n```\n\nStatus: PROPOSED. Confirm it fails first during execution. Expected failure: `mod.revalidate` is `undefined`.\n\n## Scenarios to Demonstrate\n\n- Homepage with a store an hour stale: the first render shows the old three posts, and the next render includes the newly published post\n- Homepage while Substack is unreachable: renders normally, with no error logged from the `after` callback\n- `/sitemap.xml` after a new post is stored: includes `/writing/<new-slug>` without a rebuild",
+  "description": "New Substack posts now reach the site without a redeploy. The homepage schedules a background feed sync after each render (after(syncPostsQuietly)); syncPostsQuietly in app/lib/posts.ts runs syncPostsFromFeed and swallows any failure, so a feed outage can never break the page. The sitemap is now regenerated hourly (ISR) instead of being frozen at build time, so new post URLs appear in it. Non-obvious lesson: Next.js reads segment config like `export const revalidate` at BUILD time and requires a literal number. Writing `revalidate = FEED_REVALIDATE_SECONDS` passed dev and tests but failed `next build` with 'Invalid segment configuration export'. app/sitemap.ts therefore uses the literal 3600, and a sitemap test asserts it equals FEED_REVALIDATE_SECONDS so the two cannot drift. Verified with a production build showing /sitemap.xml revalidating every 1h. Known gaps: no test exercises Next's real after() hook (it is mocked), and the plan's scenarios are covered by unit tests rather than replayable scenarios. SCOPE VERDICT: this cycle is maintenance on the already-delivered site; all 5 project deliverables were already delivered in earlier cycles and none were changed or deferred here. Three of them (rebuild, redesign, design exploration) were marked delivered by the agent rather than the user.",
+  "modifiedFiles": [
+    {
+      "path": ".codeyam/dependency-graph.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/glossary.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/per-test-evidence.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/ne--keep-the-homepage-and-sitemap-current-with-new-posts.md\t.codeyam/plans/completed/ne--keep-the-homepage-and-sitemap-current-with-new-posts.md",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/proposed-plans.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/state/build-activity.json",
+      "status": "deleted"
+    },
+    {
+      "path": ".codeyam/test-cache.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache/all.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache/blobs/3dd209acde37d65565205292fe533822e615c368f56e86881ca2f10d12773e10.json",
+      "status": "deleted"
+    },
+    {
+      "path": ".codeyam/test-cache/blobs/c4760ba82c771a000723fa090acfce6e2350806a98a65d7193c7a2b415685bff.json",
+      "status": "deleted"
+    },
+    {
+      "path": ".codeyam/test-registry.json",
+      "status": "modified"
+    },
+    {
+      "path": "app/lib/posts.test.ts",
+      "status": "modified"
+    },
+    {
+      "path": "app/lib/posts.ts",
+      "status": "modified"
+    },
+    {
+      "path": "app/page.tsx",
+      "status": "modified"
+    },
+    {
+      "path": "app/sitemap.test.ts",
+      "status": "modified"
+    },
+    {
+      "path": "app/sitemap.ts",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/state/red-proofs/ne--keep-the-homepage-and-sitemap-current-with-new-posts.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/test-cache/blobs/78ac2c5a44590989fc78d38f6bdd652336c604dd4f5617c56314b509786eead3.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/test-cache/blobs/89ee0f268109de0473f5bb94441519ccbb92bab320af7c077506aa10edd25436.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/test-cache/blobs/c0346a061d1a30fe5c087eda13b14a9de8344b7091e6152d1d4e7337fa801373.json",
+      "status": "added"
+    },
+    {
+      "path": "app/page.test.ts",
+      "status": "added"
+    }
+  ],
+  "scenarioScreenshots": [
+    {
+      "name": "Home - Full page",
+      "screenshotPath": "home-full-page--desktop.png"
+    },
+    {
+      "name": "Home - Mobile",
+      "screenshotPath": "home-mobile--mobile.png"
+    },
+    {
+      "name": "Writing - Archive",
+      "screenshotPath": "writing-archive--desktop.png"
+    },
+    {
+      "name": "Writing - Post",
+      "screenshotPath": "writing-post--desktop.png"
+    },
+    {
+      "name": "ArchiveList - Default",
+      "screenshotPath": "archivelist-default--desktop.png"
+    },
+    {
+      "name": "ArchiveList - SingleYear",
+      "screenshotPath": "archivelist-singleyear--desktop.png"
+    },
+    {
+      "name": "PostFooter - Default",
+      "screenshotPath": "postfooter-default--desktop.png"
+    },
+    {
+      "name": "PostFooter - Newest",
+      "screenshotPath": "postfooter-newest--desktop.png"
+    },
+    {
+      "name": "PostFooter - Oldest",
+      "screenshotPath": "postfooter-oldest--desktop.png"
+    },
+    {
+      "name": "PostList - Default",
+      "screenshotPath": "postlist-default--desktop.png"
+    },
+    {
+      "name": "Writing - Default",
+      "screenshotPath": "writing-default--desktop.png"
+    }
+  ],
+  "testResults": {
+    "total": 6,
+    "passed": 1,
+    "failed": 0,
+    "runners": [
+      {
+        "name": "tests",
+        "total": 6,
+        "passed": 1
+      }
+    ]
+  }
+}

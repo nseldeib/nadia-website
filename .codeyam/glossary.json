@@ -237,7 +237,8 @@
     "name": "Page",
     "scenarios": [
       "home-full-page"
-    ]
+    ],
+    "testFile": "app/page.test.ts"
   },
   {
     "description": "Cross-fades photographs on a shared eight-second slot, so every rotation on the page lands on one beat instead of something always being mid-fade. Frames are pre-cropped to the container's aspect, so nothing is enlarged or trimmed at render time.",
@@ -926,6 +927,15 @@
     "description": "Reconciles the Post store with the RSS feed by upserting feed posts, then backfills posts that aged out of the feed from the archive API; never deletes.",
     "filePath": "app/lib/posts.ts",
     "name": "syncPostsFromFeed",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "app/lib/posts.test.ts"
+  },
+  {
+    "description": "Runs the feed reconcile for a post-response hook and swallows any failure, so a Substack or database outage never surfaces as an unhandled rejection after the homepage response is sent.",
+    "filePath": "app/lib/posts.ts",
+    "name": "syncPostsQuietly",
     "tags": [
       "writing"
     ],
