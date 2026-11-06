@@ -4,13 +4,11 @@ import site from "@/content/site";
 
 type Props = ComponentProps<typeof Component>;
 
-const { form } = site.contact;
-
 const scenarios: Record<string, Props> = {
   // At rest: the button as it waits to be pressed.
-  Default: { label: form.submit, sending: false },
+  Default: { label: site.contact.form.submit, sending: false },
   // Mid-send. The button is disabled so a second press cannot double-submit.
-  Sending: { label: form.submit, sending: true },
+  Sending: { label: site.contact.form.submit, sending: true },
 };
 
 export default async function Page({

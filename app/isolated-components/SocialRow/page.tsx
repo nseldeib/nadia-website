@@ -7,13 +7,17 @@ type Props = ComponentProps<typeof Component>;
 
 const socials = site.contact.findMe.socials;
 
+// The longest handle in the set, excluding the Default row: socials[0] is
+// itself long, and picking it made LongHandle render the same frame as Default.
+const longestHandle = socials
+  .slice(1)
+  .reduce((a, b) => (b.handle.length > a.handle.length ? b : a));
+
 const scenarios: Record<string, Props> = {
   // An ordinary row: brand mark and name left, handle right.
   Default: { social: socials[0] },
   // The longest handle in the set, where the two halves come closest to meeting.
-  LongHandle: {
-    social: socials.find((s) => s.handle.length >= 16) ?? socials[1],
-  },
+  LongHandle: { social: longestHandle },
   // A service with no glyph: the row keeps its layout and simply loses the mark.
   NoIcon: {
     social: { href: "https://example.com", name: "Tumblr", handle: "@nseldeib" },

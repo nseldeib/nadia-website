@@ -24,7 +24,10 @@
       "rubygems.org",
       "github.com",
       "codeload.github.com",
-      "objects.githubusercontent.com"
+      "objects.githubusercontent.com",
+      "blog.nseldeib.com",
+      "substackcdn.com",
+      "substack-post-media.s3.amazonaws.com"
     ],
     "httpsPreview": false
   },
@@ -81,10 +84,6 @@
       "width": 390,
       "height": 844
     },
-    "Tablet": {
-      "width": 768,
-      "height": 1024
-    },
     "Laptop": {
       "width": 1280,
       "height": 800
@@ -92,6 +91,10 @@
     "Desktop": {
       "width": 1440,
       "height": 900
+    },
+    "Tablet": {
+      "width": 768,
+      "height": 1024
     }
   },
   "deviceScaleFactor": 2.0,
@@ -613,6 +616,116 @@
         "filePath": ".claude/hooks/editor-pretool-hook.py",
         "name": "piped_gating_notice",
         "reason": "editor-shipped"
+      },
+      {
+        "filePath": ".claude/hooks/editor-pretool-hook.py",
+        "name": "_pgrep_full_pattern",
+        "reason": "editor-shipped"
+      },
+      {
+        "filePath": ".claude/hooks/editor-pretool-hook.py",
+        "name": "parses_command_output_transcript",
+        "reason": "editor-shipped"
+      },
+      {
+        "filePath": ".claude/hooks/editor-pretool-hook.py",
+        "name": "parses_json",
+        "reason": "editor-shipped"
+      },
+      {
+        "filePath": ".claude/hooks/editor-pretool-hook.py",
+        "name": "preview_required_next_action",
+        "reason": "editor-shipped"
+      },
+      {
+        "filePath": ".claude/hooks/editor-pretool-hook.py",
+        "name": "scripted_state_read_notice",
+        "reason": "editor-shipped"
+      },
+      {
+        "filePath": ".claude/hooks/editor-pretool-hook.py",
+        "name": "scripted_state_read_refusal",
+        "reason": "editor-shipped"
+      },
+      {
+        "filePath": ".claude/hooks/editor-pretool-hook.py",
+        "name": "scripted_state_read_target",
+        "reason": "editor-shipped"
+      },
+      {
+        "filePath": ".claude/hooks/editor-pretool-hook.py",
+        "name": "self_matching_pgrep_loop",
+        "reason": "editor-shipped"
+      },
+      {
+        "filePath": ".claude/hooks/editor-pretool-hook.py",
+        "name": "self_matching_pgrep_notice",
+        "reason": "editor-shipped"
+      },
+      {
+        "filePath": ".claude/hooks/editor-pretool-hook.py",
+        "name": "writes_into_codeyam",
+        "reason": "editor-shipped"
+      },
+      {
+        "filePath": ".claude/hooks/editor-step-hook.py",
+        "name": "_flagged_terms",
+        "reason": "editor-shipped"
+      },
+      {
+        "filePath": ".claude/hooks/editor-step-hook.py",
+        "name": "_log_question_copy",
+        "reason": "editor-shipped"
+      },
+      {
+        "filePath": ".claude/hooks/editor-step-hook.py",
+        "name": "_looks_like_task_tool_query",
+        "reason": "editor-shipped"
+      },
+      {
+        "filePath": ".claude/hooks/editor-step-hook.py",
+        "name": "_observe_task_tool_capability",
+        "reason": "editor-shipped"
+      },
+      {
+        "filePath": ".claude/hooks/editor-step-hook.py",
+        "name": "_record_task_tools_available",
+        "reason": "editor-shipped"
+      },
+      {
+        "filePath": ".claude/hooks/editor-step-hook.py",
+        "name": "_task_tools_available",
+        "reason": "editor-shipped"
+      },
+      {
+        "filePath": ".claude/hooks/editor-step-hook.py",
+        "name": "_wedge_notice",
+        "reason": "editor-shipped"
+      },
+      {
+        "filePath": ".claude/hooks/editor-step-hook.py",
+        "name": "emit_wedge_block",
+        "reason": "editor-shipped"
+      },
+      {
+        "filePath": ".claude/hooks/editor-step-hook.py",
+        "name": "_task_tools_in_search_result",
+        "reason": "editor-shipped"
+      },
+      {
+        "filePath": ".claude/hooks/editor-step-hook.py",
+        "name": "label_signals_sync_gate",
+        "reason": "editor-shipped"
+      },
+      {
+        "filePath": ".claude/hooks/editor-step-hook.py",
+        "name": "rebuild_check_verdict",
+        "reason": "editor-shipped"
+      },
+      {
+        "filePath": ".claude/hooks/editor-step-hook.py",
+        "name": "stale_binary_notice",
+        "reason": "editor-shipped"
       }
     ],
     "stepBudget": {
@@ -701,6 +814,7 @@
       "push": {
         "pause": true
       }
-    }
+    },
+    "audience": null
   }
 }
