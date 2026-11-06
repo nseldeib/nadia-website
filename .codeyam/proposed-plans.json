@@ -1,0 +1,56 @@
+{
+  "proposals": [
+    {
+      "id": "isolation-fixture-migration-fails-every-route-and-rolls-back",
+      "title": "Isolation-fixture migration fails every route and rolls back",
+      "mode": "backend",
+      "body": "## What happened\nAt Reconcile, `migrate-isolation-fixtures` was run after reshaping the ElsewhereRow / SubmitRow / TopicChips isolation routes so they could be lifted. The real migration returned HTTP 500 for all 70 routes and rolled back. The only way forward was to commit a verdict file (`.codeyam/state/isolation-migration-verdict.json`), which turns ISOLATION_ROUTE_TRACKED_IN_APP_SOURCE into an advisory check. That check becomes blocking again if any file under `app/isolated-components` is edited.\n\n## What would have helped\nA dry run that finds the routes that would fail before migrating anything, and a per-route failure reason (not one 500 for the whole batch), so the migration could finish instead of being parked behind a verdict file.",
+      "reason": "migrate-isolation-fixtures 500'd all 70 isolation routes, so an advisory verdict had to be recorded instead",
+      "severity": 3,
+      "source": "codeyam-improvement",
+      "status": "pending",
+      "proposedAt": "2026-11-06T02:03:25.009101+00:00",
+      "sightings": 1
+    },
+    {
+      "id": "session-finalize-rejects-allow-pending-integration-that-recapture-stale-requires",
+      "title": "session-finalize rejects --allow-pending-integration that recapture-stale requires",
+      "mode": "backend",
+      "body": "## What happened\nThis hotfix branch deliberately did not merge `main`, because `main` has unreleased writing-page commits. `recapture-stale` needed `--allow-pending-integration` to run on it. `session-finalize` does not accept that flag, so the two commands treat the same branch state differently.\n\n## What would have helped\nAccept `--allow-pending-integration` (or a branch-level hotfix marker) consistently across recapture-stale and session-finalize.",
+      "reason": "A hotfix branch that intentionally skips main's commits can recapture but can't pass the same flag to finalize",
+      "severity": 3,
+      "source": "codeyam-improvement",
+      "status": "pending",
+      "proposedAt": "2026-11-06T02:03:25.009101+00:00",
+      "sightings": 1
+    },
+    {
+      "id": "the-racetoberfest-link-is-shortened-to-racetoberfest-four-races-in-five-weekends-so-it-fits-on-two-lines-on-phones-the-plan-allowed-this-but-it-differs-from-the-post-s-full-title",
+      "title": "The Racetoberfest link is shortened to 'Racetoberfest: Four Races in Five Weekends' so it fits on two lines on phones; the plan allowed this, but it differs from the post's full title.",
+      "mode": "backend",
+      "body": "## Summary\n\nThe Racetoberfest link is shortened to 'Racetoberfest: Four Races in Five Weekends' so it fits on two lines on phones; the plan allowed this, but it differs from the post's full title.\n\nAt the approval gate for \"Homepage shows the latest posts again\" the user approved the built work past this gap: it differs from what the plan asked for. Built from plan `ne--hotfix-the-live-homepage-post-list` (now at `.codeyam/plans/completed/ne--hotfix-the-live-homepage-post-list.md`).\n\nThe homepage's Writing section now lists your three most recent posts instead of an out-of-date set.\n\n## What you can now do\n- See **Racetoberfest** (Nov 5), **Orthogonal Goals** (Oct 13) and **Running Towards (and Past) 35!** (Sep 1) on the homepage\n- Ship this hotfix on its own, without the unreleased writing pages that are still on `main`\n- Merge `hotfix/homepage-posts` back into `main` once it's live\n\nRead that plan and the code it changed before planning how to close the gap.",
+      "reason": "Approved past at the approval gate for \"Homepage shows the latest posts again\".",
+      "source": "session-review",
+      "status": "written",
+      "planSlug": "the-racetoberfest-link-is-shortened-to-racetoberfest-four-races-in-five-weekends-so-it-fits-on-two-lines-on-phones-the",
+      "proposedAt": "2026-11-06T02:03:25.009101+00:00",
+      "sightings": 1,
+      "decidedAt": "2026-11-06T02:05:05Z",
+      "sightingsAtDecision": 1,
+      "offeredCount": 1,
+      "lastOfferedAt": "2026-11-06T02:03:38.866282+00:00"
+    }
+  ],
+  "rounds": [
+    {
+      "at": "2026-11-06T02:03:25.009101+00:00",
+      "feature": "Homepage shows the latest posts again",
+      "notes": "Hotfix-only session. Its root cause (a hand-kept post list) is already covered by the queued plans 'Backfill posts that aged out of the Substack feed' and 'Keep the homepage and sitemap current with new posts', so no app fix or debt was pr…",
+      "proposedIds": [
+        "isolation-fixture-migration-fails-every-route-and-rolls-back",
+        "session-finalize-rejects-allow-pending-integration-that-recapture-stale-requires",
+        "the-racetoberfest-link-is-shortened-to-racetoberfest-four-races-in-five-weekends-so-it-fits-on-two-lines-on-phones-the-plan-allowed-this-but-it-differs-from-the-post-s-full-title"
+      ]
+    }
+  ]
+}

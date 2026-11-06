@@ -59,6 +59,23 @@
         "Cannot find module '.prisma/client",
         "Failed to load external module @prisma/client"
       ]
+    },
+    {
+      "command": "npm rebuild better-sqlite3",
+      "label": "rebuild native modules (ABI mismatch)",
+      "match": [
+        "ERR_DLOPEN_FAILED",
+        "NODE_MODULE_VERSION",
+        "did not self-register"
+      ],
+      "restartsApp": true
+    },
+    {
+      "guidance": "Next.js is refusing the preview origin's requests for its own dev resources, so the page loads with status 200 and then never hydrates. Add the preview origin to `allowedDevOrigins` in next.config.js and restart the dev server — the blocked host is named in the dev server's own message above. Run `codeyam-editor editor server-identity` to confirm which origin the browser is actually reaching.",
+      "label": "preview origin is not in next.config.js allowedDevOrigins",
+      "match": [
+        "Blocked cross-origin request to Next.js dev resource"
+      ]
     }
   ],
   "framework": "nextjs",

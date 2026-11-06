@@ -5,14 +5,16 @@ import styles from "../../../components/Elsewhere.module.css";
 
 type Props = ComponentProps<typeof Component>;
 
+const longestTitle = site.elsewhere.rows.reduce((a, b) =>
+  b.title.length > a.title.length ? b : a,
+);
+
 const scenarios: Record<string, Props> = {
   // An ordinary row: kind, title, venue, year.
   Default: { row: site.elsewhere.rows[0] },
   // The longest title in the set, where the four columns come closest to
   // colliding. (The old WithSecondLink case is gone with the extra IMDb link.)
-  LongTitle: {
-    row: site.elsewhere.rows.reduce((a, b) => (b.title.length > a.title.length ? b : a)),
-  },
+  LongTitle: { row: longestTitle },
 };
 
 export default async function Page({
