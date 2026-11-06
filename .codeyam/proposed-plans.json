@@ -31,9 +31,14 @@
       "body": "## Summary\n\nThe Racetoberfest link is shortened to 'Racetoberfest: Four Races in Five Weekends' so it fits on two lines on phones; the plan allowed this, but it differs from the post's full title.\n\nAt the approval gate for \"Homepage shows the latest posts again\" the user approved the built work past this gap: it differs from what the plan asked for. Built from plan `ne--hotfix-the-live-homepage-post-list` (now at `.codeyam/plans/completed/ne--hotfix-the-live-homepage-post-list.md`).\n\nThe homepage's Writing section now lists your three most recent posts instead of an out-of-date set.\n\n## What you can now do\n- See **Racetoberfest** (Nov 5), **Orthogonal Goals** (Oct 13) and **Running Towards (and Past) 35!** (Sep 1) on the homepage\n- Ship this hotfix on its own, without the unreleased writing pages that are still on `main`\n- Merge `hotfix/homepage-posts` back into `main` once it's live\n\nRead that plan and the code it changed before planning how to close the gap.",
       "reason": "Approved past at the approval gate for \"Homepage shows the latest posts again\".",
       "source": "session-review",
-      "status": "pending",
+      "status": "written",
+      "planSlug": "the-racetoberfest-link-is-shortened-to-racetoberfest-four-races-in-five-weekends-so-it-fits-on-two-lines-on-phones-the",
       "proposedAt": "2026-11-06T02:03:25.009101+00:00",
-      "sightings": 1
+      "sightings": 1,
+      "decidedAt": "2026-11-06T02:05:05Z",
+      "sightingsAtDecision": 1,
+      "offeredCount": 1,
+      "lastOfferedAt": "2026-11-06T02:03:38.866282+00:00"
     }
   ],
   "rounds": [
