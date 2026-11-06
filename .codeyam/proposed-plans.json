@@ -10,7 +10,7 @@
       "source": "codeyam-improvement",
       "status": "pending",
       "proposedAt": "2026-11-06T02:03:25.009101+00:00",
-      "rank": 1,
+      "rank": 3,
       "sightings": 2,
       "notes": [
         "2026-11-06: Seen again at finalize on the Substack backfill branch: all 78 isolation routes broke and the migration rolled back; recorded as advisory only."
@@ -26,7 +26,7 @@
       "source": "codeyam-improvement",
       "status": "pending",
       "proposedAt": "2026-11-06T02:03:25.009101+00:00",
-      "rank": 3,
+      "rank": 5,
       "sightings": 1
     },
     {
@@ -75,6 +75,7 @@
       "source": "codeyam-improvement",
       "status": "pending",
       "proposedAt": "2026-11-06T16:15:58.661814+00:00",
+      "rank": 1,
       "sightings": 1
     },
     {
@@ -87,7 +88,7 @@
       "source": "codeyam-improvement",
       "status": "pending",
       "proposedAt": "2026-11-06T16:15:58.661814+00:00",
-      "rank": 2,
+      "rank": 4,
       "sightings": 1
     },
     {
@@ -99,6 +100,7 @@
       "source": "session-review",
       "status": "pending",
       "proposedAt": "2026-11-06T16:15:58.661814+00:00",
+      "rank": 6,
       "sightings": 1
     },
     {
@@ -110,6 +112,29 @@
       "source": "session-review",
       "status": "pending",
       "proposedAt": "2026-11-06T16:15:58.661814+00:00",
+      "rank": 2,
+      "sightings": 1
+    },
+    {
+      "id": "beyond-the-plan-the-prisma-command-line-tool-was-updated-alongside-the-prisma-library-codeyam-s-own-generated-scripts-are-now-skipped-by-lint-114-of-the-121-problems-found-and-lint-was-added-as-an-automatic-build-check",
+      "title": "Beyond the plan: the Prisma command-line tool was updated alongside the Prisma library, CodeYam's own generated scripts are now skipped by lint (114 of the 121 problems found), and lint was added as an automatic build check.",
+      "mode": "backend",
+      "body": "## Summary\n\nBeyond the plan: the Prisma command-line tool was updated alongside the Prisma library, CodeYam's own generated scripts are now skipped by lint (114 of the 121 problems found), and lint was added as an automatic build check.\n\nAt the approval gate for \"Linting works again on Next 16\" the user approved the built work past this gap: it differs from what the plan asked for. Built from plan `ne--restore-linting-on-next-16` (now at `.codeyam/plans/completed/ne--restore-linting-on-next-16.md`).\n\nThe site's lint check runs again after the Next 16 upgrade, and it now runs as part of every build check so it can't silently break again.\n\n## What you can now do\n- Run `npm run lint` and get a real result instead of a load error\n- See only findings about the site itself — CodeYam's generated tooling is excluded\n- Rely on build verification to catch future lint breakage alongside the type check\n- Pick up in-range updates to Next, Prisma, pg and fast-xml-parser already applied\n\nRead that plan and the code it changed before planning how to close the gap.",
+      "reason": "Approved past at the approval gate for \"Linting works again on Next 16\".",
+      "source": "session-review",
+      "status": "pending",
+      "proposedAt": "2026-11-06T22:33:07.960162+00:00",
+      "sightings": 1
+    },
+    {
+      "id": "after-this-upgrade-a-dev-server-that-was-already-running-has-to-be-restarted-until-it-was-the-site-preview-showed-an-error",
+      "title": "After this upgrade, a dev server that was already running has to be restarted; until it was, the site preview showed an error.",
+      "mode": "backend",
+      "body": "## Summary\n\nAfter this upgrade, a dev server that was already running has to be restarted; until it was, the site preview showed an error.\n\nAt the approval gate for \"Linting works again on Next 16\" the user approved the built work past this gap: it differs from what the plan asked for. Built from plan `ne--restore-linting-on-next-16` (now at `.codeyam/plans/completed/ne--restore-linting-on-next-16.md`).\n\nThe site's lint check runs again after the Next 16 upgrade, and it now runs as part of every build check so it can't silently break again.\n\n## What you can now do\n- Run `npm run lint` and get a real result instead of a load error\n- See only findings about the site itself — CodeYam's generated tooling is excluded\n- Rely on build verification to catch future lint breakage alongside the type check\n- Pick up in-range updates to Next, Prisma, pg and fast-xml-parser already applied\n\nRead that plan and the code it changed before planning how to close the gap.",
+      "reason": "Approved past at the approval gate for \"Linting works again on Next 16\".",
+      "source": "session-review",
+      "status": "pending",
+      "proposedAt": "2026-11-06T22:33:07.960162+00:00",
       "sightings": 1
     }
   ],
@@ -141,6 +166,23 @@
         "capture-hydration-check-flags-links-rendered-through-innerhtml",
         "session-finalize-rejects-allow-pending-integration-that-recapture-stale-requires",
         "re-sanitize-stored-posts-that-predate-the-external-link-fix"
+      ]
+    },
+    {
+      "at": "2026-11-06T22:33:07.960162+00:00",
+      "feature": "Linting works again on Next 16",
+      "notes": "Maintenance cycle (lint restore on Next 16) resumed after a context reset at push; push went through cleanly with no queue wait. No new app issues or CodeYam friction surfaced in the push/complete tail. Ranking keeps the PGPORT leak (sev4,…",
+      "proposedIds": [
+        "beyond-the-plan-the-prisma-command-line-tool-was-updated-alongside-the-prisma-library-codeyam-s-own-generated-scripts-are-now-skipped-by-lint-114-of-the-121-problems-found-and-lint-was-added-as-an-automatic-build-check",
+        "after-this-upgrade-a-dev-server-that-was-already-running-has-to-be-restarted-until-it-was-the-site-preview-showed-an-error"
+      ],
+      "rankedIds": [
+        "editor-s-pgport-leaks-into-the-app-and-hangs-every-database-page",
+        "database-writes-are-checked-against-a-stand-in-database-not-a-real-one-and-the-one-time-backfill-command-has-no-automated-test-neither-has-been-run-against-any-real-database-yet",
+        "isolation-fixture-migration-fails-every-route-and-rolls-back",
+        "capture-hydration-check-flags-links-rendered-through-innerhtml",
+        "session-finalize-rejects-allow-pending-integration-that-recapture-stale-requires",
+        "the-plan-asked-for-tests-of-the-existing-rss-parser-against-a-captured-feed-sample-those-were-not-added-and-the-new-archive-tests-use-hand-written-samples-shaped-like-the-live-responses-checked-on-2026-11-05"
       ]
     }
   ]
