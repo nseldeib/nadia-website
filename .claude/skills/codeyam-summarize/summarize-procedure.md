@@ -4,7 +4,7 @@ The body of the `codeyam-summarize` skill. Read `SKILL.md` for the contract
 this procedure must not violate; this file is the sequence.
 
 Four short phases. All the extraction and rendering is done by
-`codeyam-editor-dev editor session-summarize`, which is deterministic and
+`codeyam-editor editor session-summarize`, which is deterministic and
 tested — your job is the conversation around it, not the transformation.
 
 ---
@@ -30,8 +30,9 @@ the whole window for no benefit.
 
 ## Phase 2 — Pick the destination
 
-Ask, with `AskUserQuestion`. Never assume — the whole point is that the
-user can find the file afterward.
+Ask — with your harness's structured-question tool (on Claude,
+`AskUserQuestion`), or as plain text listing the options if it has none.
+Never assume — the whole point is that the user can find the file afterward.
 
 - **Desktop** — recommended default. It is the first place a mail client's
   attachment picker opens to.
@@ -61,7 +62,7 @@ hands you the filter's exit code instead of the command's, and this
 command uses exit `2` to mean "recoverable precondition, here is the fix".
 
 ```bash
-codeyam-editor-dev editor session-summarize \
+codeyam-editor editor session-summarize \
   --dest <choice> \
   --title "<confirmed title>" \
   --format json

@@ -1,11 +1,10 @@
 ---
 name: codeyam-new-app
 description: >-
-  Scaffold a brand-new codeyam-native app inside an EXISTING repo — in its own
-  subdirectory, registered as a second apps[] entry, optionally sharing the
-  repo's existing database. The "build something new the codeyam way, against
-  real data" onramp. Isolated so it cannot destabilize the existing app, with
-  the full scenario + preview + TDD loop from line one.
+  Scaffold a brand-new codeyam-native app inside an EXISTING repo — its own
+  subdirectory and apps[] entry, optionally sharing the repo's database.
+  Isolated so it cannot destabilize the existing app, with the full
+  scenario + preview + TDD loop from line one.
 ---
 
 # CodeYam — New Companion App in an Existing Repo
@@ -23,7 +22,7 @@ surface.
 ## The one command that does the work
 
 ```bash
-codeyam-editor-dev editor scaffold-app --into <subdir> --stack <stack-id> [--name <name>] [--share-db] [--port <n>]
+codeyam-editor editor scaffold-app --into <subdir> --stack <stack-id> [--name <name>] [--share-db] [--port <n>]
 ```
 
 It validates everything **before writing anything** (unknown stack, colliding
@@ -37,7 +36,7 @@ preserved verbatim), and wires persistence per `--share-db`.
 1. **Understand the new app.** Ask the user a one-line description of what the
    new app is. Keep it short — it drives the stack recommendation.
 
-2. **Recommend a stack.** Run `codeyam-editor-dev editor stacks-recommend --format json`
+2. **Recommend a stack.** Run `codeyam-editor editor stacks-recommend --format json`
    against the description and present the top recommendation (and 1–2
    alternatives) to the user. Confirm their pick — this becomes `--stack`.
 

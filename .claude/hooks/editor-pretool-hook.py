@@ -51,12 +51,15 @@ environment or the event — so nothing on the enforcement path can
 reach it.
 """
 
+import collections
+import hashlib
 import json
 import os
 import re
 import shlex
 import subprocess
 import sys
+import tempfile
 import time
 
 # `_step_metadata` lives next to this file; add the hook directory to
@@ -166,67 +169,197 @@ _REPEAT_WINDOW_SEC = 600
 # state — an unbounded file would grow for the life of the branch.
 _REFUSAL_LOG_MAX = 40
 
+# How many times a RULE must have been refused — ever, across sessions and
+# across differing arguments — before its block announces itself as a
+# recurring trap. Three, because the measured shape is one refusal per
+# session (the journal-timestamp guard fired in five separate sessions,
+# exactly once in each), so by the third the agent is rediscovering
+# something the project already documents.
+_RULE_RECURRENCE_MIN = 3
 
-def _record_refusal(project_dir, fingerprint, now=None):
-    """Record `fingerprint` and return how many times it has been refused
-    inside the window, INCLUDING this one. 1 means first refusal.
+# Cap on the per-rule aggregate. Unlike `entries` this half IS durable — it
+# has to outlive the session to see a cross-session repeat at all — so what
+# bounds it is the hook's closed set of rule names, not a time window.
+_RULE_LOG_MAX = 64
+
+
+def _ordinal(n):
+    """`3` -> "3rd". Pure, so the 11/12/13 exceptions are assertable
+    without emitting a refusal."""
+    if n % 100 in (11, 12, 13):
+        suffix = "th"
+    else:
+        suffix = {1: "st", 2: "nd", 3: "rd"}.get(n % 10, "th")
+    return f"{n}{suffix}"
+
+
+def _capped_rules(rules):
+    """The per-rule aggregate trimmed to the most recently seen rules.
+
+    The map is keyed on the hook's own closed set of rule names, so it is
+    already small in practice. The cap makes boundedness a property of the
+    file rather than of the caller — a rule name that ever becomes dynamic
+    must not be able to grow this file for the life of the branch.
+    """
+    if len(rules) <= _RULE_LOG_MAX:
+        return rules
+    ordered = sorted(rules.items(), key=lambda kv: kv[1].get("lastAt", 0))
+    return dict(ordered[-_RULE_LOG_MAX:])
+
+
+def _load_refusal_log(path, now):
+    """Read the refusal log at `path` as `(entries, rules)`.
+
+    `entries` is the windowed fingerprint list with everything older than
+    `_REPEAT_WINDOW_SEC` already dropped; `rules` is the durable per-rule
+    aggregate. Malformed rows are discarded individually rather than
+    condemning the whole file, so one bad entry cannot reset every count.
+
+    A bare JSON list is the pre-`rules` shape. Reading it as `entries`
+    keeps an existing log's debounce working across the upgrade instead
+    of silently resetting every count to 1 the first time a refusal is
+    recorded by a newer hook.
+
+    Unreadable, absent, or corrupt degrades to `([], {})` — which renders
+    exactly today's message — because this only decorates a refusal that
+    is being emitted anyway and must never turn one into a crash.
+    """
+    try:
+        with open(path) as f:
+            loaded = json.load(f)
+    except Exception:
+        return [], {}
+
+    raw_entries = loaded.get("entries") if isinstance(loaded, dict) else loaded
+    raw_rules = loaded.get("rules") if isinstance(loaded, dict) else None
+
+    entries = []
+    if isinstance(raw_entries, list):
+        entries = [
+            e
+            for e in raw_entries
+            if isinstance(e, dict)
+            and isinstance(e.get("at"), (int, float))
+            and now - e["at"] <= _REPEAT_WINDOW_SEC
+        ]
+
+    rules = {}
+    if isinstance(raw_rules, dict):
+        rules = {
+            name: agg
+            for name, agg in raw_rules.items()
+            if isinstance(agg, dict) and isinstance(agg.get("count"), int)
+        }
+
+    return entries, rules
+
+
+def _record_refusal(project_dir, fingerprint, rule=None, now=None):
+    """Record a refusal and return `(call_count, rule_count)`, both
+    INCLUDING this one. `(1, 1)` means a first refusal on either tier.
+
+    Two tiers, two windows, deliberately. `call_count` counts this exact
+    `fingerprint` inside `_REPEAT_WINDOW_SEC` — the retry loop, where the
+    agent re-issues a call that was just refused. `rule_count` counts
+    `rule` with no time filter at all, because the mistake it exists to
+    catch has the opposite shape: it recurs ACROSS sessions, with
+    different arguments each time, so no windowed count of identical
+    calls can ever see it.
+
+    Durable and bounded at once. The `entries` half keeps its window and
+    its cap and stays a debounce hint; the per-rule aggregate is keyed on
+    the hook's closed set of rule names, so it is bounded by that set
+    rather than by how long the branch lives.
 
     Best-effort by construction: this only decorates a message that is
     being emitted anyway, so an unreadable or unwritable log must never
-    turn a clean refusal into a crash. Every failure path returns 1,
-    which renders exactly today's message.
+    turn a clean refusal into a crash. Every failure path returns
+    `(1, 1)`, which renders exactly today's message.
     """
     now = time.time() if now is None else now
     # The scripted-rewrite guard fires before the editor-mode short-circuit,
     # so this runs in non-codeyam repos too. Never CREATE `.codeyam/` as a
     # side effect of refusing something — no project state, no repeat log.
     if not os.path.isdir(os.path.join(project_dir, ".codeyam")):
-        return 1
+        return 1, 1
     path = os.path.join(project_dir, _REFUSAL_LOG)
-    entries = []
-    try:
-        with open(path) as f:
-            loaded = json.load(f)
-        if isinstance(loaded, list):
-            entries = [
-                e
-                for e in loaded
-                if isinstance(e, dict)
-                and isinstance(e.get("at"), (int, float))
-                and now - e["at"] <= _REPEAT_WINDOW_SEC
-            ]
-    except Exception:
-        entries = []
+    entries, rules = _load_refusal_log(path, now)
 
     count = sum(1 for e in entries if e.get("fingerprint") == fingerprint) + 1
     entries.append({"fingerprint": fingerprint, "at": now})
 
+    rule_count = 1
+    if rule:
+        prior = rules.get(rule)
+        rule_count = (prior["count"] if prior else 0) + 1
+        rules[rule] = {
+            "count": rule_count,
+            "firstAt": prior.get("firstAt", now) if prior else now,
+            "lastAt": now,
+        }
+
     try:
         os.makedirs(os.path.dirname(path), exist_ok=True)
         with open(path, "w") as f:
-            json.dump(entries[-_REFUSAL_LOG_MAX:], f)
+            json.dump(
+                {
+                    "entries": entries[-_REFUSAL_LOG_MAX:],
+                    "rules": _capped_rules(rules),
+                },
+                f,
+            )
     except Exception:
         pass
-    return count
+    return count, rule_count
 
 
-def _repeat_notice(count):
+def _repeat_notice(count, rule_count=1):
     """The line that leads a repeated refusal, or "" on the first one.
+
+    Two tiers, and the exact-call one wins whenever both apply — it is
+    both the more specific and the more urgent statement.
 
     Agents re-issued identical refused calls within seconds — four in a
     row at `backend-journal`. A block that reads the same the second time
     gives no signal that the state has not moved, so the retry looks as
     reasonable as the first attempt. Saying so explicitly is the cheapest
     thing that distinguishes them.
+
+    The second tier catches the shape the first cannot see at all: one
+    refusal per session, across sessions, with different arguments each
+    time. The journal-timestamp guard alone fired in five separate sessions,
+    each a first encounter. For an agent meeting that rule for the first
+    time the accusatory wording would simply be false, and reusing it would
+    train agents to discount the line — so this tier is informational.
+
+    The exact-call tier is only as true as its fingerprint. An earlier
+    measurement (20 sessions, `ALREADY REFUSED` rendered zero times) was
+    cited here as evidence the wording rarely fires; on 2026-10-06 one VM
+    rendered it 14 times in a single day, and every one was FALSE — sibling
+    `Edit`s to one file in one turn, fingerprinted identically because
+    `describe_call` dropped the edit payload. That is fixed there, not by
+    softening this wording: with a correct fingerprint the claim is true.
+    The second tier's rule is a known
+    recurring trap, and the canonical path below is worth reading once
+    rather than rediscovering.
     """
-    if count < 2:
-        return ""
-    return (
-        f"ALREADY REFUSED ({count}x in the last "
-        f"{_REPEAT_WINDOW_SEC // 60} minutes): this exact call was refused "
-        f"before and nothing has changed since. Re-issuing it will be "
-        f"refused again — take the next valid action below instead.\n"
-    )
+    if count >= 2:
+        return (
+            f"ALREADY REFUSED ({count}x in the last "
+            f"{_REPEAT_WINDOW_SEC // 60} minutes): this exact call was refused "
+            f"before and nothing has changed since. Re-issuing it will be "
+            f"refused again — take the next valid action above instead.\n"
+        )
+    if rule_count >= _RULE_RECURRENCE_MIN:
+        return (
+            f"RECURRING GUARDRAIL ({_ordinal(rule_count)} time in this "
+            f"project): this rule has blocked a call {rule_count} times here, "
+            f"typically once each in a different session — so it is a known "
+            f"recurring trap rather than a first encounter. The next valid "
+            f"action above is the canonical path; it is worth reading once "
+            f"rather than rediscovering.\n"
+        )
+    return ""
 
 
 # Read-only explain mode, set ONCE from argv in `main`. Deliberately not an
@@ -258,6 +391,7 @@ def _emit_verdict(verdict, rule, detail, message):
         lines.append(f"DETAIL: {detail}")
     if message:
         lines.append(message)
+    lines.extend(_PENDING_CONTEXT)
     print("\n".join(lines))
     sys.exit(0)
 
@@ -270,26 +404,29 @@ def allow(reason):
     reason string is never printed, so it costs a normal call nothing."""
     if _EXPLAIN_MODE:
         _emit_verdict("ALLOWED", "", "", reason)
+    _deliver_context_on_allow()
     sys.exit(0)
 
 
 def notice(rule, message):
-    """Let the call through, but say something first — exit 0 with the text on
-    stderr.
+    """Queue a pointer for the call and FALL THROUGH — never exit.
 
-    The middle verdict between `allow` and `block`, for a call that is safe but
-    costs the caller something they should know about. It is deliberately NOT a
-    refusal: there is no `Next valid action:` contract to satisfy, because
-    nothing needs recovering.
+    For a call that may be safe but costs the caller something they should
+    know about. It is deliberately NOT a verdict: it used to exit 0 on the
+    spot, and because the notices run before the step-scoped gates, any
+    compound that tripped one skipped every gate below it —
+    `refresh-tests && cargo test` sailed past the test-run gate at `commit`
+    while a bare `cargo test` was refused. A notice must never answer for a
+    gate, so it rides on whichever verdict the run reaches instead: as
+    `additionalContext` on an allow, beside the refusal on a block.
 
-    stderr rather than stdout, and no JSON permission decision: an exit-0 hook
-    that prints a `permissionDecision` would also be *granting* permission for
-    the call, which is a much bigger claim than "here is a pointer" and would
-    silently bypass a prompt the user might otherwise see."""
-    if _EXPLAIN_MODE:
-        _emit_verdict("NOTICE", rule, "", message)
-    print(message, file=sys.stderr)
-    sys.exit(0)
+    Not stderr: on an exit-0 PreToolUse hook stderr reaches only the debug
+    log, so every notice printed there was invisible to the model and the user
+    alike. And no `permissionDecision` in the document: an exit-0 hook that
+    prints one would also be *granting* permission for the call, which is a
+    much bigger claim than "here is a pointer" and would silently bypass a
+    prompt the user might otherwise see."""
+    _PENDING_CONTEXT.append(f"NOTICE ({rule}): {message}" if _EXPLAIN_MODE else message)
 
 
 def block(project_dir, rule, reason, next_action, reference="", detail="", evidence="", call=""):
@@ -316,17 +453,75 @@ def block(project_dir, rule, reason, next_action, reference="", detail="", evide
     approach. Including the evidence resets the counter when the consulted
     state genuinely changed, so a corrective action is no longer scolded as
     a repeat.
+
+    The reason carries a leading `guardrail, not a breakage —` clause because
+    the agent is not the only reader. Every one of these refusals is rendered
+    into the client's Build tab in red, and a bare `BLOCKED: this pipes a
+    gating command into a filter` reads to a watching human as the system
+    falling over, when it is in fact the system doing precisely its job. On
+    the sessions that were measured, 13 of 71 red results were guardrails
+    working exactly as designed. The clause is deliberately INSIDE the reason
+    rather than on a line above it, so the `BLOCKED: ` first-token contract
+    that agents and `is_recovery_contract` grep for is left untouched.
+
+    The text is laid out by `refusal_text` — action first, evidence last,
+    and a repeat collapsed to two lines; see there for why.
     """
-    message = f"BLOCKED: {reason}\nNext valid action: {next_action}"
-    if evidence:
-        message = f"{message}\nEvidence: {evidence}"
-    if reference:
-        message = f"{message}\n{reference}"
     if _EXPLAIN_MODE:
-        _emit_verdict("BLOCKED", rule, detail, message)
-    count = _record_refusal(project_dir, "\x00".join((rule, detail, call, evidence)))
-    print(f"{_repeat_notice(count)}{message}", file=sys.stderr)
+        _emit_verdict(
+            "BLOCKED", rule, detail, refusal_text(reason, next_action, reference, evidence)
+        )
+    count, rule_count = _record_refusal(
+        project_dir, "\x00".join((rule, detail, call, evidence)), rule
+    )
+    # The leading newline is for the harness, which prints
+    # `PreToolUse:<Tool> hook error: [<the hook's whole shell command>]: `
+    # immediately before this text. Without it the action is glued to the
+    # end of ~130 characters of plumbing; with it, the action starts a line.
+    text = allow_context_message(
+        [
+            refusal_text(reason, next_action, reference, evidence, count, rule_count),
+            *_PENDING_CONTEXT,
+            _UNFINISHED_WARNING,
+        ]
+    )
+    print("\n" + text, file=sys.stderr)
     sys.exit(2)
+
+
+def refusal_text(reason, next_action, reference="", evidence="", count=1, rule_count=1):
+    """The refusal as the agent reads it: recovery first, evidence last.
+
+    The harness prefix is the one part of the line the hook cannot control,
+    so the hook's own FIRST words are the instruction. The order used to be
+    reassurance, cause, action, evidence — and with the action sandwiched,
+    agents re-issued the identical refused `Edit` four times in a row at
+    `present-live` before reading far enough to run `editor change`, which
+    the very first refusal had named.
+
+    A repeat (`count >= 2`) is REPLACED, not prepended to: the action plus a
+    one-line `BLOCKED: ALREADY REFUSED …`, with no cause, evidence, or
+    reference. The full form was already printed once and nothing has
+    changed since (the fingerprint includes the evidence), so re-printing it
+    only re-buries the one line that matters under the same wall.
+
+    Both lines of the `BLOCKED:` / `Next valid action:` contract are present
+    in both shapes; only their order differs from the CLI's, because a CLI
+    error is read from the top of a terminal and this one is read after a
+    prefix that eats the first line's attention.
+    """
+    action = f"Next valid action: {next_action}"
+    notice = _repeat_notice(count, rule_count)
+    if count >= 2:
+        return f"{action}\nBLOCKED: {notice.rstrip()}"
+    lines = [action, f"BLOCKED: guardrail, not a breakage — {reason}"]
+    if notice:
+        lines.append(notice.rstrip())
+    if reference:
+        lines.append(reference)
+    if evidence:
+        lines.append(f"Evidence: {evidence}")
+    return "\n".join(lines)
 
 
 def resolved_context(project_dir, consulted=""):
@@ -389,9 +584,48 @@ def _test_run_block_message(state, slug, info):
         f"test runs are not allowed at {where} "
         f"(test_scope: none). The hardening phases already ran the tests; this "
         f"step is a presentation / commit gate, where a test run is out of "
-        f"scope.",
+        f"scope. A stale-partition refusal's own recovery, "
+        f"`{cli_command()} editor refresh-tests --partition <name>`, is the "
+        f"one run allowed here.",
         recovery,
     )
+
+
+def is_partition_refresh_only(command, project_dir):
+    """True when every test run in `command` is codeyam's own `refresh-tests`
+    narrowed by at least one `--partition` — the exact recovery a stale-
+    partition refusal prints — and nothing else.
+
+    That recovery is what `commit --out-of-workflow` names when the commit's
+    partitions are stale, and it fires at the commit and push slugs. Refusing
+    it there left a refusal whose only named way out was itself refused, and
+    the observed escape was stepping the workflow back to Glossary to run it.
+    A whole-suite or `--changed` run, a raw runner, or a mixed compound stays
+    a test run and stays blocked."""
+    saw_refresh = False
+    for segment in _split_commands(command):
+        try:
+            tokens = shlex.split(segment, posix=True)
+        except ValueError:
+            return False
+        if not (
+            _invokes_test_runner(tokens)
+            or _invokes_configured_script(tokens, project_dir)
+            or _shell_c_payload(tokens)
+        ):
+            continue
+        is_refresh = (
+            tokens
+            and _program_name(tokens[0]) in _CODEYAM_CLIS
+            and _codeyam_verb(tokens[1:]) == "refresh-tests"
+        )
+        has_partition = any(
+            tok == "--partition" or tok.startswith("--partition=") for tok in tokens
+        )
+        if not (is_refresh and has_partition):
+            return False
+        saw_refresh = True
+    return saw_refresh
 
 
 def _preview_hint(mode, project_dir):
@@ -491,8 +725,8 @@ def _module_target(tokens):
 
 def _codeyam_verb(tokens):
     """The subcommand verb of a codeyam CLI invocation, skipping options and the
-    `editor` subcommand group — `refresh-tests` in `codeyam-editor-dev editor
-    refresh-tests --changed`, but `change` in `codeyam-editor-dev editor change
+    `editor` subcommand group — `refresh-tests` in `codeyam-editor editor
+    refresh-tests --changed`, but `change` in `codeyam-editor editor change
     "Fix: missing pytest in the VM image"`. None when there is no verb."""
     for tok in tokens:
         if tok.startswith("-") or tok == "editor":
@@ -573,26 +807,33 @@ def _invokes_configured_script(tokens, project_dir):
 
 
 def is_test_run_command(command, project_dir):
-    """True iff `command` invokes a test run — a common raw runner, codeyam's own
-    `refresh-tests`, or the project's configured test script.
+    """True when `command` invokes a test run — a common raw runner, codeyam's
+    own `refresh-tests`, or the project's configured test script — False when
+    it provably does not, and None when a stage cannot be tokenized.
 
     Scoped to one command at a time, so a runner in one segment says nothing
-    about the next. Fails closed: a command that cannot be tokenized counts as a
-    test run, so a malformed quote is never an evasion path — the same contract
-    `_has_inplace_editor` and `_uses_pcre_grep` carry."""
+    about the next. The caller fails closed on None, so a malformed quote is
+    never an evasion path — the same contract `_uses_pcre_grep` carries, and
+    split from True for the same reason: an apostrophe in a heredoc comment
+    used to be refused as a "test run" it never contained."""
+    undecidable = False
     for segment in _split_commands(command):
         try:
             tokens = shlex.split(segment, posix=True)
         except ValueError:
-            return True
+            undecidable = True
+            continue
         if _invokes_test_runner(tokens):
             return True
         if _invokes_configured_script(tokens, project_dir):
             return True
         payload = _shell_c_payload(tokens)
-        if payload is not None and is_test_run_command(payload, project_dir):
-            return True
-    return False
+        if payload is not None:
+            nested = is_test_run_command(payload, project_dir)
+            if nested:
+                return True
+            undecidable = undecidable or nested is None
+    return None if undecidable else False
 
 
 # --- Scripted source-rewrite guard -----------------------------------------
@@ -619,7 +860,7 @@ SOURCE_SUFFIXES = (
     ".java", ".kt", ".swift", ".m", ".mm", ".c", ".h", ".cc", ".cpp", ".hpp",
     ".cs", ".php", ".ex", ".exs", ".sh", ".bash", ".zsh", ".ps1", ".sql",
     ".svelte", ".vue", ".astro", ".css", ".scss", ".html", ".md", ".toml",
-    ".yaml", ".yml",
+    ".yaml", ".yml", ".dart",
 )
 
 # Bound the git query so a pathological command cannot spawn a huge argv.
@@ -674,7 +915,7 @@ _ASSIGNMENT = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*=")
 # than the PCRE flag.
 _GREP_VALUE_FLAGS = frozenset("efmABCDd")
 
-# The `codeyam-editor-dev editor` subcommands that may not be piped into a filter.
+# The `codeyam-editor editor` subcommands that may not be piped into a filter.
 # Keep in sync with the CLAUDE.md "CLI error conventions" section, under "Do not
 # pipe gating or long-running `codeyam-editor` commands through `tail` / `grep`
 # / `head`".
@@ -689,8 +930,9 @@ _GREP_VALUE_FLAGS = frozenset("efmABCDd")
 # earned.
 #
 # The fourth is stronger and is why the `preview` family is listed: a SIDE
-# EFFECT A LATER GATE DEPENDS ON. `preview`, `preview-flow`, `preview-interact`,
-# and `show-results` each write the preview-shown marker
+# EFFECT A LATER GATE DEPENDS ON. `preview`, `preview-flow`, `preview-html`,
+# `preview-interact`, `preview-native`, `preview-verify`, and `show-results` each write the
+# preview-shown marker
 # (`.codeyam/preview-shown.json`) that `present-interactive` reads before it will
 # allow an `AskUserQuestion`. A downstream `head -1` closes the pipe and SIGPIPEs
 # the process mid-command, so the loss is invisible: the capture succeeds, the
@@ -699,30 +941,62 @@ _GREP_VALUE_FLAGS = frozenset("efmABCDd")
 # precedes every stdout write in those commands, which makes the loss
 # unreachable — this entry is defense in depth, not the fix. `preview-nav`
 # writes no marker; it rides along so the rule is "don't pipe the preview
-# family" rather than a four-of-five exception nobody will remember.
+# family" rather than an exception nobody will remember. `preview-show` writes
+# none either, and that one is deliberate rather than incidental: it is
+# read-only on the live pane (it broadcasts no nav and captures nothing), so it
+# reports where a preview WOULD render without ever rendering one — marking off
+# it would open the gate on a frame no user ever saw.
+# `preview_gate::marker_writing_command_sources()` is the enforced twin of this
+# enumeration; a new writer must join both.
 _GATING_SUBCOMMANDS = frozenset(
     (
         "advance",
         "analyze-imports",
         "audit",
+        # An `--scope impacted` sweep runs ~10 minutes and is routinely
+        # backgrounded and piped; unwrapped, it left no status document.
+        "client-errors",
+        # The two terminal steps. Neither is slow in the ordinary case, and that
+        # is exactly why they belong here: each POSTs to a handler that shells
+        # out to git, so each CAN block, and each is the LAST command of its
+        # flow — so a block strands the whole cycle with nothing left to report
+        # it. Unwrapped, `feature-complete` hung for ten minutes emitting no
+        # heartbeat and no status document, which is indistinguishable from
+        # working. Membership here is what buys the liveness signal.
+        "feature-complete",
+        # Sizes the merge wall with the same strict gather Phase 2 runs, so it
+        # takes minutes on a large project — long enough that an unwrapped run
+        # read as wedged with no status document to say otherwise.
+        "finalize-preview",
+        "plan-complete",
         "pre-commit-sync",
         "preview",
         "preview-flow",
         "preview-html",
         "preview-interact",
+        # Launches the native build (a cold `cargo run` compiles for minutes).
+        "preview-native",
         "preview-nav",
+        "preview-verify",
+        # Runs the suite twice — the most reliably long command a build session
+        # issues, so it gets backgrounded and piped like the rest.
+        "prove-red",
         "push",
         "reconcile-registry",
         "refresh-tests",
+        "scenario-matrix",
+        "scenario-taxonomy",
         "session-checkpoint",
         "session-finalize",
         "show-results",
+        "test-on-base",
         "verify-build",
         "verify-full-finalize",
+        "verify-merge-consistency",
         "verify-test-cache",
     )
 )
-# A `codeyam-editor-dev editor <subcommand>` invocation with its subcommand
+# A `codeyam-editor editor <subcommand>` invocation with its subcommand
 # captured. Used only as the fail-closed fallback for a stage `shlex` cannot
 # tokenize; the tokenizing path in `_gating_subcommand` is position-aware and
 # is what runs normally.
@@ -846,15 +1120,35 @@ def _heredoc_consumer(prefix):
     return ""
 
 
-def _heredoc_openers(line):
-    """The heredocs `line` opens, as `(delimiter, strip_tabs, elide)` triples in
-    the order the shell will consume their bodies.
+# Programs whose heredoc body is code in a language that is NOT shell. The body
+# is still the program — the scripted-rewrite guard reads it whole — but the
+# shell never lexes it, so it is no input to the shell TOKENIZER either. Fed to
+# `shlex`, an apostrophe in a comment (`# the brief's names`) or a feet-inch
+# literal (`12'6"`) read as an unclosed quote and every guard failed closed.
+# An allowlist for the same reason `_HEREDOC_DATA_CONSUMERS` is one: a shell
+# (`bash <<'EOF'`) or an unknown program may be running shell text, and hiding
+# that from the tokenizer would hide a `sed -i` or `cargo test` inside it.
+_NON_SHELL_INTERPRETERS = frozenset(("perl", "ruby", "php", "lua", "osascript", "Rscript"))
 
-    `elide` is False when the consuming program EXECUTES the body rather than
-    reading it as data — see `_HEREDOC_DATA_CONSUMERS`. Such a body is still
-    tracked here, because the hook must know where the heredoc ends to resume
-    scanning correctly on the line after it; it is simply kept rather than
-    dropped.
+
+def _runs_non_shell_code(consumer):
+    """True when a heredoc fed to `consumer` is a program in a non-shell
+    language — `python3`, `node`, `perl` — rather than shell text or data."""
+    return (
+        bool(_PYTHON_PROGRAM.match(consumer))
+        or consumer in _JS_INTERPRETERS
+        or consumer in _NON_SHELL_INTERPRETERS
+    )
+
+
+def _heredoc_openers(line):
+    """The heredocs `line` opens, as `(delimiter, strip_tabs, consumer)` triples
+    in the order the shell will consume their bodies.
+
+    `consumer` is the program the body is fed to (see `_heredoc_consumer`); the
+    caller decides from it whether the body is elided. Every body is tracked
+    here, kept or not, because the hook must know where the heredoc ends to
+    resume scanning correctly on the line after it.
 
     Quote-aware, so a literal `<<` inside a string is not an opener. `<<<` is a
     here-STRING — its operand is the data itself, on the same line, with no body
@@ -888,10 +1182,7 @@ def _heredoc_openers(line):
                 cursor += 1
             delimiter, cursor = _heredoc_delimiter(line, cursor)
             if delimiter:
-                consumer = _heredoc_consumer(line[:index])
-                openers.append(
-                    (delimiter, strip_tabs, consumer in _HEREDOC_DATA_CONSUMERS)
-                )
+                openers.append((delimiter, strip_tabs, _heredoc_consumer(line[:index])))
             index = cursor
             continue
         index += 1
@@ -917,7 +1208,7 @@ def _heredoc_delimiter(line, cursor):
     return (line[cursor:end], end)
 
 
-def elide_heredoc_bodies(command):
+def elide_heredoc_bodies(command, keep_programs=True):
     """`command` with every heredoc BODY removed, leaving the line that opens it
     — redirects and all — intact.
 
@@ -939,17 +1230,28 @@ def elide_heredoc_bodies(command):
 
     And only a DATA consumer's body is elided. `python3 - <<'EOF'` executes its
     body, so that body is a program and is kept — eliding it would have blinded
-    the scripted-rewrite guard to the very incidents it was built from."""
+    the scripted-rewrite guard to the very incidents it was built from.
+
+    `keep_programs=False` is the SHELL-TOKENIZING view: it also elides a body
+    that is code in a non-shell language (`_runs_non_shell_code`), because the
+    shell never lexes `python3 - <<'EOF'`'s body and neither may `shlex`. It is
+    what `_split_commands_with_separators` uses. Readers that inspect the
+    program itself — the scripted-rewrite and state-read guards — use the
+    default, which keeps it. One function, so the two views cannot drift on
+    where a body ends."""
     if "<<" not in command:
         return command
     kept = []
     pending = []
     for line in command.split("\n"):
         if pending:
-            delimiter, strip_tabs, elide = pending[0]
+            delimiter, strip_tabs, consumer = pending[0]
             candidate = line.lstrip("\t") if strip_tabs else line
             if candidate.rstrip() == delimiter:
                 pending.pop(0)
+            elide = consumer in _HEREDOC_DATA_CONSUMERS or (
+                not keep_programs and _runs_non_shell_code(consumer)
+            )
             if not elide:
                 kept.append(line)
             continue
@@ -966,6 +1268,9 @@ def _split_commands_with_separators(command):
     Heredoc bodies are elided first (`elide_heredoc_bodies`) — this is the one
     seam every command-scanning guard passes through, so eliding here is what
     makes the whole hook heredoc-aware rather than each predicate separately.
+    It takes the shell-tokenizing view (`keep_programs=False`): a python or
+    node body is not shell, so its segments would only ever feed `shlex` text
+    the shell itself never lexes.
 
     Quote-aware: a separator inside `'…'` or `"…"` is data — a grep pattern, not
     a boundary — and a backslash escapes the next character outside single
@@ -982,7 +1287,7 @@ def _split_commands_with_separators(command):
     current = []
     quote = ""
     escaped = False
-    chars = list(elide_heredoc_bodies(command))
+    chars = list(elide_heredoc_bodies(command, keep_programs=False))
     for index, ch in enumerate(chars):
         if escaped:
             current.append(ch)
@@ -1069,7 +1374,8 @@ def _is_pcre_flag(token):
 
 
 def _uses_pcre_grep(command):
-    """True iff `command` invokes `grep` with a PCRE flag.
+    """True when `command` invokes `grep` with a PCRE flag, False when it
+    provably does not, and None when it cannot be tokenized — undecidable.
 
     Scoped to one command and blind to quoted text, for the same reason as
     `_has_inplace_editor`: the flag is only a flag when it is an argument of an
@@ -1077,13 +1383,23 @@ def _uses_pcre_grep(command):
     the flag is the search term — and `echo 'do not use grep -P'` from reading
     as PCRE use. `git grep -P` is excluded because `grep` is not in command
     position there, and git's own PCRE support is portable across both hosts.
-    Fails closed: a command that cannot be tokenized counts as a match, so a
-    malformed quote is never an evasion path."""
+
+    The caller still fails closed on None, so a malformed quote is never an
+    evasion path. None is kept apart from True because the two refusals make
+    different claims: collapsing them told agents a PCRE flag had been FOUND in
+    commands containing no `grep` at all — an apostrophe in a heredoc comment
+    (`brief's`) was enough — and pointed them at a rewrite that could not
+    address a phantom. See `unparseable_command_refusal`.
+
+    Every segment is scanned before settling on None, so a decidable `grep -P`
+    beside an untokenizable stage still gets the refusal that fits it."""
+    undecidable = False
     for segment in _split_commands(command):
         try:
             tokens = shlex.split(segment, posix=True)
         except ValueError:
-            return True
+            undecidable = True
+            continue
         for index, tok in enumerate(tokens):
             if tok.rsplit("/", 1)[-1] != "grep":
                 continue
@@ -1091,7 +1407,7 @@ def _uses_pcre_grep(command):
                 continue
             if any(_is_pcre_flag(t) for t in tokens[index + 1:]):
                 return True
-    return False
+    return None if undecidable else False
 
 
 # git's own options that CONSUME the next argument, so the token after one is a
@@ -1153,7 +1469,7 @@ def invokes_git_subcommand(command, subcommand):
     return False
 
 
-# The `codeyam-editor-dev:editor` spelling reaches the same CLI through the plugin
+# The `codeyam-editor:editor` spelling reaches the same CLI through the plugin
 # invocation form, so it is one token rather than a program plus a subcommand.
 # Derived from _CODEYAM_CLIS rather than spelled out. commands::apply_cli_name
 # rewrites the canonical plugin-form token into the dev-wrapper one at install
@@ -1166,13 +1482,13 @@ _CODEYAM_EDITOR_TOKENS = frozenset(f"{cli}:editor" for cli in _CODEYAM_CLIS)
 
 
 def invokes_codeyam_editor(command):
-    """True iff `command` actually RUNS a `codeyam-editor-dev editor …` subcommand.
+    """True iff `command` actually RUNS a `codeyam-editor editor …` subcommand.
 
     This one gates an ALLOW, not a refusal, which is why it had to change: the
     substring test it replaces short-circuited the commit, push, code-change and
     PCRE gates for any command whose TEXT contained the CLI name anywhere —
     including inside a quoted commit message. `git commit -m "chore: document
-    codeyam-editor-dev editor advance"` was allowed at every slug. Closing that is
+    codeyam-editor editor advance"` was allowed at every slug. Closing that is
     the same substring-versus-structure fix as `invokes_git_subcommand`, applied
     in the opposite direction.
 
@@ -1230,12 +1546,12 @@ def _pipelines(command):
 
 
 def _gating_subcommand(stage):
-    """The gating `codeyam-editor-dev editor <subcommand>` that `stage` RUNS, or
+    """The gating `codeyam-editor editor <subcommand>` that `stage` RUNS, or
     None.
 
     Position-aware for the same reason `_uses_pcre_grep` is: the name is only
     an invocation when it is the program the stage runs, so
-    `grep "codeyam-editor-dev editor audit" notes.md | head` — where it is a search
+    `grep "codeyam-editor editor audit" notes.md | head` — where it is a search
     term — does not trip the rule. Fails closed: a stage that cannot be
     tokenized falls back to the position-blind regex, so a malformed quote is
     never an evasion path."""
@@ -1322,8 +1638,20 @@ def piped_gating_notice(subcommand):
     recovered from disk and the fourth cannot happen: every subcommand in
     `_GATING_SUBCOMMANDS` runs inside the liveness bracket, where stdout is a
     pipe the command's own process owns, so a departed filter can no longer
-    SIGPIPE it mid-run. What a pipe still costs is the terminal DISPLAY and the
-    shell-level exit code, and this names where both were written instead.
+    SIGPIPE it mid-run. What a pipe still costs is the terminal DISPLAY, the
+    shell-level exit code, and — when the run is auto-backgrounded — the
+    COMPLETION NOTIFICATION. This names where each was written instead.
+
+    That third cost is the one this notice used to get wrong, by claiming a
+    pipe cost "exactly two things". A filter that outlives the command holds the
+    pipeline open, so the harness task never exits and no notification is ever
+    going to fire; the command meanwhile finished and wrote its verdict.
+    Observed 2026-08-23 on a `session-checkpoint` piped through `grep | tail`:
+    verdict on disk in 343s, agent still waiting hours later, because "no
+    notification yet" is indistinguishable from "still running" unless something
+    says otherwise. The root leak that produced it is fixed, but any long-lived
+    process the command leaves behind can hold a pipe open, so the agent still
+    needs to know the verdict does not depend on the notification.
 
     Saying it at all — rather than allowing silently — is the point. The
     pipeline's `$?` is the filter's, and an agent that reads it will believe a
@@ -1336,22 +1664,1480 @@ def piped_gating_notice(subcommand):
         f"command's, so do not read `$?` as the verdict.\n"
         f"  Real verdict: .codeyam/state/command-output/{subcommand}.status.json "
         f"(the `status` field — the same document the "
-        f"`CODEYAM_CMD_COMPLETE` line carries).\n"
+        f"`CODEYAM_CMD_COMPLETE` line carries). Authoritative the moment the "
+        f"command finishes, whether or not a notification ever arrives.\n"
         f"  Full output:  .codeyam/state/command-output/{subcommand}.txt "
         f"(complete stdout + stderr, unsliced).\n"
         f"  Still alive?  a backgrounded run's one-line `.heartbeat` sidecar.\n"
+        f"  If backgrounded: a filter that outlives the command holds the task "
+        f"open, so the completion notification may NEVER fire. Do not read "
+        f"\"no notification yet\" as \"still running\" — check the status "
+        f"document above.\n"
         f"`| tee out.txt` remains the filter that costs you nothing."
     )
 
 
-def write_targets(command):
-    """Parse `command` for in-process file-write constructs.
+def _pipe_notice_marker_path(session_id):
+    """Where this session records which subcommands' pipe notice it has seen.
 
-    Returns `(explicit, opaque, append_only)`: `explicit` lists the literal
-    paths the command writes to; `opaque` is True when at least one write
-    construct targets a path that cannot be resolved statically — a variable
-    (`open(p, "w")`), or an in-place `sed`/`perl` whose file argument is
-    positional.
+    Keyed on the session id and kept in the system temp dir rather than under
+    `.codeyam/state/`: the record is about one conversation, not the project, so
+    a new session (including one after `/clear`) starts with none, and nothing
+    lands in the working tree for a commit to sweep up."""
+    digest = hashlib.sha256(session_id.encode("utf-8")).hexdigest()[:16]
+    return os.path.join(tempfile.gettempdir(), f"codeyam-pipe-notice-{digest}.json")
+
+
+def claim_pipe_notice(session_id, subcommand):
+    """True when the pipe notice for `subcommand` should be shown this session,
+    recording that it was.
+
+    The notice is ~950 characters and was injected 694 times across measured
+    sessions, nearly all of them repeats an agent had already read. Once per
+    subcommand per session keeps the first, which is the one that matters.
+
+    Fails open: no session id, or a marker that cannot be read or written, means
+    show it — the same rule `_tool_loading_already_injected` follows in the step
+    hook. A missing notice is the costlier mistake, since the misleading `$?`
+    is in hand the moment the command finishes."""
+    if not session_id:
+        return True
+    path = _pipe_notice_marker_path(session_id)
+    try:
+        with open(path, "r") as f:
+            shown = json.load(f).get("shown", [])
+    except (IOError, ValueError, AttributeError):
+        shown = []
+    if not isinstance(shown, list):
+        shown = []
+    if subcommand in shown:
+        return False
+    try:
+        with open(path, "w") as f:
+            json.dump({"shown": shown + [subcommand]}, f)
+    except Exception:
+        pass
+    return True
+
+
+def compound_gating_command(command):
+    """`(subcommand, stage, pipeline_count)` when `command` chains a gating
+    subcommand so the compound's exit status cannot be attributed, else None.
+
+    Two shapes qualify: a gating command anywhere but the LAST pipeline of a
+    `;`/`&&`/`||` compound, or more than one gating command in it. In both the
+    shell reports one status for several commands, and the agent cannot tell
+    which one produced it. Measured: eleven exit-`2` results in one day under
+    `fast-commit-stop; track-step completed && advance`, read as noise — and
+    `2` is `Blocked` in this repo's taxonomy, so learning to ignore it is how a
+    real blocked precondition gets missed.
+
+    A single gating command in the LAST position is fine and the common case
+    (`track-step completed && advance`): the status is that command's. The
+    stage returned is the first offending one — the non-final gating command,
+    or the second gating command — so the notice points at the right part."""
+    pipelines = _pipelines(command)
+    if len(pipelines) < 2:
+        return None
+    gating = []
+    for index, stages in enumerate(pipelines):
+        for stage in stages:
+            subcommand = _gating_subcommand(stage)
+            if subcommand is not None and not _HELP_FLAG.search(stage):
+                gating.append((index, subcommand, stage.strip()))
+                break
+    if not gating:
+        return None
+    if len(gating) > 1:
+        _, subcommand, stage = gating[1]
+        return (subcommand, stage, len(pipelines))
+    index, subcommand, stage = gating[0]
+    if index != len(pipelines) - 1:
+        return (subcommand, stage, len(pipelines))
+    return None
+
+
+def compound_gating_notice(subcommand, stage, pipeline_count):
+    """The advisory text for a compound whose status cannot be attributed —
+    allowed, not refused, matching the piped-gating notice's severity.
+
+    It names the offending stage and the one-shot read that DOES attribute the
+    verdict, because the alternative the agent otherwise reaches for — reading
+    the compound's exit code — is the thing that is wrong."""
+    return (
+        f"NOTE: this {pipeline_count}-part compound runs "
+        f"`{cli_command()} editor {subcommand}` in stage `{stage}`, and the "
+        f"shell will report ONE exit code for all of it — so that code cannot "
+        f"tell you which command produced it. Allowed, but do not read it as "
+        f"`{subcommand}`'s verdict.\n"
+        f"  Its verdict: `{cli_command()} editor command-status {subcommand}` "
+        f"(joined on the run, so a previous run cannot answer for it).\n"
+        f"  Next time: run the gating command as its own call, or LAST in the "
+        f"compound, so the exit code is its own."
+    )
+
+
+# `pgrep` flags that consume the NEXT argv element. Without these the value
+# would be mistaken for the pattern operand — `pgrep -f -u root foo` would
+# report `root`, and the self-match test would then run against the wrong text.
+_PGREP_VALUE_FLAGS = frozenset("dPuUgGstF")
+_PGREP_LONG_VALUE_FLAGS = frozenset(
+    (
+        "--delimiter",
+        "--parent",
+        "--euid",
+        "--uid",
+        "--group",
+        "--session",
+        "--terminal",
+        "--pgroup",
+        "--pidfile",
+        "--ns",
+        "--nslist",
+    )
+)
+
+# Where a `pgrep` invocation starts within one command. Where it ENDS is the end
+# of that command, as `_split_commands` cuts it.
+_PGREP_WORD = re.compile(r"\bpgrep\b")
+
+
+def _pgrep_calls(command):
+    """The argument text of every `pgrep` invocation in `command`, each cut at
+    the next UNQUOTED command boundary.
+
+    `|` is a boundary so a `| grep -v $$` filter is not swallowed into the flag
+    scan — but only outside quotes. A character-class regex cannot tell the
+    two apart, and cut `pgrep -f "cargo-clippy|clippy-driver"` at the `|`
+    inside the pattern; the truncated text then failed to tokenize and the
+    loop went unflagged. Observed 2026-10-24 on VM 8: that loop matched itself
+    and the session sat idle for 2h50m. So the cut is `_split_commands`'s, the
+    one quote-aware scanner every other guard already shares."""
+    return [
+        segment[match.end():]
+        for segment in _split_commands(command)
+        for match in _PGREP_WORD.finditer(segment)
+    ]
+
+# A wait loop, in the two halves that have to BOTH be present. The keyword
+# alone matches `for f in *.rs` on one line of a longer command; the body alone
+# matches a `do`/`done` belonging to something else.
+_LOOP_KEYWORD = re.compile(r"\b(?:while|until|for)\b")
+_LOOP_BODY = re.compile(r"\bdo\b.*\bdone\b", re.DOTALL)
+
+
+def _pgrep_full_pattern(segment):
+    """Return the pattern operand of a `pgrep` call that scans FULL argv.
+
+    `None` when the call does not scan argv at all (no `-f`/`--full`), when it
+    is anchored to the program name (`-x`/`--exact`, which cannot match a
+    shell's long command line and is therefore already one of the fixes), or
+    when there is no pattern to read."""
+    try:
+        tokens = shlex.split(segment, posix=True)
+    except ValueError:
+        return None
+    full = False
+    exact = False
+    index = 0
+    while index < len(tokens):
+        token = tokens[index]
+        if token == "--":
+            index += 1
+            break
+        if token[:1] in (">", "<") or (token[:1].isdigit() and ">" in token):
+            index += 1
+            continue
+        if token.startswith("--"):
+            name = token.split("=", 1)[0]
+            if name == "--full":
+                full = True
+            elif name == "--exact":
+                exact = True
+            elif name in _PGREP_LONG_VALUE_FLAGS and "=" not in token:
+                index += 1
+            index += 1
+            continue
+        if token.startswith("-") and len(token) > 1:
+            letters = token[1:]
+            if "f" in letters:
+                full = True
+            if "x" in letters:
+                exact = True
+            if letters[-1] in _PGREP_VALUE_FLAGS:
+                index += 1
+            index += 1
+            continue
+        break
+    if not full or exact or index >= len(tokens):
+        return None
+    return tokens[index]
+
+
+def self_matching_pgrep_loop(command):
+    """Return the pattern of a wait loop whose `pgrep -f` will match itself.
+
+    `pgrep -f` scans every process's FULL command line, and the polling loop is
+    itself a process whose command line contains the pattern — because the
+    pattern is written inside it. So the loop finds itself, the condition never
+    goes false, and it never exits. Observed 2026-08-25: a session sat in
+    `until ! pgrep -f 'codeyam-editor editor commit'; do sleep 20; done`
+    waiting on a commit that had already finished, because the only process
+    still matching was the waiter.
+
+    Three conditions, and each one earns its place:
+
+    - A LOOP. A one-shot `pgrep -f` self-matches too, but it returns a wrong
+      answer once; a loop never terminates. Only the second is worth a notice.
+    - `-f` WITHOUT `-x`. `-x` matches the program name, which a shell's long
+      command line can never equal — that is one of the fixes, not the hazard.
+    - THE PATTERN ACTUALLY MATCHES THE COMMAND TEXT. This is what makes the
+      rule discriminating rather than a blanket ban on `pgrep -f` in a loop: it
+      lets the classic bracket trick through. `pgrep -f '[c]odeyam-editor'`
+      contains no literal `codeyam-editor` run for its own regex to find, so it
+      does not self-match, and it is correctly not flagged.
+
+    A command that already excludes its own pid (`$$`) is likewise left alone —
+    the author has seen this problem and handled it."""
+    if not command or "pgrep" not in command:
+        return None
+    if not _LOOP_KEYWORD.search(command) or not _LOOP_BODY.search(command):
+        return None
+    if "$$" in command:
+        return None
+    for call in _pgrep_calls(command):
+        pattern = _pgrep_full_pattern(call)
+        if not pattern:
+            continue
+        try:
+            if re.search(pattern, command):
+                return pattern
+        except re.error:
+            # Not a valid regex to Python. `pgrep` would reject it too, but the
+            # substring test still answers the question that matters.
+            if pattern in command:
+                return pattern
+    return None
+
+
+def self_matching_pgrep_notice(pattern):
+    """The advisory text for a self-matching wait loop — allowed, not refused.
+
+    A notice rather than a block because nothing is destroyed and nothing needs
+    recovering: the command is safe, it simply will not finish. It has to
+    arrive BEFORE the command runs, because afterwards the agent is inside a
+    loop that never returns and has no turn left in which to read anything.
+
+    `wait-for` leads because it is this repo's sanctioned answer — it blocks to
+    completion in one call and its exit code is trustworthy. The two `pgrep`
+    repairs follow for the case where polling is genuinely what you want."""
+    return (
+        f"NOTE: this loop polls with `pgrep -f {pattern!r}`, and `pgrep -f` "
+        f"matches against each process's FULL command line — including this "
+        f"loop's own. The pattern is written inside the loop, so `pgrep` finds "
+        f"the loop itself, the condition never goes false, and it never "
+        f"exits.\n"
+        f"  Best:  do not poll at all. `{cli_command()} editor wait-for "
+        f"<task-id>` blocks to completion in ONE call and returns the real "
+        f"verdict — or just keep working and let the harness completion "
+        f"notification re-invoke you.\n"
+        f"  Or:    match the program NAME instead of the argv: `pgrep -x "
+        f"<name>`.\n"
+        f"  Or:    exclude yourself: `pgrep -f {pattern!r} | grep -v $$`.\n"
+        f"Observed 2026-08-25: a session waited on a commit that had already "
+        f"finished, because the only process still matching was the waiter."
+    )
+
+
+# `pkill` in command position. It shares `pgrep`'s flag set, so its operand is
+# read by `_pgrep_full_pattern` too.
+_PKILL_CALL = re.compile(r"(?:\A|[\n;|&(`]|\$\()\s*(?:sudo\s+)?pkill\b([^;|&\n()`]*)")
+
+# A `kill` in command position, whatever its arguments.
+_KILL_VERB = re.compile(r"(?:\A|[\n;|&(`]|\$\(|\bdo\b|\bthen\b)\s*(?:sudo\s+)?kill\b")
+
+# The two pid-list producers that scan full argv when piped through a filter:
+# `ps` (whose `grep PAT` / `awk '/PAT/'` stage is the matcher) and `pgrep -f`.
+_PS_CALL = re.compile(r"(?:\A|[\n;|&(`]|\$\()\s*ps\b")
+_GREP_PATTERN_STAGE = re.compile(r"^\s*(?:grep|egrep)\b(?P<args>.*)$", re.DOTALL)
+_AWK_REGEX = re.compile(r"/((?:[^/\\]|\\.)+)/")
+
+
+def _substitutions(command):
+    """`(start, inner)` for every `$(…)` and backtick substitution in
+    `command`, outermost first. Paren-depth counted, so a nested `$(…)` stays
+    inside its parent's text."""
+    found = []
+    index = 0
+    while index < len(command):
+        if command.startswith("$(", index):
+            depth = 0
+            for end in range(index + 1, len(command)):
+                depth += (command[end] == "(") - (command[end] == ")")
+                if depth == 0:
+                    found.append((index, command[index + 2:end]))
+                    break
+            index += 2
+            continue
+        if command[index] == "`":
+            end = command.find("`", index + 1)
+            if end == -1:
+                break
+            found.append((index, command[index + 1:end]))
+            index = end + 1
+            continue
+        index += 1
+    return found
+
+
+def _source_patterns(source):
+    """The full-argv patterns a pid-list producer `source` matches against:
+    every `pgrep -f` operand, and — when it runs `ps` — every `grep PAT` /
+    `awk '/PAT/'` filter. `grep -v` stages exclude rather than match."""
+    patterns = [_pgrep_full_pattern(call) for call in _pgrep_calls(source)]
+    patterns = [p for p in patterns if p]
+    if _PS_CALL.search(source):
+        for stage in source.split("|"):
+            grep = _grep_stage_pattern(stage)
+            if grep:
+                patterns.append(grep)
+            elif re.match(r"^\s*awk\b", stage):
+                patterns.extend(_AWK_REGEX.findall(stage))
+    return patterns
+
+
+def _grep_stage_pattern(stage):
+    """The pattern a `grep PAT` pipeline stage selects lines by, or None — for
+    a stage that is not a grep, an inverted one (`grep -v`, which EXCLUDES),
+    one with no operand, or one that does not tokenize."""
+    grep = _GREP_PATTERN_STAGE.match(stage)
+    if not grep:
+        return None
+    try:
+        tokens = shlex.split(grep.group("args"), posix=True)
+    except ValueError:
+        return None
+    flags = [t for t in tokens if t.startswith("-")]
+    if "--invert-match" in flags or any("v" in f for f in flags if not f.startswith("--")):
+        return None
+    operands = [t for t in tokens if not t.startswith("-")]
+    return operands[0] if operands else None
+
+
+def _kill_fed_sources(command):
+    """The pid-producing text whose output `command` hands to a kill.
+
+    Three shapes: a substitution that is an argument of `kill` (`kill
+    $(pgrep -f X)`) or the list of a `for` loop whose body kills; and a
+    pipeline that ends in `xargs … kill`, whose earlier stages are the
+    source."""
+    sources = []
+    for start, inner in _substitutions(command):
+        prefix = command[:start]
+        stage = re.split(r"[\n;|&]", prefix)[-1]
+        if _KILL_VERB.search(stage):
+            sources.append(inner)
+            continue
+        if re.search(r"\bfor\s+\w+\s+in\s*$", prefix):
+            body = re.search(r"\bdo\b(.*?)\bdone\b", command[start:], re.DOTALL)
+            if body and _KILL_VERB.search(body.group(0)):
+                sources.append(inner)
+    for pipeline in _pipelines(command):
+        if len(pipeline) > 1 and re.match(r"^\s*(?:sudo\s+)?xargs\b.*\bkill\b", pipeline[-1]):
+            sources.append("|".join(pipeline[:-1]))
+    return sources
+
+
+def self_matching_kill(command):
+    """Return the pattern of a process kill that will match its own shell.
+
+    `pkill -f PAT` and every `pgrep -f`/`ps | grep` pid list fed to `kill`
+    match each process's FULL argv — and the `bash -c` running this command
+    carries PAT in its argv, because PAT is written in it. So the kill takes
+    the agent's own shell, mid-command, along with the rest of the call.
+    Observed four times on one VM (exit 144): `pkill -f 'debug/cadyam' ; …`.
+
+    The exemptions are `self_matching_pgrep_loop`'s, for the same reasons:
+    `-x` (a name, never a long command line), a pattern that does not match
+    its own text (the bracket trick `[d]ebug/cadyam`), and a command that
+    already excludes its own pid (`$$`)."""
+    if not command or "kill" not in command or "$$" in command:
+        return None
+    shell = elide_heredoc_bodies(command, keep_programs=False)
+    candidates = [_pgrep_full_pattern(m.group(1)) for m in _PKILL_CALL.finditer(shell)]
+    candidates = [p for p in candidates if p]
+    for source in _kill_fed_sources(shell):
+        candidates.extend(_source_patterns(source))
+    for pattern in candidates:
+        try:
+            if re.search(pattern, command):
+                return pattern
+        except re.error:
+            if pattern in command:
+                return pattern
+    return None
+
+
+def self_matching_kill_refusal(pattern):
+    """`(reason, next_action)` for a self-matching kill — a refusal, not the
+    loop guard's notice. A notice travels beside an ALLOWED call, and this
+    call's first act is to kill the shell that would have read it: the
+    evidence is the notice arriving and the shell dying anyway."""
+    reason = (
+        f"guardrail, not a breakage — this command kills processes whose FULL "
+        f"command line matches {pattern!r}, and the shell running this command "
+        f"has that text in its own command line, so it would kill itself "
+        f"mid-command (exit 144) and take the rest of the call with it."
+    )
+    next_action = (
+        f"match the program NAME instead (`pkill -x <name>` / `pgrep -x "
+        f"<name>`), or use the bracket form so the pattern cannot match its own "
+        f"text (`pkill -f '[d]ebug/cadyam'` for `debug/cadyam`), or kill a PID "
+        f"you already have (`kill <pid>`)."
+    )
+    return reason, next_action
+
+
+# ── write-target resolution ────────────────────────────────────────────
+#
+# The scripted-rewrite guard falls back to "every tracked path the command
+# MENTIONS" whenever a write target is opaque. That fallback is right for a
+# target that genuinely cannot be known, and wrong for the two shapes that
+# used to reach it needlessly (four refusals in one session, 2026-09-18):
+#
+#   - a target held in a variable bound to a string literal in the same
+#     command — `p = '.codeyam/tmp/batch.json'` … `open(p, 'w')`, or
+#     `P=/tmp/notes.md` … `sed -i '' 's#a.rs#b.rs#' "$P"`. Resolving the
+#     binding makes the target explicit, so the write is judged on what it
+#     actually writes rather than on the tracked paths it merely mentions;
+#   - a write construct that is itself DATA — inside a Python/JS string
+#     literal or comment, or inside a quoted argument or heredoc handed to a
+#     program that does not execute it. Quoting `open(p, 'w')` in order to
+#     test, log or describe the guard is not a write.
+#
+# Both narrow only what counts as a target. Every case this cannot settle
+# still falls through to the mention scan, so the failure direction stays a
+# refusal, never an unguarded rewrite.
+
+# Interpreters whose code this guard can read string literals in.
+_JS_INTERPRETERS = frozenset(("node", "nodejs", "bun", "deno", "tsx", "ts-node"))
+# Programs that may execute text the lexer below sees only as a quoted word
+# (`bash -c "…"`, `ssh host "…"`, `ruby -e '…'`). Their presence anywhere in a
+# command means a quoted word can no longer be assumed to be data.
+_EXECUTING_PROGRAMS = frozenset(
+    (
+        "bash", "sh", "zsh", "ksh", "dash", "fish", "eval", "source", "exec",
+        "ssh", "su", "watch", "parallel", "docker", "podman", "kubectl",
+        "script", "tmux", "screen", "ruby", "perl", "php", "lua", "osascript",
+    )
+)
+# Code that can run a string as code. A literal in such a program may be the
+# program, so its literals are not treated as data.
+_DYNAMIC_EXECUTION = re.compile(
+    r"\b(?:exec|eval|compile|Function|system|popen|subprocess|child_process|"
+    r"execSync|execFile|spawn|spawnSync|runpy)\b"
+)
+# Python string prefixes that do not interpolate. `f` does, so an f-string is
+# never data.
+_PY_LITERAL_PREFIXES = frozenset(("", "r", "u", "b", "br", "rb"))
+# A shell redirection token, which is never a script operand.
+_REDIRECT_TOKEN = re.compile(r"^[0-9&]*[<>]")
+_BARE_IDENTIFIER = re.compile(r"^[A-Za-z_$][A-Za-z0-9_$]*$")
+# An interpreter's own positional argument — `sys.argv[1]`, `process.argv[2]`.
+_ARGV_REFERENCE = re.compile(r"(?P<module>sys|process)\.argv\s*\[\s*(?P<index>\d+)\s*\]")
+_PYTHON_PROGRAM = re.compile(r"^python(?:\d+(?:\.\d+)?)?$")
+# Python flags that take no argument, so a script operand can still be found
+# past them. Anything else makes the argv layout unknowable.
+_PYTHON_BARE_FLAGS = frozenset("bBdEiIOqsSuv")
+# A redirection operator with its target in the NEXT token (`<< 'PY'`, `2> f`).
+_BARE_REDIRECT = re.compile(r"^[0-9&]*(?:<<-?|<<<|<|>>|>|&>)$")
+# The end of a statement right after an assignment's literal — so `p = 'a' + x`
+# is not read as binding `p` to `'a'`.
+_STATEMENT_END = re.compile(r"""[ \t]*(?:$|[;\n#]|//|["'`][ \t]*(?:$|[;\n|&)]))""")
+_MAX_RESOLVED_TARGETS = 16
+
+
+def _lex_shell_words(command):
+    """Position-aware shell lexing: `(commands, heredocs)`, or None for a
+    command this lexer does not model (`$'…'` quoting, an unterminated quote).
+
+    `commands` is a list of word lists, split where `_split_commands` splits.
+    Each word is `(text, start, end, quoted)`: `text` is the unquoted value
+    and `quoted` lists the `(inner_start, inner_end, quote_char)` raw ranges
+    of its quoted parts. `heredocs` lists `(command_index, body_start,
+    body_end)` for every heredoc body, attributed to the command that opened
+    it. Unlike `_split_commands`, nothing is elided — positions index the raw
+    command, which is what a construct match is reported against."""
+    if "$'" in command:
+        return None
+    commands = [[]]
+    heredocs = []
+    pending = []
+    chars = []
+    quoted = []
+    start = None
+    i = 0
+    n = len(command)
+
+    def end_word(end):
+        nonlocal chars, quoted, start
+        if start is not None:
+            commands[-1].append(("".join(chars), start, end, quoted))
+        chars, quoted, start = [], [], None
+
+    while i < n:
+        ch = command[i]
+        if ch in "'\"":
+            if start is None:
+                start = i
+            j = i + 1
+            while j < n and command[j] != ch:
+                if ch == '"' and command[j] == "\\" and j + 1 < n:
+                    j += 1
+                    if command[j] not in '"\\$`\n':
+                        chars.append("\\")
+                chars.append(command[j])
+                j += 1
+            if j >= n:
+                return None
+            quoted.append((i + 1, j, ch))
+            i = j + 1
+            continue
+        if ch == "\\":
+            if command[i + 1:i + 2] == "\n":
+                i += 2
+                continue
+            if start is None:
+                start = i
+            if i + 1 < n:
+                chars.append(command[i + 1])
+            i += 2
+            continue
+        if command.startswith("<<", i) and not command.startswith("<<<", i):
+            end_word(i)
+            cursor = i + 2
+            strip_tabs = command[cursor:cursor + 1] == "-"
+            if strip_tabs:
+                cursor += 1
+            while cursor < n and command[cursor] in " \t":
+                cursor += 1
+            if command[cursor:cursor + 1] == "\\":
+                cursor += 1
+            delimiter, cursor = _heredoc_delimiter(command, cursor)
+            if delimiter:
+                pending.append((delimiter, strip_tabs, len(commands) - 1))
+            i = max(cursor, i + 2)
+            continue
+        if ch == "\n":
+            end_word(i)
+            i += 1
+            for delimiter, strip_tabs, owner in pending:
+                body_start = i
+                while True:
+                    line_end = command.find("\n", i)
+                    if line_end == -1:
+                        line_end = n
+                    line = command[i:line_end]
+                    candidate = line.lstrip("\t") if strip_tabs else line
+                    if candidate.rstrip() == delimiter or line_end >= n:
+                        body_end = i if candidate.rstrip() == delimiter else n
+                        heredocs.append((owner, body_start, body_end))
+                        i = line_end + 1
+                        break
+                    i = line_end + 1
+            pending = []
+            commands.append([])
+            continue
+        if ch in " \t":
+            end_word(i)
+            i += 1
+            continue
+        if ch in _COMMAND_SEPARATORS and not _is_redirection_ampersand(command, i):
+            end_word(i)
+            commands.append([])
+            i += 1
+            continue
+        if start is None:
+            start = i
+        chars.append(ch)
+        i += 1
+    end_word(n)
+    for _, strip_tabs, owner in pending:
+        heredocs.append((owner, n, n))
+    return commands, heredocs
+
+
+def _redirect_word_count(tok):
+    """How many words the redirect `tok` occupies: 2 when its target is the
+    next word (`> out`, `2>> log`), 1 when it is attached (`>out`, `2>&1`)."""
+    return 2 if tok.rstrip("0123456789&<>") == "" and tok[-1] in "<>" else 1
+
+
+def _interpreter_code_source(texts, index, lang):
+    """Where the interpreter at `texts[index]` reads its program from:
+    `("arg", word_index)` for `-c`/`-e` code, `("stdin", None)`,
+    `("file", word_index)` for a script operand, or `("file", None)` for a
+    module (`-m`) or an operand this cannot place."""
+    j = index + 1
+    while j < len(texts):
+        tok = texts[j]
+        if _REDIRECT_TOKEN.match(tok):
+            j += _redirect_word_count(tok)
+            continue
+        if tok == "-":
+            return ("stdin", None)
+        if lang == "py":
+            if not tok.startswith("--") and re.match(r"^-[A-Za-z]*c$", tok):
+                return ("arg", j + 1) if j + 1 < len(texts) else ("file", None)
+            if tok == "-m":
+                return ("file", None)
+            if tok in ("-W", "-X", "-Q"):
+                j += 2
+                continue
+        elif tok in ("-e", "--eval", "-p", "--print", "-pe") or (
+            tok == "eval" and texts[index] == "deno"
+        ):
+            return ("arg", j + 1) if j + 1 < len(texts) else ("file", None)
+        if tok.startswith("-"):
+            j += 1
+            continue
+        return ("file", j)
+    return ("stdin", None)
+
+
+def _shell_script_operand(texts, index):
+    """The word index of the script a shell at `texts[index]` runs (`bash
+    fix.sh`), or None when it runs `-c` code, reads stdin, or names none. The
+    shell sibling of `_interpreter_code_source`, kept apart so the Python/JS
+    rules stay unchanged."""
+    j = index + 1
+    while j < len(texts):
+        tok = texts[j]
+        if _REDIRECT_TOKEN.match(tok):
+            j += _redirect_word_count(tok)
+            continue
+        if tok in ("-", "--") or (tok.startswith("-") and ("c" in tok or "s" in tok)):
+            return None
+        if tok in ("-o", "-O", "+o", "+O"):
+            j += 2
+            continue
+        if tok.startswith(("-", "+")):
+            j += 1
+            continue
+        return j
+    return None
+
+
+def _script_operand(texts):
+    """`(word_index, lang)` of the script file the program in command position
+    of a lexed command runs, or None when it runs none — `-c` code, stdin, a
+    module, or a program that is not an interpreter."""
+    wi = _command_word_index(texts)
+    if wi is None:
+        return None
+    program = _program_name(texts[wi])
+    if _PYTHON_INTERPRETER.match(program) or program in _JS_INTERPRETERS:
+        lang = "py" if _PYTHON_INTERPRETER.match(program) else "js"
+        kind, operand = _interpreter_code_source(texts, wi, lang)
+        if kind != "file":
+            return None
+    elif program in _SCRIPT_INTERPRETERS:
+        lang, operand = "sh", _shell_script_operand(texts, wi)
+    else:
+        return None
+    if operand is None or not texts[operand]:
+        return None
+    return operand, lang
+
+
+def _script_operands(command):
+    """`(path, position, lang)` for every script file an interpreter in
+    `command` runs: `python3 [-I] x.py`, `node x.js`, `bash x.sh`. `path` is the
+    operand as written, `position` its raw index (for `_cd_directory`), and
+    `lang` `"py"`, `"js"` or `"sh"`. Only an interpreter in command position
+    counts, so `grep python3 tool.py` names no script."""
+    lexed = _lex_shell_words(command)
+    if lexed is None:
+        return []
+    operands = []
+    for words in lexed[0]:
+        found = _script_operand([w[0] for w in words])
+        if found:
+            operand, lang = found
+            operands.append((words[operand][0], words[operand][1], lang))
+    return operands
+
+
+def _same_file(a, b):
+    """True when two shell paths, each already joined onto the directory it was
+    written in, name the same file."""
+    return os.path.normpath(a) == os.path.normpath(b)
+
+
+def _redirect_target(texts):
+    """The file a lexed command truncates or appends to with `>`/`>>`, or None."""
+    for wi, tok in enumerate(texts):
+        match = re.match(r"^[0-9&]*>>?(.*)$", tok)
+        if not match:
+            continue
+        if match.group(1):
+            return match.group(1)
+        if wi + 1 < len(texts):
+            return texts[wi + 1]
+    return None
+
+
+def _code_literal_spans(command, region, lang):
+    """Raw `(start, end)` spans of the string literals and comments in the
+    code `region` — a list of `(char, raw_index)` pairs, already shell-
+    unescaped. None when the code runs strings as code, or when a literal
+    does not terminate: either way nothing in it can be called data."""
+    text = "".join(ch for ch, _ in region)
+    if _DYNAMIC_EXECUTION.search(text):
+        return None
+    local = []
+    i = 0
+    n = len(text)
+    while i < n:
+        ch = text[i]
+        comment = (lang == "py" and ch == "#") or (lang == "js" and text.startswith("//", i))
+        if comment:
+            end = text.find("\n", i)
+            end = n if end == -1 else end
+            local.append((i, end))
+            i = end
+            continue
+        if lang == "js" and text.startswith("/*", i):
+            end = text.find("*/", i + 2)
+            if end == -1:
+                return None
+            local.append((i, end + 2))
+            i = end + 2
+            continue
+        if ch in "'\"" or (lang == "js" and ch == "`"):
+            k = i
+            while k > 0 and text[k - 1].isalpha():
+                k -= 1
+            prefix = text[k:i].lower()
+            if lang != "py" or (k > 0 and (text[k - 1].isalnum() or text[k - 1] == "_")):
+                prefix, k = "", i
+            delimiter = ch * 3 if lang == "py" and text.startswith(ch * 3, i) else ch
+            j = i + len(delimiter)
+            while j < n and not text.startswith(delimiter, j):
+                if text[j] == "\\":
+                    j += 1
+                elif text[j] == "\n" and len(delimiter) == 1 and ch != "`":
+                    return None
+                j += 1
+            if j >= n:
+                return None
+            end = j + len(delimiter)
+            interpolates = (
+                prefix not in _PY_LITERAL_PREFIXES
+                if lang == "py"
+                else ch == "`" and "${" in text[i:end]
+            )
+            if not interpolates:
+                local.append((k, end))
+            i = end
+            continue
+        i += 1
+    return [(region[s][1], region[e - 1][1] + 1) for s, e in local if e > s]
+
+
+def _quoted_region(command, word):
+    """The code inside `word` when it is ONE quoted string, as `(char,
+    raw_index)` pairs with the shell's double-quote escapes undone. None for
+    a word that is unquoted or pieced together from several parts."""
+    _, start, end, quoted = word
+    if len(quoted) != 1:
+        return None
+    inner_start, inner_end, quote = quoted[0]
+    if inner_start != start + 1 or inner_end != end - 1:
+        return None
+    region = []
+    i = inner_start
+    while i < inner_end:
+        if quote == '"' and command[i] == "\\" and i + 1 < inner_end and command[i + 1] in '"\\$`':
+            i += 1
+        region.append((command[i], i))
+        i += 1
+    return region
+
+
+def _command_word_index(texts):
+    """The index of the word a lexed command runs, past wrappers and
+    assignments, or None when every word is one of those."""
+    for wi, tok in enumerate(texts):
+        if tok in _COMMAND_PREFIXES or _ASSIGNMENT.match(tok):
+            continue
+        return wi
+    return None
+
+
+def _command_program(texts):
+    """The program a lexed command runs, past wrappers and assignments."""
+    wi = _command_word_index(texts)
+    return "" if wi is None else _program_name(texts[wi])
+
+
+def _heredocs_run_as_scripts(command, commands, owners):
+    """`{owner: lang}` for each heredoc owner in `owners` that redirects its
+    body into a file a py/js interpreter elsewhere in `command` runs.
+
+    `cat > x.py <<'EOF' … EOF` then `python3 x.py`: the body is the program the
+    interpreter runs, so it is code, not the data a bare `cat` makes it. A
+    shell-run body needs no entry — `bash` already fails the command closed."""
+    run_as = {}
+    scripts = _script_operands(command)
+    for owner in owners:
+        words = commands[owner]
+        target = _redirect_target([w[0] for w in words]) if words else None
+        if not target:
+            continue
+        written = _join_onto(_cd_directory(command, words[0][1]), [target])[0]
+        for path, position, lang in scripts:
+            if lang not in ("py", "js"):
+                continue
+            if words[0][1] <= position < words[-1][2]:
+                continue
+            ran = _join_onto(_cd_directory(command, position), [path])[0]
+            if _same_file(written, ran):
+                run_as[owner] = lang
+    return run_as
+
+
+def write_construct_data_spans(command):
+    """Raw `(start, end)` spans of `command` in which a write construct is
+    DATA rather than a write, so the scripted-rewrite guard can skip it.
+
+    Two kinds, and each fails closed:
+
+    - A string literal or comment inside code an interpreter runs — a
+      `python3 -c` argument or a `python3 - <<'EOF'` body. Skipped when that
+      code can run strings as code (`exec`, `subprocess`, …).
+    - A quoted argument, or a heredoc body, handed to a program that does not
+      execute it — a `git commit -m` message, an `echo`, a `cat` heredoc.
+      Skipped entirely when ANY word of the command could execute text: a
+      shell, `eval`, `ssh`, an interpreter reading code from its stdin, or a
+      double-quoted string carrying a command substitution.
+
+    Everything else stays in scope, exactly as before."""
+    lexed = _lex_shell_words(command)
+    if lexed is None:
+        return []
+    commands, heredocs = lexed
+    heredoc_owners = {owner for owner, _, _ in heredocs}
+    spans = []
+    code_words = set()
+    stdin_code = {}
+    fail_closed = False
+    for ci, words in enumerate(commands):
+        texts = [w[0] for w in words]
+        for wi, tok in enumerate(texts):
+            program = _program_name(tok)
+            if _PYTHON_INTERPRETER.match(program):
+                lang = "py"
+            elif program in _JS_INTERPRETERS:
+                lang = "js"
+            else:
+                if program in _EXECUTING_PROGRAMS:
+                    fail_closed = True
+                continue
+            kind, code_index = _interpreter_code_source(texts, wi, lang)
+            if kind == "arg":
+                code_words.add((ci, code_index))
+                region = _quoted_region(command, words[code_index])
+                literal = _code_literal_spans(command, region, lang) if region else None
+                spans.extend(literal or [])
+            elif kind == "stdin":
+                if ci in heredoc_owners:
+                    stdin_code[ci] = lang
+                else:
+                    fail_closed = True
+    stdin_code.update(
+        _heredocs_run_as_scripts(command, commands, heredoc_owners - set(stdin_code))
+    )
+    for owner, body_start, body_end in heredocs:
+        if owner in stdin_code:
+            region = [(command[i], i) for i in range(body_start, body_end)]
+            spans.extend(_code_literal_spans(command, region, stdin_code[owner]) or [])
+        elif not fail_closed:
+            texts = [w[0] for w in commands[owner]]
+            if _command_program(texts) in _HEREDOC_DATA_CONSUMERS:
+                spans.append((body_start, body_end))
+    if fail_closed:
+        return spans
+    for ci, words in enumerate(commands):
+        for wi, word in enumerate(words):
+            if (ci, wi) in code_words:
+                continue
+            for inner_start, inner_end, quote in word[3]:
+                inner = command[inner_start:inner_end]
+                if quote == '"' and ("$(" in inner or "`" in inner):
+                    continue
+                spans.append((inner_start, inner_end))
+    return spans
+
+
+def _in_spans(position, spans):
+    return any(start <= position < end for start, end in spans)
+
+
+def _literal_value(command, index):
+    """The string literal starting at `command[index]` and the index past it,
+    when it is a plain literal ending its statement — optionally wrapped as
+    `Path("…")`. None for anything computed, escaped or interpolated."""
+    wrapped = re.match(r"(?:pathlib\.)?Path\s*\(\s*", command[index:])
+    if wrapped:
+        index += wrapped.end()
+    quote = command[index:index + 1]
+    if quote not in ("'", '"'):
+        return None
+    end = command.find(quote, index + 1)
+    if end == -1:
+        return None
+    value = command[index + 1:end]
+    if not value or "\\" in value or "\n" in value:
+        return None
+    end += 1
+    if wrapped:
+        close = re.match(r"\s*\)", command[end:])
+        if not close:
+            return None
+        end += close.end()
+    if not _STATEMENT_END.match(command, end):
+        return None
+    return value
+
+
+def _without_redirections(tokens):
+    """`tokens` with every shell redirection and its target removed, so a
+    heredoc opener (`<<'PY'`, `<< PY`) is never read as a positional argument."""
+    kept = []
+    skip = False
+    for tok in tokens:
+        if skip:
+            skip = False
+        elif _BARE_REDIRECT.match(tok):
+            skip = True
+        elif not _REDIRECT_TOKEN.match(tok):
+            kept.append(tok)
+    return kept
+
+
+def _python_argv(args):
+    """The `sys.argv` a `python` invoked with `args` sees, or None when an
+    option is not understood well enough to lay it out."""
+    for i, tok in enumerate(args):
+        if tok == "-" or not tok.startswith("-"):
+            return args[i:]
+        flags = tok[1:]
+        if flags.endswith("c") and set(flags[:-1]) <= _PYTHON_BARE_FLAGS:
+            return ["-c"] + args[i + 2:] if i + 1 < len(args) else None
+        if not flags or not set(flags) <= _PYTHON_BARE_FLAGS:
+            return None
+    return None
+
+
+def _node_argv(args):
+    """The `process.argv` a `node` invoked with `args` sees, or None when an
+    option is not understood well enough to lay it out. `node -e CODE a` puts
+    `a` at index 1; `node - a` and `node script a` put it at index 2."""
+    for i, tok in enumerate(args):
+        if tok in ("-e", "--eval", "-p", "--print"):
+            return ["node"] + args[i + 2:] if i + 1 < len(args) else None
+        if tok == "-" or not tok.startswith("-"):
+            return ["node"] + args[i:]
+        return None
+    return None
+
+
+def _argv_is_read_only(command):
+    """True when every mention of `argv` in `command` is a read of one element
+    (`sys.argv[1]`, `process.argv[2]`) that is not assigned to.
+
+    A script that can CHANGE its argv before writing — `sys.argv[1] =
+    "<tracked>"`, `from sys import argv`, `a = sys.argv` — makes the shell
+    argument say nothing about the file it opens, so resolving through it
+    would name the wrong file and could let a tracked write pass."""
+    references = list(_ARGV_REFERENCE.finditer(command))
+    if len(references) != len(re.findall(r"\bargv\b", command)):
+        return False
+    return not any(
+        re.match(r"\s*(?://|\*\*|<<|>>|[-+*/%|&^@])?=(?!=)", command[ref.end():])
+        for ref in references
+    )
+
+
+def _interpreter_invocations(command, module):
+    """The arguments of every `python*` (module `sys`) or `node` (module
+    `process`) invocation in `command`, redirections removed — or None when a
+    segment that may hold one cannot be tokenized."""
+    is_program = (
+        _PYTHON_PROGRAM.match if module == "sys"
+        else lambda name: name in ("node", "nodejs")
+    )
+    invocations = []
+    for segment in _split_commands(command):
+        try:
+            tokens = shlex.split(segment, posix=True)
+        except ValueError:
+            if re.search(r"\b(?:python|node)", segment):
+                return None
+            continue
+        for i, tok in enumerate(tokens):
+            if is_program(tok.rsplit("/", 1)[-1]) and _in_command_position(tokens, i):
+                invocations.append(_without_redirections(tokens[i + 1:]))
+    return invocations
+
+
+def interpreter_argument(command, module, index):
+    """The literal paths `sys.argv[index]` (module `sys`) or
+    `process.argv[index]` (module `process`) holds when `command` runs — or
+    None when that cannot be proven.
+
+    Proven only when argv is never mutated (`_argv_is_read_only`), `command`
+    invokes exactly ONE interpreter of that family, its options are all
+    understood, and the argument is a literal or a shell variable bound to
+    literals in the same command. This is the hop that makes `F=<path>` …
+    `python3 - "$F"` … `open(sys.argv[1], "w")` legible. Every doubt resolves
+    to None — opaque — which keeps the conservative fallback: a wrong index
+    would name the wrong file and could let a tracked write pass."""
+    if index < 1 or not _argv_is_read_only(command):
+        return None
+    invocations = _interpreter_invocations(command, module)
+    if not invocations or len(invocations) != 1:
+        return None
+    layout = _python_argv if module == "sys" else _node_argv
+    argv = layout(invocations[0])
+    if argv is None or index >= len(argv):
+        return None
+    return _expand_shell_operand(command, argv[index])
+
+
+def _argv_value(command, index):
+    """The paths an `sys.argv[N]` / `process.argv[N]` expression starting at
+    `command[index]` resolves to, when it is the whole statement — else None."""
+    match = _ARGV_REFERENCE.match(command, index)
+    if not match or not _STATEMENT_END.match(command, match.end()):
+        return None
+    return interpreter_argument(command, match.group("module"), int(match.group("index")))
+
+
+def resolve_identifier(command, name):
+    """Every string literal `name` is bound to in `command` — a Python or JS
+    variable (`p = "…"`) — or None when it cannot be resolved.
+
+    Resolved only when EVERY binding of `name` is a plain literal assignment.
+    Any other binding form — a computed value, a loop target, a parameter, an
+    import, `as p`, tuple unpacking, an augmented assignment — makes it
+    unresolvable. Several literal bindings resolve to all of their values,
+    since a loop may reach any of them: an extra candidate can only add a
+    refusal, never remove one."""
+    if not _BARE_IDENTIFIER.match(name):
+        return None
+    ident = re.escape(name)
+    bound = rf"(?<![\w.$]){ident}(?![\w$])"
+    other_bindings = (
+        rf"\bfor\b[^\n;:]*?{bound}[^\n;:]*?\b(?:in|of)\b",
+        rf"\bas\s+{ident}(?![\w$])",
+        rf"\b(?:def|class|function)\s+{ident}(?![\w$])",
+        rf"\bdef\s+\w+\s*\([^)]*{bound}",
+        rf"\bfunction\b[^(\n]*\([^)]*{bound}",
+        rf"\blambda\b[^:\n]*{bound}[^:\n]*:",
+        rf"\([^()\n]*{bound}[^()\n]*\)\s*=>",
+        rf"{bound}\s*=>",
+        rf"\b(?:import|global|nonlocal)\b[^\n;]*{bound}",
+        # Unpacking: `p, q = …`, `a, p = …`, `[a, p] = …` — anchored at a
+        # statement start so `open(p, mode="w")` is not read as one.
+        rf"(?:^|[;\n\"'])\s*(?:(?:const|let|var)\s+)?[\[(]?\s*{ident}(?![\w$])\s*,[^=\n;]*=(?![=>])",
+        rf"(?:^|[;\n\"'])\s*(?:(?:const|let|var)\s+)?[\[(]?\s*(?:[\w$*.]+\s*,\s*)+"
+        rf"{ident}(?![\w$])[^=\n;]*=(?![=>])",
+        rf"\{{[^}}\n]*{bound}[^}}\n]*\}}\s*=(?![=>])",
+        rf"{bound}\s*(?:\*\*|//|>>|<<|\?\?|\|\||&&|[-+*/%|&^:@])=",
+        rf"{bound}\s*:[^=\n]*=(?![=>])",
+    )
+    if any(re.search(pattern, command) for pattern in other_bindings):
+        return None
+    values = []
+    assignment = re.compile(rf"(?<![\w.$])(?:(?:const|let|var)\s+)?{ident}\s*=(?![=>])\s*")
+    for match in assignment.finditer(command):
+        value = _literal_value(command, match.end())
+        resolved = [value] if value is not None else _argv_value(command, match.end())
+        if resolved is None:
+            return None
+        values.extend(v for v in resolved if v not in values)
+    return values or None
+
+
+def _shell_variable_values(command, name):
+    """Every literal a shell variable is assigned in `command` (`P=/tmp/x`),
+    or None when any binding of it is not a standalone literal assignment.
+
+    An assignment PREFIXING a program (`P=x sed … "$P"`) does not count: the
+    shell expands `"$P"` before that assignment takes effect."""
+    ident = re.escape(name)
+    if re.search(
+        rf"\bfor\s+{ident}\b|\bread\b[^;\n|&]*\b{ident}\b|\b{ident}\+=|\$\{{{ident}:?[=?]",
+        command,
+    ):
+        return None
+    values = []
+    for segment in _split_commands(command):
+        try:
+            tokens = shlex.split(segment, posix=True)
+        except ValueError:
+            return None
+        if tokens and tokens[0] in ("export", "local", "declare", "readonly", "typeset"):
+            tokens = [t for t in tokens[1:] if not t.startswith("-")]
+        standalone = all(_ASSIGNMENT.match(t) for t in tokens)
+        for tok in tokens:
+            if not _ASSIGNMENT.match(tok):
+                break
+            key, _, value = tok.partition("=")
+            if key != name:
+                continue
+            if not standalone or not value or re.search(r"[$`]", value):
+                return None
+            if value not in values:
+                values.append(value)
+    return values or None
+
+
+def _expand_shell_operand(command, operand):
+    """`operand` with its `$VAR`/`${VAR}` references replaced by their
+    literal values, as a list of candidate paths — or None when a reference
+    cannot be resolved or the operand is otherwise computed."""
+    candidates = [operand]
+    for match in re.finditer(r"\$\{?([A-Za-z_][A-Za-z0-9_]*)\}?", operand):
+        values = _shell_variable_values(command, match.group(1))
+        if values is None:
+            return None
+        candidates = [
+            c.replace(match.group(0), v, 1) for c in candidates for v in values
+        ][:_MAX_RESOLVED_TARGETS]
+    if any(re.search(r"[$`{}]", c) for c in candidates):
+        return None
+    return candidates
+
+
+_SED_LONG_FLAGS = frozenset(
+    (
+        "--quiet", "--silent", "--in-place", "--regexp-extended", "--separate",
+        "--null-data", "--unbuffered", "--posix", "--debug", "--sandbox",
+        "--follow-symlinks", "--binary", "--expression", "--file",
+    )
+)
+
+
+def _sed_operands(tokens):
+    """The file operands of the `sed` whose arguments are `tokens`, or None
+    when an option is not understood well enough to tell a file from the
+    script."""
+    script_given = False
+    operands = []
+    i = 0
+    while i < len(tokens):
+        tok = tokens[i]
+        if tok == "--":
+            operands.extend(tokens[i + 1:])
+            break
+        if tok.startswith("--"):
+            name = tok.split("=", 1)[0]
+            if name not in _SED_LONG_FLAGS:
+                return None
+            if name in ("--expression", "--file"):
+                script_given = True
+                if "=" not in tok:
+                    i += 1
+            i += 1
+            continue
+        if tok.startswith("-") and len(tok) > 1:
+            for j, flag in enumerate(tok[1:], start=1):
+                if flag in "ef":
+                    script_given = True
+                    if j == len(tok) - 1:
+                        i += 1
+                    break
+                if flag in "iI":
+                    # BSD spells an empty backup suffix as its own `''` argument.
+                    if j == len(tok) - 1 and i + 1 < len(tokens) and tokens[i + 1] == "":
+                        i += 1
+                    break
+                if flag not in "nErszuab":
+                    return None
+            i += 1
+            continue
+        operands.append(tok)
+        i += 1
+    if not script_given:
+        if not operands:
+            return None
+        operands = operands[1:]
+    return operands
+
+
+def _perl_operands(tokens):
+    """The file operands of the `perl` whose arguments are `tokens`, or None
+    when an option is not understood well enough to tell a file from the
+    program."""
+    code_given = False
+    operands = []
+    i = 0
+    while i < len(tokens):
+        tok = tokens[i]
+        if tok == "--":
+            operands.extend(tokens[i + 1:])
+            break
+        if tok.startswith("-") and len(tok) > 1 and not tok.startswith("--"):
+            j = 1
+            while j < len(tok):
+                flag = tok[j]
+                if flag in "eE":
+                    code_given = True
+                    if j == len(tok) - 1:
+                        i += 1
+                    break
+                if flag == "i" or (flag in "IMmxCdDF" and j < len(tok) - 1):
+                    break
+                if flag in "0l":
+                    j += 1
+                    digits = "01234567"
+                    if flag == "0" and tok[j:j + 1] == "x":
+                        j += 1
+                        digits = "0123456789abcdefABCDEF"
+                    while j < len(tok) and tok[j] in digits:
+                        j += 1
+                    continue
+                if flag not in "acnpstTuUvwWXh":
+                    return None
+                j += 1
+            i += 1
+            continue
+        if tok.startswith("--"):
+            return None
+        operands.append(tok)
+        i += 1
+    if not code_given:
+        if not operands:
+            return None
+        operands = operands[1:]
+    return operands
+
+
+def inplace_edit_targets(command):
+    """`(found, paths)` for the in-place `sed`/`perl` edits in `command`:
+    `found` is True when there is one, and `paths` lists every file they
+    rewrite — or is None when any of them cannot be resolved (a positional
+    list fed by `xargs`/`find -exec`, an unknown option, an unresolvable
+    variable, an untokenizable command). Fails closed exactly as
+    `_has_inplace_editor` does."""
+    if not _has_inplace_editor(command):
+        return False, []
+    paths = []
+    for segment in _split_commands(command):
+        try:
+            tokens = shlex.split(segment, posix=True)
+        except ValueError:
+            return True, None
+        for index, tok in enumerate(tokens):
+            program = tok.rsplit("/", 1)[-1]
+            if program not in ("sed", "perl") or not _in_command_position(tokens, index):
+                continue
+            rest = tokens[index + 1:]
+            if not any(_INPLACE_FLAG.match(t) for t in rest):
+                continue
+            if any(t in ("xargs", "-exec", "-execdir", "parallel") for t in tokens[:index]):
+                return True, None
+            rest = [t for t in rest if not _REDIRECT_TOKEN.match(t)]
+            operands = _sed_operands(rest) if program == "sed" else _perl_operands(rest)
+            if not operands:
+                return True, None
+            for operand in operands:
+                expanded = _expand_shell_operand(command, operand)
+                if expanded is None:
+                    return True, None
+                paths.extend(expanded)
+    return True, paths or None
+
+
+def _resolved_expression(command, expr):
+    """The literal paths a write construct's target expression names — the
+    literal itself, the values of a bare variable bound to literals, or the
+    interpreter argument a `sys.argv[N]` / `process.argv[N]` holds — or None
+    when it cannot be resolved."""
+    literal = _string_literal(expr)
+    if literal:
+        return [literal]
+    expr = expr.strip()
+    skeleton = _template_skeleton(expr)
+    if skeleton:
+        return [skeleton]
+    if _BARE_IDENTIFIER.match(expr):
+        return resolve_identifier(command, expr)
+    argv = _ARGV_REFERENCE.fullmatch(expr)
+    if argv:
+        return interpreter_argument(command, argv.group("module"), int(argv.group("index")))
+    return None
+
+
+# A Python f-string (`f'…'`, `rf"…"`) or a JS template literal (`` `…` ``),
+# captured as its inner text. Only the text before the first interpolation is
+# static, so that prefix is all `_template_skeleton` may reason about.
+_TEMPLATE_LITERAL = re.compile(r"""(?:[rR]?[fF]|[fF][rR])(['"])(?P<f>.*)\1|`(?P<js>.*)`""", re.DOTALL)
+
+
+def _template_skeleton(expr):
+    """The inner text of a template-literal write target whose STATIC directory
+    prefix provably lands outside authored source, or None.
+
+    "Outside" means a prefix directory under `_INTERNAL_DIRS`, or an absolute /
+    `~` prefix that escapes the project. One session's heredoc wrote
+    `f'.codeyam/tmp/register-assembled-retry-{i}.json'`; with the target opaque,
+    the guard fell back to every tracked path the command MENTIONED and cited
+    a source file that appeared only as a JSON value in the payload. A prefix
+    inside source (`f'src/{name}.rs'`) proves nothing about the file, so it
+    stays opaque and that fallback still guards it."""
+    match = _TEMPLATE_LITERAL.fullmatch(expr)
+    if not match:
+        return None
+    body = match.group("f") if match.group("f") is not None else match.group("js")
+    cut = body.find("${") if match.group("js") is not None else body.find("{")
+    prefix = body if cut == -1 else body[:cut]
+    if "/" not in prefix:
+        return None
+    directory = os.path.normpath(prefix[: prefix.rindex("/") + 1] or "/")
+    if set(directory.split(os.sep)) & _INTERNAL_DIRS:
+        return body
+    if directory.startswith("~"):
+        return body
+    if os.path.isabs(directory):
+        root = os.environ.get("CLAUDE_PROJECT_DIR", os.getcwd())
+        if _repo_relative(directory + os.sep + "x", root) is None:
+            return body
+    return None
+
+
+# A `cd` in command position, with the rest of its simple command.
+_CD_CALL = re.compile(r"(?:\A|[\n;&|(]|\bthen\b|\bdo\b)\s*cd(?=[\s;&|)]|\Z)(?P<rest>[^\n;&|)]*)")
+
+
+def _cd_operand(command, rest):
+    """The directory a `cd` whose arguments are `rest` moves to, or None when
+    it cannot be resolved statically. A bare `cd` goes home (`~`)."""
+    try:
+        tokens = [t for t in shlex.split(rest, posix=True) if t not in ("-P", "-L", "--")]
+    except ValueError:
+        return None
+    if not tokens:
+        return "~"
+    if len(tokens) != 1 or tokens[0] == "-" or re.search(r"[*?`]", tokens[0]):
+        return None
+    values = _expand_shell_operand(command, tokens[0])
+    if not values or len(set(values)) != 1:
+        return None
+    return values[0]
+
+
+def _cd_scope_closed(shell, end):
+    """True when the subshell or `$(…)` enclosing offset `end` of `shell`
+    closes before the text runs out — a `cd` there no longer applies after it.
+    Paren depth is counted crudely, ignoring quotes, so a quoted paren can
+    miscount it — an accepted blind spot for a shape no incident has shown."""
+    depth = shell[:end].count("(") - shell[:end].count(")")
+    running = depth
+    for ch in shell[end:]:
+        running += (ch == "(") - (ch == ")")
+        if running < depth:
+            return True
+    return False
+
+
+def _join_onto(directory, paths):
+    """`paths` with each relative entry joined onto `directory`; absolute and
+    `~` paths, and every path when `directory` is falsy, pass through."""
+    if not directory:
+        return list(paths)
+    return [
+        p if os.path.isabs(p) or p.startswith("~") else os.path.join(directory, p)
+        for p in paths
+    ]
+
+
+def session_start_directory(cwd, project_dir):
+    """The directory a command starts in, as `_cd_directory` composes it: `""`
+    for the project root (or no `cwd` at all), a project-relative prefix for a
+    `cwd` inside the project, and the absolute `cwd` for one outside it.
+
+    `cwd` is the PreToolUse payload's field — the Bash tool's working directory,
+    which persists between calls. VM23 ced4fbc0 ran `cd crates/cad-core/src` in
+    one call and `python3 - <<'EOF'` with `p='domains/landscape/takeoff.rs'` in a
+    later one; read against the repo root, that path named nothing git tracks,
+    and the rewrite of tracked source went through unrefused. Pure."""
+    if not isinstance(cwd, str) or not os.path.isabs(cwd):
+        return ""
+    cwd = os.path.normpath(cwd)
+    if cwd == os.path.normpath(project_dir):
+        return ""
+    try:
+        rel = os.path.relpath(cwd, project_dir)
+    except ValueError:
+        return cwd
+    return cwd if rel.startswith("..") else rel
+
+
+def _cd_directory(command, position, start=""):
+    """The directory the shell is in at `position`, as set by the `cd`s that
+    precede it — `start` when none did, None when one could not be resolved.
+    `start` is `session_start_directory`'s answer; `""` is the project root.
+
+    A `cd` inside a subshell or `$(…)` that has closed before `position` no
+    longer applies and is skipped. An unresolvable `cd` makes the answer
+    unknown until a later absolute `cd` re-anchors it, which keeps the
+    caller's repo-relative reading — the fail-closed direction."""
+    shell = elide_heredoc_bodies(command[:position], keep_programs=False)
+    directory = start
+    for match in _CD_CALL.finditer(shell):
+        if _cd_scope_closed(shell, match.end()):
+            continue
+        operand = _cd_operand(command, match.group("rest"))
+        if operand is None:
+            directory = None
+        elif operand.startswith("~") or os.path.isabs(operand):
+            directory = operand
+        elif directory is not None:
+            directory = os.path.join(directory, operand)
+    return directory
+
+
+def _rebased_on_cd(command, position, paths, start=""):
+    """`paths` with each relative entry joined onto the directory a preceding
+    `cd` moved the shell to (see `_cd_directory`).
+
+    One session ran `cd <scratchpad> && cat > Cargo.toml <<'EOF'` and was
+    refused for rewriting the project's own `Cargo.toml`: the relative name was
+    read against the repo root, as if the `cd` had not happened."""
+    return _join_onto(_cd_directory(command, position, start), paths)
+
+
+# Where an in-place `sed`/`perl` sits, so its operands can be rebased too.
+_INPLACE_PROGRAM = re.compile(r"\b(?:sed|perl)\b")
+
+
+def write_targets(command, start=""):
+    """Parse `command` for in-process file-write constructs. Relative targets
+    are rebased onto the directory the command runs in — `start` (see
+    `session_start_directory`) composed with any `cd` before the write.
+
+    Returns `(explicit, opaque, append_only)`: `explicit` lists the paths the
+    command writes to — literal, or resolved from a variable bound to a
+    literal (`p = "…"` … `open(p, "w")`, `P=…` … `sed -i … "$P"`), or from an
+    interpreter argument (`F=…` … `python3 - "$F"` … `open(sys.argv[1], "w")`,
+    see `interpreter_argument`); `opaque`
+    is True when at least one write construct targets a path that cannot be
+    resolved statically. A construct that is data rather than code — see
+    `write_construct_data_spans` — is not a write construct at all.
 
     `append_only` is True when every construct found EXTENDS its target
     (`>>`, `open(p, "a")`) rather than replacing it. Appending is still a
@@ -1363,42 +3149,74 @@ def write_targets(command):
     opaque = False
     appending = False
     truncating = False
+    # `>` is a construct too: without it a `cat >> f <<'EOF'` body was scanned
+    # raw, so an arrow function's `=>` read as a truncating redirect.
+    constructs = ("open", "write_", "writeFile", ">")
+    data = write_construct_data_spans(command) if any(c in command for c in constructs) else []
+
+    def add(resolved, position):
+        nonlocal opaque
+        if resolved is None:
+            opaque = True
+        else:
+            explicit.extend(_rebased_on_cd(command, position, resolved, start))
 
     for match in _OPEN_CALL.finditer(command):
+        if _in_spans(match.start(), data):
+            continue
         args = _call_args(command, match.end() - 1)
         if len(args) < 2:
             continue
-        mode = _string_literal(args[1])
+        mode = _string_literal(re.sub(r"^\s*mode\s*=", "", args[1]))
         if mode is None or not set(mode) & set("wax+"):
             continue
         if "a" in mode:
             appending = True
         else:
             truncating = True
-        literal = _string_literal(args[0])
-        if literal:
-            explicit.append(literal)
-        else:
-            opaque = True
+        add(_resolved_expression(command, args[0]), match.start())
 
     for pattern in (_WRITE_TEXT, _NODE_WRITE):
         for match in pattern.finditer(command):
+            if _in_spans(match.start(), data):
+                continue
             truncating = True
             if match.group("path"):
-                explicit.append(match.group("path"))
+                add([match.group("path")], match.start())
+            elif pattern is _NODE_WRITE:
+                args = _call_args(command, command.index("(", match.start()))
+                add(_resolved_expression(command, args[0]) if args else None, match.start())
             else:
-                opaque = True
+                receiver = re.search(r"(?<![\w.)\]])([A-Za-z_]\w*)\s*$", command[:match.start()])
+                add(
+                    resolve_identifier(command, receiver.group(1)) if receiver else None,
+                    match.start(),
+                )
 
     for match in _SHELL_REDIRECT.finditer(command):
+        if _in_spans(match.start(), data):
+            continue
         if match.group(0).startswith(">>"):
             appending = True
         else:
             truncating = True
-        explicit.append(match.group("path"))
+        add([match.group("path")], match.start())
 
-    if _has_inplace_editor(command):
-        opaque = True
+    found, paths = inplace_edit_targets(command)
+    if found:
         truncating = True
+        # The operands carry no position, so they are rebased only when every
+        # in-place editor in the command runs in the SAME directory; otherwise
+        # they keep the reading from the directory the command started in.
+        directories = {
+            _cd_directory(command, m.start(), start)
+            for m in _INPLACE_PROGRAM.finditer(command)
+        }
+        directory = directories.pop() if len(directories) == 1 else start
+        if paths is None:
+            add(None, 0)
+        else:
+            explicit.extend(_join_onto(directory, paths))
 
     return explicit, opaque, appending and not truncating
 
@@ -1415,6 +3233,9 @@ def _repo_relative(path, project_dir):
             return None
     else:
         rel = path
+    # A session-cwd prefix composed with an in-command `cd ..` reads
+    # `crates/app/src/../x.rs`; git wants the collapsed `crates/app/x.rs`.
+    rel = os.path.normpath(rel).replace(os.sep, "/")
     while rel.startswith("./"):
         rel = rel[2:]
     if not rel or rel.startswith(".."):
@@ -1433,6 +3254,10 @@ def eligible_pathspecs(paths, project_dir):
         rel = _repo_relative(path, project_dir)
         if not rel or not rel.lower().endswith(SOURCE_SUFFIXES):
             continue
+        # Agrees with `on_disk_source_paths`: an internal cache directory never
+        # holds authored source, so a `.codeyam/tmp` payload is no candidate.
+        if set(rel.split("/")[:-1]) & _INTERNAL_DIRS:
+            continue
         if not _PATHSPEC_SAFE.match(rel) or rel in candidates:
             continue
         candidates.append(rel)
@@ -1443,25 +3268,84 @@ def eligible_pathspecs(paths, project_dir):
 
 def tracked_source_paths(paths, project_dir):
     """The subset of `paths` that git tracks and that carries a source suffix.
+    The paths half of `tracked_source_lookup`."""
+    return tracked_source_lookup(paths, project_dir)[0]
+
+
+def tracked_source_lookup(paths, project_dir):
+    """`(tracked, consulted)`: the subset of `paths` that git tracks and that
+    carries a source suffix, plus a phrase naming how that was decided.
 
     Untracked files, temp/scratchpad paths, and generated artifacts all fall
-    out here — they are not tracked, so they are never blocked."""
+    out here — they are not tracked, so they are never blocked.
+
+    When git cannot answer (a timeout, a missing binary, a non-zero exit) this
+    used to return `[]` — "nothing here is tracked" — so the guard waved the
+    rewrite through, silently, exactly when the machine was busiest. A lookup
+    that FAILED is not a lookup that found nothing; it now falls back to
+    `on_disk_source_paths`, which over-approximates the tracked set, and says
+    so in the evidence the refusal prints."""
     candidates = eligible_pathspecs(paths, project_dir)
     if not candidates:
-        return []
+        return [], "git ls-files"
+    listed = _git_ls_files(candidates, project_dir)
+    if listed is None:
+        return (
+            on_disk_source_paths(candidates, project_dir),
+            f"files on disk (git ls-files did not answer within "
+            f"{_GIT_LOOKUP_TIMEOUT_SECS}s, so existence stood in for tracked-ness)",
+        )
+    return listed, "git ls-files"
+
+
+# Kept well under the hook's own registration timeout (5s in the installed
+# settings). The harness kills a hook that overruns its budget and the call
+# then proceeds unjudged; a git query allowed to consume the whole budget made
+# that the common failure under load instead of the rare one.
+_GIT_LOOKUP_TIMEOUT_SECS = 2
+
+
+def _git_ls_files(candidates, project_dir):
+    """The sorted subset of `candidates` git tracks, or None when git could not
+    answer. None and `[]` mean different things and must stay distinct.
+
+    A project that is not a git repository is an ANSWER, not a failure:
+    nothing in it is tracked, so it is `[]`."""
     try:
         result = subprocess.run(
             ["git", "ls-files", "-z", "--"] + candidates,
             cwd=project_dir,
             capture_output=True,
             text=True,
-            timeout=5,
+            timeout=_GIT_LOOKUP_TIMEOUT_SECS,
+            # Git localizes its messages; the not-a-repo match below is English.
+            env={**os.environ, "LC_ALL": "C"},
         )
     except Exception:
-        return []
+        return None
     if result.returncode != 0:
-        return []
+        return [] if "not a git repository" in (result.stderr or "") else None
     return sorted(p for p in result.stdout.split("\0") if p)
+
+
+def on_disk_source_paths(candidates, project_dir):
+    """The `candidates` that exist as files in `project_dir` outside the
+    internal cache directories — the fail-closed stand-in for `git ls-files`.
+
+    It over-approximates (an untracked scratch `.rs` in the tree counts), which
+    is the right direction for a guard: a spurious refusal is visible and
+    names its cause, a missed one is neither."""
+    return sorted(
+        rel
+        for rel in candidates
+        if not set(rel.split("/")[:-1]) & _INTERNAL_DIRS
+        and os.path.isfile(os.path.join(project_dir, rel))
+    )
+
+
+# Mirrors `ALWAYS_EXCLUDED_DIRS` in `crates/control-api/src/internal_paths.rs`
+# — directory names that hold cache state at any depth, never authored source.
+_INTERNAL_DIRS = frozenset(("node_modules", ".codeyam", ".git", "target"))
 
 
 def _path_tokens(command):
@@ -1488,44 +3372,258 @@ def _offending_stage(stages):
     return ""
 
 
-def scripted_rewrite_stage(command, project_dir):
-    """`(tracked_path, stage, stage_count, append_only)` when `command` writes
-    tracked source off-transcript, else None. `stage` is `""` when the
-    offending half cannot be attributed; `append_only` is `write_targets`'
-    construct verdict, carried through so the refusal can describe an append
-    as an append.
+def scripted_rewrite_stage(command, project_dir, cwd=None):
+    """`(tracked_path, stage, stage_count, append_only, target_inferred)` when
+    `command` writes tracked source off-transcript, else None. `stage` is `""`
+    when the offending half cannot be attributed; `append_only` is
+    `write_targets`' construct verdict, carried through so the refusal can
+    describe an append as an append.
+
+    `target_inferred` is True when `tracked_path` came from the opaque
+    fallback below rather than from a resolved write target — the command
+    MENTIONS it, and writes somewhere the parse could not see. The refusal owes
+    that distinction: one session was told its heredoc "machine-rewrites"
+    `step_handoff.rs`, a path that appeared only inside a replacement string,
+    while the file it actually wrote was an untracked plan.
 
     Detection is WHOLE-COMMAND, unchanged: a command qualifies only when it
     BOTH carries a write construct AND that write lands on tracked source.
-    When every write target is a literal path, only those paths are judged.
-    When a target is opaque, it falls back to every tracked source path the
-    command mentions — which is the shape the real incidents took
+    When every write target resolves — a literal path, or a variable bound to
+    literals in the same command, which is the shape the real incidents took
     (`p = "…/opencode.rs"` … `open(p, "w")`, with the assignment and the write
-    on different lines). Narrowing that fallback to a single stage silently
-    disarms the guard on exactly those cases.
+    on different lines) — only those paths are judged, so a write to a temp
+    file is not refused for the tracked paths it merely mentions. When a
+    target is still opaque, it falls back to every tracked source path the
+    command mentions. Narrowing that fallback to a single stage silently
+    disarms the guard on exactly the cases it covers.
 
     Stage ATTRIBUTION is layered on top so the refusal can name the offending
     half of a compound command. One session ran `cp <file> <backup> && perl
     -0pi …`; the whole call was refused, so the backup never happened and the
     agent lost its safety net without being told — the splitter knew both
-    stages and the refusal named only a file."""
-    explicit, opaque, append_only = write_targets(command)
-    if not explicit and not opaque:
+    stages and the refusal named only a file.
+
+    `cwd` is the session's working directory (see `session_start_directory`);
+    None reads relative paths against the repo root, as before it existed."""
+    return scripted_rewrite_verdict(command, project_dir, cwd)[0]
+
+
+def scripted_rewrite_verdict(command, project_dir, cwd=None):
+    """`(found, consulted)`: `scripted_rewrite_stage`'s tuple (or None) plus
+    the phrase naming how tracked-ness was decided, which the refusal's
+    evidence must state truthfully — "consulted git ls-files" on a verdict
+    that git never answered would hide the very degradation it is reporting."""
+    return scripted_rewrite_details(command, project_dir, cwd)[:2]
+
+
+# A script larger than this is not read: the hook answers inside a ~5s budget,
+# and an agent's scratch rewrite script is a few KiB.
+_MAX_SCRIPT_BYTES = 256 * 1024
+# Directories a run script is never read from: installed packages and build
+# output are not agent-authored rewrites.
+_UNREAD_SCRIPT_DIRS = frozenset(("node_modules", "target"))
+
+
+def script_run_write_targets(command, project_dir, start=""):
+    """The write targets inside every script file `command` runs, one
+    `(script, explicit, opaque, append_only, mentions)` per script that has a
+    write construct. `explicit` and `mentions` are rebased onto the directory
+    the interpreter runs in — where `open('x.rs', 'w')` actually lands.
+
+    VM21 4405d5c1 wrote `split_list.py` to its scratchpad, with
+    `open('/workspace/crates/app/src/mcp/tools.rs', 'w')` in it, then ran
+    `python3 <scratchpad>/split_list.py`. The run command carries no write
+    construct of its own, so the inline guard never saw the rewrite. A script
+    that is missing, unreadable, oversized, or not a regular file is skipped —
+    refusing every `python3 tool.py` the hook cannot read would block
+    legitimate tooling.
+
+    A script git TRACKS is skipped too. It is project tooling, reviewed as
+    source in its own right, and an agent's scratch rewrite is untracked by
+    definition. Without this, running 130 of this repo's own scripts
+    (`bash scripts/check-*.sh`, `node npm/*.js`) was refused through the
+    mentioned-path fallback. When git cannot answer, the script is skipped,
+    the same fail-open as an unreadable file."""
+    found = []
+    for path, position, _ in _script_operands(command):
+        directory = _cd_directory(command, position, start)
+        if directory is None:
+            continue
+        on_disk = os.path.join(project_dir, directory, os.path.expanduser(path))
+        text = _read_run_script(on_disk, project_dir)
+        if text is None:
+            continue
+        explicit, opaque, append_only = write_targets(text)
+        if explicit or opaque:
+            found.append((
+                path,
+                _join_onto(directory, explicit),
+                opaque,
+                append_only,
+                _join_onto(directory, _path_tokens(text)),
+            ))
+    return found
+
+
+def _read_run_script(on_disk, project_dir):
+    """The text of the script at `on_disk`, or None when the guard does not read
+    it: under an unread directory, tracked by git (or git could not say),
+    missing, not a regular file, oversized, or unreadable. Every None is the
+    fail-open direction — see `script_run_write_targets`."""
+    if set(os.path.normpath(on_disk).split(os.sep)) & _UNREAD_SCRIPT_DIRS:
         return None
-    candidates = _path_tokens(command) if opaque else explicit
-    tracked = tracked_source_paths(candidates, project_dir)
+    rel = _repo_relative(os.path.normpath(on_disk), project_dir)
+    if rel and _git_ls_files([rel], project_dir) != []:
+        return None
+    try:
+        if not os.path.isfile(on_disk) or os.path.getsize(on_disk) > _MAX_SCRIPT_BYTES:
+            return None
+        with open(on_disk, encoding="utf-8", errors="replace") as handle:
+            return handle.read()
+    except OSError:
+        return None
+
+
+# One place a write was found: the command's own text (`script == ""`) or a
+# script file it runs. `mentions` is filled only for an opaque write, whose
+# candidates are every path the source mentions rather than `explicit`.
+_WriteSource = collections.namedtuple(
+    "_WriteSource", "explicit opaque append_only mentions script"
+)
+
+
+def _rewrite_sources(command, project_dir, start=""):
+    """Every `_WriteSource` in `command`: its own text when that carries a write
+    construct, then one per script file it runs that does. Relative paths are
+    read from `start`, the directory the command begins in."""
+    sources = []
+    explicit, opaque, append_only = write_targets(command, start)
+    if explicit or opaque:
+        mentions = _join_onto(start, _path_tokens(command)) if opaque else []
+        sources.append(_WriteSource(explicit, opaque, append_only, mentions, ""))
+    for script, s_explicit, s_opaque, s_append, mentions in script_run_write_targets(
+        command, project_dir, start
+    ):
+        sources.append(
+            _WriteSource(s_explicit, s_opaque, s_append, mentions if s_opaque else [], script)
+        )
+    return sources
+
+
+def _script_carrying(sources, target, target_resolved, project_dir):
+    """The `script` of the first source that names `target` — by an explicit
+    write when the target was resolved, by a mention when it was inferred —
+    or `""` when that is the command's own text."""
+    for source in sources:
+        paths = source.explicit if target_resolved else source.mentions
+        if target in eligible_pathspecs(paths, project_dir):
+            return source.script
+    return ""
+
+
+def scripted_rewrite_details(command, project_dir, cwd=None):
+    """`(found, consulted, script)`: `scripted_rewrite_verdict`'s pair plus the
+    script file, as the command names it, whose contents carry the write — or
+    `""` when the command's own text does. The refusal names that script, so a
+    one-word `python3 x.py` is not told it "contains `open(p, 'w')`"."""
+    sources = _rewrite_sources(command, project_dir, session_start_directory(cwd, project_dir))
+    if not sources:
+        return None, "", ""
+    candidates = []
+    for source in sources:
+        candidates.extend(source.mentions if source.opaque else source.explicit)
+    tracked, consulted = tracked_source_lookup(candidates, project_dir)
     if not tracked:
-        return None
+        return None, consulted, ""
+    resolved = eligible_pathspecs([p for s in sources for p in s.explicit], project_dir)
+    target = next((path for path in tracked if path in resolved), tracked[0])
+    script = _script_carrying(sources, target, target in resolved, project_dir)
+    append_only = all(s.append_only for s in sources)
     stages = _split_commands(command)
-    return (tracked[0], _offending_stage(stages), len(stages), append_only)
+    found = (target, _offending_stage(stages), len(stages), append_only, target not in resolved)
+    return found, consulted, script
 
 
-def scripted_source_rewrite_target(command, project_dir):
+def scripted_source_rewrite_target(command, project_dir, cwd=None):
     """The git-tracked source file a scripted in-process rewrite would clobber,
     or None when `command` is not one. The verdict half of
     `scripted_rewrite_stage`, for callers that need only the path."""
-    found = scripted_rewrite_stage(command, project_dir)
+    found = scripted_rewrite_stage(command, project_dir, cwd)
     return found[0] if found else None
+
+
+# --- Split-by-script notice ------------------------------------------------
+#
+# The scripted-rewrite guard judges only TRACKED write targets, so a script that
+# reads a tracked source file and writes its content out into NEW files passes
+# it: the new files stay untracked until staged. Two file splits on 2026-10-24/25
+# were done exactly that way (VM 10 `wait_for/`, VM 18 `branch_queue/`), and VM
+# 10's awk mis-counted a function's end mid-split. Content moved out of a
+# tracked file is tracked source in every way that matters, since a reviewer
+# reads it as a diff. So this WARNS rather than refuses: a generator that writes
+# fresh output beside its input has the same shape, and the hook cannot tell
+# the two apart.
+
+
+def is_split_destination(source, written):
+    """True when `written` sits where content split out of `source` would land:
+    same suffix, and either inside `source`'s directory (`src/a.rs` →
+    `src/a/b.rs`, `src/b.rs`) or, for a file at the repo root, under a
+    directory named for it (`setup.py` → `setup/x.py`). Pure."""
+    stem, suffix = os.path.splitext(source)
+    if written == source or os.path.splitext(written)[1].lower() != suffix.lower():
+        return False
+    parent = os.path.dirname(source)
+    return written.startswith(f"{parent}/" if parent else f"{stem}/")
+
+
+def split_by_script_target(command, project_dir):
+    """`(source, written)` when `command` writes an UNTRACKED source file at a
+    split destination (`is_split_destination`) of a tracked source file it also
+    names, else None.
+
+    Only RESOLVED write targets are judged. An opaque target already falls back
+    to every tracked path the command mentions in `scripted_rewrite_verdict`,
+    which refuses, so this notice would never be reached for it."""
+    explicit, _, _ = write_targets(command)
+    written = eligible_pathspecs(explicit, project_dir)
+    if not written:
+        return None
+    already_tracked = set(tracked_source_paths(written, project_dir))
+    new_files = [path for path in written if path not in already_tracked]
+    if not new_files:
+        return None
+    mentioned = [
+        path
+        for path in eligible_pathspecs(_path_tokens(command), project_dir)
+        if path not in written
+    ]
+    sources = tracked_source_paths(mentioned, project_dir)
+    for new_file in new_files:
+        for source in sources:
+            if is_split_destination(source, new_file):
+                return source, new_file
+    return None
+
+
+def split_by_script_notice(source, written):
+    """The non-blocking warning for a `split_by_script_target` match. Names
+    both paths and the Edit-based way to move code. Pure."""
+    return (
+        f"WARNING (split-by-script): this command reads the tracked source file "
+        f"`{source}` and writes the new file `{written}` beside it, which is the "
+        f"shape of splitting a file by script. Content moved out of a tracked file "
+        f"counts as tracked source for CLAUDE.md's Edit-tool rule, even though the "
+        f"new file stays untracked until it is staged. A script's diff is computed "
+        f"at runtime, so a reviewer never sees what moved. And a script that counts "
+        f"braces or function ends parses the language with the wrong grammar: an "
+        f"awk split once cut a function in half. Instead, create the new file with "
+        f"Write, holding the moved items verbatim. Delete them from `{source}` with "
+        f"Edit, and let the compiler's errors list the imports to fix. "
+        f"`{cli_command()} editor rename-symbol` renames an identifier across "
+        f"source, glossary and registry. This command is NOT blocked: if it is a "
+        f"generator writing fresh output, carry on."
+    )
 
 
 # ── line-budget guard ──────────────────────────────────────────────────
@@ -1689,7 +3787,8 @@ def line_budget_refusal(rel_path, limit, current, projected):
         f"`{cli_command()} editor new-step-fragment <name> --slug <slug>`: it writes "
         f"crates/codeyam-editor/src/commands/editor/steps/library/fragments/<name>_block.txt, "
         f"adds the `include_str!` substitution for `{{<name>_block}}` in "
-        f"crates/codeyam-editor/src/commands/editor/step.rs, inserts the placeholder into "
+        f"crates/codeyam-editor/src/commands/editor/step_render_substitutions.rs, inserts the "
+        f"placeholder into "
         f"each named slug's .txt, and prints the placeholder-leak test to add. Then put "
         f"this guidance in that fragment. To check any file's remaining headroom first: "
         f"`{cli_command()} editor classify-constrained-files {rel_path}`.",
@@ -1749,10 +3848,65 @@ def compound_stage_evidence(stage, stage_count):
     )
 
 
-def scripted_rewrite_refusal(path, append_only=False):
+def _inferred_target_refusal(path, append_only):
+    """The `(reason, next_action)` pair when the write's destination could not
+    be resolved and `path` is only a tracked file the command MENTIONS.
+
+    It must not claim the command writes `path` — that is an inference, and an
+    agent told its command rewrites a file it demonstrably never opens learns to
+    read the next refusal as a false positive. The block itself stays: erring
+    safe on an unresolvable target is what makes the guard worth having."""
+    construct = "an append" if append_only else "a scripted write"
+    return (
+        f"this command performs {construct} whose destination could not be "
+        f"resolved statically, and `{path}` is a tracked source file the command "
+        f"mentions — so it is refused as if it wrote that file. A scripted write "
+        f"computes its diff at runtime, so the change never appears in the "
+        f"transcript a reviewer reads, and it bypasses the file-state tracking "
+        f"that lets Edit refuse a file that changed underneath it.",
+        f"if the destination is NOT tracked source, make it legible and re-run: "
+        f"bind it to a literal in the same command — `p = \"path\"` … "
+        f"`open(p, \"w\")`, or `F=path` … `python3 - \"$F\"` reading "
+        f"`sys.argv[1]` — and the hook judges that path instead of every path the "
+        f"command mentions. If it IS tracked source, use the Edit tool; several "
+        f"Edit calls in ONE message run in parallel, and `replace_all: true` covers "
+        f"a replace-every-occurrence pass.",
+    )
+
+
+def _script_run_refusal(path, append_only, target_inferred, script):
+    """`scripted_rewrite_refusal` for a write found inside the script file
+    `script` rather than in the command. Its first sentence — the claim about
+    what THIS command does — is replaced with one about running the script; the
+    explanation and the recovery are the command-text variant's, unchanged."""
+    reason, next_action = scripted_rewrite_refusal(path, append_only, target_inferred)
+    if target_inferred:
+        construct = "an append" if append_only else "a scripted write"
+        claim = (
+            f"the script `{script}` this command runs performs {construct} "
+            f"whose destination could not be resolved statically, and "
+            f"`{path}` is a tracked source file the script mentions — so it "
+            f"is refused as if it wrote that file"
+        )
+    else:
+        verb = "would append to" if append_only else "would rewrite"
+        claim = f"running `{script}` {verb} the tracked source file `{path}`"
+    return (
+        f"{claim}. The hook read the script: a script file is an inline "
+        f"heredoc with one extra step. " + reason.split(". ", 1)[-1],
+        next_action,
+    )
+
+
+def scripted_rewrite_refusal(path, append_only=False, target_inferred=False, script=""):
     """The `(reason, next_action)` pair for a refused scripted write. Names the
     path that matched and the sanctioned alternatives — batching is the reason
     agents reach for a script, so the refusal has to answer it.
+
+    Branches on how the path was FOUND before anything else: a resolved target
+    gets the definite wording below, an inferred one gets
+    `_inferred_target_refusal`, which says what the hook could and could not
+    see.
 
     Branches on the CONSTRUCT, not the file. `cat >> file` is refused for the
     same two reasons a rewrite is (the diff is computed at runtime so it never
@@ -1761,7 +3915,15 @@ def scripted_rewrite_refusal(path, append_only=False):
     `replace_all` / `rename-symbol` answers "add 100 lines to the end". Calling
     it a rewrite and offering replace-shaped recoveries left the agent to
     re-read the file tail and synthesize an anchor by hand — the round trip
-    that made this the most-hit block on the fleet."""
+    that made this the most-hit block on the fleet.
+
+    `script` names the file a run interpreter reads its program from when the
+    write lives there rather than in the command (`python3 x.py`), so the
+    reason says what running it would do."""
+    if script:
+        return _script_run_refusal(path, append_only, target_inferred, script)
+    if target_inferred:
+        return _inferred_target_refusal(path, append_only)
     if append_only:
         return (
             f"this command appends to the tracked source file `{path}`. "
@@ -1789,6 +3951,105 @@ def scripted_rewrite_refusal(path, append_only=False):
         f"an identifier across source + glossary + registry run "
         f"`{cli_command()} editor rename-symbol`. Writing to an untracked file, to "
         f"/tmp, or to the scratchpad is unaffected.",
+    )
+
+
+def unparseable_command_refusal(command):
+    """The `(reason, next_action, evidence)` for a command this hook's
+    tokenizer cannot split, which is therefore refused unverified.
+
+    It claims only what the hook established: that tokenizing failed, on which
+    stage, and why. It names no guard, because none was evaluated — the PCRE
+    refusal used to fire here with `Evidence: a PCRE flag was found …` on
+    commands containing no `grep`, and the agent spent its retries rewriting a
+    flag that did not exist.
+
+    It used to name a heredoc body as "the usual cause", and that was a false
+    positive the hook knew about and refused anyway: an apostrophe in a
+    `python3 - <<'EOF'` body (`12'6"`, `# the brief's names`) read as an
+    unclosed quote. Those bodies no longer reach the tokenizer (see
+    `elide_heredoc_bodies`), so what is left is a quote on the shell line
+    itself — or in a body the shell DOES lex, a `bash <<EOF` one."""
+    stage, error = command.strip(), "unknown tokenizer error"
+    for segment in _split_commands(command):
+        try:
+            shlex.split(segment, posix=True)
+        except ValueError as e:
+            stage, error = segment.strip(), str(e)
+            break
+    return (
+        "this command could not be tokenized, so the hook could not check it "
+        "against its guards and refuses it rather than guess. This is not a "
+        "finding of any rule — not `grep -P`, not a test run. A quote on the "
+        "shell line is unbalanced (or one in a body a shell runs, such as "
+        "`bash <<EOF`). A python or node heredoc body is never the cause: "
+        "the hook skips those bodies, as the shell does.",
+        "if this command changes a file, use the Edit tool instead — several "
+        "Edit calls in ONE message run in parallel. Otherwise balance or escape "
+        "the stray quote in the stage named below and re-run.",
+        f"the tokenizer reported `{error}` on the shell stage: {stage}",
+    )
+
+
+def refuse_unparseable(project_dir, command, call):
+    """Refuse `command` as undecidable and exit. Every guard whose detector
+    returns None for an untokenizable command routes here, so they share one
+    reason and one `unparseable-command` fingerprint instead of each claiming
+    its own rule matched."""
+    reason, next_action, evidence = unparseable_command_refusal(command)
+    block(
+        project_dir,
+        "unparseable-command",
+        reason,
+        next_action,
+        evidence=evidence,
+        call=call,
+    )
+
+
+# ── preview-origin hand-write guard ────────────────────────────────────
+#
+# The subpath-hydration recovery is two coupled writes: `sameOriginSafe` in
+# `.codeyam/stack.json` and a `previewOrigin` in the editor config. Scripting
+# either by hand is the VM-7 incident — a python one-liner flipping
+# `sameOriginSafe` — and doing one half alone leaves the preview flagged
+# dedicated with no origin to move to. `.json` is deliberately outside
+# `SOURCE_SUFFIXES`, so the scripted-rewrite guard never saw it; this guard is
+# narrow on purpose (those keys, in those files) and names the verb that
+# performs both writes, since before it existed the refusal had nothing to offer.
+_PREVIEW_ORIGIN_KEYS = re.compile(r"sameOriginSafe|previewOrigin")
+_PREVIEW_ORIGIN_FILES = (
+    ".codeyam/stack.json",
+    ".codeyam/editor.json",
+    ".codeyam/editor.local.json",
+)
+
+
+def preview_origin_hand_write_target(command):
+    """The preview-origin config file `command` scripts a write of the preview
+    origin keys into, or None. Both halves are required: a write construct
+    landing on one of `_PREVIEW_ORIGIN_FILES`, and a mention of one of the
+    keys. Reading those files, or writing another key into them, is untouched."""
+    if not _PREVIEW_ORIGIN_KEYS.search(command):
+        return None
+    explicit, opaque, _append_only = write_targets(command)
+    if not explicit and not opaque:
+        return None
+    candidates = _path_tokens(command) if opaque else explicit
+    return next((p for p in candidates if p.endswith(_PREVIEW_ORIGIN_FILES)), None)
+
+
+def preview_origin_hand_write_refusal(path):
+    """The `(reason, next_action)` pair for a refused preview-origin hand write."""
+    return (
+        f"this command scripts a write of the preview origin into `{path}`. "
+        f"Serving the Live Preview from its own origin is two coupled writes "
+        f"(`preview.sameOriginSafe` in `.codeyam/stack.json` and a "
+        f"`previewOrigin` in the editor config); either one alone leaves the "
+        f"preview half-switched, with nowhere to move to.",
+        f"run `{cli_command()} editor preview-origin-mode dedicated --origin "
+        f"<ABSOLUTE-ORIGIN>` — it performs both writes, or neither. "
+        f"`{cli_command()} editor preview-origin-mode same-origin` undoes it.",
     )
 
 
@@ -2019,14 +4280,22 @@ def read_event():
 # store instead, so the question is answerable without knowing the schema.
 _INSPECTOR_BY_STORE = [
     (".codeyam/logs/audit-history.jsonl", "audit-history"),
+    (".codeyam/audit-baseline.json", "audit --only <INVARIANT_ID> --format json"),
     (".codeyam/state/finalize-debt.json", "finalize-debt"),
+    (".codeyam/state/last-advance.txt", "step-handoff --section <NAME> (bare to list sections)"),
     (".codeyam/dependency-graph.json", "deps-imports / deps-imported-by"),
     (".codeyam/test-registry.json", "registry-query"),
+    (".codeyam/per-test-evidence.json", "evidence-query"),
+    (".codeyam/project-deliverables.json", "deliverables"),
     (".codeyam/editor.local.json", "config-show --source"),
+    (".codeyam/scenarios/coverage-plan", "scenario-coverage-plan"),
     (".codeyam/scenarios/_shared", "shared-data"),
     (".codeyam/editor-step.json", "step"),
     (".codeyam/glossary.json", "glossary-find / glossary-list"),
-    (".codeyam/editor.json", "config-show"),
+    (".codeyam/editor.json", "config-query (testRunners / staticChecks) / config-show"),
+    (".codeyam/stack.json", "project-info"),
+    (".codeyam/starter", "starter-context"),
+    (".codeyam/design/starter-seeded.json", "starter-context"),
     (".codeyam/scenarios", "scenarios / scenario-explain"),
     (".codeyam/test-cache", "test-cache-query"),
     (".codeyam/journal", "journal-find"),
@@ -2051,16 +4320,24 @@ _CODEYAM_STATE_PATH = re.compile(r"\.codeyam/[A-Za-z0-9_.][A-Za-z0-9_./+-]*")
 # `inspector_nudge`'s docstring was never python-specific: `ls` on a
 # guessed path re-derives a store's layout exactly the way a python walk
 # re-derives its schema, and fails the same way.
+#
+# `sed` and `awk` are here because their absence made the one idiom that
+# actually dropped instructions — `sed -n '160,260p'` on the saved step
+# hand-off — invisible to this nudge entirely. A windowed `sed` on a guessed
+# anchor re-derives a store's layout the same way; widening the verb set
+# widens the nudge for every `.codeyam/` store, which is the intended
+# direction (a broader net argues for keeping the instrument soft, not for
+# narrowing the net).
 _READ_VERB = re.compile(
     r"""(?:\A|[\n;|&`(]|\$\()\s*
         (?:[A-Za-z_][A-Za-z_0-9]*=\S*\s+)*
         (?:(?:sudo|command|time|xargs)\s+)*
-        (?:python3?|ls|cat|head|tail|wc|jq|grep|find)\b
+        (?:python3?|ls|cat|head|tail|wc|jq|grep|find|sed|awk)\b
     """,
     re.VERBOSE,
 )
 
-# A `codeyam-editor-dev editor …` invocation, under either the canonical name
+# A `codeyam-editor editor …` invocation, under either the canonical name
 # or the local-dev branding.
 _INSPECTOR_INVOCATION = re.compile(r"\bcodeyam-editor(?:-dev)?\s+editor\b")
 
@@ -2075,7 +4352,7 @@ def is_read_shaped_command(command):
 
 
 def is_inspector_invocation(command):
-    """True when `command` runs a `codeyam-editor-dev editor …` subcommand.
+    """True when `command` runs a `codeyam-editor editor …` subcommand.
 
     An inspector necessarily names the store it inspects, so nudging one
     would point the agent at the command it is already running."""
@@ -2151,6 +4428,972 @@ def inspector_nudge(command):
     return None
 
 
+# ── windowed hand-off read guard ───────────────────────────────────────
+#
+# The saved step hand-off is an INSTRUCTION file, and a window of one is the
+# single read shape with no trustworthy interpretation: the lines that come
+# back are accurate, and nothing in them says a section body was cut.
+#
+# Observed: an agent read its step-3 hand-off with
+# `sed -n '160,260p' .codeyam/state/last-advance.txt`. The window ended
+# exactly on a `━━━ ASK WHETHER TO KEEP ASKING ━━━` banner, so it got the
+# heading and none of the body, never asked the question that section told it
+# to ask, and had no signal anything was missing — the read exited 0 with text
+# that looked complete BECAUSE it ended on a heading. The user caught it turns
+# later.
+#
+# BLOCK, not notice — the opposite call from `inspector_nudge` above, and the
+# asymmetry is what decides it. Hand-parsing a JSON store is wasteful but
+# recoverable inside the same turn; a half-read instruction file costs
+# SILENTLY UNEXECUTED INSTRUCTIONS discovered turns later. This is the hook's
+# own criterion for its blocking half: the cases where there is no reading
+# under which the result is trustworthy. And a block strands nobody, which is
+# the condition `inspector_nudge` reasons from in the other direction —
+# `cat` and `step-handoff --section` are always-available COMPLETE
+# alternatives, so there is no legitimate question this refusal leaves
+# unanswerable.
+#
+# `grep` and a whole-file `cat` stay allowed on purpose: locating a section is
+# not reading a window of one, and `cat` is the recovery the pointer line has
+# always named.
+_HANDOFF_STORE = ".codeyam/state/last-advance.txt"
+
+# The hand-off text lives in FIVE places, byte-identical, and this guard used to
+# reach one of them. The other four are what an agent actually reaches for once
+# the `cat` is truncated, so a guard on the canonical path alone was a fence
+# across the least-used door:
+#
+#   1. `.codeyam/state/last-advance.txt`      — the canonical store.
+#   2. `.codeyam/state/last-step-show.txt`    — the read-only `--show` render.
+#   3. `.codeyam/state/command-output/runs/advance-<runId>.txt`
+#                                             — the run-keyed transcript,
+#                                               CONTENT-GATED (see below).
+#   4. the harness's persisted tool result    — an OPAQUE filename, so it is
+#                                               matched by CONTENT, below.
+#   5. the harness's task output for a
+#      BACKGROUNDED command                   — likewise matched by CONTENT.
+#
+# Observed on the mirrors specifically: `sed -n '1,200p' …/tool-results/<id>.txt
+# | sed -n '40,200p'` at three separate steps of one session, and an
+# `awk '/━━━ ASK WHETHER TO KEEP ASKING ━━━/,…'` over the run-keyed transcript
+# in another. Identical hazard, unguarded.
+#
+# Door 5 is the MOST travelled of the five, not a corner case: `advance` is in
+# `_GATING_SUBCOMMANDS`, so every advance is auto-backgrounded and its hand-off
+# lands in the task output, which the agent then retrieves with `wait-for`. One
+# session windowed exactly that FOURTEEN times, once per step, with
+# `wait-for … | sed -n '/BEGIN STEP/,$p' | head -12` — a window that starts AT
+# the banner, so the checklist the trailer says is "printed above this trailer"
+# is discarded wholesale, and then ends on another banner, handing back a
+# heading with no body. It reads as complete and is not.
+#
+# Widening this is only safe BECAUSE the delivery side landed with it: blocking
+# the mirrors while `cat` still truncated would have left no way to read a
+# hand-off at all. That is why the plan made them one change.
+_HANDOFF_PATH_MIRRORS = (
+    _HANDOFF_STORE,
+    ".codeyam/state/last-step-show.txt",
+)
+
+# The run-keyed transcript. A regex because the run id varies per invocation.
+#
+# Its path names a CANDIDATE, not a hand-off: an `advance` that hung or died
+# leaves a transcript holding only a heartbeat and a warning or two. Windowing
+# that is ordinary diagnosis, and refusing it sent agents on two VMs to a
+# `step-handoff --section` that had nothing to give. So a READABLE transcript
+# that provably carries no hand-off marker is exempt (`_transcript_holds_handoff`),
+# while an unreadable one stays refused — unlike the opaque harness files below,
+# this path is codeyam's own, so its mere presence is real evidence.
+_HANDOFF_RUN_TRANSCRIPT = re.compile(
+    r"\.codeyam/state/command-output/runs/advance-[0-9a-fA-F-]+\.txt"
+)
+
+# A harness-persisted tool result. The filename carries no hint of what is in
+# it, so the path shape only makes a file a CANDIDATE — whether it holds a
+# hand-off is decided by reading it.
+_HANDOFF_TOOL_RESULT = re.compile(r"[^\s'\"]*/tool-results/[^\s'\"]+\.txt")
+
+# A harness task output for a backgrounded command. Same deal as the tool
+# result above: the id is opaque, so the path shape only makes a file a
+# CANDIDATE and the content sniff decides. This is where every backgrounded
+# `advance` puts its hand-off.
+#
+# Deliberately NOT anchored on the `/tmp/claude-<uid>/<project>/<session>/`
+# prefix, for the same reason spelled out for `_HARNESS_TOOL_RESULT_TRANSCRIPT`
+# below: that prefix is not stable — `/tmp/claude-0/-workspace/…` in a fleet
+# container, `/tmp/claude-501/-Users-…/…` on a laptop. The `/tasks/` segment is
+# the part that does not move. Requiring the literal leading slash keeps
+# `my-tasks/x.output` out.
+_HANDOFF_TASK_OUTPUT = re.compile(r"[^\s'\"]*/tasks/[^/\s'\"]+\.output\b")
+
+# The two shapes above are the CONTENT-SNIFFED ones: both are named by an
+# opaque harness id, so neither can be decided from the path alone. Grouped so
+# the sweep below states that strategy once — a sixth door of this kind is one
+# entry here, not another copy of the same three lines.
+_HANDOFF_CONTENT_SNIFFED = (_HANDOFF_TOOL_RESULT, _HANDOFF_TASK_OUTPUT)
+
+# What identifies a persisted tool result as holding a hand-off: the pointer
+# token `advance` prints, or the banner shape every step body is fenced with.
+# `step-handoff --section` answers carry neither banner (theirs are
+# `━━━ <NAME> ━━━`), so that command prints the pointer token as its first
+# stdout line — one marker here, not a second grammar to learn.
+# Read from a bounded prefix — enough to see a hand-off's opening banner, small
+# enough that a PreToolUse hook never stalls on a large file.
+_HANDOFF_CONTENT_MARKERS = ("CODEYAM_FULL_HANDOFF", "━━━ BEGIN STEP ")
+_HANDOFF_SNIFF_BYTES = 8192
+
+
+def _handoff_paths_in(text):
+    """Every hand-off-carrying path `text` names, opaque tool results included.
+
+    Returns the literal substrings found, so callers can test stage membership
+    the same way the single-path version did."""
+    found = [store for store in _HANDOFF_PATH_MIRRORS if store in text]
+    found.extend(
+        match.group(0)
+        for match in _HANDOFF_RUN_TRANSCRIPT.finditer(text)
+        if _transcript_holds_handoff(_run_transcript_path(text, match))
+    )
+    # Content-gated, and for the task output the reason is sharper than for the
+    # tool result: a task output is only a hand-off SOMETIMES. Most backgrounded
+    # commands are test runs, commits, rebuilds — outputs an agent has every
+    # right to window. Measured across eight sessions: 49 windowed `wait-for`
+    # reads, of which 14 carried a hand-off. Refusing the other 35 would strand
+    # agents for no benefit, which is what the sniff's fail-open exists to avoid.
+    for pattern in _HANDOFF_CONTENT_SNIFFED:
+        found.extend(
+            match.group(0)
+            for match in pattern.finditer(text)
+            if _file_holds_handoff(match.group(0))
+        )
+    return found
+
+
+def _file_holds_handoff(path):
+    """True when `path` is readable and its opening bytes carry a hand-off.
+
+    Content-sniffed rather than name-matched because the harness names these
+    files by an opaque id. Fails OPEN — an unreadable or missing path is not a
+    hand-off — because this guard's job is to refuse a read of a KNOWN
+    instruction file, and refusing an unrelated tool result the agent has every
+    right to window would strand it for no benefit."""
+    try:
+        with open(path, "rb") as handle:
+            head = handle.read(_HANDOFF_SNIFF_BYTES).decode("utf-8", "replace")
+    except OSError:
+        return False
+    return any(marker in head for marker in _HANDOFF_CONTENT_MARKERS)
+
+
+def _run_transcript_path(text, match):
+    """The filesystem path a `_HANDOFF_RUN_TRANSCRIPT` match names, resolved
+    against the project when it is relative.
+
+    The regex matches from `.codeyam/` on, so an absolute spelling
+    (`/workspace/.codeyam/…`) is recovered by extending the match backwards to
+    the start of its token."""
+    start = match.start()
+    while start > 0 and text[start - 1] not in " \t\n'\"=<>;|&()`":
+        start -= 1
+    path = text[start:match.end()]
+    if os.path.isabs(path):
+        return path
+    return os.path.join(os.environ.get("CLAUDE_PROJECT_DIR", os.getcwd()), path)
+
+
+def _transcript_holds_handoff(path):
+    """True unless `path` is a readable run transcript carrying no hand-off.
+
+    Fails CLOSED, the inverse of `_file_holds_handoff`: an unreadable or
+    missing transcript is treated as a hand-off. The WHOLE file is scanned, not
+    a prefix — a finished `advance` prints its gate preamble before the first
+    banner — in bounded chunks with a marker-sized overlap, so a large
+    transcript cannot stall the hook and a marker split across two chunks is
+    still seen."""
+    overlap = max(len(marker.encode("utf-8")) for marker in _HANDOFF_CONTENT_MARKERS)
+    markers = [marker.encode("utf-8") for marker in _HANDOFF_CONTENT_MARKERS]
+    try:
+        with open(path, "rb") as handle:
+            tail = b""
+            while True:
+                chunk = handle.read(_HANDOFF_SNIFF_BYTES)
+                if not chunk:
+                    return False
+                window = tail + chunk
+                if any(marker in window for marker in markers):
+                    return True
+                tail = window[-overlap:]
+    except OSError:
+        return True
+
+# The command-position anchor is `_READ_VERB`'s, for the same reason: position
+# is what separates a read from an incidental mention, so the path quoted in a
+# commit message or handed to `git add` is not a hit.
+_HANDOFF_VERB_ANCHOR = r"""(?:\A|[\n;|&`(]|\$\()\s*
+        (?:[A-Za-z_][A-Za-z_0-9]*=\S*\s+)*
+        (?:(?:sudo|command|time|xargs)\s+)*
+    """
+
+# `head`/`tail` truncate with or WITHOUT an explicit `-n`: a bare
+# `head FILE` is already a ten-line window, which is why no flag is required.
+_HANDOFF_HEAD_TAIL = re.compile(_HANDOFF_VERB_ANCHOR + r"(head|tail)\b", re.VERBOSE)
+_HANDOFF_SED = re.compile(_HANDOFF_VERB_ANCHOR + r"(sed)\b", re.VERBOSE)
+_HANDOFF_AWK = re.compile(_HANDOFF_VERB_ANCHOR + r"(awk)\b", re.VERBOSE)
+
+# A `sed` address that truncates by LINE NUMBER: `160,260p`, `1,+20p`,
+# `160,$p`, `40p`, `260q`, `1,100d`. A `sed` carrying no such address is not
+# windowing by line and is left alone — a substitution whose replacement
+# happens to contain a digit does not reach `[pqd]`.
+_SED_LINE_WINDOW = re.compile(r"\d+\s*(?:,\s*(?:\d+|\+\d+|\$))?\s*[pqd]\b")
+
+# A `sed` address that truncates by PATTERN RANGE: `/BEGIN STEP/,$p`,
+# `/^# Backend Flow/,/━━━ TASK ━━━/p`. Anchoring on a banner is the most
+# natural way to carve one section out of a hand-off, and it is the shape the
+# refusal describes — a range that ENDS on a banner hands back a heading with
+# no body. A single `/PATTERN/p` with no range is a filter, not a window.
+# Applied to LIVE output only (`_live_handoff_idiom`).
+_SED_PATTERN_WINDOW = re.compile(r"/[^/]+/\s*,\s*(?:/[^/]+/|\d+|\+\d+|\$)\s*[pqd]")
+
+# `awk` truncates when it guards on the record number.
+_AWK_NR = re.compile(r"\bNR\b")
+
+# The `sed` pattern range above, spelled in awk:
+# `awk '/━━━ ASK WHETHER TO KEEP ASKING ━━━/,/━━━/'`. Live output only.
+_AWK_PATTERN_RANGE = re.compile(r"/[^/]+/\s*,\s*/[^/]+/")
+
+# A stage that REDUCES the store to a match list rather than emitting a
+# contiguous body. Truncating a match list is not reading a window of one
+# section, which is why the glossary names grep and wc as non-matches.
+_HANDOFF_REDUCER = re.compile(
+    _HANDOFF_VERB_ANCHOR + r"(grep|egrep|fgrep|rg|wc)\b", re.VERBOSE
+)
+
+
+def _handoff_idiom(stage):
+    """The truncating idiom `stage` runs, or None.
+
+    Stage-scoped on purpose: whether that truncation actually lands on the
+    hand-off's body is the CALLER's question, because the answer depends on
+    what the rest of the pipeline feeds it."""
+    head_tail = _HANDOFF_HEAD_TAIL.search(stage)
+    if head_tail:
+        return head_tail.group(1)
+    if _HANDOFF_SED.search(stage) and _SED_LINE_WINDOW.search(stage):
+        return "sed"
+    if _HANDOFF_AWK.search(stage) and _AWK_NR.search(stage):
+        return "awk"
+    return None
+
+
+def _live_handoff_idiom(stage):
+    """The truncating idiom `stage` runs over LIVE hand-off output, or None.
+
+    `_handoff_idiom` plus the pattern ranges. Over live output a banner-anchored
+    range is the commonest window there is — the line numbers are not known
+    until the command has run, so a pattern is what agents reach for."""
+    idiom = _handoff_idiom(stage)
+    if idiom:
+        return idiom
+    if _HANDOFF_SED.search(stage) and _SED_PATTERN_WINDOW.search(stage):
+        return "sed"
+    if _HANDOFF_AWK.search(stage) and _AWK_PATTERN_RANGE.search(stage):
+        return "awk"
+    return None
+
+
+def _handoff_emits_body(upstream):
+    """True when some stage in `upstream` emits a contiguous BODY of a store.
+
+    Fails CLOSED: any stage that reads a hand-off and is not a recognised
+    reducer counts as a body emitter, so an unfamiliar reader piped into
+    `head`/`tail` is still refused."""
+    return any(
+        _handoff_paths_in(stage) and not _HANDOFF_REDUCER.search(stage)
+        for stage in upstream
+    )
+
+
+def windowed_handoff_read(command):
+    """Return the truncating idiom `command` uses to read a WINDOW of the
+    saved step hand-off, or None.
+
+    Fires only when the command BOTH names a hand-off-carrying file (see
+    `_handoff_paths_in` for the five of them) AND truncates it. A persisted
+    tool result and a backgrounded command's task output are matched by
+    CONTENT, so windowing an unrelated one is not a hit. Heredoc bodies are
+    elided first, for the same reason every other guard elides them: a commit
+    message that quotes the path is prose, not a read.
+
+    A bare `cat`, a `grep`, and a `wc -l` of the same path are deliberately
+    NOT matches. Reading the file whole is the recovery this guard points at,
+    and locating a section by name is how an agent legitimately discovers what
+    to ask `--section` for — refusing either would break the way out.
+
+    The match is STAGE-SCOPED, not whole-command: a truncating verb counts only
+    when its own stage names the store, or when an upstream stage in the SAME
+    pipeline emits the store's body. Scanning the whole string refused
+    `grep PATTERN FILE | head` — which truncates grep's OUTPUT, not the file —
+    and refused a `head` belonging to an entirely different command joined by
+    `;`, handing the agent a refusal that named its own command as permitted.
+
+    Pure and side-effect free, so the idiom set is assertable directly without
+    going through captured stdout."""
+    if not command:
+        return None
+    command = elide_heredoc_bodies(command)
+    if not _handoff_paths_in(command):
+        return None
+    for pipeline in _pipelines(command):
+        for index, stage in enumerate(pipeline):
+            idiom = _handoff_idiom(stage)
+            if not idiom:
+                continue
+            if _handoff_paths_in(stage) or _handoff_emits_body(pipeline[:index]):
+                return idiom
+    return None
+
+
+# Door six — and it names no path at all. Every door above is a FILE the
+# hand-off was written to; this one is the LIVE stdout of the command that
+# produces it, windowed before it lands anywhere:
+# `advance 2>&1 | sed -n '/^# Backend Flow/,/━━━ TASK ━━━/p'`,
+# `step-handoff --section a,b,c | head -5`. A path sweep cannot see it because
+# there is no path to sweep, and it carries the traffic: measured across 59
+# fleet sessions, 239 windowed live reads in 42 of them, none refused, against
+# 29 refusals on the five file doors combined. A seventh producer is one entry
+# here.
+_HANDOFF_PRODUCING_SUBCOMMANDS = frozenset(("advance", "step", "step-handoff"))
+
+# The position-blind fallback for a stage `shlex` cannot tokenize, so a
+# malformed quote is never an evasion path. `step-handoff` is listed before
+# `step` because `step\b` also matches at the hyphen.
+_HANDOFF_PRODUCER_INVOCATION = re.compile(
+    r"\bcodeyam-editor(?:-dev)?\s+editor\s+(step-handoff|advance|step)\b"
+)
+
+# An inverted match passes nearly everything through, so `grep -v heartbeat`
+# is a filter, not a reducer — and it is exactly what the measured
+# banner-ended window was hidden behind.
+_INVERTED_MATCH = re.compile(r"(?:^|\s)(?:-[A-Za-z]*v[A-Za-z]*|--invert-match)\b")
+
+
+def _handoff_subcommand(stage):
+    """The hand-off-producing `codeyam-editor editor <subcommand>` that
+    `stage` RUNS, or None — `"step-handoff --section"` for a section answer,
+    the one read the command exists to make complete.
+
+    Position-aware for the reason `_gating_subcommand` is: the name is only an
+    invocation when it is the program the stage runs, so
+    `grep "editor advance" notes.md | head` is not a hit."""
+    try:
+        tokens = shlex.split(stage, posix=True)
+    except ValueError:
+        match = _HANDOFF_PRODUCER_INVOCATION.search(stage)
+        return match.group(1) if match else None
+    for index, tok in enumerate(tokens):
+        if _program_name(tok) not in _CODEYAM_CLIS:
+            continue
+        if not _in_command_position(tokens, index):
+            continue
+        rest = tokens[index + 1:]
+        if len(rest) >= 2 and rest[0] == "editor" and rest[1] in _HANDOFF_PRODUCING_SUBCOMMANDS:
+            if rest[1] == "step-handoff" and any(
+                arg == "--section" or arg.startswith("--section=") for arg in rest[2:]
+            ):
+                return "step-handoff --section"
+            return rest[1]
+    return None
+
+
+def _reduces_output(stage):
+    """True when `stage` reduces its input to a match list or a count, so a
+    window downstream of it truncates THAT, not the hand-off — the same
+    carve-out the path guard makes for `grep FILE | head`."""
+    return bool(_HANDOFF_REDUCER.search(stage)) and not _INVERTED_MATCH.search(stage)
+
+
+def windowed_live_handoff(command):
+    """`(subcommand, idiom)` when `command` pipes the LIVE output of a
+    hand-off-producing subcommand into a truncating stage, or None.
+
+    Evaluated per pipeline, so a window buried in the second of three
+    `;`/`&&`-joined commands is still seen, and a `head` belonging to a
+    different command is not. A pipe into `grep` stays allowed for the reason
+    it does on the path guard: a search is not a window and does not present
+    itself as a complete read. A bare run is never a match.
+
+    Pure, so the idiom set is assertable directly."""
+    if not command:
+        return None
+    command = elide_heredoc_bodies(command)
+    for pipeline in _pipelines(command):
+        for index, stage in enumerate(pipeline):
+            subcommand = _handoff_subcommand(stage)
+            if not subcommand:
+                continue
+            for downstream in pipeline[index + 1:]:
+                if _reduces_output(downstream):
+                    break
+                idiom = _live_handoff_idiom(downstream)
+                if idiom:
+                    return subcommand, idiom
+    return None
+
+
+def handoff_refusal_collateral(command):
+    """The pipelines of `command` that read no hand-off window — what a
+    pre-execution refusal discards along with the read.
+
+    The hook refuses the WHOLE call, so in `sed -n 392,420p <hand-off>; cargo
+    fmt` the `cargo fmt` never runs. 11 of 29 measured refusals were compound
+    like that, one of them discarding a `track-step completed` workflow
+    mutation, and nothing said so. Naming them is the fix."""
+    collateral = []
+    for pipeline in _pipelines(elide_heredoc_bodies(command or "")):
+        text = " | ".join(stage.strip() for stage in pipeline)
+        if windowed_handoff_read(text) or windowed_live_handoff(text):
+            continue
+        collateral.append(text)
+    return collateral
+
+
+def handoff_refusal_offender(command):
+    """The compound-stage sentence naming which part of `command` was the
+    windowed hand-off read, or "" for a single-pipeline command.
+
+    The inverse of `handoff_refusal_collateral`. A `;`-joined call whose real
+    question was `grep -n createMember …` was refused whole for a trailing
+    piped `step-handoff`, and the refusal — advice about hand-off sections —
+    read as an answer about the `grep`. Quoting the matched part is what
+    makes clear the rest of the line was not the problem."""
+    pipelines = _pipelines(elide_heredoc_bodies(command or ""))
+    for pipeline in pipelines:
+        text = " | ".join(stage.strip() for stage in pipeline)
+        if windowed_handoff_read(text) or windowed_live_handoff(text):
+            return compound_stage_evidence(text, len(pipelines))
+    return ""
+
+
+def windowed_handoff_read_tool(tool_input):
+    """The truncating idiom a `Read` TOOL call uses on the saved step hand-off,
+    or None.
+
+    The `Read` tool reaches the same failure through a different door:
+    `offset`/`limit` are a line window by another name, and the unconditional
+    read-only allow further down would wave it through.
+
+    Split out of `main()` for the reason the Bash half already is — a pure
+    predicate is assertable directly, where three lines inlined in `main()`
+    can only be reached end-to-end through a captured exit code.
+
+    `file_path` is matched on its normalised tail, so an absolute path answers
+    the same as a project-relative one. A `Read` carrying NEITHER key is a
+    whole-file read and deliberately not a match: that is one of the two
+    complete alternatives the refusal points at."""
+    tool_input = tool_input or {}
+    path = str(tool_input.get("file_path") or "").replace("\\", "/")
+    if not _handoff_paths_in(path):
+        return None
+    if tool_input.get("offset") is None and tool_input.get("limit") is None:
+        return None
+    return "Read offset/limit"
+
+
+def _live_handoff_recovery(subcommand):
+    """The opening of the next action for a windowed LIVE read, derived from
+    the subcommand that was actually run.
+
+    One hard-coded recovery used to serve all three producers, and it was
+    advice about `step-handoff --section`: run bare, "a `--section` request is
+    already as narrow as you asked for". For `advance 2>&1 | head -60` that
+    is a non-sequitur — no `--section` was requested — and the refusal fired
+    23 times in 20 hours on one VM without its rate falling, the signature of
+    a refusal that is not teaching. Each producer now leads with how to get
+    ITS answer whole; the shared section advice follows as the narrowing
+    path, because all three do write the same hand-off. An unknown producer
+    falls back to the generic run-it-bare line, never to another command's
+    advice."""
+    cli = cli_command()
+    specific = {
+        "advance": (
+            f"run `{cli} editor advance` BARE. Its verdict is the final "
+            f"`CODEYAM_CMD_COMPLETE` line (`status` plus the step it moved "
+            f"to), and the `━━━ BEGIN STEP N ━━━` trailer just above it "
+            f"carries the EXACT_TASK_TITLE and the next actions — the parts a "
+            f"`head` cuts first. Already ran it? Nothing to re-run: the "
+            f"verdict is in `.codeyam/state/command-output/advance.status.json` "
+            f"and the whole output in the run-keyed transcript its "
+            f"`CODEYAM_FULL_OUTPUT` line names. To narrow the step "
+            f"instructions it printed, "
+        ),
+        "step": (
+            f"run `{cli} editor step` BARE — it prints the current step's "
+            f"instructions once and saves the same text to `{_HANDOFF_STORE}`, "
+            f"so there is nothing to window and nothing to lose by reading "
+            f"all of it. To narrow, "
+        ),
+        "step-handoff --section": (
+            "run it WITHOUT the window — the command already saves and prints "
+            "its complete answer, and a `--section` request is already as "
+            "narrow as you asked for. To narrow further, "
+        ),
+    }
+    return specific.get(
+        subcommand,
+        "run it WITHOUT the window — the complete output is printed and also "
+        "saved to disk, so nothing is gained by cutting it. To narrow, ",
+    )
+
+
+def windowed_handoff_read_refusal(idiom, subcommand=None, collateral=()):
+    """The `(reason, next_action)` pair for a windowed hand-off read.
+
+    `subcommand` is set for door six — the live output of `advance`, `step`,
+    or `step-handoff` — and swaps the opening for one that names the command,
+    since there is no file in the call to point at. A `--section` answer gets
+    one more sentence: there the window is self-defeating, because the answer
+    ENDS with the line naming any required section the request did not show,
+    and a window short of the whole answer deletes exactly that line.
+
+    `collateral` lists the parts of a compound command that did not run —
+    the refusal fires before execution, so they were discarded with the read.
+
+    The reason states the failure CONCRETELY — a window can end on a banner
+    and yield a heading with no body. The abstract version ("you might miss
+    something") is exactly what an agent holding accurate-looking text
+    discounts, which is how this failed the first time.
+
+    The reason LEADS with the invariant — no window of a hand-off, through any
+    tool, at any of the places it lives — and only then names the matched
+    `idiom` as evidence. Headlining the shape taught the wrong lesson: three
+    retry pairs landed 3–5 seconds after a refusal, each re-applying the window
+    with a different tool, because the refusal read as "`sed` is the problem".
+
+    The next action names `step-handoff --section` FIRST, and says why it
+    beats a line range the agent may still be holding from older output.
+    `step-handoff` itself no longer prints ranges for exactly that reason: a
+    printed range was read as "look here" and `sed`-ed back seconds later.
+    Refusing that read is still right — the arithmetic is the hazard, and a
+    copied range is complete only if it was copied exactly — so the recovery
+    has to say the named form reaches the same answer without any of it."""
+    invariant = (
+        "NO window of a step hand-off is allowed — not through any tool "
+        "(`head`, `tail`, `sed`, `awk`, a `Read` with offset/limit), and not "
+        "at any of the places the hand-off lives. Switching to another "
+        "windowing tool, or moving the pipe onto another command that prints "
+        "the same text, is refused the same way. "
+    )
+    if subcommand:
+        opening = (
+            f"{invariant}This call pipes the LIVE output of "
+            f"`{cli_command()} editor {subcommand}` into `{idiom}`, which reads "
+            f"a window of the same text it saves to `{_HANDOFF_STORE}`. A hand-off is "
+        )
+    else:
+        opening = (
+            f"{invariant}This call reads a window of a saved step hand-off with "
+            f"`{idiom}`. A hand-off is "
+        )
+    section_clause = ""
+    if subcommand == "step-handoff --section":
+        section_clause = (
+            " For a `--section` answer the window is self-defeating: you asked "
+            "for COMPLETE sections, and the answer ends with the line "
+            "`step-handoff: N REQUIRED section(s) of this step are NOT shown "
+            "above: …` — the one signal that your narrowing dropped an "
+            "instruction. Any window short of the whole answer deletes that "
+            "trailer first."
+        )
+    live_clause = _live_handoff_recovery(subcommand) if subcommand else ""
+    collateral_clause = ""
+    if collateral:
+        listed = "; ".join(f"`{part}`" for part in collateral)
+        collateral_clause = (
+            f" The whole call was refused before it ran, so these parts of it "
+            f"did NOT run either — re-issue them on their own: {listed}."
+        )
+    return (
+        f"{opening}"
+        f"an instruction file, and a window of one is the single read shape "
+        f"with no trustworthy interpretation: the lines that come back are "
+        f"accurate, and nothing in them tells you a section body was cut. A "
+        f"window that ends on a `━━━ … ━━━` banner hands back a heading with "
+        f"no body — it reads as complete and is not, which is how a whole "
+        f"section's instructions went unexecuted and were caught only turns "
+        f"later. The same text lives in `{_HANDOFF_STORE}`, in the run-keyed "
+        f"transcript, and in the harness's persisted tool result, so this "
+        f"applies wherever you reached it.{section_clause}",
+        f"{live_clause}"
+        f"read it by NAMED SECTION: `{cli_command()} editor step-handoff "
+        f"--section <NAME>` returns one COMPLETE section, marks which sections "
+        f"are REQUIRED, and now reports any required section your request did "
+        f"not show — so narrowing no longer risks dropping an instruction "
+        f"silently. Run it bare to list the sections this hand-off has. If "
+        f"this window is of a persisted `--section` answer that was too large "
+        f"to show, re-run that request: an answer that large is now written "
+        f"one section per file under `.codeyam/state/handoff-sections/`, and "
+        f"it prints one `cat` line per section, each a COMPLETE read. `cat "
+        f"{_HANDOFF_STORE}` still returns all of it. A line range you are "
+        f"holding from earlier output is NOT a licence to `sed` it back — the "
+        f"named form gives the same answer with none of the arithmetic. `grep`, "
+        f"`wc -l`, and a bare `cat` of this file are unaffected, and so is a "
+        f"pipe of the live output into `grep`.{collateral_clause}",
+    )
+
+
+# ── scripted state-read guard ──────────────────────────────────────────
+#
+# `inspector_nudge` above is the SOFT, editor-mode-only pointer: it fires on
+# any read verb touching `.codeyam/` and it only ever advises. This guard is
+# the narrow, always-on companion for the one shape that keeps recurring —
+# a command that PARSES a `.codeyam/` store as JSON.
+#
+# The measurement that motivates it: across 12 autonomous sessions agents
+# hand-parsed `.codeyam/` state with ad-hoc `json.load` heredocs 84 times in
+# 10 of the 12, producing 12 `JSONDecodeError` crashes. `journal-commit-message`
+# scored ZERO uses against 34 hand-rolls and 36 hardcoded timestamps — and it
+# was already documented by name in the very CLAUDE.md table whose other
+# commands enjoy healthy adoption. Prose has now failed twice on that one, so
+# it gets the mechanical instrument instead.
+#
+# Every case is a BLOCK now, but the recoveries differ:
+#
+#   A mapped store is refused with ITS query command as the next action.
+#   This used to be a NOTICE, on the reasoning that a hand-parse is wasteful
+#   rather than incorrect and a block would strand a one-off inspection. The
+#   notice did not change behaviour: on 2026-10-06 one VM produced four
+#   tracebacks from hand-parses of `.codeyam/` state in a day — a
+#   `FileNotFoundError` on `audit-baseline.json`, the `'str' object has no
+#   attribute 'get'` that `entryType` exists to prevent, a `KeyError` from a
+#   guessed scenario shape — including one on `scenarios/_shared`, a store
+#   the notice already covered. A one-off inspection is not stranded: `cat`,
+#   `head` and `grep` of the same file are untouched (this keys on a PARSE),
+#   and so is any `.codeyam/` write (`writes_into_codeyam`).
+#
+#   The other cases are ones where there is no reading under which the
+#   result is TRUSTWORTHY. Parsing `state/command-output/*` is parsing a
+#   live tee of two interleaved streams — not a document, and no
+#   brace-matcher makes it one (one session wrote four successive
+#   brace-balancing heredocs against it before giving up). Building a commit
+#   body from a hand-named journal entry silently attributes another
+#   feature's description, which is precisely what the command's own entry
+#   resolution exists to prevent.
+#
+# It fires BEFORE the `CODEYAM_EDITOR_ACTIVE` short-circuit, unlike
+# `inspector_nudge`: a commit body carrying the wrong feature's description
+# is just as wrong outside the editor workflow as inside it.
+
+# JSON-parsing constructs. Deliberately narrower than `_READ_VERB` — this
+# guard has a blocking half, so it keys on the construct that makes the
+# result untrustworthy rather than on reading in general.
+_JSON_PARSE_CALL = re.compile(r"\b(?:json\.loads?|JSON\.parse)\s*\(")
+
+# `jq` in COMMAND POSITION, mirroring `_READ_VERB`'s shape: a `jq` mentioned
+# inside a filter string is not a parse of anything.
+_JQ_INVOCATION = re.compile(
+    r"""(?:\A|[\n;|&`(]|\$\()\s*
+        (?:[A-Za-z_][A-Za-z_0-9]*=\S*\s+)*
+        (?:(?:sudo|command|time|xargs)\s+)*
+        jq\b
+    """,
+    re.VERBOSE,
+)
+
+# The transcript sidecar. Kept out of `_INSPECTOR_BY_STORE` on purpose: that
+# table maps a store to the command that ANSWERS questions about it, and
+# nothing answers questions about this file — the recovery is to re-run the
+# original command differently, which is a refusal's job, not a pointer's.
+_COMMAND_OUTPUT_STORE = ".codeyam/state/command-output"
+
+# The scope is the FILE, not the directory, and that distinction is the whole
+# point. The untrustworthiness is a property of one file shape — the `<cmd>.txt`
+# tee of stdout AND stderr — never of the store that holds it. Its sibling
+# `<cmd>.status.json` is a single clean JSON document, and reading it is the
+# DOCUMENTED recovery after piping a command: `piped_gating_notice` hands the
+# agent that exact path as `Real verdict: …`. A directory-prefix match therefore
+# had this file refusing the read its own sibling guard prescribes — caught by
+# dogfooding one command after the guard shipped, when `push` printed the
+# sidecar path and reading it was blocked in the same session that added the
+# block. Two guards in one file giving opposite instructions about one file.
+#
+# `<task>.heartbeat` is the same shape of read (a one-line liveness sidecar
+# CLAUDE.md also directs agents to) and lives outside this directory, so it was
+# never caught — but keying on the transcript rather than on a filename
+# exception is what keeps it, and any future sidecar, correct by construction.
+#
+# Do NOT re-widen this to a `in command` membership test on the store.
+_COMMAND_OUTPUT_TRANSCRIPT = re.compile(
+    re.escape(_COMMAND_OUTPUT_STORE) + r"/[^/\s'\"]+\.txt\b"
+)
+
+# The HARNESS's own persisted tool-result transcript — the file Claude Code
+# writes whenever a command's output exceeds the inline budget, and hands back
+# as "Full output saved to: …/tool-results/<id>.txt". It is the same shape as
+# the command-output tee above (both streams, bounded, written for a human),
+# so it fails a scripted parse the same way, and agents reach for it for the
+# same reason.
+#
+# Keyed on the `tool-results/<id>.txt` FILE, on the same terms and for the same
+# reason as `_COMMAND_OUTPUT_TRANSCRIPT` above: match the file, never the
+# directory it lives in. The lookbehind keeps `my-tool-results/x.txt` out.
+#
+# Deliberately NOT anchored on the `~/.claude/projects/` prefix, because that
+# prefix is not stable: it is `/root/.claude/…` in a fleet container,
+# `/Users/<name>/.claude/…` on a laptop, and anywhere at all under
+# `CLAUDE_CONFIG_DIR`. The `tool-results/` segment is the part that does not
+# move.
+_HARNESS_TOOL_RESULT_TRANSCRIPT = re.compile(
+    r"(?<![\w.-])tool-results/[^/\s'\"]+\.txt\b"
+)
+
+_HARNESS_TOOL_RESULTS_STORE = "tool-results"
+
+# A journal entry named by a literal timestamp — the `<eyeballed-from-ls>`
+# shape. A journal read that does NOT name one is an ordinary search and
+# stays a notice pointing at `journal-find`.
+#
+# Kept out of `_INSPECTOR_BY_STORE` for the same reason `_COMMAND_OUTPUT_STORE`
+# is, plus one specific to it: adding a `.codeyam/journal/entries` row ahead of
+# `.codeyam/journal` would re-point `matching_inspector` — and therefore
+# `inspector_nudge`, which is not what this change is about — at
+# `journal-commit-message` for every journal read, including the searches
+# `journal-find` genuinely answers. `test_matching_inspector_maps_the_journal_store`
+# pins that mapping, and it is pinning the right thing.
+_HAND_NAMED_JOURNAL_ENTRY = re.compile(r"\.codeyam/journal/entries/20\d\d-")
+
+_JOURNAL_ENTRIES_STORE = ".codeyam/journal/entries"
+
+
+def parses_json(command):
+    """True when `command` parses JSON in process — a python/node parse call,
+    or `jq` in command position.
+
+    Pure and side-effect free so the construct test is assertable separately
+    from the store mapping it gates."""
+    return bool(_JSON_PARSE_CALL.search(command) or _JQ_INVOCATION.search(command))
+
+
+def parses_command_output_transcript(command):
+    """True when `command` names the command-output TRANSCRIPT — a
+    `.codeyam/state/command-output/<cmd>.txt` path.
+
+    Deliberately narrower than the store it lives in. The `.txt` tee is the
+    unparseable file; the `<cmd>.status.json` sidecar beside it is a single
+    clean JSON document that `piped_gating_notice` tells the agent to read.
+    Both are named from the same `<cmd>` stem in the same directory, so the
+    SUFFIX is the only thing that separates them — which is why the predicate
+    keys on it and not on the directory prefix.
+
+    Pure and side-effect free, and named rather than inlined into
+    `scripted_state_read_target`, so the boundary between the two files is
+    assertable directly instead of through a refusal's message text."""
+    return bool(_COMMAND_OUTPUT_TRANSCRIPT.search(command))
+
+
+def parses_harness_tool_result(command):
+    """True when `command` names the harness's own tool-result TRANSCRIPT — a
+    `…/tool-results/<id>.txt` path.
+
+    The file-shaped counterpart to `parses_command_output_transcript`, and
+    narrow for the same reason: it matches the `<id>.txt` capture itself, never
+    the session directory holding it, so a future sibling written beside it is
+    not swept in by a directory-prefix match — the boundary that had the
+    command-output guard refusing the read of the `.status.json` its own other
+    guard prescribes.
+
+    Pure and side-effect free, and named rather than inlined into
+    `scripted_state_read_target`, so the boundary is assertable directly
+    instead of through a refusal's message text."""
+    return bool(_HARNESS_TOOL_RESULT_TRANSCRIPT.search(command))
+
+
+def writes_into_codeyam(command):
+    """True when `command` WRITES to a `.codeyam/` path, or writes somewhere
+    this parser cannot resolve.
+
+    The exclusion that keeps the guard off the sanctioned path: CLAUDE.md
+    explicitly blesses rewriting `.json` through a parser, and a heredoc that
+    builds a scenario file reads its neighbours to do so. Judging such a
+    command on its `json.load` alone would refuse the very construct the
+    project asks for.
+
+    Scoped to `.codeyam/` targets rather than to writes in general, so an
+    ordinary `… > out.json` capture of a hand-parse is still seen. An opaque
+    target counts, because a write this parser could not resolve may well be
+    the scenario write."""
+    explicit, opaque, _ = write_targets(command)
+    if opaque:
+        return True
+    return any(".codeyam/" in path for path in explicit)
+
+
+def scripted_state_read_target(command):
+    """The `(kind, store, inspector)` a scripted JSON parse of codeyam state
+    touches, or None when `command` is not one.
+
+    `kind` is `"command-output"`, `"harness-tool-result"` or `"journal-entry"`
+    for the three untrustworthy-read cases, `"inspectable"` for a mapped store
+    whose refusal names that store's query command. `inspector` is None for
+    the three: each carries its recovery in `scripted_state_read_refusal`
+    rather than in the shared store table, so none of them perturbs what
+    `matching_inspector` reports.
+
+    All three untrustworthy-read cases are tested BEFORE the table lookup AND
+    before the write exclusion. Order is the whole mechanism, twice over.
+
+    Before the table, because a hand-named journal entry also matches the
+    broader `.codeyam/journal` row, and letting the table win would swap the
+    journal recovery (`journal-show` / `journal-commit-message`) for the
+    table's `journal-find` — the wrong command for a commit body.
+
+    Before the write exclusion, because the canonical failure WRITES: it reads
+    a journal entry and writes the commit body out. When that output path is a
+    variable rather than a literal, `write_targets` reports it opaque, and an
+    exclusion applied first would suppress the block on precisely the shape
+    the guard exists for. The exclusion protects the sanctioned scenario
+    write, which is a `.codeyam/scenarios/` write — never a parse of the
+    command-output tee, never a regex carved out of the harness's own capture
+    of one, and never a commit body built from an eyeballed timestamp. No
+    blocking case has a reading under which the result is trustworthy,
+    whatever else the command does with it.
+
+    Pure and side-effect free — the verdict is separated from the message
+    that reports it so the mapping is assertable without going through
+    message text, exactly as `matching_inspector` is.
+
+    Heredoc bodies are elided on the same terms every other guard elides
+    them: `elide_heredoc_bodies` keeps an EXECUTING body (`python3 - <<'EOF'`
+    is a program) and drops a DATA one, so a commit message that quotes a
+    `json.load(...)` line as prose — this feature's own plan file does — is
+    not read as a parse of anything."""
+    command = elide_heredoc_bodies(command)
+    if is_inspector_invocation(command):
+        return None
+    if not parses_json(command):
+        return None
+    if parses_command_output_transcript(command):
+        return ("command-output", _COMMAND_OUTPUT_STORE, None)
+    if parses_harness_tool_result(command):
+        return ("harness-tool-result", _HARNESS_TOOL_RESULTS_STORE, None)
+    if _HAND_NAMED_JOURNAL_ENTRY.search(command):
+        return ("journal-entry", _JOURNAL_ENTRIES_STORE, None)
+    if writes_into_codeyam(command):
+        return None
+    matched = matching_inspector(command)
+    if not matched:
+        return None
+    store, inspector = matched
+    return ("inspectable", store, inspector)
+
+
+def scripted_state_read_refusal(kind, store=None, inspector=None):
+    """The `(reason, next_action)` pair for a refused scripted state read.
+
+    Branches on the KIND, not the store, because the blocking cases fail for
+    unrelated reasons and want unrelated recoveries — one names the store's
+    own query command, one re-runs the original command with a different
+    flag, one points at a document already on disk, and one swaps to a command
+    that resolves the entry itself.
+
+    The `inspectable` recovery names the SPECIFIC command for `store`, taken
+    from `_INSPECTOR_BY_STORE`. That command is the fact the agent was
+    missing; a generic "use the query commands" pointer leaves it to guess
+    which one, which is the guess the hand-parse was."""
+    if kind == "inspectable":
+        return (
+            f"this hand-parses `{store}`, an internal codeyam state store whose "
+            f"schema is internal and moves — so a parse that is right today "
+            f"throws (`KeyError`, `'str' object has no attribute 'get'`) or "
+            f"silently reads wrong the day the shape changes, and a guessed "
+            f"path throws `FileNotFoundError` on a store that is absent.",
+            f"ask the store's read-only query command instead: "
+            f"`{cli_command()} editor {inspector}`. It reads the store through "
+            f"the editor's own schema, so it stays right when the shape moves; "
+            f"the read-only query surfaces among them emit ONE clean document "
+            f"under `--format json`, rows always under `entries` with an "
+            f"`entryType` saying whether they are objects or bare strings. Only "
+            f"want to LOOK at the file? `cat`/`head`/`grep` of it are not "
+            f"refused — this guard keys on the parse.",
+        )
+    if kind == "command-output":
+        return (
+            f"this parses `{_COMMAND_OUTPUT_STORE}/<cmd>.txt`, which is a live "
+            f"TEE of stdout AND stderr in arrival order. The JSON document sits "
+            f"interleaved with narrative lines, so the file is not a JSON "
+            f"document and no brace-matcher or regex rescue can make it one — "
+            f"one session wrote four successive brace-balancing heredocs "
+            f"against it before giving up.",
+            f"if you only need the VERDICT, read the sibling "
+            f"`{_COMMAND_OUTPUT_STORE}/<cmd>.status.json` — one clean JSON "
+            f"document carrying the same `status` the `CODEYAM_CMD_COMPLETE` "
+            f"line does, already on disk. That read is NOT blocked and needs no "
+            f"re-run, which matters when the original command was a `push`, a "
+            f"`commit`, or a `session-finalize`. If you need the full document "
+            f"instead, re-run the ORIGINAL command with `--format json` and "
+            f"redirect stdout ALONE (`{cli_command()} editor <command> "
+            f"--format json > report.json`). Under `--format json` the marker "
+            f"lines move to stderr, the narrative falls silent, and terminal "
+            f"output bounding is disabled, so the redirect is exact and "
+            f"complete.",
+        )
+    if kind == "harness-tool-result":
+        return (
+            f"this carves a document out of a `tool-results/<id>.txt` file — "
+            f"the HARNESS's own persisted capture of a command's terminal "
+            f"output, saved because that output was too large to show inline. "
+            f"It holds both streams in arrival order and is bounded for a "
+            f"human reader, so it is not a JSON document: a brace-matcher or "
+            f"an `rfind`/`re.search` over it either throws or silently returns "
+            f"a FRAGMENT, and the fragment is the worse outcome because "
+            f"nothing about it looks wrong.",
+            f"read the document itself — it is almost certainly already on "
+            f"disk and needs no re-run. Any `--format json` run of a wrapped "
+            f"command also writes "
+            f"`{_COMMAND_OUTPUT_STORE}/runs/<cmd>-<runId>.json`: the stdout "
+            f"document ALONE, no stderr narrative, not terminal-bounded, and "
+            f"keyed on the RUN so a later narrower re-run cannot clobber it. "
+            f"The command named that exact path on its own "
+            f"`CODEYAM_FULL_OUTPUT: … — PARSEABLE:` line, so `cat` what the "
+            f"pointer printed. If you only need ONE finding rather than the "
+            f"whole document, recompute it cheaply instead of mining a large "
+            f"one: `{cli_command()} editor audit --only <INVARIANT_ID> "
+            f"--format json` (pass `--only ?` to list the ids), or the "
+            f"read-only query surface for the store in question "
+            f"(`registry-query`, `evidence-query`, `glossary-list`, "
+            f"`scenarios --format entries`, …), each of which emits one clean "
+            f"document with its rows under `entries`.",
+        )
+    return (
+        f"this builds on a journal entry named by a LITERAL timestamp. The "
+        f"entry matching the active feature is not necessarily the one whose "
+        f"filename was read off an `ls`, so this can silently land on another "
+        f"feature's entry — you read that feature's fields believing they are "
+        f"this one's, or you commit its description as this feature's body. "
+        f"Either way the wrong entry is invisible in the result, which is why "
+        f"the filename is not the selector and entry resolution exists.",
+        f"pick by what you are doing with it — all three resolve the ACTIVE "
+        f"feature's entry, so none of them needs a timestamp. TO READ THE ENTRY: "
+        f"`{cli_command()} editor journal-show` prints its title, type, "
+        f"description, and references; `--format json` emits the standard "
+        f"query-surface envelope, so "
+        f"`{cli_command()} editor journal-show --format json` parses with the "
+        f"same `entries` key as every other read-only surface. TO BUILD THE "
+        f"COMMIT: `{cli_command()} editor journal-commit-message` prints the "
+        f"finished message on stdout and nothing else, so "
+        f"`{cli_command()} editor journal-commit-message | git commit -F -` "
+        f"needs no temp file; add `--trailer '<line>'` (repeatable) for "
+        f"`Co-Authored-By:` / `Claude-Session:` lines. TO CHANGE THE ENTRY: "
+        f"`{cli_command()} editor journal-update '<json>'` patches it — omit "
+        f"`time` from the payload and it lands on the active feature's entry "
+        f"rather than on whichever entry is newest. This is the one to reach "
+        f"for instead of rewriting the JSON by hand: picking the wrong entry "
+        f"on a WRITE overwrites another feature's record, where the same "
+        f"mistake on a read merely misinforms you. All three take "
+        f"`--entry <path>` to override the resolution deliberately, and all "
+        f"three report on stderr which entry they chose and why.",
+    )
+
+
 def classify_write_target(file_path, project_dir):
     """How the slug gate should treat a Write/Edit target: `("outside", None)`,
     `("editor-state", rel)`, or `("code", rel)`.
@@ -2207,17 +5450,265 @@ def preview_marker_state(marker_path, step):
     return (found == step, f"step {found!r}")
 
 
+# The commands that WRITE the preview-shown marker, mirroring
+# `preview_gate::marker_writing_command_sources`
+# (crates/codeyam-editor/src/commands/editor/preview_gate.rs). Keep the two in
+# agreement. Naming them turns "which command counts as showing a preview?"
+# from a guess into a lookup — `recapture-stale` renders a preview and still
+# writes no marker.
+#
+# `preview-verify` used to sit on that non-marking side and no longer does. It
+# runs the same navigate+capture `preview` does and then asserts three gates
+# over the result, so it was the STRONGEST evidence available that a preview
+# had been shown while still leaving this gate shut — four sessions across four
+# VMs each answered that by paying a redundant `preview` run whose only product
+# was the marker. Anything moved between the two sides here must move in
+# `marker_writing_command_sources` in the same change.
+MARKER_WRITING_COMMANDS = (
+    "preview",
+    "preview-flow",
+    "preview-html",
+    "preview-interact",
+    "preview-native",
+    "preview-verify",
+    "show-results",
+)
+
+
+def preview_required_next_action(observed, step, hint):
+    """The `Next valid action:` text for a preview-gate refusal, routed by the
+    discriminant [`preview_marker_state`] already returned.
+
+    Its three not-ok states are different problems, and this gate used to emit
+    ONE narrative for all of them: a pipe/SIGPIPE story that is provably not the
+    cause on POSIX, where every marker-writing command runs under
+    `run_with_liveness` (so it never sees EPIPE) and writes the marker before its
+    first stdout write (pinned by `marker_is_written_before_any_stdout`). An
+    agent hit it with an ABSENT marker, believed it, and copied the false
+    diagnosis into its transcript. Each arm now describes the state it is in.
+
+    The pipe warning survives only in the `unreadable` arm — a truncated marker
+    is the one state where a severed write still explains the symptom, and
+    `stream_capture` is `#[cfg(unix)]`, so a non-POSIX host can still reach it."""
+    marking = ", ".join(f"`{c}`" for c in MARKER_WRITING_COMMANDS)
+    if observed == "file absent":
+        return (
+            f"no preview has been shown at THIS step. The marker is cleared on "
+            f"every `advance`, and only {marking} write it — `recapture-stale` "
+            f"shows a preview but does NOT mark it. Run "
+            f"`{hint}`, then call AskUserQuestion."
+        )
+    if observed == "unreadable":
+        return (
+            f"the marker exists but does not parse, so a write was cut short "
+            f"mid-file. Check whether you piped `{hint}` into `head`/`tail`/"
+            f"`grep`: that closes the pipe early and SIGPIPEs the command, so the "
+            f"capture and the screenshots succeed but the marker write is lost. "
+            f"Re-run it bare (no pipe)."
+        )
+    return (
+        f"a preview was shown, but at a different step — the marker holds "
+        f"{observed} and this is step {step}. Advancing clears it, so re-show it "
+        f"HERE: run `{hint}`, then call AskUserQuestion."
+    )
+
+
+# ── unfinished-run detection ───────────────────────────────────────────
+#
+# Claude Code kills a hook that overruns its registered timeout and lets the
+# call proceed — the guard fails OPEN, and nothing says so. On
+# `editor-improvements-95` a heredoc machine-rewrote a tracked `.rs` file under
+# heavy load; replaying it afterwards blocked it twice. A killed process cannot
+# report its own death, so each run leaves a marker that only a deliberate
+# verdict removes, and the NEXT run reports any marker whose run is gone.
+#
+# Coverage starts once `main` is running: a kill during interpreter start-up
+# (before this module's first line executes) leaves no marker.
+
+_INFLIGHT_DIR = os.path.join(".codeyam", "state", "pretool-hook-inflight")
+
+# No live run outlasts its registered timeout (seconds, not minutes), so an
+# older marker is unfinished whatever its pid says — which also covers a pid
+# the OS has since handed to an unrelated process.
+_INFLIGHT_STALE_SECS = 60
+
+# The current run's marker, removed by `finish_run` on a deliberate exit.
+_INFLIGHT_MARKER = None
+
+
+def begin_run(project_dir, call, pid=None, now=None):
+    """Write this run's in-flight marker; its path, or None when the state
+    directory is unwritable (detection is best-effort and must never cost the
+    call itself)."""
+    pid = os.getpid() if pid is None else pid
+    marker_dir = os.path.join(project_dir, _INFLIGHT_DIR)
+    path = os.path.join(marker_dir, f"{pid}.json")
+    record = {"pid": pid, "startedAt": time.time() if now is None else now, "call": call[:200]}
+    try:
+        os.makedirs(marker_dir, exist_ok=True)
+        with open(path, "w") as f:
+            json.dump(record, f)
+    except OSError:
+        return None
+    return path
+
+
+def finish_run(marker):
+    """Remove `marker` — this run reached a verdict."""
+    if marker:
+        try:
+            os.remove(marker)
+        except OSError:
+            pass
+
+
+def _pid_alive(pid):
+    try:
+        os.kill(pid, 0)
+    except ProcessLookupError:
+        return False
+    except OSError:
+        return True
+    return True
+
+
+def collect_unfinished_runs(project_dir, own_pid, now=None, pid_alive=_pid_alive):
+    """The records of earlier runs that never reached a verdict, oldest first,
+    each removed as it is collected so it is reported exactly once.
+
+    A marker whose pid is still alive and which is younger than
+    `_INFLIGHT_STALE_SECS` belongs to a concurrent run (another pane, or a
+    parallel tool call) and is left alone."""
+    now = time.time() if now is None else now
+    marker_dir = os.path.join(project_dir, _INFLIGHT_DIR)
+    try:
+        names = os.listdir(marker_dir)
+    except OSError:
+        return []
+    found = []
+    for name in names:
+        path = os.path.join(marker_dir, name)
+        try:
+            with open(path) as f:
+                record = json.load(f)
+            pid = int(record["pid"])
+            started = float(record["startedAt"])
+        except (OSError, ValueError, KeyError, TypeError):
+            continue
+        if pid == own_pid:
+            continue
+        if now - started < _INFLIGHT_STALE_SECS and pid_alive(pid):
+            continue
+        finish_run(path)
+        found.append(record)
+    return sorted(found, key=lambda r: r["startedAt"])
+
+
+def unfinished_run_message(records, now):
+    """The warning for `records`, or "" when there are none. Pure."""
+    if not records:
+        return ""
+    lines = [
+        f"WARNING: the PreToolUse guard did not finish for {len(records)} earlier "
+        f"tool call(s) — it was killed (most likely by the hook's timeout under "
+        f"load) or it crashed, so each call below ran WITHOUT being checked by "
+        f"any guardrail:"
+    ]
+    for record in records:
+        ago = max(0, int(now - float(record.get("startedAt", now))))
+        lines.append(f"  - {ago}s ago: {record.get('call', '?')}")
+    lines.append(
+        "If one of them wrote tracked source with a script, inspect it with "
+        "`git diff` and redo the change with the Edit tool."
+    )
+    return "\n".join(lines)
+
+
+def report_unfinished_runs(project_dir, call):
+    """Report earlier unfinished runs, then mark this one in flight. Skipped
+    under `--explain`, which must leave no trace."""
+    global _INFLIGHT_MARKER
+    if _EXPLAIN_MODE or os.name == "nt":
+        # Windows: `os.kill(pid, 0)` sends CTRL_C_EVENT rather than probing.
+        return
+    global _UNFINISHED_WARNING
+    now = time.time()
+    _UNFINISHED_WARNING = unfinished_run_message(
+        collect_unfinished_runs(project_dir, os.getpid(), now), now
+    )
+    _INFLIGHT_MARKER = begin_run(project_dir, call, now=now)
+
+
+# Set by `report_unfinished_runs`; delivered by whichever verdict this run
+# reaches — on stderr beside a refusal (exit 2, which Claude reads), or as
+# `additionalContext` on an allow, because stderr on an exit-0 PreToolUse hook
+# reaches only the debug log and the warning would vanish exactly when the
+# current call is harmless.
+_UNFINISHED_WARNING = ""
+
+# Pointers emitted mid-`main` that do NOT end the run (the inspector nudge),
+# delivered by whichever verdict the run reaches, the same way as
+# `_UNFINISHED_WARNING`. Printing them to stderr on the spot lost them
+# whenever the run then ended on an allow.
+_PENDING_CONTEXT = []
+
+
+def allow_context_json(message):
+    """The stdout document that hands `message` to the model on an allowed
+    call. Carries no `permissionDecision`, so it grants nothing — the call
+    still goes through the normal permission flow. Pure."""
+    return json.dumps(
+        {"hookSpecificOutput": {"hookEventName": "PreToolUse", "additionalContext": message}}
+    )
+
+
+def allow_context_message(parts):
+    """Join the non-empty messages one verdict carries into a single body.
+
+    A hook prints ONE stdout document, so a notice, a queued nudge, and the
+    unfinished-run warning must share its `additionalContext` rather than each
+    printing their own — two concatenated JSON documents parse as neither.
+    Pure."""
+    return "\n\n".join(part for part in parts if part)
+
+
+def _deliver_context_on_allow(message=""):
+    text = allow_context_message([message, *_PENDING_CONTEXT, _UNFINISHED_WARNING])
+    if text:
+        print(allow_context_json(text))
+
+
 def describe_call(tool_name, tool_input):
     """A short, stable identifier for the call being judged.
 
     Folded into the repeat fingerprint so two DIFFERENT calls refused under one
     rule are not reported as "this exact call was refused before" — six of the
     eleven block sites used to pass only the slug, so three distinct `grep -P`
-    commands escalated to a 3x repeat notice that was simply false."""
+    commands escalated to a 3x repeat notice that was simply false.
+
+    For a file tool the PAYLOAD is part of the identity, not just the path.
+    Without it every distinct `Edit` to one file under one slug fingerprinted
+    identically: three different `README.md` edits issued as parallel calls in
+    ONE assistant turn — the idiom CLAUDE.md prescribes — were refused as 1x,
+    "ALREADY REFUSED (2x)", "(3x)", and because a repeat REPLACES the full
+    refusal, the 2nd and 3rd never saw the explanation they needed. The
+    payload is hashed rather than inlined so the fingerprint and the refusal
+    log stay bounded however large the edit is."""
     if tool_name == "Bash":
         return f"Bash: {tool_input.get('command', '')}"
     file_path = tool_input.get("file_path", "")
-    return f"{tool_name}: {file_path}" if file_path else tool_name
+    base = f"{tool_name}: {file_path}" if file_path else tool_name
+    payload = {
+        key: tool_input[key]
+        for key in ("old_string", "new_string", "content", "edits", "replace_all")
+        if key in tool_input
+    }
+    if not payload:
+        return base
+    digest = hashlib.sha256(
+        json.dumps(payload, sort_keys=True, default=str).encode("utf-8")
+    ).hexdigest()[:12]
+    return f"{base} #{digest}"
 
 
 def main():
@@ -2239,17 +5730,27 @@ def main():
     tool_name = event.get("tool_name", "")
     tool_input = event.get("tool_input", {})
     call = describe_call(tool_name, tool_input)
+    report_unfinished_runs(project_dir, call)
 
     # Scripted-source-rewrite guard. Unlike every other rule here this one is
     # neither step-scoped nor editor-mode-scoped — the ban on machine-rewriting
     # tracked source holds in every session — so it fires before the
     # `CODEYAM_EDITOR_ACTIVE` short-circuit below.
     if tool_name == "Bash":
-        found = scripted_rewrite_stage(tool_input.get("command", ""), project_dir)
+        # The Bash tool's cwd persists between calls, so a `cd` in an EARLIER
+        # call decides where this command's relative paths land.
+        session_cwd = event.get("cwd")
+        found, consulted, script = scripted_rewrite_details(
+            tool_input.get("command", ""), project_dir, session_cwd
+        )
         if found:
-            rewrite_target, stage, stage_count, append_only = found
-            reason, next_action = scripted_rewrite_refusal(rewrite_target, append_only)
-            evidence = resolved_context(project_dir, "git ls-files")
+            rewrite_target, stage, stage_count, append_only, target_inferred = found
+            reason, next_action = scripted_rewrite_refusal(
+                rewrite_target, append_only, target_inferred, script
+            )
+            evidence = resolved_context(project_dir, consulted)
+            if session_start_directory(session_cwd, project_dir):
+                evidence = f"{evidence}; session cwd {session_cwd}"
             compound = compound_stage_evidence(stage, stage_count)
             if compound:
                 evidence = f"{evidence}; {compound}"
@@ -2262,10 +5763,59 @@ def main():
                 evidence=evidence,
                 call=call,
             )
+        # Its non-blocking twin, same scope: a split into untracked files passes
+        # the guard above, and is still a scripted move of tracked source.
+        split = split_by_script_target(tool_input.get("command", ""), project_dir)
+        if split:
+            notice("split-by-script", split_by_script_notice(*split))
+
+    # Preview-origin hand-write guard. Same scope as the guard above: a
+    # half-applied origin switch breaks the preview in any session.
+    if tool_name == "Bash":
+        origin_target = preview_origin_hand_write_target(tool_input.get("command", ""))
+        if origin_target:
+            reason, next_action = preview_origin_hand_write_refusal(origin_target)
+            block(
+                project_dir,
+                "preview-origin-hand-write",
+                reason,
+                next_action,
+                detail=origin_target,
+                call=call,
+            )
+
+    # Scripted state-read guard. Neither step-scoped nor editor-mode-scoped,
+    # for the same reason as the guard above: a commit body carrying another
+    # feature's description is just as wrong outside the editor workflow, and
+    # a parse of the command-output tee is just as impossible. It also has to
+    # fire before the "always allow codeyam-editor editor" short-circuit
+    # further down, which would otherwise exit 0 and skip both verdicts.
+    #
+    # `inspector_nudge` — the softer, editor-mode-only pointer — is reached
+    # much further down and never doubles up with this: `notice` and `block`
+    # both exit, so a command judged here never reaches it.
+    if tool_name == "Bash":
+        state_read = scripted_state_read_target(tool_input.get("command", ""))
+        if state_read:
+            kind, store, inspector = state_read
+            reason, next_action = scripted_state_read_refusal(kind, store, inspector)
+            block(
+                project_dir,
+                "scripted-state-read",
+                reason,
+                next_action,
+                detail=store,
+                evidence=(
+                    f"the command parses JSON (`json.load`/`JSON.parse`/`jq`) and "
+                    f"names `{store}`; no `.codeyam/` write construct present, so "
+                    f"this is a read"
+                ),
+                call=call,
+            )
 
     # Piped-gating-command guard. Neither step-scoped nor editor-mode-scoped,
     # for the same reason as the guard above: the rule holds in every session.
-    # It also has to fire before the "always allow codeyam-editor-dev editor"
+    # It also has to fire before the "always allow codeyam-editor editor"
     # short-circuit further down, which would otherwise exit 0 silently and
     # skip the pointer.
     #
@@ -2274,9 +5824,17 @@ def main():
     # and the shell exit code — both recoverable from the two sidecars the
     # notice names — instead of costing the command. Where the bracket's capture
     # does not exist, the original harms are all still live and so is the block.
+    #
+    # A pipe that WINDOWS a live hand-off (`advance | head`) is not advised
+    # here: the windowed-handoff guard below refuses it, and that pipe costs
+    # instructions, not just an exit code — the advisory would only be noise
+    # beside the refusal. The notice itself falls through (see `notice`), so
+    # every gate below still judges the call.
     if tool_name == "Bash":
         command = tool_input.get("command", "")
         piped = piped_gating_command(command)
+        if piped and windowed_live_handoff(command):
+            piped = None
         if piped:
             if not _capture_available():
                 block(
@@ -2299,7 +5857,14 @@ def main():
                     ),
                     call=call,
                 )
-            notice("piped-gating-command", piped_gating_notice(piped))
+            if claim_pipe_notice(event.get("session_id", ""), piped):
+                notice("piped-gating-command", piped_gating_notice(piped))
+        # Same severity, same reason: a compound that chains a gating command
+        # anywhere but last reports a status the caller cannot attribute. One
+        # advisory per call: the piped one already names the status read.
+        compound = None if piped else compound_gating_command(command)
+        if compound and not windowed_live_handoff(command):
+            notice("compound-gating-command", compound_gating_notice(*compound))
 
     # Recursive-delete guard. Neither step-scoped nor editor-mode-scoped, for
     # the same reason as the two above: `rm -rf` over tracked files is a loss in
@@ -2325,6 +5890,120 @@ def main():
                 ),
                 call=call,
             )
+
+    # Windowed hand-off read guard. Neither step-scoped nor editor-mode-scoped,
+    # for the same reason as the guards above: a half-read hand-off is just as
+    # wrong outside the editor workflow, and drops its instructions just as
+    # silently there.
+    #
+    # Placed after `recursive-delete` and before `self-matching-pgrep`: a
+    # refusal about destroying something must never be displaced by one about a
+    # read, and an advisory about a command that merely will not finish must
+    # never displace this one.
+    #
+    # The `Read`-tool half lives HERE rather than beside the read-only allow
+    # further down, and that is forced rather than preferred: the
+    # `Read`/`Glob`/`Grep` allow-branch sits after the `CODEYAM_EDITOR_ACTIVE`
+    # short-circuit, so a guard that must pre-empt it cannot live below it.
+    if tool_name == "Bash":
+        command = tool_input.get("command", "")
+        offender = handoff_refusal_offender(command)
+        offender = f"; {offender}" if offender else ""
+        idiom = windowed_handoff_read(command)
+        if idiom:
+            reason, next_action = windowed_handoff_read_refusal(
+                idiom, collateral=handoff_refusal_collateral(command)
+            )
+            block(
+                project_dir,
+                "windowed-handoff-read",
+                reason,
+                next_action,
+                detail=idiom,
+                evidence=(
+                    f"the command names a hand-off file in a read position and "
+                    f"truncates it with `{idiom}`; a whole-file `cat`, a `grep`, "
+                    f"and a `wc -l` of the same path are not matched{offender}"
+                ),
+                call=call,
+            )
+        live = windowed_live_handoff(command)
+        if live:
+            subcommand, idiom = live
+            reason, next_action = windowed_handoff_read_refusal(
+                idiom,
+                subcommand=subcommand,
+                collateral=handoff_refusal_collateral(command),
+            )
+            block(
+                project_dir,
+                "windowed-handoff-read",
+                reason,
+                next_action,
+                detail=idiom,
+                evidence=(
+                    f"the command pipes the live output of `editor {subcommand}` "
+                    f"into `{idiom}`; a bare run and a pipe into `grep` are not "
+                    f"matched{offender}"
+                ),
+                call=call,
+            )
+
+    # A `Read` of the hand-off carrying NEITHER key is a whole-file read and
+    # stays allowed — it is one of the two complete alternatives the refusal
+    # points at.
+    if tool_name == "Read":
+        idiom = windowed_handoff_read_tool(tool_input)
+        if idiom:
+            reason, next_action = windowed_handoff_read_refusal(idiom)
+            block(
+                project_dir,
+                "windowed-handoff-read",
+                reason,
+                next_action,
+                detail=idiom,
+                evidence=(
+                    f"Read targets `{tool_input.get('file_path')}` with "
+                    f"offset={tool_input.get('offset')!r} limit={tool_input.get('limit')!r}; "
+                    f"the same Read carrying neither key is a whole-file read and is allowed"
+                ),
+                call=call,
+            )
+
+    # Self-matching-pgrep guard. Neither step-scoped nor editor-mode-scoped,
+    # for the same reason as the guards above: a wait loop that polls for its
+    # own argv hangs in any session, and it hangs silently — an agent inside
+    # one has no turn left in which to notice.
+    #
+    # It sits LAST among the unscoped guards deliberately. `notice` exits 0, so
+    # whichever verdict fires first is the only one emitted, and an advisory
+    # about a command that merely will not finish must never displace a refusal
+    # about a command that destroys something.
+    #
+    # Which is why the self-matching KILL is a refusal and runs first: it is
+    # the destroying form of the same mistake, and the loop notice used to fire
+    # on it instead — misdescribing a kill as a poll, beside a call that then
+    # killed its own shell.
+    if tool_name == "Bash":
+        kill_pattern = self_matching_kill(tool_input.get("command", ""))
+        if kill_pattern:
+            reason, next_action = self_matching_kill_refusal(kill_pattern)
+            block(
+                project_dir,
+                "self-matching-kill",
+                reason,
+                next_action,
+                detail=kill_pattern,
+                evidence=(
+                    f"the command kills by the full-argv pattern {kill_pattern!r}, "
+                    f"and that pattern matches the command's own text; `-x`, the "
+                    f"bracket form, and a `$$` exclusion are not matched"
+                ),
+                call=call,
+            )
+        pgrep_pattern = self_matching_pgrep_loop(tool_input.get("command", ""))
+        if pgrep_pattern:
+            notice("self-matching-pgrep", self_matching_pgrep_notice(pgrep_pattern))
 
     # Every remaining rule is a workflow-step gate — only enforce in editor mode
     if not os.environ.get("CODEYAM_EDITOR_ACTIVE"):
@@ -2366,8 +6045,8 @@ def main():
 
         # Test-run gate. `testRunSlugs` is the per-mode set of slugs whose
         # phase declares a non-None test_scope — a slug NOT in it may not run
-        # tests. This must fire BEFORE the "always allow codeyam-editor-dev editor"
-        # short-circuit below, because `codeyam-editor-dev editor refresh-tests` is
+        # tests. This must fire BEFORE the "always allow codeyam-editor editor"
+        # short-circuit below, because `codeyam-editor editor refresh-tests` is
         # itself a test run. Empty `testRunSlugs` (a stale v1/v2 cache) => no
         # gating, mirroring the `and commit_slugs` / `and push_slugs`
         # short-circuits below — a cache skew degrades to "allow", never "block
@@ -2377,12 +6056,22 @@ def main():
         # a blocked slug can be pre-Demo or post-hardening and the two need
         # opposite advice. `_test_run_block_message` reads that from the
         # `noTestSlugs` projection.
-        if (
-            slug
-            and test_run_slugs
-            and slug not in test_run_slugs
-            and is_test_run_command(command, project_dir)
-        ):
+        #
+        # An untokenizable command (None) is refused on the honest
+        # unparseable reason rather than asserted to be a test run.
+        #
+        # Post-hardening slugs carve out ONE shape: a partition-narrowed
+        # `refresh-tests`, which is the recovery a stale-partition commit
+        # refusal names at exactly these slugs. Pre-Demo slugs get no carve-out.
+        test_run = False
+        if slug and test_run_slugs and slug not in test_run_slugs:
+            test_run = is_test_run_command(command, project_dir)
+            post_hardening = (no_test_slugs.get(slug) or {}).get("kind") == "post-hardening"
+            if test_run and post_hardening and is_partition_refresh_only(command, project_dir):
+                test_run = False
+        if test_run is None:
+            refuse_unparseable(project_dir, command, call)
+        if test_run:
             reason, next_action = _test_run_block_message(
                 state, slug, no_test_slugs.get(slug)
             )
@@ -2400,21 +6089,20 @@ def main():
                 call=call,
             )
 
-        # Inspector nudge. Emitted on stderr and then FALLEN THROUGH from
-        # — never `sys.exit`ed on — so the command still runs and every
-        # gate below still applies. stderr is the channel every other
-        # message in this hook uses; pairing it with a 0 exit is what
-        # makes this a pointer rather than a refusal.
+        # Inspector nudge. Queued and then FALLEN THROUGH from — never
+        # `sys.exit`ed on — so the command still runs and every gate below
+        # still applies. The verdict the run reaches delivers it: as
+        # `additionalContext` on an allow, beside the refusal on a block.
         nudge = inspector_nudge(command)
         if nudge:
-            print(nudge, file=sys.stderr)
+            _PENDING_CONTEXT.append(nudge)
 
         # Position-aware, unlike the substring test it replaces: a command that
         # merely MENTIONS the CLI — most of all inside a quoted commit message —
         # used to short-circuit the commit, push, code-change and PCRE gates
         # below. See `invokes_codeyam_editor`.
         if invokes_codeyam_editor(command):
-            allow("runs a `codeyam-editor-dev editor` subcommand")
+            allow("runs a `codeyam-editor editor` subcommand")
 
     # Always allow reading
     if tool_name in ("Read", "Glob", "Grep", "WebFetch", "WebSearch", "Agent"):
@@ -2437,13 +6125,7 @@ def main():
                     "preview-required",
                     f"This step ({_slug_label(state, slug)}) requires showing "
                     f"the live preview before asking the user for confirmation.",
-                    f"run `{hint}`, then call AskUserQuestion. If you ALREADY "
-                    f"ran it and it reported success: check whether you piped "
-                    f"it into `head`/`tail`/`grep`. That closes the pipe early "
-                    f"and SIGPIPEs the command, so the capture and the "
-                    f"screenshots succeed but the marker write is lost — the "
-                    f"one failure whose every visible signal says it worked. "
-                    f"Re-run it bare (no pipe).",
+                    preview_required_next_action(observed, step, hint),
                     detail=slug,
                     evidence=(
                         f"{resolved_context(project_dir, marker_path)}; marker "
@@ -2451,6 +6133,18 @@ def main():
                     ),
                     call=call,
                 )
+
+        # The session is about to park on its user. Record when, so this
+        # machine's commit-queue liveness beat can tell waiters the truth and,
+        # if it holds the head, give it up after a while (the editor reads this
+        # file; the step hook removes it once the answer arrives).
+        try:
+            run_dir = os.path.join(project_dir, ".codeyam", "run")
+            os.makedirs(run_dir, exist_ok=True)
+            with open(os.path.join(run_dir, "awaiting-user.json"), "w") as f:
+                json.dump({"askedAt": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}, f)
+        except OSError:
+            pass
 
         allow("AskUserQuestion with the preview requirement satisfied")
 
@@ -2534,16 +6228,19 @@ def main():
             # both contract lines. Led with, it reads as a set to reason
             # about — which is how this block came to be the most-retried
             # one in the transcripts (four in a row at `backend-journal`).
-            # One named command reads as an instruction to follow.
+            # One named command reads as an instruction to follow, so the
+            # action is just that command; what it does is reference too.
             block(
                 project_dir,
                 "code-change",
                 f"This step ({_slug_label(state, slug)}) does not allow code changes.",
-                f"run `{cli_command()} editor change` to reopen the build loop — "
-                f"it MOVES the workflow cursor back to the nearest earlier slug "
-                f"that permits edits and prints the command to return here — "
-                f"then make this edit.",
-                reference=f"Code changes are allowed at slugs: {allowed}.",
+                f"run `{cli_command()} editor change`, then make this edit.",
+                reference=(
+                    f"`editor change` reopens the build loop: it MOVES the workflow "
+                    f"cursor back to the nearest earlier slug that permits edits and "
+                    f"prints the command to return here. Code changes are allowed at "
+                    f"slugs: {allowed}."
+                ),
                 detail=f"{slug}\x00{file_path}",
                 evidence=(
                     f"{resolved_context(project_dir, state_path)}; target "
@@ -2565,15 +6262,34 @@ def main():
         # block previously asserted the host was macOS and fired inside Linux
         # containers, which teaches an agent to distrust the hook's other
         # explanations.
-        if _uses_pcre_grep(command):
+        #
+        # The recovery names commands that run through Bash, because Bash is
+        # the one tool every harness has. It used to prescribe "the Grep tool",
+        # and the harness running the fleet exposes no such tool — the very next
+        # call after the block failed with "No such tool available: Grep". A
+        # harness search tool is mentioned only conditionally, never as the
+        # sole next action.
+        #
+        # An untokenizable command is undecidable (None), not a match: it is
+        # still refused, but on its own honest reason with its own fingerprint,
+        # so it neither claims a PCRE flag it never saw nor inflates the
+        # `grep-p` recurrence count.
+        pcre = _uses_pcre_grep(command)
+        if pcre is None:
+            refuse_unparseable(project_dir, command, call)
+        if pcre:
             block(
                 project_dir,
                 "grep-p",
                 "`grep -P` (PCRE) is not portable — BSD grep on macOS has no "
                 "`-P`, so a command written on a Linux VM fails on a "
                 "developer's laptop. The rule applies on every platform.",
-                "use the Grep tool instead — it wraps ripgrep and honors "
-                "PCRE syntax on both platforms.",
+                "re-run it through Bash as `grep -E` with the pattern rewritten "
+                "in POSIX extended syntax (e.g. `[0-9]` for `\\d`, `[[:space:]]` "
+                "for `\\s`); when the pattern genuinely needs PCRE (lookarounds, "
+                "lazy quantifiers), run ripgrep through Bash instead: "
+                "`rg --pcre2 '<pattern>' <path>`. A harness-provided search "
+                "tool also works, if this session has one.",
                 evidence=f"a PCRE flag was found on a `grep` in command position in: {command}",
                 call=call,
             )
@@ -2591,10 +6307,17 @@ def main():
                     "git-commit",
                     f"git commit is only allowed at slug(s): {allowed}. "
                     f"You are at {_slug_label(state, slug)}.",
-                    "keep following the workflow — `codeyam-editor-dev editor advance` "
-                    f"until the {_commit_gate_phrase(commit_slugs)} slug, which commits for you. To read what "
+                    "keep following the workflow — `codeyam-editor editor advance` "
+                    f"until the {_commit_gate_phrase(commit_slugs)} slug, which commits for you. "
+                    "If this commit genuinely belongs OUTSIDE the workflow (re-triggering a "
+                    "stalled deploy, a release pass), advancing the whole workflow is not a "
+                    "route to that goal — run `codeyam-editor editor commit --out-of-workflow "
+                    '-m "<msg>"` instead (add `--allow-empty` for an empty commit). It runs the '
+                    "static-check and test-cache gates itself before committing, and is the "
+                    "gated replacement for `git commit --no-verify`, which skips every gate. "
+                    "To read what "
                     "a later slug requires without moving the workflow pointer, run "
-                    "`codeyam-editor-dev editor step --show --slug <slug>`.",
+                    "`codeyam-editor editor step --show --slug <slug>`.",
                     reference="Plan-file commits (.codeyam/plans/*.md) are allowed at any step.",
                     detail=slug,
                     evidence=(
@@ -2618,7 +6341,7 @@ def main():
                     f"git add is only allowed at slug(s): {allowed}. "
                     f"You are at {_slug_label(state, slug)}.",
                     f"leave staging to the workflow — the {_commit_gate_phrase(commit_slugs)} slug runs "
-                    "`codeyam-editor-dev editor stage-feature`, which stages this for you.",
+                    "`codeyam-editor editor stage-feature`, which stages this for you.",
                     reference="Plan-file commits (.codeyam/plans/*.md) are allowed at any step, "
                     "and `git add` is permitted while a rebase/merge is paused mid-operation.",
                     detail=slug,
@@ -2639,7 +6362,7 @@ def main():
                     f"git push is only allowed at slug(s): {allowed}. "
                     f"You are at {_slug_label(state, slug)}.",
                     "keep advancing to the `push` slug, which runs "
-                    "`codeyam-editor-dev editor push` with the queue held.",
+                    "`codeyam-editor editor push` with the queue held.",
                     detail=slug,
                     evidence=(
                         f"{resolved_context(project_dir, state_path)}; `git push` is "
@@ -2653,4 +6376,11 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    # Every verdict exits through `allow` / `notice` / `block`, i.e. SystemExit;
+    # only that path clears the in-flight marker. A kill or an uncaught
+    # exception leaves it for the next run to report.
+    try:
+        main()
+    except SystemExit:
+        finish_run(_INFLIGHT_MARKER)
+        raise

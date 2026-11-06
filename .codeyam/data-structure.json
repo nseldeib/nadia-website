@@ -1,7 +1,7 @@
 [
   {
     "name": "Message",
-    "description": "A note someone sends through the contact form. This is the only data the site persists — the page content itself lives in the repo as files, not in the database, so the CMS can version it. The handler writes the row first and sends the email second, so a mail-provider failure can never lose a message. Production starts empty: nobody has written yet, and that is the correct day-one state.",
+    "description": "A note someone sends through the contact form. The handler writes the row first and sends the email second, so a mail-provider failure can never lose a message. Production starts empty: nobody has written yet, and that is the correct day-one state.",
     "category": "datastore",
     "order": 1,
     "fields": [
@@ -13,6 +13,23 @@
       { "name": "createdAt", "type": "date", "required": true },
       { "name": "emailedAt", "type": "date", "required": false },
       { "name": "sourcePage", "type": "string", "required": false }
+    ]
+  },
+  {
+    "name": "Post",
+    "description": "One essay, mirrored from the Substack at blog.nseldeib.com. Authored there, never here — this table is a cache, not a CMS, which is why every row carries the canonical URL it came from. It exists because Substack's RSS only ever returns the 20 most recent posts: the feed is the source of new essays, and this is the memory of old ones, so a post that falls out of the feed window stays on the site instead of vanishing. bodyHtml is stored already sanitized, with Substack's subscribe forms and image-expand controls stripped out. Production starts empty and fills on the first request that reaches the feed.",
+    "category": "datastore",
+    "order": 2,
+    "fields": [
+      { "name": "id", "type": "number", "isId": true, "required": true },
+      { "name": "slug", "type": "string", "required": true },
+      { "name": "title", "type": "string", "required": true },
+      { "name": "subtitle", "type": "string", "required": false },
+      { "name": "publishedAt", "type": "date", "required": true },
+      { "name": "bodyHtml", "type": "string", "required": true },
+      { "name": "canonicalUrl", "type": "string", "required": true },
+      { "name": "firstSeenAt", "type": "date", "required": true },
+      { "name": "updatedAt", "type": "date", "required": true }
     ]
   }
 ]

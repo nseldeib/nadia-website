@@ -1,0 +1,427 @@
+{
+  "treeHash": "5e6cd177de2f72632c68ad96a795b179f31e55d599b9e4b51ebb8b2d5a91535f",
+  "editorCommit": "283adba28f3fc30f058c87b4f92900dccc81f9e5",
+  "recordedAt": "2026-11-06T01:30:23.850098+00:00",
+  "regressions": [
+    {
+      "component": "About",
+      "scenario": "About - Default",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "AboutFacts",
+      "scenario": "AboutFacts - Default",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "Adventures",
+      "scenario": "Adventures - Default",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "AdvisoryCard",
+      "scenario": "AdvisoryCard - Default",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "CityRotator",
+      "scenario": "CityRotator - Default",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "Contact",
+      "scenario": "Contact - Default",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "ContactForm",
+      "scenario": "ContactForm - Default",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "ContactForm",
+      "scenario": "ContactForm - Default",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "Elsewhere",
+      "scenario": "Elsewhere - Default",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "ElsewhereRow",
+      "scenario": "ElsewhereRow - Default",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "ElsewhereRow",
+      "scenario": "ElsewhereRow - LongTitle",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "ExternalLinkIcon",
+      "scenario": "ExternalLinkIcon - Default",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "Field",
+      "scenario": "Field - Default",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "Field",
+      "scenario": "Field - TextArea",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "Field",
+      "scenario": "Field - WithProblem",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "FindMe",
+      "scenario": "FindMe - Default",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "Footer",
+      "scenario": "Footer - Default",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "FooterPlace",
+      "scenario": "FooterPlace - CityOnly",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "FooterPlace",
+      "scenario": "FooterPlace - Default",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "FooterSignoff",
+      "scenario": "FooterSignoff - Default",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "FooterSignoff",
+      "scenario": "FooterSignoff - Linked",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "FooterSignoff",
+      "scenario": "FooterSignoff - NoBrand",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "FooterSignoff",
+      "scenario": "FooterSignoff - Unlinked",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "FormFailure",
+      "scenario": "FormFailure - Default",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "Hero",
+      "scenario": "Hero - Default",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "HeroBackdrop",
+      "scenario": "HeroBackdrop - Default",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "Honeypot",
+      "scenario": "Honeypot - Default",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "Nav",
+      "scenario": "Nav - Default",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "NavLinks",
+      "scenario": "NavLinks - Default",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "NavLinks",
+      "scenario": "NavLinks - ElsewhereActive",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "NavLinks",
+      "scenario": "NavLinks - WorkActive",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "NavMark",
+      "scenario": "NavMark - Default",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "NotFound",
+      "scenario": "NotFound - Default",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "PhotoRotator",
+      "scenario": "PhotoRotator - Adventures",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "PhotoRotator",
+      "scenario": "PhotoRotator - Default",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "PhotoRotator",
+      "scenario": "PhotoRotator - Deferred",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "PhotoRotator",
+      "scenario": "PhotoRotator - Empty",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "PhotoRotator",
+      "scenario": "PhotoRotator - Many",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "PhotoRotator",
+      "scenario": "PhotoRotator - Single",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "PostList",
+      "scenario": "PostList - Default",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "ScrollCue",
+      "scenario": "ScrollCue - Default",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "SectionHead",
+      "scenario": "SectionHead - Contact",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "SectionHead",
+      "scenario": "SectionHead - Default",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "SentConfirmation",
+      "scenario": "SentConfirmation - Default",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "SocialIcon",
+      "scenario": "SocialIcon - Default",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "SocialIcon",
+      "scenario": "SocialIcon - Instagram",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "SocialIcon",
+      "scenario": "SocialIcon - LinkedIn",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "SocialIcon",
+      "scenario": "SocialIcon - Substack",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "SocialIcon",
+      "scenario": "SocialIcon - Threads",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "SocialIcon",
+      "scenario": "SocialIcon - X",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "SocialList",
+      "scenario": "SocialList - Default",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "SocialRow",
+      "scenario": "SocialRow - Default",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "SocialRow",
+      "scenario": "SocialRow - LongHandle",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "SocialRow",
+      "scenario": "SocialRow - NoIcon",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "SubmitRow",
+      "scenario": "SubmitRow - Default",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "SubmitRow",
+      "scenario": "SubmitRow - Default",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "SubmitRow",
+      "scenario": "SubmitRow - Sending",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "TopicChips",
+      "scenario": "TopicChips - Default",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "TopicChips",
+      "scenario": "TopicChips - LastSelected",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "TypedHeadline",
+      "scenario": "TypedHeadline - Default",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "TypedHeadline",
+      "scenario": "TypedHeadline - Empty",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "TypedHeadline",
+      "scenario": "TypedHeadline - Many",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "TypedHeadline",
+      "scenario": "TypedHeadline - ShortLine",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "Work",
+      "scenario": "Work - Default",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "WorkLinkList",
+      "scenario": "WorkLinkList - Default",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "WorkLinkList",
+      "scenario": "WorkLinkList - Single",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "WorkNarrative",
+      "scenario": "WorkNarrative - Default",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "Writing",
+      "scenario": "Writing - Default",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "WritingCta",
+      "scenario": "WritingCta - Default",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "WritingIntro",
+      "scenario": "WritingIntro - Default",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    }
+  ]
+}

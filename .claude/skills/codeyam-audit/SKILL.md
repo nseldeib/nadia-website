@@ -4,13 +4,10 @@ user-invocable: true
 disable-model-invocation: false
 description: |
   Bring the current branch into full codeyam alignment, finalize it
-  whole-repo, clean it for presentation, and drive it to merge-ready —
-  aggressive on deterministic drift, supervised on every judgment call,
-  with push / PR / merge human-gated. Idempotent and resumable. Also
-  offers a cheap report-only mode (what's misaligned + deferred-commit
-  attribution, touching nothing). Use it when you have accumulated
-  deferred commits, did manual commits outside the workflow, or just
-  want to align + finalize whatever HEAD currently is.
+  whole-repo, and drive it to merge-ready, with push / PR / merge
+  human-gated. Idempotent and resumable; has a report-only mode. Use after
+  deferred commits, manual commits outside the workflow, or to align +
+  finalize HEAD.
 ---
 
 # Align, finalize, present, and drive the current branch to merge-ready
@@ -64,7 +61,7 @@ it.** Everything below is the contract; the procedure is the body.
 Confirm the project is initialized for codeyam-editor:
 
 ```bash
-codeyam-editor-dev editor config-show >/dev/null 2>&1 || {
+codeyam-editor editor config-show >/dev/null 2>&1 || {
   echo "Project is not initialized for codeyam-editor. Run /codeyam-onboard first."
   exit 1
 }

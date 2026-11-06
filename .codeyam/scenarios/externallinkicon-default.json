@@ -1,6 +1,6 @@
 {
   "name": "ExternalLinkIcon - Default",
-  "id": "3a1d656f-638a-4e15-878a-fbfaa378f4f3",
+  "id": "accd671a-3b79-4818-ba95-fdc3ed46b62a",
   "url": "/isolated-components/ExternalLinkIcon?s=Default",
   "dimensions": [
     "Desktop"
@@ -8,5 +8,6 @@
   "mocks": {},
   "componentName": "ExternalLinkIcon",
   "scenarioType": "component",
-  "description": "The arrow marking a link as leaving the site."
+  "description": "The arrow marking a link as leaving the site.",
+  "allowMinimalRender": true
 }

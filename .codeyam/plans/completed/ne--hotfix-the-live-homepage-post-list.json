@@ -1,0 +1,32 @@
+{
+  "claimStartedAt": "2026-11-06T01:26:03Z",
+  "completedAt": "2026-11-06T01:33:20Z",
+  "completedBy": {
+    "agentProvider": "claude",
+    "codeyamEditorVersion": "0.1.7",
+    "currentStep": "ui-step22",
+    "machine": "MacBookPro.mynetworksettings.com",
+    "originId": "e2d77ddd-4258-4f08-b73c-1fc782ec4196",
+    "pid": 28339,
+    "priority": 0,
+    "selectedPlan": "ne--hotfix-the-live-homepage-post-list",
+    "sessionId": "573a410f-2313-46cf-a1cd-5911498b1d9e",
+    "startedAt": "2026-11-06T01:26:03Z"
+  },
+  "createdAt": "2026-11-05T22:37:08Z",
+  "deliverables": [
+    ".projects/state.json",
+    ".projects/state.local.json",
+    "app/isolated-components/ElsewhereRow/page.tsx",
+    "app/isolated-components/SocialRow/page.tsx",
+    "app/isolated-components/SubmitRow/page.tsx",
+    "app/isolated-components/TopicChips/Harness.tsx",
+    "app/isolated-components/TopicChips/page.tsx",
+    "content/site.json"
+  ],
+  "journalTimestamp": "2026-11-06T01:33:20Z",
+  "mode": "ui",
+  "planFile": "completed/ne--hotfix-the-live-homepage-post-list.md",
+  "slug": "ne--hotfix-the-live-homepage-post-list",
+  "title": "ne -- Hotfix the live homepage post list"
+}
