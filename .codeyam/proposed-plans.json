@@ -54,11 +54,16 @@
       "severity": 2,
       "source": "session-review",
       "category": "fix",
-      "status": "pending",
+      "status": "written",
+      "planSlug": "re-sanitize-stored-posts-that-predate-the-external-link-fix",
       "proposedAt": "2026-11-06T16:15:58.661814+00:00",
       "kind": "tech-debt",
       "rank": 4,
-      "sightings": 1
+      "sightings": 1,
+      "decidedAt": "2026-11-06T17:55:27Z",
+      "sightingsAtDecision": 1,
+      "offeredCount": 1,
+      "lastOfferedAt": "2026-11-06T16:16:19.884698+00:00"
     },
     {
       "id": "editor-s-pgport-leaks-into-the-app-and-hangs-every-database-page",
