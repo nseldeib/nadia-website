@@ -193,6 +193,30 @@ The free plan allows ten branches per project, so there is no reason to share
 one. Pointing local development at the default branch is how real messages get
 destroyed by a `db:drop-and-reseed` typo.
 
+### Before deploying the writing pages
+
+`npm run build` only runs `prisma generate` — it never touches a database. The
+`Post` table behind `/writing` has to exist in production, and be filled, as a
+separate step before the writing routes deploy:
+
+```bash
+# 1. Confirm DATABASE_URL in .env.local names the PRODUCTION (default) branch.
+# 2. Create the Post table there (additive — existing tables are untouched).
+npm run db:push
+# 3. Fill it with every public post Substack lists, not just the newest 20.
+npm run posts:backfill
+```
+
+The backfill prints what it did (`added`, `updated`, `backfilled`) and the
+table's final count, and exits non-zero if the feed could not be read. It is
+safe to re-run.
+
+Why a backfill at all: Substack's RSS carries only the 20 newest posts. The
+site also asks Substack's archive API for the full list and fetches any post
+the store is missing, so the archive heals itself on the next visit — but that
+reconcile runs under a 2.5-second page deadline, which is not enough to fill an
+empty table in one go.
+
 ### If the datastore changes again
 
 `app/lib/prisma.ts` is the only file that constructs a client for the app, and

@@ -1,0 +1,12 @@
+{
+  "name": "PostFooter - Newest",
+  "id": "0cb41499-c4b5-4b63-a473-2341dc076089",
+  "url": "/isolated-components/PostFooter?s=Newest",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "PostFooter",
+  "scenarioType": "component",
+  "description": "The newest post: only an Older link."
+}

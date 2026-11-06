@@ -3,6 +3,7 @@ title: "ne -- Restore linting on Next 16"
 mode: backend
 createdAt: "2026-11-05T22:37:30Z"
 prefix: "ne"
+order: 1
 source: manual
 ---
 

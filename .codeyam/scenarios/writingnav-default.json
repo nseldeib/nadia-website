@@ -1,0 +1,12 @@
+{
+  "name": "WritingNav - Default",
+  "id": "542a69d8-6b3b-41d2-80ff-bd3bd7553c8e",
+  "url": "/isolated-components/WritingNav?s=Default",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "WritingNav",
+  "scenarioType": "component",
+  "description": "Writing nav on the archive, with Writing marked as the current page."
+}

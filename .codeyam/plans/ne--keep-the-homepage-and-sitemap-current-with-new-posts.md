@@ -3,6 +3,7 @@ title: "ne -- Keep the homepage and sitemap current with new posts"
 mode: backend
 createdAt: "2026-11-05T22:36:47Z"
 prefix: "ne"
+order: 2
 source: manual
 dependsOn: ["ne--backfill-posts-that-aged-out-of-the-substack-feed"]
 ---

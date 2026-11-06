@@ -111,7 +111,7 @@ codeyam-editor start
 ```
 <!-- codeyam:run-and-edit:end -->
 
-<!-- codeyam:scenario-gallery:start d=18199a2cea01 -->
+<!-- codeyam:scenario-gallery:start d=2c6577fad8bb -->
 ## Scenario gallery
 
 States captured as runnable scenarios with codeyam-editor:
@@ -127,4 +127,16 @@ The whole site as a visitor meets it: hero, then Work 01 through Contact 06, the
 <img src=".codeyam/scenarios/screenshots/home-mobile--mobile.png" alt="Home - Mobile" width="280">
 
 The opening viewport at phone width. Captures are viewport-sized, so this is the hero as a phone visitor first meets it: the wordmark and Get in touch sharing one bar, the headline broken across three lines with its second line in rust, and the scroll cue naming the section it leads to.
+
+### Writing - Archive
+
+<img src=".codeyam/scenarios/screenshots/writing-archive--desktop.png" alt="Writing - Archive" width="280">
+
+The /writing archive with five stored essays across three years. Rows carry a far-future updatedAt so the store reads as fresh and the page never calls the live Substack feed during capture.
+
+### Writing - Post
+
+<img src=".codeyam/scenarios/screenshots/writing-post--desktop.png" alt="Writing - Post" width="280">
+
+A stored essay mid-archive: long date, title, subtitle, body, Substack credit, and Older/Newer neighbours. Rows carry a far-future updatedAt so the store reads as fresh and the page never calls the live Substack feed during capture.
 <!-- codeyam:scenario-gallery:end -->

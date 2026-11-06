@@ -81,7 +81,9 @@ export function sanitizePostHtml(html: string): string {
     allowedTags: ALLOWED_TAGS,
     nonTextTags: DROPPED_WITH_CONTENT,
     allowedAttributes: {
-      a: ['href', 'title'],
+      // `target` and `rel` must be allowed here or the transform below adds
+      // them and the attribute filter immediately strips them again.
+      a: ['href', 'title', 'target', 'rel'],
       img: ['src', 'alt', 'srcset', 'sizes', 'width', 'height'],
     },
     // Substack serves every image from its own CDN over https.

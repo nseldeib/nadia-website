@@ -1,0 +1,12 @@
+{
+  "name": "PostFooter - Default",
+  "id": "2d38a392-598c-430b-9b21-da94b662f501",
+  "url": "/isolated-components/PostFooter?s=Default",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "PostFooter",
+  "scenarioType": "component",
+  "description": "A post mid-archive: the Substack call to action with both Older and Newer links."
+}

@@ -3,6 +3,7 @@ title: "ne -- Add a social share preview image"
 mode: ui
 createdAt: "2026-11-05T22:37:08Z"
 prefix: "ne"
+order: 4
 source: manual
 ---
 

@@ -1,0 +1,12 @@
+{
+  "name": "ArchiveList - SingleYear",
+  "id": "02bd0f67-c099-4046-a08b-0ad8b1540b4e",
+  "url": "/isolated-components/ArchiveList?s=SingleYear",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "ArchiveList",
+  "scenarioType": "component",
+  "description": "Three essays from one year: a single year marker, no cut between runs."
+}

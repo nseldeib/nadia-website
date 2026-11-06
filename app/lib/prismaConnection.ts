@@ -28,5 +28,31 @@ export function requireConnectionString(
 ): string {
   const connectionString = env.DATABASE_URL;
   if (!connectionString) throw new Error(MISSING_DATABASE_URL);
-  return connectionString;
+  return withExplicitPort(connectionString);
+}
+
+/** Postgres's standard port — what a connection string without one means. */
+export const DEFAULT_POSTGRES_PORT = '5432';
+
+/**
+ * The connection string with its port stated, when it left the port out.
+ *
+ * `pg` fills a missing port from the `PGPORT` environment variable before
+ * falling back to 5432. The codeyam editor sets `PGPORT` for its own database
+ * proxy, so a port-less Neon URL had the dev server dialling the Neon host on
+ * the proxy's port — every query hung, and every page that reads the database
+ * hung with it. Stating the default port makes the URL mean the same thing in
+ * every environment. A URL that already names a port, or that is not a
+ * parseable URL (e.g. multi-host), is returned exactly as given.
+ */
+export function withExplicitPort(connectionString: string): string {
+  let url: URL;
+  try {
+    url = new URL(connectionString);
+  } catch {
+    return connectionString;
+  }
+  if (url.port || !url.hostname) return connectionString;
+  url.port = DEFAULT_POSTGRES_PORT;
+  return url.toString();
 }

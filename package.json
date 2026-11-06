@@ -13,6 +13,7 @@
     "test:watch": "vitest",
     "db:push": "npx prisma db push && npx prisma generate",
     "db:seed": "npx tsx prisma/seed.ts",
+    "posts:backfill": "npx tsx scripts/backfill-posts.ts",
     "db:drop-and-reseed": "npx prisma db push --force-reset && npx prisma generate && npx tsx prisma/seed.ts"
   },
   "dependencies": {

@@ -11,6 +11,7 @@
 // throws mid-render would do the latter.
 
 import { XMLParser } from 'fast-xml-parser';
+import { describeError } from './describeError';
 
 /** The only feed this site reads. */
 export const FEED_URL = 'https://blog.nseldeib.com/feed';
@@ -128,6 +129,127 @@ export function parseFeed(xml: string): FeedPost[] {
 }
 
 /**
+ * Substack's JSON API — the authoritative list of every post, not just the
+ * newest 20 the RSS carries. RSS stays the source of bodies for recent posts;
+ * this is how the site learns a post exists after it has aged out of the feed.
+ */
+export const API_BASE = 'https://blog.nseldeib.com/api/v1';
+
+/**
+ * The largest page the archive endpoint accepts (verified 2026-11-05: 25 is
+ * accepted, 30 and above are rejected with "Invalid value"). It paginates with
+ * an opaque `nextCursor`, not an offset — `offset` is rejected outright.
+ */
+export const ARCHIVE_PAGE_SIZE = 25;
+
+/**
+ * A ceiling on how many archive pages one reconcile will walk.
+ *
+ * 20 pages is 500 posts — far beyond this publication — and exists only so a
+ * cursor that never ends (an API change, a bug on Substack's side) cannot turn
+ * a page render into an unbounded crawl.
+ */
+export const ARCHIVE_MAX_PAGES = 20;
+
+/** One post as the archive lists it — enough to know it exists, no body. */
+export type ArchiveEntry = {
+  slug: string;
+  /** `everyone` for public posts; anything else must never be mirrored. */
+  audience: string;
+  publishedAt: Date;
+};
+
+export type ArchiveResult = { ok: true; entries: ArchiveEntry[] } | { ok: false; reason: string };
+
+export type PostResult = { ok: true; post: FeedPost } | { ok: false; reason: string };
+
+/** Read one archive page's posts, skipping any entry missing what we rely on. */
+export function parseArchive(json: unknown): { entries: ArchiveEntry[]; nextCursor: string | null } {
+  const body = (json ?? {}) as { posts?: unknown; nextCursor?: unknown };
+  const raw = Array.isArray(body.posts) ? body.posts : [];
+
+  const entries: ArchiveEntry[] = [];
+  for (const item of raw as Record<string, unknown>[]) {
+    const slug = typeof item?.slug === 'string' ? item.slug : null;
+    const audience = typeof item?.audience === 'string' ? item.audience : null;
+    const publishedAt = parseDate(item?.post_date);
+    if (!slug || !audience || !publishedAt) continue;
+    entries.push({ slug, audience, publishedAt });
+  }
+
+  const nextCursor = typeof body.nextCursor === 'string' && body.nextCursor ? body.nextCursor : null;
+  return { entries, nextCursor };
+}
+
+/** Turn the single-post API response into the same shape the feed produces. */
+export function parseApiPost(json: unknown): FeedPost | null {
+  const item = (json ?? {}) as Record<string, unknown>;
+  const slug = typeof item.slug === 'string' ? item.slug : null;
+  const title = typeof item.title === 'string' ? item.title.trim() : '';
+  const publishedAt = parseDate(item.post_date);
+  const bodyHtml = typeof item.body_html === 'string' ? item.body_html : '';
+  const canonicalUrl = typeof item.canonical_url === 'string' ? item.canonical_url : '';
+  if (!slug || !title || !publishedAt || !bodyHtml || !canonicalUrl) return null;
+
+  const subtitle = typeof item.subtitle === 'string' ? item.subtitle.trim() : '';
+  return { slug, title, subtitle: subtitle || null, publishedAt, canonicalUrl, bodyHtml };
+}
+
+async function getJson(url: string): Promise<{ ok: true; json: unknown } | { ok: false; reason: string }> {
+  try {
+    const res = await fetch(url, {
+      next: { revalidate: FEED_REVALIDATE_SECONDS },
+      signal: AbortSignal.timeout(FEED_TIMEOUT_MS),
+    });
+    if (!res.ok) return { ok: false, reason: `${url} responded ${res.status}` };
+    return { ok: true, json: await res.json() };
+  } catch (err) {
+    return { ok: false, reason: describeError(err, 'unknown fetch failure') };
+  }
+}
+
+/** The URL of one archive page: the first when `cursor` is null, else the page it names. */
+export function archivePageUrl(cursor: string | null): string {
+  const base = `${API_BASE}/archive?sort=new&limit=${ARCHIVE_PAGE_SIZE}`;
+  return cursor ? `${base}&cursor=${encodeURIComponent(cursor)}` : base;
+}
+
+/**
+ * Every post Substack lists, newest first, walking the cursor to the end.
+ *
+ * Never throws. A failure on the FIRST page is a failure; a failure on a later
+ * page returns what was gathered so far — a partial list still backfills
+ * something, and the next reconcile picks up the rest.
+ */
+export async function fetchArchiveIndex(): Promise<ArchiveResult> {
+  const entries: ArchiveEntry[] = [];
+  let cursor: string | null = null;
+
+  for (let page = 0; page < ARCHIVE_MAX_PAGES; page++) {
+    const res = await getJson(archivePageUrl(cursor));
+    if (!res.ok) {
+      return entries.length ? { ok: true, entries } : { ok: false, reason: res.reason };
+    }
+
+    const parsed = parseArchive(res.json);
+    entries.push(...parsed.entries);
+    if (!parsed.nextCursor || !parsed.entries.length) break;
+    cursor = parsed.nextCursor;
+  }
+
+  if (!entries.length) return { ok: false, reason: 'archive returned no usable posts' };
+  return { ok: true, entries };
+}
+
+/** One post with its body, by slug — for posts the RSS no longer carries. Never throws. */
+export async function fetchPostBySlug(slug: string): Promise<PostResult> {
+  const res = await getJson(`${API_BASE}/posts/${encodeURIComponent(slug)}`);
+  if (!res.ok) return res;
+  const post = parseApiPost(res.json);
+  return post ? { ok: true, post } : { ok: false, reason: `post ${slug} missing required fields` };
+}
+
+/**
  * Fetch and parse the feed.
  *
  * Never throws. The caller decides what an unreachable Substack means, and for
@@ -150,6 +272,6 @@ export async function fetchFeed(url: string = FEED_URL): Promise<FeedResult> {
 
     return { ok: true, posts };
   } catch (err) {
-    return { ok: false, reason: err instanceof Error ? err.message : 'unknown feed failure' };
+    return { ok: false, reason: describeError(err, 'unknown feed failure') };
   }
 }

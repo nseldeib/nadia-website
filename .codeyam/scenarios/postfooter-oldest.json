@@ -1,0 +1,12 @@
+{
+  "name": "PostFooter - Oldest",
+  "id": "134c0743-6ba5-4867-a8cc-137197b659e6",
+  "url": "/isolated-components/PostFooter?s=Oldest",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "PostFooter",
+  "scenarioType": "component",
+  "description": "The oldest post: the placeholder keeps Newer in the right-hand column."
+}

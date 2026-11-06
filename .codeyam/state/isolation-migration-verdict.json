@@ -1,7 +1,7 @@
 {
-  "treeHash": "5e6cd177de2f72632c68ad96a795b179f31e55d599b9e4b51ebb8b2d5a91535f",
+  "treeHash": "14d320413e6bb4a7de991114c4fb0abf283dce53b24afdfc9e510d2f07a96830",
   "editorCommit": "283adba28f3fc30f058c87b4f92900dccc81f9e5",
-  "recordedAt": "2026-11-06T01:30:23.850098+00:00",
+  "recordedAt": "2026-11-06T15:11:06.927798+00:00",
   "regressions": [
     {
       "component": "About",
@@ -24,6 +24,18 @@
     {
       "component": "AdvisoryCard",
       "scenario": "AdvisoryCard - Default",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "ArchiveList",
+      "scenario": "ArchiveList - Default",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "ArchiveList",
+      "scenario": "ArchiveList - SingleYear",
       "status": 500,
       "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
     },
@@ -238,6 +250,30 @@
       "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
     },
     {
+      "component": "PostBody",
+      "scenario": "PostBody - Default",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "PostFooter",
+      "scenario": "PostFooter - Default",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "PostFooter",
+      "scenario": "PostFooter - Newest",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "PostFooter",
+      "scenario": "PostFooter - Oldest",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
       "component": "PostList",
       "scenario": "PostList - Default",
       "status": 500,
@@ -420,6 +456,18 @@
     {
       "component": "WritingIntro",
       "scenario": "WritingIntro - Default",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "WritingNav",
+      "scenario": "WritingNav - Default",
+      "status": 500,
+      "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
+    },
+    {
+      "component": "WritingNav",
+      "scenario": "WritingNav - Post",
       "status": 500,
       "error": "<!DOCTYPE html><script>(function () {\n  if (window.__codeyamErrorCaptureInstalled) return;\n  window.__codeyamErrorCaptureInstalled = true;\n\n  var SOURCE = \"codeyam-error-capture\";\n  var MAX_RECENT = 5"
     }

@@ -1,0 +1,12 @@
+{
+  "name": "WritingNav - Post",
+  "id": "4fccce28-2284-4598-8559-287ebf28ef29",
+  "url": "/isolated-components/WritingNav?s=Post",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "WritingNav",
+  "scenarioType": "component",
+  "description": "Writing nav on a post page, with nothing marked current."
+}

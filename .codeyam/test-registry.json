@@ -82,6 +82,87 @@
       "runner": "tests"
     },
     {
+      "description": "Direction matches the archive order the reader came from.",
+      "file": "app/lib/posts.test.ts",
+      "format": "vitest",
+      "key": "adjacentPosts › previous is the next-older post and next is the next-newer one",
+      "line": 290,
+      "registeredAt": "2026-11-06T15:15:12.641309+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "No neighbour queries run for a post that does not exist.",
+      "file": "app/lib/posts.test.ts",
+      "format": "vitest",
+      "key": "adjacentPosts › returns nulls for an unknown slug",
+      "line": 283,
+      "registeredAt": "2026-11-06T15:15:12.641309+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "The sitemap and static params list every stored post.",
+      "file": "app/lib/posts.test.ts",
+      "format": "vitest",
+      "key": "allPostSlugs › returns every stored slug, newest first",
+      "line": 307,
+      "registeredAt": "2026-11-06T15:15:12.641309+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Later pages pass the opaque cursor through, encoded so a cursor with reserved characters cannot corrupt the query string.",
+      "file": "app/lib/substackFeed.test.ts",
+      "format": "vitest",
+      "key": "archivePageUrl › appends an encoded cursor for later pages",
+      "line": 117,
+      "registeredAt": "2026-11-06T02:18:20Z",
+      "runner": "tests"
+    },
+    {
+      "description": "The first page has no cursor and asks for the largest page the API accepts.",
+      "file": "app/lib/substackFeed.test.ts",
+      "format": "vitest",
+      "key": "archivePageUrl › builds the first page URL without a cursor",
+      "line": 111,
+      "registeredAt": "2026-11-06T02:18:20Z",
+      "runner": "tests"
+    },
+    {
+      "description": "The API rejects limits above 25; the constant must stay within that.",
+      "file": "app/lib/substackFeed.test.ts",
+      "format": "vitest",
+      "key": "archivePageUrl › never asks for more than the API accepts",
+      "line": 124,
+      "registeredAt": "2026-11-06T02:18:20Z",
+      "runner": "tests"
+    },
+    {
+      "description": "A crash still releases the database connection and fails the deploy step.",
+      "file": "scripts/backfill-posts.test.ts",
+      "format": "vitest",
+      "key": "backfill-posts main › exits non-zero and still disconnects when the reconcile throws",
+      "line": 59,
+      "registeredAt": "2026-11-06T15:15:12.641309+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A deploy step running this must not carry on as if it had worked.",
+      "file": "scripts/backfill-posts.test.ts",
+      "format": "vitest",
+      "key": "backfill-posts main › exits non-zero when the feed could not be read",
+      "line": 50,
+      "registeredAt": "2026-11-06T15:13:34.949047+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A one-off fill must not be skipped because the store looks fresh.",
+      "file": "scripts/backfill-posts.test.ts",
+      "format": "vitest",
+      "key": "backfill-posts main › forces a full reconcile and reports the stored total",
+      "line": 39,
+      "registeredAt": "2026-11-06T15:13:34.949047+00:00",
+      "runner": "tests"
+    },
+    {
       "description": "The plain-text part must be the composed note exactly — it is the copy that survives every client.",
       "file": "app/lib/sendNotification.test.ts",
       "format": "vitest",
@@ -253,6 +334,33 @@
       "runner": "tests"
     },
     {
+      "description": "Thrown strings and objects carry no reliable message, so the caller's fallback names what failed instead.",
+      "file": "app/lib/describeError.test.ts",
+      "format": "vitest",
+      "key": "describeError › falls back for a non-Error value",
+      "line": 12,
+      "registeredAt": "2026-11-06T02:18:20Z",
+      "runner": "tests"
+    },
+    {
+      "description": "An Error with an empty message would leave the report field blank, which reads as success.",
+      "file": "app/lib/describeError.test.ts",
+      "format": "vitest",
+      "key": "describeError › falls back for an Error with an empty message",
+      "line": 19,
+      "registeredAt": "2026-11-06T02:18:20Z",
+      "runner": "tests"
+    },
+    {
+      "description": "A real Error's message is the most useful thing to put in a sync report.",
+      "file": "app/lib/describeError.test.ts",
+      "format": "vitest",
+      "key": "describeError › uses the message of an Error",
+      "line": 6,
+      "registeredAt": "2026-11-06T02:18:20Z",
+      "runner": "tests"
+    },
+    {
       "description": "A bare status code cannot distinguish a bad token from an unverified recipient, and both are things only the operator can fix.",
       "file": "app/lib/sendNotification.test.ts",
       "format": "vitest",
@@ -307,6 +415,312 @@
       "runner": "tests"
     },
     {
+      "description": "An excerpt never ends mid-word.",
+      "file": "app/lib/sanitizePostHtml.test.ts",
+      "format": "vitest",
+      "key": "excerptFromHtml › cuts long text on a word boundary with an ellipsis",
+      "line": 77,
+      "registeredAt": "2026-11-06T15:15:12.641309+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "With no space to cut at, the excerpt still respects the limit.",
+      "file": "app/lib/sanitizePostHtml.test.ts",
+      "format": "vitest",
+      "key": "excerptFromHtml › hard-cuts a single word longer than the limit",
+      "line": 83,
+      "registeredAt": "2026-11-06T15:15:12.641309+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Stripping tags alone would weld \"SPC.\" onto \"The team\".",
+      "file": "app/lib/sanitizePostHtml.test.ts",
+      "format": "vitest",
+      "key": "excerptFromHtml › puts a space between blocks so captions do not weld onto paragraphs",
+      "line": 70,
+      "registeredAt": "2026-11-06T15:13:34.949047+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A short body becomes plain text with no ellipsis.",
+      "file": "app/lib/sanitizePostHtml.test.ts",
+      "format": "vitest",
+      "key": "excerptFromHtml › returns short text unchanged, without markup",
+      "line": 65,
+      "registeredAt": "2026-11-06T15:15:12.641309+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A first-page failure is a real failure and must be reported, not hidden as an empty archive.",
+      "file": "app/lib/substackFeed.test.ts",
+      "format": "vitest",
+      "key": "fetchArchiveIndex › fails when the first page fails",
+      "line": 171,
+      "registeredAt": "2026-11-06T02:19:39.610854+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A network error is converted to a result, never thrown into the caller.",
+      "file": "app/lib/substackFeed.test.ts",
+      "format": "vitest",
+      "key": "fetchArchiveIndex › never throws on a network error",
+      "line": 191,
+      "registeredAt": "2026-11-06T02:19:39.610854+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A later page failing still yields what was gathered, so a flaky archive backfills something now and the rest next time.",
+      "file": "app/lib/substackFeed.test.ts",
+      "format": "vitest",
+      "key": "fetchArchiveIndex › returns a partial list when a later page fails",
+      "line": 156,
+      "registeredAt": "2026-11-06T02:19:39.610854+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A cursor that never ends must not turn a page render into an unbounded crawl.",
+      "file": "app/lib/substackFeed.test.ts",
+      "format": "vitest",
+      "key": "fetchArchiveIndex › stops at the page ceiling",
+      "line": 181,
+      "registeredAt": "2026-11-06T02:19:39.610854+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "The archive is cursor-paginated; every page must be walked or older posts are never discovered.",
+      "file": "app/lib/substackFeed.test.ts",
+      "format": "vitest",
+      "key": "fetchArchiveIndex › walks the cursor until the last page",
+      "line": 141,
+      "registeredAt": "2026-11-06T02:19:39.610854+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A network error is converted to a result, never thrown into the caller.",
+      "file": "app/lib/substackFeed.test.ts",
+      "format": "vitest",
+      "key": "fetchFeed › never throws on a network error",
+      "line": 191,
+      "registeredAt": "2026-11-06T15:13:34.949047+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "An HTTP error is a reason, not an exception.",
+      "file": "app/lib/substackFeed.test.ts",
+      "format": "vitest",
+      "key": "fetchFeed › reports a non-2xx status without throwing",
+      "line": 342,
+      "registeredAt": "2026-11-06T15:15:12.641309+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A healthy feed response becomes posts.",
+      "file": "app/lib/substackFeed.test.ts",
+      "format": "vitest",
+      "key": "fetchFeed › returns the parsed posts on success",
+      "line": 333,
+      "registeredAt": "2026-11-06T15:15:12.641309+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A feed that parses to nothing is reported, not silently stored as empty.",
+      "file": "app/lib/substackFeed.test.ts",
+      "format": "vitest",
+      "key": "fetchFeed › treats a feed with no usable posts as a failure",
+      "line": 348,
+      "registeredAt": "2026-11-06T15:15:12.641309+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A missing post is reported with its status so the sync result says why.",
+      "file": "app/lib/substackFeed.test.ts",
+      "format": "vitest",
+      "key": "fetchPostBySlug › reports a non-2xx response",
+      "line": 224,
+      "registeredAt": "2026-11-06T02:19:39.610854+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A response without a body must not be stored as an empty post.",
+      "file": "app/lib/substackFeed.test.ts",
+      "format": "vitest",
+      "key": "fetchPostBySlug › reports a post missing required fields",
+      "line": 233,
+      "registeredAt": "2026-11-06T02:19:39.610854+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "The single-post endpoint is how an aged-out post's body is recovered.",
+      "file": "app/lib/substackFeed.test.ts",
+      "format": "vitest",
+      "key": "fetchPostBySlug › returns the parsed post",
+      "line": 205,
+      "registeredAt": "2026-11-06T02:19:39.610854+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "The common case is already stored and must cost one query, no feed.",
+      "file": "app/writing/[slug]/page.test.ts",
+      "format": "vitest",
+      "key": "findPost via generateMetadata › does not reconcile when the slug is already stored",
+      "line": 35,
+      "registeredAt": "2026-11-06T15:13:34.949047+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A link to a post published since the site last looked.",
+      "file": "app/writing/[slug]/page.test.ts",
+      "format": "vitest",
+      "key": "findPost via generateMetadata › reconciles once and looks again for an unknown slug",
+      "line": 45,
+      "registeredAt": "2026-11-06T15:13:34.949047+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A late-evening New York post must not render as the next day on a UTC machine.",
+      "file": "app/lib/postDates.test.ts",
+      "format": "vitest",
+      "key": "formatPostDate › formats in UTC, not the local timezone",
+      "line": 16,
+      "registeredAt": "2026-11-06T15:15:12.641309+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "The homepage and archive date column use this short form.",
+      "file": "app/lib/postDates.test.ts",
+      "format": "vitest",
+      "key": "formatPostDate › renders the short month-day form",
+      "line": 11,
+      "registeredAt": "2026-11-06T15:15:12.641309+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A late-evening New York post must not render as the next day on a UTC machine.",
+      "file": "app/lib/postDates.test.ts",
+      "format": "vitest",
+      "key": "formatPostDateLong › formats in UTC, not the local timezone",
+      "line": 16,
+      "registeredAt": "2026-11-06T15:15:12.641309+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "The post page header uses the long form.",
+      "file": "app/lib/postDates.test.ts",
+      "format": "vitest",
+      "key": "formatPostDateLong › spells out day, month and year",
+      "line": 23,
+      "registeredAt": "2026-11-06T15:15:12.641309+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A blank subtitle falls back to the body's opening.",
+      "file": "app/writing/[slug]/page.test.ts",
+      "format": "vitest",
+      "key": "generateMetadata › falls back to an excerpt of the body when there is no subtitle",
+      "line": 79,
+      "registeredAt": "2026-11-06T15:15:12.641309+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Post pages canonicalise to this site, not Substack.",
+      "file": "app/writing/[slug]/page.test.ts",
+      "format": "vitest",
+      "key": "generateMetadata › is self-canonical on this domain and uses the subtitle as description",
+      "line": 64,
+      "registeredAt": "2026-11-06T15:15:12.641309+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "An unknown slug gets a not-found title.",
+      "file": "app/writing/[slug]/page.test.ts",
+      "format": "vitest",
+      "key": "generateMetadata › titles a missing post as not found",
+      "line": 58,
+      "registeredAt": "2026-11-06T15:15:12.641309+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Post pages read one row by its Substack slug.",
+      "file": "app/lib/posts.test.ts",
+      "format": "vitest",
+      "key": "getPost › looks a post up by slug",
+      "line": 274,
+      "registeredAt": "2026-11-06T15:15:12.641309+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Each run of same-year posts becomes one group, in the order given.",
+      "file": "app/lib/postDates.test.ts",
+      "format": "vitest",
+      "key": "groupPostsByYear › cuts a newest-first list where the year changes",
+      "line": 49,
+      "registeredAt": "2026-11-06T15:15:12.641309+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "It must not re-sort: the caller's order is the archive's order.",
+      "file": "app/lib/postDates.test.ts",
+      "format": "vitest",
+      "key": "groupPostsByYear › preserves the order it was given",
+      "line": 61,
+      "registeredAt": "2026-11-06T15:13:34.949047+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "An empty archive renders no year sections at all.",
+      "file": "app/lib/postDates.test.ts",
+      "format": "vitest",
+      "key": "groupPostsByYear › returns no groups for no posts",
+      "line": 44,
+      "registeredAt": "2026-11-06T15:15:12.641309+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Every item must be processed — a dropped post is exactly the bug this feature exists to fix.",
+      "file": "app/lib/inBatches.test.ts",
+      "format": "vitest",
+      "key": "inBatches › calls fn once for every item",
+      "line": 22,
+      "registeredAt": "2026-11-06T02:18:20Z",
+      "runner": "tests"
+    },
+    {
+      "description": "An empty list is the common case once the store is complete and must not call anything.",
+      "file": "app/lib/inBatches.test.ts",
+      "format": "vitest",
+      "key": "inBatches › does nothing for an empty list",
+      "line": 38,
+      "registeredAt": "2026-11-06T02:18:20Z",
+      "runner": "tests"
+    },
+    {
+      "description": "The ceiling is what keeps a reconcile from exhausting the small connection pool.",
+      "file": "app/lib/inBatches.test.ts",
+      "format": "vitest",
+      "key": "inBatches › never has more than size calls in flight",
+      "line": 30,
+      "registeredAt": "2026-11-06T02:18:20Z",
+      "runner": "tests"
+    },
+    {
+      "description": "A failure must surface to the caller rather than be swallowed, so the caller decides how to report it.",
+      "file": "app/lib/inBatches.test.ts",
+      "format": "vitest",
+      "key": "inBatches › rejects when fn rejects",
+      "line": 54,
+      "registeredAt": "2026-11-06T02:18:20Z",
+      "runner": "tests"
+    },
+    {
+      "description": "A size of zero would loop forever without the floor of one.",
+      "file": "app/lib/inBatches.test.ts",
+      "format": "vitest",
+      "key": "inBatches › treats a size below one as one",
+      "line": 45,
+      "registeredAt": "2026-11-06T02:18:20Z",
+      "runner": "tests"
+    },
+    {
       "description": "The common case, and the one that must never regress: a real submission that leaves the hidden field alone has to pass straight through.",
       "file": "app/lib/contactRequest.test.ts",
       "format": "vitest",
@@ -340,6 +754,141 @@
       "key": "isHoneypotTripped › trips when the hidden field has content",
       "line": 44,
       "registeredAt": "2026-08-27T21:49:03Z",
+      "runner": "tests"
+    },
+    {
+      "description": "The homepage asks for a capped list.",
+      "file": "app/lib/posts.test.ts",
+      "format": "vitest",
+      "key": "listPosts › applies a limit when given one",
+      "line": 251,
+      "registeredAt": "2026-11-06T15:15:12.641309+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Lists never load the 48K-character body.",
+      "file": "app/lib/posts.test.ts",
+      "format": "vitest",
+      "key": "listPosts › reads newest first without the body, uncapped by default",
+      "line": 240,
+      "registeredAt": "2026-11-06T15:15:12.641309+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "The single-post response must map onto the same shape the RSS produces, so both paths store identical rows.",
+      "file": "app/lib/substackFeed.test.ts",
+      "format": "vitest",
+      "key": "parseApiPost › maps a complete post onto the feed shape",
+      "line": 77,
+      "registeredAt": "2026-11-06T02:18:20Z",
+      "runner": "tests"
+    },
+    {
+      "description": "An error body or null must not throw.",
+      "file": "app/lib/substackFeed.test.ts",
+      "format": "vitest",
+      "key": "parseApiPost › rejects a body that is not a post",
+      "line": 103,
+      "registeredAt": "2026-11-06T02:18:20Z",
+      "runner": "tests"
+    },
+    {
+      "description": "A post without a body would render as an empty page — refuse it so the failure is reported instead of stored.",
+      "file": "app/lib/substackFeed.test.ts",
+      "format": "vitest",
+      "key": "parseApiPost › rejects a post missing any required field",
+      "line": 96,
+      "registeredAt": "2026-11-06T02:18:20Z",
+      "runner": "tests"
+    },
+    {
+      "description": "A blank or missing subtitle is stored as null, matching the feed parser.",
+      "file": "app/lib/substackFeed.test.ts",
+      "format": "vitest",
+      "key": "parseApiPost › turns a blank subtitle into null",
+      "line": 89,
+      "registeredAt": "2026-11-06T02:18:20Z",
+      "runner": "tests"
+    },
+    {
+      "description": "The live archive response shape (verified 2026-11-05): a `posts` array and an opaque `nextCursor`. Both halves must come through or pagination stops.",
+      "file": "app/lib/substackFeed.test.ts",
+      "format": "vitest",
+      "key": "parseArchive › reads entries and the next cursor from one page",
+      "line": 19,
+      "registeredAt": "2026-11-06T02:18:20Z",
+      "runner": "tests"
+    },
+    {
+      "description": "The last page carries a null cursor; that is the only stop signal besides the page ceiling.",
+      "file": "app/lib/substackFeed.test.ts",
+      "format": "vitest",
+      "key": "parseArchive › reports no next cursor on the last page",
+      "line": 36,
+      "registeredAt": "2026-11-06T02:18:20Z",
+      "runner": "tests"
+    },
+    {
+      "description": "An API change or an error body must degrade to \"nothing listed\", not throw mid-reconcile.",
+      "file": "app/lib/substackFeed.test.ts",
+      "format": "vitest",
+      "key": "parseArchive › returns nothing for a body that is not an archive page",
+      "line": 57,
+      "registeredAt": "2026-11-06T02:18:20Z",
+      "runner": "tests"
+    },
+    {
+      "description": "An entry without audience must be skipped, never defaulted — a paid post treated as public would be mirrored in full.",
+      "file": "app/lib/substackFeed.test.ts",
+      "format": "vitest",
+      "key": "parseArchive › skips entries missing slug, audience or a valid date",
+      "line": 43,
+      "registeredAt": "2026-11-06T02:18:20Z",
+      "runner": "tests"
+    },
+    {
+      "description": "A one-post feed must not be lost to the bare-object shape.",
+      "file": "app/lib/substackFeed.test.ts",
+      "format": "vitest",
+      "key": "parseFeed › parses a single item, which fast-xml-parser hands back as a bare object",
+      "line": 276,
+      "registeredAt": "2026-11-06T15:15:12.641309+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Multiple items keep the feed's order.",
+      "file": "app/lib/substackFeed.test.ts",
+      "format": "vitest",
+      "key": "parseFeed › parses many items in feed order",
+      "line": 292,
+      "registeredAt": "2026-11-06T15:15:12.641309+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Empty or foreign XML yields no posts rather than throwing.",
+      "file": "app/lib/substackFeed.test.ts",
+      "format": "vitest",
+      "key": "parseFeed › returns nothing for a feed with no items or non-feed XML",
+      "line": 319,
+      "registeredAt": "2026-11-06T15:15:12.641309+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "One bad item costs one post, not the archive.",
+      "file": "app/lib/substackFeed.test.ts",
+      "format": "vitest",
+      "key": "parseFeed › skips items missing a slug, title, date, or body",
+      "line": 305,
+      "registeredAt": "2026-11-06T15:13:34.949047+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A blank description is no subtitle, not an empty one.",
+      "file": "app/lib/substackFeed.test.ts",
+      "format": "vitest",
+      "key": "parseFeed › stores an empty description as a null subtitle",
+      "line": 300,
+      "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     },
     {
@@ -403,6 +952,15 @@
       "key": "pickActive › returns the one visible section",
       "line": 14,
       "registeredAt": "2026-08-26T22:20:16Z",
+      "runner": "tests"
+    },
+    {
+      "description": "The year cut in the archive uses the same timezone as every date label.",
+      "file": "app/lib/postDates.test.ts",
+      "format": "vitest",
+      "key": "postYear › reads the UTC year",
+      "line": 35,
+      "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     },
     {
@@ -478,11 +1036,56 @@
       "runner": "tests"
     },
     {
+      "description": "An unreachable database must cost the homepage one section, not the page.",
+      "file": "app/lib/posts.test.ts",
+      "format": "vitest",
+      "key": "recentPostsForHome › returns an empty list instead of throwing",
+      "line": 266,
+      "registeredAt": "2026-11-06T15:13:34.949047+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "The homepage shows three posts by default.",
+      "file": "app/lib/posts.test.ts",
+      "format": "vitest",
+      "key": "recentPostsForHome › returns the three most recent posts",
+      "line": 259,
+      "registeredAt": "2026-11-06T15:15:12.641309+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A reconcile that beats the deadline reports its real result.",
+      "file": "app/lib/posts.test.ts",
+      "format": "vitest",
+      "key": "reconcileWithinDeadline › returns the sync result when it finishes in time",
+      "line": 218,
+      "registeredAt": "2026-11-06T15:15:12.641309+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A slow Substack must not hold a render past the deadline.",
+      "file": "app/lib/posts.test.ts",
+      "format": "vitest",
+      "key": "reconcileWithinDeadline › stops waiting at the deadline",
+      "line": 224,
+      "registeredAt": "2026-11-06T15:15:12.641309+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A thrown reconcile must not take the page down.",
+      "file": "app/lib/posts.test.ts",
+      "format": "vitest",
+      "key": "reconcileWithinDeadline › turns a thrown reconcile into a failed result",
+      "line": 230,
+      "registeredAt": "2026-11-06T15:15:12.641309+00:00",
+      "runner": "tests"
+    },
+    {
       "description": "The message is the entire value of failing fast: it has to name the file the value belongs in, or the reader is no better off than with a stack trace from the driver.",
       "file": "app/lib/prismaConnection.test.ts",
       "format": "vitest",
       "key": "requireConnectionString › names where the value belongs",
-      "line": 32,
+      "line": 58,
       "registeredAt": "2026-08-27T21:49:03Z",
       "runner": "tests"
     },
@@ -491,8 +1094,17 @@
       "file": "app/lib/prismaConnection.test.ts",
       "format": "vitest",
       "key": "requireConnectionString › returns the connection string when it is set",
-      "line": 7,
+      "line": 25,
       "registeredAt": "2026-08-27T21:49:03Z",
+      "runner": "tests"
+    },
+    {
+      "description": "The one rewrite: a missing port is stated, so `pg` cannot fill it from PGPORT (which the codeyam editor points at its own proxy).",
+      "file": "app/lib/prismaConnection.test.ts",
+      "format": "vitest",
+      "key": "requireConnectionString › states the default port when the string leaves it out",
+      "line": 33,
+      "registeredAt": "2026-11-06T15:13:34.949047+00:00",
       "runner": "tests"
     },
     {
@@ -500,7 +1112,7 @@
       "file": "app/lib/prismaConnection.test.ts",
       "format": "vitest",
       "key": "requireConnectionString › throws when DATABASE_URL is absent",
-      "line": 16,
+      "line": 42,
       "registeredAt": "2026-08-27T21:49:03Z",
       "runner": "tests"
     },
@@ -509,7 +1121,7 @@
       "file": "app/lib/prismaConnection.test.ts",
       "format": "vitest",
       "key": "requireConnectionString › treats an empty string as unset",
-      "line": 23,
+      "line": 49,
       "registeredAt": "2026-08-27T21:49:03Z",
       "runner": "tests"
     },
@@ -538,6 +1150,114 @@
       "key": "robots › points at the sitemap on the canonical host",
       "line": 17,
       "registeredAt": "2026-08-28T14:05:55Z",
+      "runner": "tests"
+    },
+    {
+      "description": "A disallowed tag's TEXT must go too, or \"Subscribe\" strands mid-essay.",
+      "file": "app/lib/sanitizePostHtml.test.ts",
+      "format": "vitest",
+      "key": "sanitizePostHtml › drops Substack subscribe forms and buttons along with their text",
+      "line": 12,
+      "registeredAt": "2026-11-06T15:13:34.949047+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Only http, https and mailto links survive sanitizing.",
+      "file": "app/lib/sanitizePostHtml.test.ts",
+      "format": "vitest",
+      "key": "sanitizePostHtml › drops javascript: hrefs",
+      "line": 50,
+      "registeredAt": "2026-11-06T15:15:12.641309+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Allowed essay markup passes through unchanged.",
+      "file": "app/lib/sanitizePostHtml.test.ts",
+      "format": "vitest",
+      "key": "sanitizePostHtml › keeps the essay vocabulary",
+      "line": 6,
+      "registeredAt": "2026-11-06T15:15:12.641309+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "<picture>/<source> collapse, but the <img> and its srcset survive.",
+      "file": "app/lib/sanitizePostHtml.test.ts",
+      "format": "vitest",
+      "key": "sanitizePostHtml › keeps the img from a picture wrapper with its srcset",
+      "line": 55,
+      "registeredAt": "2026-11-06T15:13:34.949047+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "mailto and relative links do not get a new-tab target.",
+      "file": "app/lib/sanitizePostHtml.test.ts",
+      "format": "vitest",
+      "key": "sanitizePostHtml › leaves non-http links alone",
+      "line": 45,
+      "registeredAt": "2026-11-06T15:15:12.641309+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "External links in an essay leave the site and say so.",
+      "file": "app/lib/sanitizePostHtml.test.ts",
+      "format": "vitest",
+      "key": "sanitizePostHtml › opens external links in a new tab with a safe rel",
+      "line": 38,
+      "registeredAt": "2026-11-06T15:15:12.641309+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Script and Substack's image controls must vanish with their content.",
+      "file": "app/lib/sanitizePostHtml.test.ts",
+      "format": "vitest",
+      "key": "sanitizePostHtml › removes scripts and svg controls entirely",
+      "line": 22,
+      "registeredAt": "2026-11-06T15:15:12.641309+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Substack's pencraft utility classes never reach the page.",
+      "file": "app/lib/sanitizePostHtml.test.ts",
+      "format": "vitest",
+      "key": "sanitizePostHtml › strips class attributes from allowed tags",
+      "line": 33,
+      "registeredAt": "2026-11-06T15:15:12.641309+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Layout wrappers go, but the prose inside them stays.",
+      "file": "app/lib/sanitizePostHtml.test.ts",
+      "format": "vitest",
+      "key": "sanitizePostHtml › unwraps layout divs but keeps their text",
+      "line": 28,
+      "registeredAt": "2026-11-06T15:15:12.641309+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A post in the feed was just upserted, so fetching it again is wasted work.",
+      "file": "app/lib/posts.test.ts",
+      "format": "vitest",
+      "key": "selectBackfillCandidates › drops posts already in the feed",
+      "line": 164,
+      "registeredAt": "2026-11-06T02:18:20Z",
+      "runner": "tests"
+    },
+    {
+      "description": "Paid posts must never be mirrored in full on a public site.",
+      "file": "app/lib/posts.test.ts",
+      "format": "vitest",
+      "key": "selectBackfillCandidates › keeps only public posts",
+      "line": 157,
+      "registeredAt": "2026-11-06T02:18:20Z",
+      "runner": "tests"
+    },
+    {
+      "description": "An empty archive yields nothing to fetch.",
+      "file": "app/lib/posts.test.ts",
+      "format": "vitest",
+      "key": "selectBackfillCandidates › returns nothing for an empty archive",
+      "line": 169,
+      "registeredAt": "2026-11-06T02:18:20Z",
       "runner": "tests"
     },
     {
@@ -608,35 +1328,71 @@
       "file": "app/sitemap.test.ts",
       "format": "vitest",
       "key": "sitemap › advertises no host that only redirects",
-      "line": 33,
+      "line": 84,
       "registeredAt": "2026-08-28T14:05:55Z",
       "runner": "tests"
     },
     {
-      "description": "With exactly one page, that page is by definition the most important one on the site, so priority must be the maximum.",
+      "description": "The homepage remains the site's front door and must outrank the archive and the individual essays.",
       "file": "app/sitemap.test.ts",
       "format": "vitest",
-      "key": "sitemap › gives the only page top priority",
-      "line": 17,
-      "registeredAt": "2026-08-28T14:05:55Z",
+      "key": "sitemap › gives the homepage top priority",
+      "line": 46,
+      "registeredAt": "2026-11-06T02:18:20Z",
       "runner": "tests"
     },
     {
-      "description": "The site is one page. Its six numbered sections are anchors within '/', not routes, so listing them would hand crawlers several URLs that all resolve to the same document. This fails loudly if someone adds anchors as if they were pages.",
+      "description": "The site's six numbered sections are anchors within '/', not routes, so listing them would hand crawlers several URLs resolving to one document. The routes that DO belong here are the homepage, the archive, and one per essay. This fails loudly if someone adds anchors as if they were pages.",
       "file": "app/sitemap.test.ts",
       "format": "vitest",
-      "key": "sitemap › lists the single page the site actually has",
-      "line": 9,
-      "registeredAt": "2026-08-28T14:05:55Z",
+      "key": "sitemap › lists the homepage, the archive, and one entry per post",
+      "line": 28,
+      "registeredAt": "2026-11-06T02:18:20Z",
       "runner": "tests"
     },
     {
-      "description": "lastModified must be a real Date, not a string or an Invalid Date. Next serialises it into <lastmod>, and a malformed value there makes crawlers discard the freshness signal for the entry entirely.",
+      "description": "Next serialises lastModified into <lastmod>; a malformed value makes crawlers discard the freshness signal for that entry entirely. A post's date must be its own publication date, not the time the file was rendered.",
       "file": "app/sitemap.test.ts",
       "format": "vitest",
-      "key": "sitemap › stamps a real lastModified date",
-      "line": 24,
-      "registeredAt": "2026-08-28T14:05:55Z",
+      "key": "sitemap › stamps every entry with a real date, dating posts by publication",
+      "line": 57,
+      "registeredAt": "2026-11-06T02:18:20Z",
+      "runner": "tests"
+    },
+    {
+      "description": "A crawler asking for XML must not get a 500 because Postgres is briefly unreachable. The two routes that are always true are a strictly better answer than no answer.",
+      "file": "app/sitemap.test.ts",
+      "format": "vitest",
+      "key": "sitemap › still serves the fixed routes when the store cannot be read",
+      "line": 73,
+      "registeredAt": "2026-11-06T02:18:20Z",
+      "runner": "tests"
+    },
+    {
+      "description": "Tracking parameters and anchors are not part of the slug.",
+      "file": "app/lib/substackFeed.test.ts",
+      "format": "vitest",
+      "key": "slugFromLink › ignores a query string or fragment",
+      "line": 249,
+      "registeredAt": "2026-11-06T15:15:12.641309+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Non-post Substack pages yield no slug.",
+      "file": "app/lib/substackFeed.test.ts",
+      "format": "vitest",
+      "key": "slugFromLink › returns null for a link that is not a post",
+      "line": 255,
+      "registeredAt": "2026-11-06T15:15:12.641309+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Site URLs mirror the Substack slug a reader may already have.",
+      "file": "app/lib/substackFeed.test.ts",
+      "format": "vitest",
+      "key": "slugFromLink › takes the slug Substack already uses",
+      "line": 242,
+      "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     },
     {
@@ -700,6 +1456,33 @@
       "key": "splitOnBrand › survives empty input",
       "line": 53,
       "registeredAt": "2026-08-26T22:17:48.634180+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A stale store must reconcile.",
+      "file": "app/lib/posts.test.ts",
+      "format": "vitest",
+      "key": "storeIsFresh via syncPostsFromFeed › consults the feed when the newest row is older than the window",
+      "line": 198,
+      "registeredAt": "2026-11-06T15:15:12.641309+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "An empty store has nothing to serve, so it must reconcile.",
+      "file": "app/lib/posts.test.ts",
+      "format": "vitest",
+      "key": "storeIsFresh via syncPostsFromFeed › consults the feed when the store is empty",
+      "line": 207,
+      "registeredAt": "2026-11-06T15:15:12.641309+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A fresh store must not pay for a feed fetch and twenty upserts.",
+      "file": "app/lib/posts.test.ts",
+      "format": "vitest",
+      "key": "storeIsFresh via syncPostsFromFeed › skips the feed when the newest row was updated within the revalidate window",
+      "line": 188,
+      "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     },
     {
@@ -802,6 +1585,60 @@
       "runner": "tests"
     },
     {
+      "description": "A post absent from RSS but present in Substack's archive must still be stored.",
+      "file": "app/lib/posts.test.ts",
+      "format": "vitest",
+      "key": "syncPostsFromFeed backfill › backfills posts that have aged out of the RSS window",
+      "line": 73,
+      "registeredAt": "2026-11-06T02:18:20Z",
+      "runner": "tests"
+    },
+    {
+      "description": "A feed failure stops the reconcile before the archive is consulted.",
+      "file": "app/lib/posts.test.ts",
+      "format": "vitest",
+      "key": "syncPostsFromFeed backfill › does not backfill when the feed itself fails",
+      "line": 145,
+      "registeredAt": "2026-11-06T02:18:20Z",
+      "runner": "tests"
+    },
+    {
+      "description": "A database error during backfill becomes a reported failure, so the reconcile never throws into a page render.",
+      "file": "app/lib/posts.test.ts",
+      "format": "vitest",
+      "key": "syncPostsFromFeed backfill › never throws when a backfill write fails",
+      "line": 133,
+      "registeredAt": "2026-11-06T02:18:20Z",
+      "runner": "tests"
+    },
+    {
+      "description": "An archive outage must leave the feed results intact and be reported, not thrown.",
+      "file": "app/lib/posts.test.ts",
+      "format": "vitest",
+      "key": "syncPostsFromFeed backfill › reports an archive failure without losing the feed results",
+      "line": 107,
+      "registeredAt": "2026-11-06T02:18:20Z",
+      "runner": "tests"
+    },
+    {
+      "description": "Backfill is create-only: a post the store already has must not be re-fetched or overwritten.",
+      "file": "app/lib/posts.test.ts",
+      "format": "vitest",
+      "key": "syncPostsFromFeed backfill › skips archive posts the store already holds",
+      "line": 91,
+      "registeredAt": "2026-11-06T02:18:20Z",
+      "runner": "tests"
+    },
+    {
+      "description": "One post failing to fetch must not stop the others from being stored.",
+      "file": "app/lib/posts.test.ts",
+      "format": "vitest",
+      "key": "syncPostsFromFeed backfill › stores the posts it can and reports the ones it cannot",
+      "line": 118,
+      "registeredAt": "2026-11-06T02:18:20Z",
+      "runner": "tests"
+    },
+    {
       "description": "The regression this file exists to prevent: the allow-list was written out by hand and drifted from the chips, so the form's own default selection (\"Working together\") came back 422 and the note could not be sent.",
       "file": "app/lib/validateMessage.test.ts",
       "format": "vitest",
@@ -853,6 +1690,15 @@
       "key": "toMessageRow › normalises a missing sourcePage to null",
       "line": 41,
       "registeredAt": "2026-08-27T21:49:03Z",
+      "runner": "tests"
+    },
+    {
+      "description": "Every stored body goes through the sanitizer — Substack chrome must never reach the database by either path.",
+      "file": "app/lib/posts.test.ts",
+      "format": "vitest",
+      "key": "toPostRow › sanitizes the body and keeps every other field",
+      "line": 177,
+      "registeredAt": "2026-11-06T02:18:20Z",
       "runner": "tests"
     },
     {
@@ -952,6 +1798,33 @@
       "key": "validateMessage › trims every field before validating",
       "line": 38,
       "registeredAt": "2026-08-26T22:17:48.634180+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Only the port changes; credentials and sslmode survive the rewrite.",
+      "file": "app/lib/prismaConnection.test.ts",
+      "format": "vitest",
+      "key": "withExplicitPort › adds 5432 to a port-less URL and keeps credentials and query intact",
+      "line": 6,
+      "registeredAt": "2026-11-06T15:15:12.641309+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "An explicit port is never overridden.",
+      "file": "app/lib/prismaConnection.test.ts",
+      "format": "vitest",
+      "key": "withExplicitPort › leaves a URL that names a port alone",
+      "line": 13,
+      "registeredAt": "2026-11-06T15:15:12.641309+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A string that is not a URL is passed to the driver untouched.",
+      "file": "app/lib/prismaConnection.test.ts",
+      "format": "vitest",
+      "key": "withExplicitPort › returns an unparseable string exactly as given",
+      "line": 18,
+      "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     }
   ],

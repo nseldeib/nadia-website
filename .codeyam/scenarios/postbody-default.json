@@ -1,0 +1,12 @@
+{
+  "name": "PostBody - Default",
+  "id": "c09a65cb-ffd9-41ed-adad-cac227acc192",
+  "url": "/isolated-components/PostBody?s=Default",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "PostBody",
+  "scenarioType": "component",
+  "description": "A sanitized essay body on the light reading surface: headings, list, quote, inline code, code block and rule."
+}
