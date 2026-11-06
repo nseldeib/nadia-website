@@ -100,7 +100,11 @@ export function parseFeed(xml: string): FeedPost[] {
     trimValues: true,
   });
 
-  const doc = parser.parse(xml) as Record<string, any>;
+  // The parser returns untyped JSON. Name only the path read here and leave
+  // each item's fields `unknown`, so `asText` does the narrowing.
+  type RssItem = Record<string, unknown>;
+  type RssDoc = { rss?: { channel?: { item?: RssItem | RssItem[] } } };
+  const doc = parser.parse(xml) as RssDoc;
   const items = asArray(doc?.rss?.channel?.item);
 
   const posts: FeedPost[] = [];

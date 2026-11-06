@@ -3,5 +3,7 @@
   "lastFinalizedSha": "41a6d1d9f93ba242709a84dd68b91cddad343d49",
   "lastFullFinalizeSha": "41a6d1d9f93ba242709a84dd68b91cddad343d49",
   "lastFullFinalizeTree": "a7bc943328d6ccbbe51927de5e7a332e307f764f9b0955b200a678b871509dc2",
-  "deferred": []
+  "deferred": [],
+  "finalizeIntent": "fast",
+  "finalizeIntentBranch": "feat/backfill-substack-posts"
 }

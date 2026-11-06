@@ -76,6 +76,24 @@
         "**/build/**"
       ],
       "description": "TypeScript strict type-check"
+    },
+    {
+      "name": "eslint",
+      "command": "npm run lint",
+      "filePatterns": [
+        "**/*.ts",
+        "**/*.tsx",
+        "**/*.js",
+        "**/*.mjs",
+        "eslint.config.mjs",
+        "package.json"
+      ],
+      "excludePatterns": [
+        "**/node_modules/**",
+        "**/.next/**",
+        "**/.codeyam/**"
+      ],
+      "description": "ESLint (eslint-config-next) — guards the restored Next 16 lint setup"
     }
   ],
   "formatters": [],

@@ -203,7 +203,7 @@ describe('fetchPostBySlug', () => {
 
   // The single-post endpoint is how an aged-out post's body is recovered.
   it('returns the parsed post', async () => {
-    const fetchMock = vi.fn(async (_url: string) =>
+    const fetchMock = vi.fn<(url: string) => Promise<Response>>(async () =>
       respond(200, {
         slug: 'old',
         title: 'Old',

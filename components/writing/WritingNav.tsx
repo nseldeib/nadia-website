@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import styles from './WritingNav.module.css';
 
 /**
@@ -15,16 +16,16 @@ export default function WritingNav({ current }: { current: 'archive' | 'post' })
   return (
     <header className={styles.nav}>
       <div className={styles.wrap}>
-        <a className={styles.mark} href="/">
+        <Link className={styles.mark} href="/">
           Nadia <em>Eldeib</em>
-        </a>
+        </Link>
         <nav className={styles.links} aria-label="Writing">
-          <a href="/writing" aria-current={current === 'archive' ? 'page' : undefined}>
+          <Link href="/writing" aria-current={current === 'archive' ? 'page' : undefined}>
             Writing
-          </a>
-          <a className={styles.cta} href="/#contact">
+          </Link>
+          <Link className={styles.cta} href="/#contact">
             Get in touch
-          </a>
+          </Link>
         </nav>
       </div>
     </header>

@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import type { PostSummary } from '@/app/lib/posts';
 import ExternalLinkIcon from './ExternalLinkIcon';
 import styles from './PostFooter.module.css';
@@ -58,9 +59,9 @@ export default function PostFooter({
           )}
         </nav>
 
-        <a className={styles.back} href="/writing">
+        <Link className={styles.back} href="/writing">
           All writing
-        </a>
+        </Link>
       </div>
     </footer>
   );

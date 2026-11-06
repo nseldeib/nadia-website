@@ -1,0 +1,207 @@
+{
+  "timestamp": "2026-11-06T22:31:16Z",
+  "title": "Restore linting on Next 16",
+  "type": "chore",
+  "userRequest": "## Summary\n\n`npm run lint` crashes before checking anything: `ERR_MODULE_NOT_FOUND: Cannot find module '.../eslint-config-next/core-web-vitals'`. The site runs Next 16 (`next@16.3.3`), but `eslint-config-next` is pinned at `^15.3.3` (15.5.24 installed). The `eslint.config.mjs` flat-config imports (`eslint-config-next/core-web-vitals`, `/typescript`) are the Next 16 package's entry points, which v15 doesn't export that way. So the repo has no linting at all right now, including on the new writing code. This plan aligns the toolchain with Next 16 and gets lint passing.\n\n## Key Decisions\n\n- **Bump `eslint-config-next` to `^16` to match `next`,** rather than rewriting `eslint.config.mjs` for v15. The config is already the Next 16 shape.\n- **Take the in-range patch bumps in the same change**, since they're the same \"drift from Next 16\" concern: `next` 16.3.3 → 16.4.x, `@prisma/client` / `@prisma/adapter-pg` 7.10.0 → 7.10.1, `pg` 8.23.1, `fast-xml-parser` 5.12. **Skip the majors** (`eslint` 10, `dotenv` 18, `@types/node` 26). Each of those is its own decision.\n- **The lint violations are unknown until lint can run.** Take the inventory first thing during execution (run lint, count files and rules) and fix what it finds. If it turns up more than a small set of mechanical fixes, stop and re-scope instead of growing this plan.\n\n## Implementation\n\n### 1. Align the lint config package\n\n**File**: `package.json`\n\n`eslint-config-next` → `^16` (match the installed `next` minor). Apply the patch/minor bumps listed above and regenerate `package-lock.json`.\n\n### 2. Confirm the flat config resolves\n\n**File**: `eslint.config.mjs`\n\nKeep it as-is if the v16 imports resolve. Otherwise adjust to the v16 package's documented entry points (check `node_modules/eslint-config-next/package.json` `exports`).\n\n### 3. Fix what lint reports\n\nInventory first, then fix. Expect most findings in the new writing files (`app/lib/substackFeed.ts` uses `Record<string, any>`, which `@typescript-eslint/no-explicit-any` will flag).\n\n### 4. Verify\n\nBuild, tests and lint all green after the bumps.\n\n## Reused existing code\n\n- `eslint.config.mjs` (existing flat config, `globalIgnores` already set)\n\n## Scenarios to Demonstrate\n\n- Backend-only change: no UI scenarios. Existing homepage and writing scenarios should capture unchanged after the Next minor bump.",
+  "description": "Linting runs again on Next 16. eslint-config-next was bumped from 15 to 16 so npm run lint loads; Next, Prisma (client, adapter and CLI), pg and fast-xml-parser took in-range updates, and major jumps were left for later. CodeYam's generated .codeyam/ tooling is excluded from lint (114 of 121 findings); the remaining site findings are fixed, including parseFeed no longer reading the RSS as any. Lint is now an eslint staticChecks entry beside tsc in .codeyam/editor.json, so build verification catches future breakage. The dev server needed a restart after the upgrade. Scope verdict: this cycle is maintenance and delivered none of the five project deliverables directly; all five were already delivered in earlier cycles, so none are deferred. Committed under Fast Commit, so a full session-finalize is still owed before this branch merges to main.",
+  "modifiedFiles": [
+    {
+      "path": ".codeyam/dependency-graph.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/editor.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/per-test-evidence.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/ne--restore-linting-on-next-16.md\t.codeyam/plans/completed/ne--restore-linting-on-next-16.md",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/archivelist-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/archivelist-singleyear--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/home-full-page--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/home-mobile--mobile.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/postfooter-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/postfooter-newest--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/postfooter-oldest--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/postlist-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/writing-archive--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/writing-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/writing-post--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/writingnav-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/writingnav-post--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/state/finalize-debt.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache/all.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache/blobs/1fdf7c59cd474217c875d9711c02968402185e6f248ddbbc39d99fff6f0e9ad5.json",
+      "status": "deleted"
+    },
+    {
+      "path": ".codeyam/test-cache/blobs/e02fa9a53b22d53457b4db8c3239292f0b662d024b99524a45ea56534ca680a0.json",
+      "status": "deleted"
+    },
+    {
+      "path": "AGENTS.md",
+      "status": "modified"
+    },
+    {
+      "path": "app/lib/substackFeed.test.ts",
+      "status": "modified"
+    },
+    {
+      "path": "app/lib/substackFeed.ts",
+      "status": "modified"
+    },
+    {
+      "path": "components/Writing.tsx",
+      "status": "modified"
+    },
+    {
+      "path": "components/writing/PostFooter.tsx",
+      "status": "modified"
+    },
+    {
+      "path": "components/writing/WritingNav.tsx",
+      "status": "modified"
+    },
+    {
+      "path": "eslint.config.mjs",
+      "status": "modified"
+    },
+    {
+      "path": "package-lock.json",
+      "status": "modified"
+    },
+    {
+      "path": "package.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/state/build-activity.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/test-cache/blobs/3dd209acde37d65565205292fe533822e615c368f56e86881ca2f10d12773e10.json",
+      "status": "added"
+    }
+  ],
+  "scenarioScreenshots": [
+    {
+      "name": "Home - Full page",
+      "screenshotPath": "home-full-page--desktop.png"
+    },
+    {
+      "name": "Home - Mobile",
+      "screenshotPath": "home-mobile--mobile.png"
+    },
+    {
+      "name": "Writing - Archive",
+      "screenshotPath": "writing-archive--desktop.png"
+    },
+    {
+      "name": "Writing - Post",
+      "screenshotPath": "writing-post--desktop.png"
+    },
+    {
+      "name": "ArchiveList - Default",
+      "screenshotPath": "archivelist-default--desktop.png"
+    },
+    {
+      "name": "ArchiveList - SingleYear",
+      "screenshotPath": "archivelist-singleyear--desktop.png"
+    },
+    {
+      "name": "PostFooter - Default",
+      "screenshotPath": "postfooter-default--desktop.png"
+    },
+    {
+      "name": "PostFooter - Newest",
+      "screenshotPath": "postfooter-newest--desktop.png"
+    },
+    {
+      "name": "PostFooter - Oldest",
+      "screenshotPath": "postfooter-oldest--desktop.png"
+    },
+    {
+      "name": "PostList - Default",
+      "screenshotPath": "postlist-default--desktop.png"
+    },
+    {
+      "name": "Writing - Default",
+      "screenshotPath": "writing-default--desktop.png"
+    },
+    {
+      "name": "WritingNav - Default",
+      "screenshotPath": "writingnav-default--desktop.png"
+    },
+    {
+      "name": "WritingNav - Post",
+      "screenshotPath": "writingnav-post--desktop.png"
+    }
+  ],
+  "testResults": {
+    "total": 203,
+    "passed": 203,
+    "failed": 0,
+    "runners": [
+      {
+        "name": "tests",
+        "total": 203,
+        "passed": 203
+      }
+    ]
+  }
+}

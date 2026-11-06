@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import site from '@/content/site';
 import type { PostSummary } from '@/app/lib/posts';
 import SectionHead from './SectionHead';
@@ -30,9 +31,9 @@ export default function Writing({ posts }: { posts: PostSummary[] }) {
             the list and the newsletter CTA because it belongs to the list —
             it is "more of these", not a second thing to sign up for. */}
         {posts.length > 0 && (
-          <a className={styles.archiveLink} href="/writing">
+          <Link className={styles.archiveLink} href="/writing">
             All writing
-          </a>
+          </Link>
         )}
 
         <WritingCta cta={writing.cta} />
