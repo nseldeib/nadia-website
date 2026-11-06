@@ -1,0 +1,603 @@
+{
+  "timestamp": "2026-11-06T01:33:20Z",
+  "title": "Hotfix: live homepage post list",
+  "type": "feature",
+  "userRequest": "## Summary\n\nThe live homepage's \"What I write about\" section lists three July posts as the latest. Since then there have been three newer posts: Racetoberfest (Nov 5), Orthogonal Goals (Oct 13), and Running Towards (and Past) 35 (Sep 1). Production still serves the hardcoded `writing.posts` list in `content/site.json`, because the writing on-site feature hasn't shipped. This is a stopgap that updates the list so the live site is current today, deployed separately from the writing work.\n\n## Key Decisions\n\n- **Ship from a hotfix branch off `origin/main`, not local `main`.** Local `main` now carries the unshipped writing feature (commit `58493a1`), where the homepage reads from the `Post` store and `writing.posts` is no longer read anywhere. Editing it on `main` would change nothing visible. Branch `hotfix/homepage-posts` from `origin/main`, change only `content/site.json`, and deploy that.\n- **Links stay external to `blog.nseldeib.com`**, matching the current live behavior. Internal `/writing/...` links would 404 in production.\n- **Dates follow the existing short format** (`\"Jul 13\"`). These are all 2026, the same as the current entries.\n- **Don't delete the array here.** Once writing on-site deploys, `writing.posts` (and its type in `content/site.ts`) is dead code. Delete it in that deploy, not in this one.\n- **Merge the hotfix back into `main`.** This should be conflict-free, because the writing commit didn't touch `content/site.json`.\n\n## Implementation\n\n### 1. Replace the three posts\n\n**File**: `content/site.json`\n\nOn `hotfix/homepage-posts` (from `origin/main`), set `writing.posts` to:\n\n- `https://blog.nseldeib.com/p/racetoberfest-reflection-four-races` · `Nov 5` · \"Racetoberfest Reflection: Four Races in Five Weekends\"\n- `https://blog.nseldeib.com/p/how-orthogonal-goals-led-to-unexpected` · `Oct 13` · \"How Orthogonal Goals Led to Unexpected Progress\"\n- `https://blog.nseldeib.com/p/running-towards-and-past-35` · `Sep 1` · \"Running Towards (and Past) 35!\"\n\nCheck the long Racetoberfest title in the `PostList` layout at mobile width. Shorten to \"Racetoberfest: Four Races in Five Weekends\" if it wraps badly, the same way the SPC title was shortened.\n\n## Reused existing code\n\n- `PostList` from `components/writing/PostList.tsx` (glossary entry: `PostList`)\n- `Writing` from `components/Writing.tsx` (glossary entry: `Writing`)\n\n## Scenarios to Demonstrate\n\n- Homepage Writing section with the three new posts, desktop\n- Same at mobile width with the longest title",
+  "description": "Updated the homepage Writing section (content/site.json writing.posts) to the three latest posts: Racetoberfest (Nov 5), Orthogonal Goals (Oct 13), and Running Towards (and Past) 35! (Sep 1), all linking to blog.nseldeib.com. No component code changed. Reconcile also fixed a pre-existing isolation fixture bug: SocialRow LongHandle picked the same row as Default, so the two captures were identical. It now picks the longest handle other than Default. ElsewhereRow, SubmitRow and TopicChips routes were reshaped, with no visual change, so the isolation-fixture migration can lift them. That migration still broke every route when tried and was rolled back; it stays an advisory until a newer editor build. SCOPE VERDICT: this hotfix maintains the delivered live-site deliverable (fresh posts on nadiaeldeib.com). No project deliverable was newly delivered or deferred. Existing agent-decided rows are unchanged.",
+  "modifiedFiles": [
+    {
+      "path": ".codeyam/capture.js",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/data-structure.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/dependency-graph.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/editor.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/per-test-evidence.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/ne--hotfix-the-live-homepage-post-list.md\t.codeyam/plans/completed/ne--hotfix-the-live-homepage-post-list.md",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenario-handlers.js",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenario-interactivity.js",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenario-issues.js",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenario-metrics.js",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenario-mocks.js",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenario-playwright.js",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/externallinkicon-default.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/.capture-pipeline.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/about-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/aboutfacts-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/adventures-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/advisorycard-default--desktop.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/advisorycard-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/cityrotator-default--desktop.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/cityrotator-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/contact-default--desktop.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/contact-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/contactform-default--desktop.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/contactform-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/contactform-mobile--mobile.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/contactform-mobile--mobile.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/elsewhere-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/elsewhererow-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/elsewhererow-longtitle--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/externallinkicon-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/field-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/field-textarea--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/field-withproblem--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/findme-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/footer-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/footerplace-cityonly--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/footerplace-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/footersignoff-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/footersignoff-linked--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/footersignoff-nobrand--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/footersignoff-unlinked--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/formfailure-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/hero-default--desktop.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/hero-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/herobackdrop-default--desktop.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/herobackdrop-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/home-full-page--desktop.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/home-full-page--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/home-mobile--mobile.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/home-mobile--mobile.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/honeypot-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/nav-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/navlinks-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/navlinks-elsewhereactive--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/navlinks-workactive--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/navmark-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/notfound-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/photorotator-adventures--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/photorotator-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/photorotator-deferred--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/photorotator-empty--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/photorotator-many--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/photorotator-single--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/postlist-default--desktop.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/postlist-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/scrollcue-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/sectionhead-contact--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/sectionhead-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/sentconfirmation-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/socialicon-default--desktop.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/socialicon-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/socialicon-instagram--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/socialicon-linkedin--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/socialicon-substack--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/socialicon-threads--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/socialicon-x--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/sociallist-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/socialrow-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/socialrow-longhandle--desktop.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/socialrow-longhandle--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/socialrow-noicon--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/submitrow-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/submitrow-mobile--mobile.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/submitrow-sending--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/topicchips-default--desktop.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/topicchips-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/topicchips-lastselected--desktop.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/topicchips-lastselected--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/typedheadline-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/typedheadline-empty--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/typedheadline-many--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/typedheadline-shortline--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/work-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/worklinklist-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/worklinklist-single--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/worknarrative-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/writing-default--desktop.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/writing-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/writingcta-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/writingintro-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/socialicon-x.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/stack.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/state/finalize-debt.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache/all.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache/blobs/ad1bef1f9477d4ba2490067e072e424b3b3feddf3bbbdef0357a103101b796e5.json",
+      "status": "deleted"
+    },
+    {
+      "path": "app/isolated-components/ElsewhereRow/page.tsx",
+      "status": "modified"
+    },
+    {
+      "path": "app/isolated-components/SocialRow/page.tsx",
+      "status": "modified"
+    },
+    {
+      "path": "app/isolated-components/SubmitRow/page.tsx",
+      "status": "modified"
+    },
+    {
+      "path": "app/isolated-components/TopicChips/Harness.tsx",
+      "status": "modified"
+    },
+    {
+      "path": "app/isolated-components/TopicChips/page.tsx",
+      "status": "modified"
+    },
+    {
+      "path": "content/site.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/design/offer-declined",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenario-check-attribution.js",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenario-check-run.js",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenario-launch.js",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenario-targeting.js",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/coverage-plan/postlist.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/coverage-plan/writing.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/state/isolation-migration-verdict.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/test-cache/blobs/be8df4e8f7c28091c91163806b8c7b35be977946d57dc13c8883c3ea77aae7b5.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/wasm-name-section.js",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/wasm-source-attribution.js",
+      "status": "added"
+    },
+    {
+      "path": ".projects/state.json",
+      "status": "added"
+    },
+    {
+      "path": ".projects/state.local.json",
+      "status": "added"
+    }
+  ],
+  "scenarioScreenshots": [
+    {
+      "name": "Home - Full page",
+      "screenshotPath": "home-full-page--desktop.png"
+    },
+    {
+      "name": "Home - Mobile",
+      "screenshotPath": "home-mobile--mobile.png"
+    },
+    {
+      "name": "About - Default",
+      "screenshotPath": "about-default--desktop.png"
+    },
+    {
+      "name": "Adventures - Default",
+      "screenshotPath": "adventures-default--desktop.png"
+    },
+    {
+      "name": "Contact - Default",
+      "screenshotPath": "contact-default--desktop.png"
+    },
+    {
+      "name": "ContactForm - Default",
+      "screenshotPath": "contactform-default--desktop.png"
+    },
+    {
+      "name": "ContactForm - Mobile",
+      "screenshotPath": "contactform-mobile--mobile.png"
+    },
+    {
+      "name": "Elsewhere - Default",
+      "screenshotPath": "elsewhere-default--desktop.png"
+    },
+    {
+      "name": "Footer - Default",
+      "screenshotPath": "footer-default--desktop.png"
+    },
+    {
+      "name": "FooterPlace - CityOnly",
+      "screenshotPath": "footerplace-cityonly--desktop.png"
+    },
+    {
+      "name": "FooterPlace - Default",
+      "screenshotPath": "footerplace-default--desktop.png"
+    },
+    {
+      "name": "FooterSignoff - Default",
+      "screenshotPath": "footersignoff-default--desktop.png"
+    },
+    {
+      "name": "FooterSignoff - Linked",
+      "screenshotPath": "footersignoff-linked--desktop.png"
+    },
+    {
+      "name": "FooterSignoff - NoBrand",
+      "screenshotPath": "footersignoff-nobrand--desktop.png"
+    },
+    {
+      "name": "FooterSignoff - Unlinked",
+      "screenshotPath": "footersignoff-unlinked--desktop.png"
+    },
+    {
+      "name": "Hero - Default",
+      "screenshotPath": "hero-default--desktop.png"
+    },
+    {
+      "name": "NotFound - Default",
+      "screenshotPath": "notfound-default--desktop.png"
+    },
+    {
+      "name": "Work - Default",
+      "screenshotPath": "work-default--desktop.png"
+    },
+    {
+      "name": "Writing - Default",
+      "screenshotPath": "writing-default--desktop.png"
+    }
+  ],
+  "testResults": {
+    "total": 106,
+    "passed": 106,
+    "failed": 0,
+    "runners": [
+      {
+        "name": "tests",
+        "total": 106,
+        "passed": 106
+      }
+    ]
+  }
+}

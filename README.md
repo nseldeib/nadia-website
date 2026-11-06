@@ -94,7 +94,7 @@ npm run db:drop-and-reseed # DESTRUCTIVE: drop every table, recreate, re-seed
 | `npm run db:seed`  | Seed the database                            |
 | `npm run db:drop-and-reseed` | **Destructive.** Drops every table, then re-seeds |
 
-<!-- codeyam:run-and-edit:start -->
+<!-- codeyam:run-and-edit:start d=258df25aee53 -->
 ## Develop this project with codeyam-editor
 
 This project is built with [codeyam-editor](https://codeyam.com) — code and runnable data scenarios are authored side by side against a live preview.
@@ -111,7 +111,7 @@ codeyam-editor start
 ```
 <!-- codeyam:run-and-edit:end -->
 
-<!-- codeyam:scenario-gallery:start -->
+<!-- codeyam:scenario-gallery:start d=18199a2cea01 -->
 ## Scenario gallery
 
 States captured as runnable scenarios with codeyam-editor:
@@ -120,7 +120,11 @@ States captured as runnable scenarios with codeyam-editor:
 
 <img src=".codeyam/scenarios/screenshots/home-full-page--desktop.png" alt="Home - Full page" width="280">
 
+The whole site as a visitor meets it: hero, then Work 01 through Contact 06, then the footer. Seeded with the received-messages world so the capture is deterministic.
+
 ### Home - Mobile
 
 <img src=".codeyam/scenarios/screenshots/home-mobile--mobile.png" alt="Home - Mobile" width="280">
+
+The opening viewport at phone width. Captures are viewport-sized, so this is the hero as a phone visitor first meets it: the wordmark and Get in touch sharing one bar, the headline broken across three lines with its second line in rust, and the scroll cue naming the section it leads to.
 <!-- codeyam:scenario-gallery:end -->
