@@ -1,1 +1,2 @@
 {"id":"obs-b4d068ba57db","at":"2026-11-06T02:03:25.009101+00:00","session":"Homepage shows the latest posts again","text":"The homepage post list is hand-maintained in content/site.json, so the live site showed stale posts until someone noticed and hotfixed it by hand."}
+{"id":"obs-9db0b1308e19","at":"2026-11-06T16:15:58.661814+00:00","session":"Backfill posts that aged out of the Substack feed","text":"Older Substack posts silently vanished from the site once they aged out of the RSS feed; the author only noticed because posts were missing from the Writing page."}
