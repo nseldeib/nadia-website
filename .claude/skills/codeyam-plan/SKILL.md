@@ -27,7 +27,7 @@ The only files you may write are:
 - `.codeyam/plans/<slug>.md` (the plan itself)
 - `git add` / `git commit` of that plan file (and **only** that plan file — never `git add -A`, never a bare `git commit` that would sweep in unrelated staged work). This is the plan-creation commit specifically — it must contain only the plan file. The feature-commit step at the end of the editor workflow has a different rule: it auto-commits all non-gitignored leftovers.
 
-The one read-only CLI call this skill makes is `codeyam-editor-dev editor plan-prefixes` in Step 2 (to read the prefixes already in use so you can derive one). It prints to stdout and changes nothing — it is not an "implementation" command.
+The one read-only CLI call this skill makes is `codeyam-editor editor plan-prefixes` in Step 2 (to read the prefixes already in use so you can derive one). It prints to stdout and changes nothing — it is not an "implementation" command.
 
 ## Workflow
 
@@ -53,7 +53,7 @@ Take the user's response as the plan basis and move to the prefix-derivation ste
 
 A prefix tags the plan's filename and title by author or work item — developer initials (`jc`), a feature code (`auth`), or a ticket number (`PROJ-123`). **Never open a structured multiple-choice menu for it** (on Claude, `AskUserQuestion`). The prefix is an organisational convention internal to `.codeyam/plans/`; nothing the user sees or does changes based on the answer, so the question asks them to adjudicate a filename with no stated consequence — the exact shape of an unanswerable gate. Choosing it is a routine judgment call, which is the standard for deciding and reporting rather than asking.
 
-1. Run `codeyam-editor-dev editor plan-prefixes` and capture its trimmed, newline-delimited stdout as `priorPrefixes` (an ordered list, most-recent-first). It prints every distinct prefix any plan has used (scanning both the queue and `.codeyam/plans/completed/`), de-duplicated, or nothing when no plan carries a prefix — or there are no plans yet. The first line equals the legacy `last-plan-prefix` output.
+1. Run `codeyam-editor editor plan-prefixes` and capture its trimmed, newline-delimited stdout as `priorPrefixes` (an ordered list, most-recent-first). It prints every distinct prefix any plan has used (scanning both the queue and `.codeyam/plans/completed/`), de-duplicated, or nothing when no plan carries a prefix — or there are no plans yet. The first line equals the legacy `last-plan-prefix` output.
 
 2. Pick the prefix yourself, in this precedence order:
    - **The user volunteered one** — in the invocation argument or anywhere in the conversation ("call this one `fleet-…`", "tag it PROJ-123"). Honour it verbatim; a volunteered prefix always wins.
@@ -88,9 +88,9 @@ authoritative index of reusable code in a codeyam project. Skipping these is
 what produces generic "look at the codebase" plans the editor workflow has
 to re-research at the `explore` slug:
 
-- `codeyam-editor-dev editor glossary-find <name>` (flags: `--prefix`,
-  `--substring`, `--feature`, `--format`) — look up named entries
-- `codeyam-editor-dev editor glossary-list` / `glossary-untested` /
+- `codeyam-editor editor glossary-find <name>` (flags: `--prefix`,
+  `--substring`, `--names-only`, `--fields`, `--format`) — look up named entries
+- `codeyam-editor editor glossary-list` / `glossary-untested` /
   `glossary-by-tag <tag>` — projections across the whole table
 - `.codeyam/glossary-index.txt` — line-oriented, greppable sidecar; safe to
   Read or grep directly. Use this when you need to scan for similar names
@@ -158,7 +158,7 @@ candidate file list, run it through the editor so the plan never invites an
 edit the guards will reject:
 
 ```bash
-codeyam-editor-dev editor classify-constrained-files <path>... --format json
+codeyam-editor editor classify-constrained-files <path>... --format json
 ```
 
 It returns only the constrained files (unconstrained paths are dropped),
@@ -171,7 +171,7 @@ each tagged with one or both of:
   more lines than `headroom` is already over even though `atLimit` is
   false. In either case route the new guidance to a step-library fragment
   and name it in the plan — the concrete command is
-  `codeyam-editor-dev editor new-step-fragment <name> --slug <slug>`, which
+  `codeyam-editor editor new-step-fragment <name> --slug <slug>`, which
   writes the fragment, wires its `{<name>_block}` placeholder into
   `step.rs` and each named slug, and prints the leak test to add. Do not
   write a plan whose Implementation section targets a `nearLimit` or
@@ -196,9 +196,18 @@ denial mid-implementation.
 Based on what you found in investigation, ask 1-2 targeted clarifying questions — with your harness's structured-question tool (on Claude, `AskUserQuestion`), or as plain text listing the options if it has none. These should be **specific questions that emerged from reading the code**, not generic planning questions.
 
 Good questions:
-- "I found that X and Y are tightly coupled — should both be in scope, or just X?"
-- "The current implementation uses pattern A, but pattern B would be simpler here. Which do you prefer?"
-- "This change touches the API layer — should we include backend changes, or keep it frontend-only?"
+- "Changing how X works also changes Y — should this plan fix both (a bigger change, touching screens you use daily), or just X?"
+- "There are two ways to build this: one ships sooner, the other is easier to change later. Which matters more here?"
+- "This change could stay on screen or also change how saved data is stored. Should it include the storage change (more work, and older saved data gets converted)?"
+
+These questions come from code you just read, so they drift into that code's vocabulary — config keys, route paths, internal design names. The person answering may never have seen any of it. Say what each option changes for them (what they get, lose, or wait for), define any project term the first time it appears, and make each option lead to a different result. Before asking, run the draft through the checker, passing the exact options you will offer:
+
+```bash
+echo '{"questions":[{"question":"…","options":[{"label":"…","description":"…"}]}]}' \
+  | codeyam-editor editor check-question-copy --structured
+```
+
+It is advisory: it never blocks, but fix what it reports — an option that says what it operates on instead of what happens, or two options with no difference the reader can weigh.
 
 **Skip this step entirely** if the request is unambiguous and investigation answered all questions. Don't ask questions for the sake of asking — only when the answer genuinely affects the plan.
 
@@ -261,7 +270,7 @@ YAML frontmatter.** Write the plan **body** to a scratch file, then hand it to
 `createdAt`, and validates the result:
 
 ```bash
-codeyam-editor-dev editor plan-create \
+codeyam-editor editor plan-create \
   --title "Dark Mode Toggle" \
   --prefix "PROJ-123" \
   --mode ui \
@@ -319,7 +328,7 @@ and Explore steps to fast-path through to Confirm.
 One sentence naming the buggy behavior this test pins.
 
 **Target**: `path/to/real/test-file.ext` — run with
-`codeyam-editor-dev editor refresh-tests --test <name>`.
+`codeyam-editor editor refresh-tests --test <name>`.
 
 ```ts
 // New test: a `//` (or `///` for Rust) description comment is mandatory.
@@ -370,9 +379,11 @@ What it checks, and what it deliberately does not:
 
 | Section | Citation | Checked? |
 |---|---|---|
-| `## Implementation` | `**File**:` | Yes — you asserted it exists now |
-| `## Implementation` | `**New file**:` | No — you are about to create it |
-| `## Reused existing code` | paths and symbols | Yes — reuse presupposes existence |
+| `## Implementation` / `## Proposed changes` | `**File**:` | Yes — you asserted it exists now |
+| `## Implementation` / `## Proposed changes` | `**New file**:` | No — you are about to create it |
+| `## Implementation` / `## Proposed changes` | qualified symbols (`Type::method`, `self.view.x`) in prose | Yes, unless the line says it creates them ("Add", "new", "create") |
+| `## Reused existing code` | paths, symbols, qualified symbols | Yes — reuse presupposes existence |
+| `## Investigation`, `## Root cause`, `## Current behavior`, `## Background` | paths and qualified symbols | Yes — these describe the tree as it is (bare one-word symbols are not checked in prose) |
 | `## Reproduction Test` | anything | No — a proposed test names what is not there yet |
 | Any fenced code block | anything | No — fixtures are not citations |
 | `## Summary`, `## Key Decisions` | anything | No — prose names files illustratively |
@@ -407,7 +418,7 @@ editor workflow a red-first reproduction it can materialize verbatim. Shape:
 
 - **One sentence** stating the buggy behavior the test pins.
 - **Target** — the real test file path where execution should place or modify
-  the test, plus the run command `codeyam-editor-dev editor refresh-tests --test
+  the test, plus the run command `codeyam-editor editor refresh-tests --test
   <name>`. Never hand-write a `cargo test` / `vitest` invocation; the language,
   extension, and runner come from the *target file's* stack, not a default.
 - **New test** → a fenced code block with the full test, including the
@@ -479,7 +490,7 @@ assets simply has no `assets/<slug>/` directory — it is entirely optional.
 
 ### Step 6: Present and confirm
 
-Run `codeyam-editor-dev editor plans` to verify the plan is parseable and shows up correctly.
+Run `codeyam-editor editor plans` to verify the plan is parseable and shows up correctly.
 
 Show the user a brief summary of the plan. When Step 4b produced more than two
 or three plans, lead with the grouping: how many there are, and one line per
@@ -491,12 +502,21 @@ roster change") or that there is none. This is the decide-and-report half of
 not asking: the user still learns what was chosen and can say "call it
 something else", which loops through "I want changes" like any other revision.
 
-Then ask with your harness's structured-question tool (on Claude,
-`AskUserQuestion`), or as plain text listing the options in this order if it
-has none — the first option is the recommended one either way:
+Present the menu with your harness's structured-question tool (on Claude,
+`AskUserQuestion`), or as plain text listing the options in this order only on
+a harness that has no such tool — the first option is the recommended one
+either way:
 - **"Looks good, commit it" (Recommended)** — Commit the plan and finish
 - **"I want changes"** — User describes changes, you revise the plan, then re-present
 - **"Discard and start over"** — Delete the plan file and go back to Step 1
+
+The menu is required here even though the first option is marked
+(Recommended). A general convention says not to open a picker for a choice
+that has a conventional default, and that convention does not apply to this
+gate: this is where the user accepts the plan and triggers the commit, so the
+recommendation is about *which* answer is likely right, never about whether to
+ask. Rendering these three as prose leaves the user typing "commit it" by hand
+— which is the exact failure this wording exists to prevent.
 
 ### Step 7: Act on response
 
@@ -513,7 +533,7 @@ has none — the first option is the recommended one either way:
   (and any asset files) are listed; if anything else appears, run `git reset
   --soft HEAD~1` and retry with the pathspec form.
 
-  **Always append `[skip ci]` to the commit message.** Plan files don't change source or tests, so CI must not be triggered. This is non-optional — apply it on the initial commit and on any amend.
+  **Append `[skip ci]` only when this commit targets `main`.** A plan file changes no source or tests, so a plan commit landing directly on `main` must not trigger CI. On a branch, OMIT it: GitHub honors the token for the open PR's run, so a plan commit carrying it silently suppresses that PR's CI. The condition is the target, not the token — same rule on the initial commit and on any amend.
 
   The plan file is brand-new and untracked, so it must be staged before the
   pathspec commit — `git commit -- <pathspec>` only commits *already-tracked*
@@ -526,13 +546,20 @@ has none — the first option is the recommended one either way:
   # Add the asset dir pathspec too when the plan co-located assets:
   #   git add .codeyam/plans/<slug>.md .codeyam/plans/assets/<slug>
   git add .codeyam/plans/<slug>.md
-  git commit -m "plan: <short description of the feature/fix> [skip ci]" -- .codeyam/plans/<slug>.md
+  # On a branch (the usual case) — no [skip ci]; it would suppress the open PR's run.
+  # Committing directly on main? Append " [skip ci]" to the message.
+  git commit -m "plan: <short description of the feature/fix>" -- .codeyam/plans/<slug>.md
   git show --stat --name-only HEAD   # verify only the plan file (and any assets) are in the commit
-  codeyam-editor-dev editor plan-complete
+  codeyam-editor editor plan-complete
   ```
   After the commit succeeds, `plan-complete` triggers a confirmation modal
   in the Plan tab offering to start another plan or return to the queued
-  changes list. Only run `plan-complete` on this branch — not on "I want
+  changes list. Its first line says whether an editor tab actually took the
+  signal (`DELIVERED`), is about to (`QUEUED`), or none is connected
+  (`QUEUED, NOT DELIVERED` — the modal appears when a tab next connects); tell
+  the user which. If asked later why the modal did not appear, answer from
+  `codeyam-editor editor plan-complete-status` rather than from the code.
+  Only run `plan-complete` on this branch — not on "I want
   changes" (which loops back to Step 6) or "Discard" (which returns to
   Step 1 with no plan saved).
 - **I want changes** — Make the requested changes to the plan file, then go back to Step 6

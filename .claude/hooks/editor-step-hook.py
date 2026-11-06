@@ -9,14 +9,16 @@ Only fires when CODEYAM_EDITOR_ACTIVE=1 (set by terminal.rs in editor PTY sessio
 
 Step labels, descriptions, and restrictions are loaded from
 .codeyam/cache/step-metadata.json, which is regenerated from
-crates/types/src/step.rs by `codeyam-editor-dev editor verify-build`. The
+crates/types/src/step.rs by `codeyam-editor editor verify-build`. The
 cache is the single source of truth — do not embed step tables here.
 If the cache is missing or unreadable, the hook degrades to a
 label-less reminder rather than serving stale literals.
 """
 
+import hashlib
 import json
 import os
+import re
 import sys
 from datetime import datetime, timezone
 
@@ -144,7 +146,7 @@ def stale_binary_notice(project_dir):
         "producing a verdict from code this branch has already replaced.\n"
         "   Run this FIRST — it rebuilds the CLI without bouncing the editor server, "
         "so this session stays alive:\n"
-        "     codeyam-editor-dev editor rebuild-self --defer-restart"
+        "     codeyam-editor editor rebuild-self --defer-restart"
     )
 
 
@@ -223,8 +225,85 @@ def _flagged_terms(project_dir, text):
         return []
 
 
-def _log_question_copy(project_dir, event_data):
+# Seconds to wait for the audience recorder. Like the jargon check it is an
+# observer: a slow binary costs the automatic save (the step's explicit
+# `audience --set` instruction still stands) and never delays the turn more.
+AUDIENCE_RECORD_TIMEOUT_S = 3
+
+
+def _record_audience_answer(project_dir, event_data):
+    """Save the answer to the one-time "explain or keep it brief?" question.
+
+    Asking and saving used to be two separate agent actions, and the save
+    was the one that got dropped — so the preference stayed unset and the
+    question came back. This hands every answered question to
+    `audience --record-answer`, which decides in Rust whether it was the
+    audience question (the label vocabulary lives beside the step copy that
+    defines it) and records the choice. It prints nothing and swallows every
+    failure: a hook that raises interrupts the turn.
+    """
+    try:
+        import subprocess
+
+        payload = json.dumps(
+            {
+                "tool_input": event_data.get("tool_input", {}) or {},
+                "tool_response": event_data.get("tool_response"),
+            }
+        )
+        subprocess.run(
+            [cli_command(), "editor", "audience", "--record-answer", "-"],
+            cwd=project_dir,
+            input=payload.encode("utf-8"),
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            timeout=AUDIENCE_RECORD_TIMEOUT_S,
+        )
+    except Exception:
+        pass
+
+
+# Seconds to wait for the step-task sign-in. An observer like the two above:
+# a slow binary costs only the sign-in, and the task flag is already written.
+STEP_TASK_SIGN_IN_TIMEOUT_S = 3
+
+
+def _sign_in_step_task(project_dir):
+    """Record this session as the workflow's holder when it takes a step task.
+
+    On a harness without the Task tools, `track-step created` both writes the
+    task flag and signs the caller in as the workflow holder. The TaskCreate
+    path below wrote only the flag, so a build resumed after a context reset —
+    which re-creates its step task under a NEW session id — stayed invisible:
+    the step file kept naming the retired session, and `push` read that as "no
+    running workflow" and gave up the commit-queue head the terminal step still
+    needed. Running the same `track-step created` here makes both harnesses
+    sign in at the same moment. A one-off push never creates a step task, so it
+    still cannot keep the head for an abandoned build. Swallows every failure,
+    including a live foreign holder's refusal: a hook that raises interrupts
+    the turn.
+    """
+    try:
+        import subprocess
+
+        subprocess.run(
+            [cli_command(), "editor", "track-step", "created"],
+            cwd=project_dir,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            timeout=STEP_TASK_SIGN_IN_TIMEOUT_S,
+        )
+    except Exception:
+        pass
+
+
+def _log_question_copy(project_dir, event_data, in_cycle=True):
     """Append one line per question asked, to .codeyam/logs/question-copy.jsonl.
+
+    `in_cycle=False` is a question asked outside an editor session. It is
+    logged with a null slug and step — the ad-hoc shape — even when a stale
+    `editor-step.json` from an earlier cycle is still on disk, because no
+    step was in flight when it was asked.
 
     Written under `.codeyam/logs/` deliberately: that directory is already
     gitignored, so the log needs no new ignore rule and therefore no
@@ -244,11 +323,12 @@ def _log_question_copy(project_dir, event_data):
         slug = None
         step = None
         try:
-            state_path = os.path.join(project_dir, ".codeyam", "editor-step.json")
-            with open(state_path, "r") as f:
-                state = json.load(f)
-            slug = state.get("slug")
-            step = state.get("step")
+            if in_cycle:
+                state_path = os.path.join(project_dir, ".codeyam", "editor-step.json")
+                with open(state_path, "r") as f:
+                    state = json.load(f)
+                slug = state.get("slug")
+                step = state.get("step")
         except Exception:
             pass
 
@@ -260,10 +340,15 @@ def _log_question_copy(project_dir, event_data):
         with open(log_path, "a") as f:
             for question in questions:
                 text = question.get("question", "") or ""
-                labels = [
-                    (option or {}).get("label", "")
-                    for option in (question.get("options", []) or [])
+                options = [
+                    option or {} for option in (question.get("options", []) or [])
                 ]
+                labels = [option.get("label", "") or "" for option in options]
+                # Descriptions are recorded index-aligned with the labels:
+                # `question-copy-query` judges each option on its label and
+                # description together, and descriptions are where
+                # identifiers leaked most.
+                descriptions = [option.get("description", "") or "" for option in options]
                 # Check the labels alongside the question: an option label
                 # is a question the user has to answer too, and it is where
                 # jargon leaks most.
@@ -273,10 +358,13 @@ def _log_question_copy(project_dir, event_data):
                             "ts": now,
                             "slug": slug,
                             "step": step,
+                            "header": question.get("header", "") or "",
                             "question": text,
                             "optionLabels": labels,
+                            "optionDescriptions": descriptions,
                             "flaggedTerms": _flagged_terms(
-                                project_dir, " ".join([text] + labels)
+                                project_dir,
+                                " ".join([text] + labels + descriptions),
                             ),
                         }
                     )
@@ -420,6 +508,359 @@ def _mark_tool_loading_injected(project_dir, session_id):
         pass
 
 
+# Marker recording what the step context last went out for, so the unchanged
+# copies stop. UserPromptSubmit used to inline the whole editor-mode-context.md
+# (up to ~4,800 characters) on EVERY prompt, and PostToolUse re-printed the
+# step restriction after EVERY Bash/Write/Edit call — 3,528 Bash + 1,055 Edit
+# copies across 30 measured sessions, all identical until the step changed.
+# The step directives and restriction are keyed on (session, feature, step,
+# label) and re-fire only when that key moves. The editor-mode-context.md block
+# has its own key, (session, digest of the file's content): nothing in it
+# depends on the step, so keying it on the step re-sent ~2.4k identical tokens
+# at every advance. It now goes out once per session, and again only when the
+# file is genuinely rewritten (a provider switch). SessionStart deletes the
+# marker, so a compaction (which summarizes the earlier copies away) re-emits
+# both on the next event.
+#
+# Unlike the tool-loading marker this does NOT fail open when session_id is
+# absent: the key's session part is simply empty, so a payload without one is
+# still deduped by (feature, step, label) rather than re-injecting every time.
+_STEP_CONTEXT_MARKER_REL = os.path.join(".codeyam", "state", "step-context-injected.json")
+
+# The restriction is still re-printed every Nth tool call within one step, so
+# a long step keeps it in recent view without paying for it on every call.
+STEP_REMINDER_EVERY_N_CALLS = 25
+
+
+def _step_injection_key(session_id, feature, step, label):
+    return f"{session_id or ''}|{feature}|{step}|{label}"
+
+
+def _context_injection_key(session_id, context_text):
+    digest = hashlib.sha256(context_text.encode("utf-8")).hexdigest()[:16]
+    return f"{session_id or ''}|{digest}"
+
+
+def _read_step_context_marker(project_dir):
+    try:
+        with open(os.path.join(project_dir, _STEP_CONTEXT_MARKER_REL), "r") as f:
+            marker = json.load(f)
+        return marker if isinstance(marker, dict) else {}
+    except (IOError, ValueError):
+        return {}
+
+
+def _write_step_context_marker(project_dir, marker):
+    marker_path = os.path.join(project_dir, _STEP_CONTEXT_MARKER_REL)
+    try:
+        os.makedirs(os.path.dirname(marker_path), exist_ok=True)
+        with open(marker_path, "w") as f:
+            json.dump(marker, f)
+    except Exception:
+        pass
+
+
+def _clear_step_context_marker(project_dir):
+    try:
+        os.remove(os.path.join(project_dir, _STEP_CONTEXT_MARKER_REL))
+    except OSError:
+        pass
+
+
+def _step_context_due(project_dir, key):
+    """True when the full step context has not yet gone out for `key`, and
+    records that it now has. An unwritable marker re-reads as absent, so the
+    failure mode is the old every-prompt injection, never silence."""
+    marker = _read_step_context_marker(project_dir)
+    if marker.get("promptKey") == key:
+        return False
+    marker["promptKey"] = key
+    _write_step_context_marker(project_dir, marker)
+    return True
+
+
+def _editor_context_due(project_dir, key):
+    """True when the editor-mode-context block has not yet gone out for `key`
+    (session + content digest), and records that it now has. Fails toward
+    re-injection the same way `_step_context_due` does."""
+    marker = _read_step_context_marker(project_dir)
+    if marker.get("contextKey") == key:
+        return False
+    marker["contextKey"] = key
+    _write_step_context_marker(project_dir, marker)
+    return True
+
+
+def _editor_context_lines(project_dir, session_id):
+    """The `<editor-mode-context>` block as prompt lines when it is due for this
+    session and content, else `[]`. A missing or unreadable file yields `[]`."""
+    context_path = os.path.join(project_dir, ".codeyam", "editor-mode-context.md")
+    try:
+        with open(context_path, "r") as f:
+            context_text = f.read().strip()
+    except Exception:
+        return []
+    if not _editor_context_due(
+        project_dir, _context_injection_key(session_id, context_text)
+    ):
+        return []
+    return ["\n<editor-mode-context>", context_text, "</editor-mode-context>\n"]
+
+
+# ── Foreign-prompt detector ────────────────────────────────────────────
+#
+# A prompt written for an earlier conversation can reach a later one: a
+# check-in the pre-`/clear` conversation scheduled for itself fires after a
+# phase-boundary reset, and tells the fresh conversation to "continue step
+# 11" while the workflow sits at 17, citing the old conversation's
+# scratchpad. The harness owns that routing and we cannot cancel it, so the
+# hook judges the prompt's CONTENT against the conversation and step it
+# lands in. It warns and never blocks: a user who really means "go back to
+# step 11" must still be able to say so.
+
+FOREIGN_PROMPT_LOG = "foreign-prompts.jsonl"
+
+_UUID = r"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+# A Claude scratchpad (`/tmp/claude-<uid>/<escaped-cwd>/<uuid>/scratchpad`,
+# under `/tmp` or macOS's `/private/tmp`) and a transcript
+# (`~/.claude/projects/<escaped-cwd>/<uuid>.jsonl`) are both keyed on the
+# conversation that owns them, so the uuid in either is that conversation.
+_CONVERSATION_PATH_RES = (
+    re.compile(r"/claude-[^/\s]+/[^/\s]+/(" + _UUID + r")/scratchpad", re.I),
+    re.compile(r"\.claude/projects/[^/\s]+/(" + _UUID + r")\.jsonl", re.I),
+)
+# `step 11`, `editor step 11`, `step --show 11`. A `N/M` banner ("Step 4/21")
+# is a position readout, not a request, so a trailing `/` disqualifies it.
+_STEP_MENTION_RE = re.compile(
+    r"\bstep\s+(?:(--[a-z-]+)\s+)?(\d{1,3})\b(?!\s*/)(\s+--[a-z-]+)?", re.I
+)
+# Flags that already name a read or a deliberate move, so the mention is no
+# stray rewind.
+_DELIBERATE_STEP_FLAGS = {"--show", "--repair", "--undo-checkpoint", "--back"}
+
+
+def _foreign_conversation_ids(prompt_text, session_id):
+    """Conversation uuids of every scratchpad/transcript `prompt_text` cites
+    that is not `session_id`'s own, in first-seen order. Empty when there is
+    no `session_id` to compare against."""
+    if not session_id:
+        return []
+    own = str(session_id).lower()
+    foreign_ids = []
+    for pattern in _CONVERSATION_PATH_RES:
+        for match in pattern.finditer(prompt_text):
+            uuid = match.group(1).lower()
+            if uuid != own and uuid not in foreign_ids:
+                foreign_ids.append(uuid)
+    return foreign_ids
+
+
+def _steps_behind(prompt_text, current_step, mode):
+    """Steps `prompt_text` asks for that lie below the live build pointer, in
+    first-seen order. Step 1 is excepted (the documented new-cycle entry),
+    mentions carrying a read/deliberate flag are skipped, and non-build tracks
+    are skipped entirely since they do not walk the build's numbering."""
+    if not isinstance(current_step, int) or not mode_is_build(mode):
+        return []
+    named_steps = []
+    for match in _STEP_MENTION_RE.finditer(prompt_text):
+        flags = {f.strip().lower() for f in (match.group(1), match.group(3)) if f}
+        if flags & _DELIBERATE_STEP_FLAGS:
+            continue
+        named = int(match.group(2))
+        if 1 < named < current_step and named not in named_steps:
+            named_steps.append(named)
+    return named_steps
+
+
+def _foreign_prompt_findings(prompt_text, session_id, current_step, mode):
+    """Why `prompt_text` looks written for another conversation or an earlier
+    point in this workflow, as `(findings, foreign_ids, named_steps)`.
+
+    Composes two independent signals: a cited scratchpad/transcript owned by
+    another conversation, and a `step <N>` below the live build pointer."""
+    if not isinstance(prompt_text, str) or not prompt_text:
+        return [], [], []
+    foreign_ids = _foreign_conversation_ids(prompt_text, session_id)
+    named_steps = _steps_behind(prompt_text, current_step, mode)
+    own = str(session_id).lower() if session_id else ""
+    findings = [
+        f"it cites a scratchpad or transcript belonging to conversation "
+        f"{uuid}, not this one ({own})"
+        for uuid in foreign_ids
+    ] + [
+        f"it names step {named}, but the workflow is at step {current_step}"
+        for named in named_steps
+    ]
+    return findings, foreign_ids, named_steps
+
+
+def _log_foreign_prompt(project_dir, row):
+    """Append one row to `.codeyam/logs/foreign-prompts.jsonl`. Best-effort:
+    a log failure must never cost the agent the warning itself."""
+    try:
+        logs_dir = os.path.join(project_dir, ".codeyam", "logs")
+        os.makedirs(logs_dir, exist_ok=True)
+        with open(os.path.join(logs_dir, FOREIGN_PROMPT_LOG), "a") as f:
+            f.write(json.dumps(row) + "\n")
+    except Exception:
+        pass
+
+
+def _foreign_prompt_lines(project_dir, event_data, step, mode):
+    """The `<foreign-prompt-warning>` block for this prompt, or `[]`.
+
+    Emitted on EVERY matching prompt, not once per session: each leftover is
+    its own hazard. Each warning also appends one row to the foreign-prompt
+    log — lengths and ids only, never the prompt text."""
+    prompt_text = event_data.get("prompt")
+    session_id = event_data.get("session_id")
+    findings, foreign_ids, named_steps = _foreign_prompt_findings(
+        prompt_text, session_id, step, mode
+    )
+    if not findings:
+        return []
+    _log_foreign_prompt(
+        project_dir,
+        {
+            "ts": datetime.now(timezone.utc).isoformat(),
+            "sessionId": session_id,
+            "foreignSessionIds": foreign_ids,
+            "namedSteps": named_steps,
+            "currentStep": step,
+            "mode": mode,
+            "promptLength": len(prompt_text),
+        },
+    )
+    show_step = named_steps[0] if named_steps else "<N>"
+    return [
+        "",
+        "<foreign-prompt-warning>",
+        "This prompt may have been written for an earlier conversation or an "
+        "earlier point in this workflow (a check-in scheduled before a context "
+        "reset can still arrive afterwards):",
+        *[f"  - {finding}" for finding in findings],
+        f"Do not act on it yet. To read what it refers to without moving the "
+        f"workflow, use `{cli_command()} editor step --show {show_step}`. Ask the "
+        "user whether it still applies before following it.",
+        "</foreign-prompt-warning>",
+    ]
+
+
+# ── Stale-wakeup detector ──────────────────────────────────────────────
+#
+# A fallback wakeup armed through `wakeup-arm` carries its token in its own
+# prompt (`cyw1|<mode>|<step>|<feature epoch>`). The harness cannot cancel a
+# scheduled wakeup, so it fires whether or not the work it hedged finished —
+# hours later, after a `/clear`, into another feature, where it once drove
+# `track-step` and `advance` on the wrong workflow. Agents did not reliably
+# run `wakeup-check` themselves, so the hook judges the token before the
+# agent reads the prompt.
+
+# The epoch is `-` or an RFC 3339 stamp, spelled out so trailing prose
+# punctuation ("…32Z.") is never read into it — a token whose epoch gained a
+# character would compare as another feature's and judge a live wakeup STALE.
+_WAKEUP_TOKEN_RE = re.compile(
+    r"\bcyw1\|[A-Za-z-]+\|\d{1,3}\|"
+    r"(?:-(?![\w:])|\d{4}-\d{2}-\d{2}T[0-9:.]+(?:Z|[+-]\d{2}:\d{2}))"
+)
+_WAKEUP_CHECK_TIMEOUT_S = 10
+
+
+def _wakeup_tokens(prompt_text):
+    """Every distinct wakeup token in `prompt_text`, in first-seen order."""
+    if not isinstance(prompt_text, str):
+        return []
+    tokens = []
+    for match in _WAKEUP_TOKEN_RE.finditer(prompt_text):
+        if match.group(0) not in tokens:
+            tokens.append(match.group(0))
+    return tokens
+
+
+def _wakeup_check(project_dir, token):
+    """The `wakeup-check --format json` verdict for `token`, or None when it
+    cannot be had (an older binary, a timeout, unparseable output). Every
+    failure collapses to None: a hook that raised would cost the agent its
+    prompt."""
+    import subprocess as _sp
+
+    try:
+        result = _sp.run(
+            [cli_command(), "editor", "wakeup-check", "--token", token, "--format", "json"],
+            cwd=project_dir,
+            capture_output=True,
+            text=True,
+            timeout=_WAKEUP_CHECK_TIMEOUT_S,
+        )
+    except Exception:
+        return None
+    if result.returncode != 0:
+        return None
+    try:
+        verdict = json.loads(result.stdout)
+    except ValueError:
+        return None
+    return verdict if isinstance(verdict, dict) else None
+
+
+def _stale_wakeup_lines(project_dir, event_data):
+    """The `<stale-wakeup>` block for this prompt, or `[]`.
+
+    Only a token the editor itself judges STALE produces one; a LIVE or
+    WAITING wakeup, or one the editor could not judge, passes through
+    untouched."""
+    return _stale_wakeup_block(
+        _stale_wakeup_reasons(
+            event_data.get("prompt"), lambda token: _wakeup_check(project_dir, token)
+        )
+    )
+
+
+def _stale_wakeup_reasons(prompt_text, check):
+    """One reason per token in `prompt_text` that `check` judges STALE.
+
+    `check` maps a token to its `wakeup-check` verdict dict, or None when no
+    verdict could be had — which, like LIVE and WAITING, yields no reason."""
+    reasons = []
+    for token in _wakeup_tokens(prompt_text):
+        verdict = check(token)
+        if verdict and verdict.get("stale") is True:
+            reasons.append(verdict.get("reason") or "the workflow has moved on")
+    return reasons
+
+
+def _stale_wakeup_block(reasons):
+    """The `<stale-wakeup>` lines naming each reason, or `[]` for none."""
+    if not reasons:
+        return []
+    return [
+        "",
+        "<stale-wakeup>",
+        "STALE: dismiss without acting. This prompt is a fallback wakeup armed for "
+        "work that has already finished or belongs to another feature:",
+        *[f"  - {reason}" for reason in reasons],
+        "Run nothing it asks for — no `track-step`, no `advance`, no step command — "
+        "and do not re-fetch step context. Tell the user in one line that a leftover "
+        "wakeup fired and was dismissed. If a question to the user was open when it "
+        "arrived, ask that question again.",
+        "</stale-wakeup>",
+    ]
+
+
+def _step_reminder_due(project_dir, key):
+    """True on the first reminder-bearing tool call for `key` and on every
+    STEP_REMINDER_EVERY_N_CALLS-th call after it; counts this call either way."""
+    marker = _read_step_context_marker(project_dir)
+    calls = marker.get("toolCalls", 0) if marker.get("toolKey") == key else 0
+    if not isinstance(calls, int):
+        calls = 0
+    marker["toolKey"] = key
+    marker["toolCalls"] = calls + 1
+    _write_step_context_marker(project_dir, marker)
+    return calls % STEP_REMINDER_EVERY_N_CALLS == 0
+
+
 def _task_tools_available(project_dir):
     """Return what this session observed about the Task* tools: True, False,
     or None for not-yet-known.
@@ -545,23 +986,31 @@ def _observe_task_tool_capability(project_dir, tool_name, tool_input, tool_respo
 
 
 # How long `wedge-check` is allowed to take. It is a directory listing and a
-# handful of small reads, so anything approaching this is itself a malfunction —
-# and a hook that hung would freeze the very turn-end it is instrumenting.
+# handful of small reads, plus — only when a command was launched seconds ago —
+# a wait of at most 6s for it to get past its pre-flight (the editor's
+# `EARLY_BAIL_WAIT_BUDGET`, which must stay below this). Anything approaching
+# this is itself a malfunction — and a hook that hung would freeze the very
+# turn-end it is instrumenting.
 _WEDGE_CHECK_TIMEOUT_SECS = 10
 
 
-def _wedge_notice(project_dir):
+def _wedge_notice(project_dir, transcript_path=None):
     """Ask the editor whether this turn is ending on something worth saying.
 
-    `wedge-check` composes three verdicts and this call is blind to which one
+    `wedge-check` composes five verdicts and this call is blind to which one
     came back, deliberately — the hook's job is to put the text in front of the
     agent, and the editor owns what the text says:
+      * a background command already FAILED moments ago — typically a
+        precondition refusal seconds after launch — so the long wait the turn
+        is ending on is not happening;
       * a background task is demonstrably STRANDED — its result is not coming;
       * a background task is HEALTHY but has been running past the reporting
         threshold — waiting is correct, and the user should be told rather than
         left to ask;
       * the turn is ending mid-workflow with NOTHING pending and no question
-        outstanding, so nothing will re-invoke the agent.
+        outstanding, so nothing will re-invoke the agent;
+      * a cycle just CLOSED and no closing question has been asked since, so
+        the user was never alerted that the session finished.
 
     Returns the notice text, or "" for the overwhelmingly common case of
     nothing being wrong. Every failure mode collapses to "" on purpose: the
@@ -575,17 +1024,32 @@ def _wedge_notice(project_dir):
     """
     import subprocess as _sp
 
-    try:
-        result = _sp.run(
-            [cli_command(), "editor", "wedge-check"],
-            cwd=project_dir,
-            capture_output=True,
-            text=True,
-            timeout=_WEDGE_CHECK_TIMEOUT_SECS,
-        )
-    except Exception:
-        return ""
-    if result.returncode != 0:
+    def _run(extra):
+        try:
+            return _sp.run(
+                [cli_command(), "editor", "wedge-check", *extra],
+                cwd=project_dir,
+                capture_output=True,
+                text=True,
+                timeout=_WEDGE_CHECK_TIMEOUT_SECS,
+            )
+        except Exception:
+            return None
+
+    # `transcript_path` lets the editor drop a failed launch the agent was
+    # already delivered and has answered. A binary older than `--transcript`
+    # rejects the flag as a usage error, so a fleet mid-upgrade retries once
+    # without it rather than being silenced.
+    extra = ["--transcript", transcript_path] if transcript_path else []
+    result = _run(extra)
+    if (
+        extra
+        and result is not None
+        and result.returncode != 0
+        and "--transcript" in (result.stderr or "")
+    ):
+        result = _run([])
+    if result is None or result.returncode != 0:
         return ""
     return result.stdout.strip()
 
@@ -626,7 +1090,7 @@ def emit_wedge_block(project_dir, event_data):
     """
     if event_data.get("stop_hook_active"):
         return False
-    notice = _wedge_notice(project_dir)
+    notice = _wedge_notice(project_dir, event_data.get("transcript_path"))
     if not notice:
         return False
     print(json.dumps({"decision": "block", "reason": notice}))
@@ -634,11 +1098,25 @@ def emit_wedge_block(project_dir, event_data):
 
 
 def main():
-    # Only run in editor Build sessions
+    project_dir = os.environ.get("CLAUDE_PROJECT_DIR", os.getcwd())
+
+    # Only run in editor Build sessions — except for the question-copy
+    # observer. A question asked in a plain session on a codeyam project
+    # (plan authoring through a skill, say) reaches a user exactly as one
+    # asked mid-cycle does, and returning here first left the log blind to
+    # it: no reviewed VM had a log, because the ad-hoc path never set the
+    # flag. `.codeyam/` must exist so a non-codeyam checkout never grows one.
     if not os.environ.get("CODEYAM_EDITOR_ACTIVE"):
+        if os.path.isdir(os.path.join(project_dir, ".codeyam")):
+            event_type, event_data = detect_event()
+            if (
+                event_type == "post_tool_use"
+                and event_data.get("tool_name") == "AskUserQuestion"
+            ):
+                _log_question_copy(project_dir, event_data, in_cycle=False)
+                _record_audience_answer(project_dir, event_data)
         return
 
-    project_dir = os.environ.get("CLAUDE_PROJECT_DIR", os.getcwd())
     state_path = os.path.join(project_dir, ".codeyam", "editor-step.json")
     prompt_path = os.path.join(project_dir, ".codeyam", "editor-user-prompt.txt")
 
@@ -649,6 +1127,17 @@ def main():
     # to preload the tools every editor step depends on. Silent when
     # CODEYAM_EDITOR_ACTIVE is unset (handled by the early return above).
     if event_type == "session_start":
+        # A new, cleared or compacted context holds none of the hand-off text
+        # earlier advances printed, so forget what `advance` withholds as
+        # already shown (handoff_said_once.rs::said_once_path).
+        try:
+            os.remove(os.path.join(project_dir, ".codeyam", "state", "handoff-said-once.json"))
+        except OSError:
+            pass
+        # A new session, a resume, a /clear and a compaction all leave the
+        # agent without the step context it was last given, so the next
+        # prompt and the next tool call re-emit it.
+        _clear_step_context_marker(project_dir)
         print("<session-start-hook>")
         print(
             "Before your first turn, make TWO SEPARATE `ToolSearch` calls — they ask "
@@ -656,7 +1145,7 @@ def main():
             f"  1. `{TOOL_LOADING_SELECT_QUERY}` — the editor workflow's step-tracking "
             "tools. If this returns `no matching deferred tools`, this harness does not "
             "have them; that is a normal answer, it is recorded, and the workflow will "
-            "stop asking you for them and use `codeyam-editor-dev editor track-step` instead. "
+            "stop asking you for them and use `codeyam-editor editor track-step` instead. "
             "Do NOT widen this query with other tool names — a name that resolves "
             "everywhere masks the very absence this call exists to detect.\n"
             f"  2. `{SESSION_START_MONITOR_QUERY}` — loads `Monitor`'s schema before any "
@@ -665,15 +1154,21 @@ def main():
             "Monitor is for watching a CONDITION the harness will "
             "not notify you about; a backgrounded long command (refresh-tests, "
             "session-finalize) is not that — its completion notification arrives on its "
-            "own, and `codeyam-editor-dev editor wait-for` is the same-turn blocking path. "
+            "own, and `codeyam-editor editor wait-for` is the same-turn blocking path. "
             "(AskUserQuestion is already resident in editor sessions, so it needs no "
             "preload.)"
         )
         print("</session-start-hook>")
         return
 
+    # Judged once, before anything else reads the prompt: a stale wakeup is
+    # neither a feature request to capture nor a request to route.
+    stale_wakeup_lines = (
+        _stale_wakeup_lines(project_dir, event_data) if event_type == "user_prompt" else []
+    )
+
     # ── Capture user's feature request prompt ──────────────────────────
-    if event_type == "user_prompt":
+    if event_type == "user_prompt" and not stale_wakeup_lines:
         prompt_text = event_data.get("prompt", "").strip()
         if prompt_text and not prompt_text.startswith("/"):
             should_capture = not os.path.exists(prompt_path)
@@ -705,6 +1200,18 @@ def main():
     # observer prints nothing and changes no control flow.
     if event_type == "post_tool_use" and event_data.get("tool_name") == "AskUserQuestion":
         _log_question_copy(project_dir, event_data)
+        _record_audience_answer(project_dir, event_data)
+
+    # The user answered (or typed a new prompt, which also means they are
+    # back): the session is no longer parked on them. Removes the marker the
+    # pretool hook wrote when the question was raised.
+    if event_type == "user_prompt" or (
+        event_type == "post_tool_use" and event_data.get("tool_name") == "AskUserQuestion"
+    ):
+        try:
+            os.remove(os.path.join(project_dir, ".codeyam", "run", "awaiting-user.json"))
+        except OSError:
+            pass
 
     if not os.path.exists(state_path):
         # No editor-step.json — a stateless session entry. This is the exact
@@ -713,7 +1220,11 @@ def main():
         # build-vs-not call made before the request has been read. Advisory,
         # like every other directive this hook emits, and scoped to a real
         # user prompt: slash commands carry their own routing.
-        if event_type == "user_prompt":
+        if stale_wakeup_lines:
+            print("<user-prompt-submit-hook>")
+            print("\n".join(stale_wakeup_lines).strip("\n"))
+            print("</user-prompt-submit-hook>")
+        elif event_type == "user_prompt":
             entry_prompt = event_data.get("prompt", "").strip()
             if entry_prompt and not entry_prompt.startswith("/"):
                 print("<user-prompt-submit-hook>")
@@ -726,6 +1237,13 @@ def main():
                     "when it really is one — so do not judge build-vs-not yourself here."
                 )
                 print("</user-prompt-submit-hook>")
+        # A cycle that just closed has already wiped its step state, but its
+        # closing question may still be owed. Gated on the editor's owed
+        # marker so an ordinary stateless turn end pays no subprocess.
+        if event_type == "stop" and os.path.exists(
+            os.path.join(project_dir, ".codeyam", "run", "closing-question-owed.json")
+        ):
+            emit_wedge_block(project_dir, event_data)
         return
 
     try:
@@ -779,6 +1297,7 @@ def main():
                         json.dump(tracking, f)
                 except Exception:
                     pass
+                _sign_in_step_task(project_dir)
         # TaskUpdate with status=completed → mark the current step's task
         # as completed. Only flips the flag if tracking is already on this
         # step (avoids treating unrelated task updates as step check-offs).
@@ -835,6 +1354,10 @@ def main():
             f'Editor Mode — {mode_prefix} Step {step}/{total_steps} ({label}): "{feature}"',
         ]
 
+        # Up front, so the agent reads it before anything telling it to act.
+        lines.extend(stale_wakeup_lines)
+        lines.extend(_foreign_prompt_lines(project_dir, event_data, step, mode))
+
         # One-shot per session: the tool-loading-protocol is a session-entry
         # concern, not a per-prompt one. Injecting it on every UserPromptSubmit
         # re-fired the wasted preload round-trip on every resumed prompt, so gate
@@ -860,16 +1383,16 @@ def main():
             ])
             _mark_tool_loading_injected(project_dir, session_id)
 
-        # Inject editor-mode-context.md directly so Gemini doesn't have to read it blindly
-        context_path = os.path.join(project_dir, ".codeyam", "editor-mode-context.md")
-        try:
-            if os.path.exists(context_path):
-                with open(context_path, "r") as f:
-                    lines.append("\n<editor-mode-context>")
-                    lines.append(f.read().strip())
-                    lines.append("</editor-mode-context>\n")
-        except Exception:
-            pass
+        # The step directives only change when the step does, so a later
+        # prompt in the same step gets the header line alone.
+        directive_due = _step_context_due(
+            project_dir, _step_injection_key(session_id, feature, step, label)
+        )
+
+        # Inject editor-mode-context.md directly so Gemini doesn't have to read it
+        # blindly. Its content never depends on the step, so it is keyed on the
+        # content itself and goes out once per session, not once per step.
+        lines.extend(_editor_context_lines(project_dir, session_id))
 
         # Include active scenario context
         active_scenario_path = os.path.join(project_dir, ".codeyam", "active-scenario.json")
@@ -894,6 +1417,8 @@ def main():
                 "make the changes, re-register affected scenarios, and update the journal. "
                 "Then continue from the current step."
             )
+        elif not directive_due:
+            pass
         elif mode_is_build(mode):
             lines.append(
                 f"You are on step {step}. Follow the `{_cli} editor` workflow. "
@@ -909,7 +1434,7 @@ def main():
                 f"You are on step {step} of the `{mode}` track. "
                 f"Follow the `{_cli} editor` steps for this track."
             )
-        if restriction:
+        if restriction and directive_due:
             lines.append(restriction)
         lines.append('</user-prompt-submit-hook>')
         print("\n".join(lines))
@@ -1004,7 +1529,10 @@ def main():
     if event_type == "post_tool_use":
         tool_name = event_data.get("tool_name", "")
         if tool_name in ("Bash", "Write", "Edit"):
-            if restriction:
+            if restriction and _step_reminder_due(
+                project_dir,
+                _step_injection_key(event_data.get("session_id"), feature, step, label),
+            ):
                 print(f"[Step {step}: {label}] {restriction}")
             return
 

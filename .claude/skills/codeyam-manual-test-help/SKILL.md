@@ -1,6 +1,6 @@
 ---
 name: codeyam-manual-test-help
-description: Answer a question about ONE manual test, and fix what's wrong. Opened from a test row's "Ask about this test" button with that test's id. Explains how to actually perform the test against the surface it really has, corrects the test in place when the steps are what's wrong, and captures the missing app state when the state the test needs does not exist yet. Never edits application source.
+description: Answer a question about ONE manual test, opened from a test row's "Ask about this test" button. Explains how to perform it, corrects the test's steps in place when they are wrong, and captures missing app state the test needs. Never edits application source.
 ---
 
 # CodeYam — Ask About a Manual Test
@@ -37,7 +37,7 @@ what you find.
 ## Step 1 — Read the test
 
 ```
-codeyam-editor-dev editor manual-tests --id <id> --format json
+codeyam-editor editor manual-tests --id <id> --format json
 ```
 
 `entries` holds the test. `count: 0` with a non-zero `total` means no test has
@@ -51,7 +51,7 @@ whether the steps are asking for the right thing.
 
 `surface.kind` decides where you look:
 
-- **`scenario`** — run `codeyam-editor-dev editor scenario-explain <surface.slug>`.
+- **`scenario`** — run `codeyam-editor editor scenario-explain <surface.slug>`.
   It reports what the scenario seeds, the URL a capture hits, and where its
   screenshot is. **Read the screenshot too.** `surface.scenarioType` is the
   field that most often explains a bad test: `application` is a real route you
@@ -85,7 +85,7 @@ Write nothing. This outcome is an explanation.
 Propose a corrected document, **show the diff**, and on confirmation run:
 
 ```
-codeyam-editor-dev editor manual-test-revise <id> --file <path-to-corrected.json>
+codeyam-editor editor manual-test-revise <id> --file <path-to-corrected.json>
 ```
 
 Build the corrected document from the one you read in step 1: change only
@@ -103,13 +103,13 @@ reason this is a separate command.
 
 The test is asking for something real that nothing captures. Close the gap:
 
-- **A missing scenario** → `codeyam-editor-dev editor register` with the scenario
+- **A missing scenario** → `codeyam-editor editor register` with the scenario
   document. Then revise the test's `surface` to point at the new slug.
 - **An interactive state** (an open menu, a filled field, an active tab) →
-  `codeyam-editor-dev editor preview-interact` drives the real interaction and
+  `codeyam-editor editor preview-interact` drives the real interaction and
   captures the result. Do not fake it by editing a component's initial state.
 - **A genuine click-through** — the verification really is a sequence, not a
-  frame → `codeyam-editor-dev editor preview-flow`, which produces an ordered
+  frame → `codeyam-editor editor preview-flow`, which produces an ordered
   filmstrip.
 
 Capturing writes to `.codeyam/scenarios/` and to screenshots the audit reads,
@@ -126,7 +126,7 @@ the defect behind a green check.
 
 Report in the user's terms: what you found, what you changed, and what they
 should do next with the test in front of them. Never tell them to run a
-`codeyam-editor-dev editor` command — you have those tools, they are looking at a
+`codeyam-editor editor` command — you have those tools, they are looking at a
 button.
 
 If you revised the test, say which fields changed and confirm the completion
