@@ -9,6 +9,12 @@
       "shortSha": "7b276d8",
       "subject": "chore: Restore linting on Next 16",
       "deferredAt": "2026-11-06T22:32:06Z"
+    },
+    {
+      "sha": "9ebbbc526d3a01cdb10ed5d1f3b935d4242d4071",
+      "shortSha": "9ebbbc5",
+      "subject": "feat: ne -- Keep the homepage and sitemap current with new posts",
+      "deferredAt": "2026-11-06T23:37:25Z"
     }
   ],
   "finalizeIntent": "fast",
