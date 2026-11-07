@@ -105,17 +105,21 @@
     },
     {
       "id": "database-writes-are-checked-against-a-stand-in-database-not-a-real-one-and-the-one-time-backfill-command-has-no-automated-test-neither-has-been-run-against-any-real-database-yet",
-      "title": "Database writes are checked against a stand-in database, not a real one, and the one-time backfill command has no automated test; neither has been run against any real database yet.",
+      "title": "Database writes are checked against a stand-in database, not a real one, and the one-time backfill command has no automated test. Neither has been run against any real database yet.",
       "mode": "backend",
-      "body": "",
-      "reason": "The new re-sanitize command has also never touched real posts.",
+      "body": "## Summary\nDatabase writes are only checked against a stand-in database. This cycle added another one: `db:seed` now upserts the four running essays from `.codeyam/seed-data/running-essays.json`. Only the pure row mapping (`seedTable`) is tested, not the rows that end up in the database.\n\n## Key Decisions\n- Test against a real, throwaway Postgres database, not a mock.\n\n## Implementation\n- Add an integration test that runs the seed against a scratch database and checks the four essay rows exist and are idempotent on re-run.\n- Cover `posts:backfill` the same way.",
+      "reason": "Database writes, now including the seed step's essay upsert, are only tested with a stand-in.",
+      "severity": 2,
       "source": "session-review",
+      "category": "debt",
       "status": "pending",
       "proposedAt": "2026-11-06T16:15:58.661814+00:00",
+      "kind": "tech-debt",
       "rank": 2,
-      "sightings": 2,
+      "sightings": 3,
       "notes": [
-        "2026-11-07: Seen again: the new posts:resanitize script was only exercised in tests — the database in .env has no Post table (P2021), so it has not run against real posts."
+        "2026-11-07: Seen again: the new posts:resanitize script was only exercised in tests — the database in .env has no Post table (P2021), so it has not run against real posts.",
+        "2026-11-07: Seen again 2026-11-07: the new db:seed essay upsert has no test that reads the database afterwards."
       ],
       "offeredCount": 3,
       "lastOfferedAt": "2026-11-07T00:21:55.132247+00:00"
@@ -177,6 +181,7 @@
       "source": "session-review",
       "status": "pending",
       "proposedAt": "2026-11-06T23:38:45.514652+00:00",
+      "rank": 9,
       "sightings": 1
     },
     {
@@ -205,6 +210,48 @@
       "source": "session-review",
       "status": "pending",
       "proposedAt": "2026-11-07T00:44:17.924396+00:00",
+      "rank": 6,
+      "sightings": 1
+    },
+    {
+      "id": "run-the-post-backfill-automatically-after-each-deploy",
+      "title": "Run the post backfill automatically after each deploy",
+      "mode": "backend",
+      "body": "## Who benefits\nThe site owner, who otherwise has to remember to run the database update and backfill by hand after deploying.\n\n## Evidence\n- obs-9db0b1308e19: older Substack posts silently vanished from the site once they aged out of the feed, and nobody noticed until posts were missing.\n- obs-a48d8a6acece: the Adventures essay links only resolve on the live site after deploy plus a manual db:push and posts:backfill.\n\n## Smallest useful version\nAfter a production deploy, run `posts:backfill` once (for example from a Vercel deploy hook or the build step) and log the missing-link warning where the owner will see it.\n\n## Case against\nIt runs writes against the production database during a deploy, so a failure could slow or block deploys. The backfill is close to a one-time job, and the on-request homepage sync already covers new posts, so a short checklist in DATABASE.md may be enough.",
+      "reason": "Posts and essay links on the live site depend on a manual backfill that is easy to forget.",
+      "severity": 3,
+      "source": "feature-synthesis",
+      "status": "pending",
+      "proposedAt": "2026-11-07T01:10:52.772369+00:00",
+      "kind": "feature",
+      "sightings": 1,
+      "evidenceIds": [
+        "obs-9db0b1308e19",
+        "obs-a48d8a6acece"
+      ],
+      "evidenceSessions": 2,
+      "ideaRank": 1
+    },
+    {
+      "id": "the-step-that-adds-the-essays-to-a-local-database-has-no-test-that-checks-the-database-afterwards-only-the-row-conversion-it-uses-is-tested",
+      "title": "The step that adds the essays to a local database has no test that checks the database afterwards; only the row conversion it uses is tested.",
+      "mode": "backend",
+      "body": "## Summary\n\nThe step that adds the essays to a local database has no test that checks the database afterwards; only the row conversion it uses is tested.\n\nAt the approval gate for \"Adventures essay links now open your running essays\" the user approved the built work past this gap: it differs from what the plan asked for. Built from plan `the-essay-links-go-to-this-site-s-own-writing-pages-which-only-exist-on-this-branch-so-they-will-404-until-it-is` (now at `.codeyam/plans/completed/the-essay-links-go-to-this-site-s-own-writing-pages-which-only-exist-on-this-branch-so-they-will-404-until-it-is.md`).\n\nThe four running-essay links in the Adventures section now open real writing pages instead of a 404.\n\n## What you can now do\n- Click any Adventures essay link in the preview and read the full essay\n- See all four real running essays in the local preview, not just sample posts\n- Get a warning after backfilling posts if any Adventures link points at a missing post\n\nRead that plan and the code it changed before planning how to close the gap.",
+      "reason": "Approved past at the approval gate for \"Adventures essay links now open your running essays\".",
+      "source": "session-review",
+      "status": "pending",
+      "proposedAt": "2026-11-07T01:10:52.772369+00:00",
+      "sightings": 1
+    },
+    {
+      "id": "on-the-live-site-the-links-work-only-after-this-branch-is-deployed-and-the-database-update-and-post-backfill-are-run-that-was-not-done-this-cycle",
+      "title": "On the live site the links work only after this branch is deployed and the database update and post backfill are run; that was not done this cycle.",
+      "mode": "backend",
+      "body": "## Summary\n\nOn the live site the links work only after this branch is deployed and the database update and post backfill are run; that was not done this cycle.\n\nAt the approval gate for \"Adventures essay links now open your running essays\" the user approved the built work past this gap: it differs from what the plan asked for. Built from plan `the-essay-links-go-to-this-site-s-own-writing-pages-which-only-exist-on-this-branch-so-they-will-404-until-it-is` (now at `.codeyam/plans/completed/the-essay-links-go-to-this-site-s-own-writing-pages-which-only-exist-on-this-branch-so-they-will-404-until-it-is.md`).\n\nThe four running-essay links in the Adventures section now open real writing pages instead of a 404.\n\n## What you can now do\n- Click any Adventures essay link in the preview and read the full essay\n- See all four real running essays in the local preview, not just sample posts\n- Get a warning after backfilling posts if any Adventures link points at a missing post\n\nRead that plan and the code it changed before planning how to close the gap.",
+      "reason": "Approved past at the approval gate for \"Adventures essay links now open your running essays\".",
+      "source": "session-review",
+      "status": "pending",
+      "proposedAt": "2026-11-07T01:10:52.772369+00:00",
       "sightings": 1
     }
   ],
@@ -309,6 +356,44 @@
         "the-plan-asked-for-tests-of-the-existing-rss-parser-against-a-captured-feed-sample-those-were-not-added-and-the-new-archive-tests-use-hand-written-samples-shaped-like-the-live-responses-checked-on-2026-11-05",
         "split-the-posts-module-into-sync-and-read-halves"
       ]
+    },
+    {
+      "at": "2026-11-07T01:10:52.772369+00:00",
+      "feature": "Adventures essay links now open your running essays",
+      "notes": "Smooth resumed session: push went through on the first try with nothing to pull from GitHub. The only new gap is another untested database write (db:seed essay upsert), filed as a sighting on the existing stand-in-database row. The branch …",
+      "proposedIds": [
+        "database-writes-are-checked-against-a-stand-in-database-not-a-real-one-and-the-one-time-backfill-command-has-no-automated-test-neither-has-been-run-against-any-real-database-yet",
+        "the-step-that-adds-the-essays-to-a-local-database-has-no-test-that-checks-the-database-afterwards-only-the-row-conversion-it-uses-is-tested",
+        "on-the-live-site-the-links-work-only-after-this-branch-is-deployed-and-the-database-update-and-post-backfill-are-run-that-was-not-done-this-cycle"
+      ],
+      "rankedIds": [
+        "editor-s-pgport-leaks-into-the-app-and-hangs-every-database-page",
+        "database-writes-are-checked-against-a-stand-in-database-not-a-real-one-and-the-one-time-backfill-command-has-no-automated-test-neither-has-been-run-against-any-real-database-yet",
+        "isolation-fixture-migration-fails-every-route-and-rolls-back",
+        "capture-hydration-check-flags-links-rendered-through-innerhtml",
+        "session-finalize-rejects-allow-pending-integration-that-recapture-stale-requires",
+        "the-script-has-not-been-run-against-real-posts-yet-the-database-in-env-has-no-posts-table-so-the-database-writes-are-only-checked-with-a-stand-in-database-in-tests",
+        "the-plan-asked-for-tests-of-the-existing-rss-parser-against-a-captured-feed-sample-those-were-not-added-and-the-new-archive-tests-use-hand-written-samples-shaped-like-the-live-responses-checked-on-2026-11-05",
+        "split-the-posts-module-into-sync-and-read-halves",
+        "no-test-exercises-the-real-next-after-response-hook-the-homepage-test-confirms-the-sync-is-handed-to-it-not-that-next-later-runs-it"
+      ]
+    }
+  ],
+  "syntheses": [
+    {
+      "at": "2026-11-07T01:10:52.772369+00:00",
+      "consumedIds": [
+        "obs-b4d068ba57db",
+        "obs-9db0b1308e19",
+        "obs-c7bcbbe2f8d7",
+        "obs-a48d8a6acece",
+        "obs-32a65ce7cad1",
+        "obs-80eade74c7ba"
+      ],
+      "keptIds": [
+        "run-the-post-backfill-automatically-after-each-deploy"
+      ],
+      "notes": "One cluster crossed two sessions: the site's posts depend on manual database steps around deploys. Other observations describe work already shipped (homepage sync, sitemap, archive backfill, re-sanitize)."
     }
   ]
 }
