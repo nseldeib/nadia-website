@@ -186,10 +186,15 @@
       "body": "## Summary\n\nThe essay links go to this site's own writing pages, which only exist on this branch, so they will 404 until it is deployed with them. Locally they also 404 because the preview database holds sample posts.\n\nAt the approval gate for \"Running essays linked from Adventures\" the user approved the built work past this gap: it differs from what the plan asked for. Built from plan `ne--link-adventures-to-the-running-essays` (now at `.codeyam/plans/completed/ne--link-adventures-to-the-running-essays.md`).\n\nVisitors who finish the Adventures section can now go straight to your running essays.\n\n## What you can now do\n- See a **Recent Adventures: Read About My Running Shenanigans** list at the end of Adventures\n- Open four running essays, from the Racetoberfest reflection to The Magic of Attempting Hard Things\n- Change which essays appear, or their order, by editing the list in `content/site.json`\n\nRead that plan and the code it changed before planning how to close the gap.",
       "reason": "Approved past at the approval gate for \"Running essays linked from Adventures\".",
       "source": "session-review",
-      "status": "pending",
+      "status": "written",
+      "planSlug": "the-essay-links-go-to-this-site-s-own-writing-pages-which-only-exist-on-this-branch-so-they-will-404-until-it-is",
       "proposedAt": "2026-11-07T00:21:42.651004+00:00",
       "rank": 6,
-      "sightings": 1
+      "sightings": 1,
+      "decidedAt": "2026-11-07T00:46:53Z",
+      "sightingsAtDecision": 1,
+      "offeredCount": 1,
+      "lastOfferedAt": "2026-11-07T00:44:32.048670+00:00"
     },
     {
       "id": "the-script-has-not-been-run-against-real-posts-yet-the-database-in-env-has-no-posts-table-so-the-database-writes-are-only-checked-with-a-stand-in-database-in-tests",
