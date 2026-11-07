@@ -175,6 +175,17 @@
       "status": "pending",
       "proposedAt": "2026-11-06T23:38:45.514652+00:00",
       "sightings": 1
+    },
+    {
+      "id": "the-essay-links-go-to-this-site-s-own-writing-pages-which-only-exist-on-this-branch-so-they-will-404-until-it-is-deployed-with-them-locally-they-also-404-because-the-preview-database-holds-sample-posts",
+      "title": "The essay links go to this site's own writing pages, which only exist on this branch, so they will 404 until it is deployed with them. Locally they also 404 because the preview database holds sample posts.",
+      "mode": "backend",
+      "body": "## Summary\n\nThe essay links go to this site's own writing pages, which only exist on this branch, so they will 404 until it is deployed with them. Locally they also 404 because the preview database holds sample posts.\n\nAt the approval gate for \"Running essays linked from Adventures\" the user approved the built work past this gap: it differs from what the plan asked for. Built from plan `ne--link-adventures-to-the-running-essays` (now at `.codeyam/plans/completed/ne--link-adventures-to-the-running-essays.md`).\n\nVisitors who finish the Adventures section can now go straight to your running essays.\n\n## What you can now do\n- See a **Recent Adventures: Read About My Running Shenanigans** list at the end of Adventures\n- Open four running essays, from the Racetoberfest reflection to The Magic of Attempting Hard Things\n- Change which essays appear, or their order, by editing the list in `content/site.json`\n\nRead that plan and the code it changed before planning how to close the gap.",
+      "reason": "Approved past at the approval gate for \"Running essays linked from Adventures\".",
+      "source": "session-review",
+      "status": "pending",
+      "proposedAt": "2026-11-07T00:21:42.651004+00:00",
+      "sightings": 1
     }
   ],
   "rounds": [
@@ -232,6 +243,23 @@
         "split-the-posts-module-into-sync-and-read-halves",
         "the-three-plan-scenarios-stale-homepage-picking-up-a-new-post-on-the-next-visit-homepage-while-substack-is-down-sitemap-listing-a-new-post-were-not-recorded-as-replayable-scenarios-each-piece-is-covered-by-tests-and-a-production-build",
         "no-test-exercises-the-real-next-after-response-hook-the-homepage-test-confirms-the-sync-is-handed-to-it-not-that-next-later-runs-it"
+      ],
+      "rankedIds": [
+        "editor-s-pgport-leaks-into-the-app-and-hangs-every-database-page",
+        "database-writes-are-checked-against-a-stand-in-database-not-a-real-one-and-the-one-time-backfill-command-has-no-automated-test-neither-has-been-run-against-any-real-database-yet",
+        "isolation-fixture-migration-fails-every-route-and-rolls-back",
+        "capture-hydration-check-flags-links-rendered-through-innerhtml",
+        "session-finalize-rejects-allow-pending-integration-that-recapture-stale-requires",
+        "the-plan-asked-for-tests-of-the-existing-rss-parser-against-a-captured-feed-sample-those-were-not-added-and-the-new-archive-tests-use-hand-written-samples-shaped-like-the-live-responses-checked-on-2026-11-05",
+        "split-the-posts-module-into-sync-and-read-halves"
+      ]
+    },
+    {
+      "at": "2026-11-07T00:21:42.651004+00:00",
+      "feature": "Running essays linked from Adventures",
+      "notes": "Small content cycle: a four-link essay list under Adventures. Touched files are all small (largest is content/site.json at 430 lines of data), so no debt proposed and no app bugs seen. Ranking keeps the PGPORT leak first since it hangs eve…",
+      "proposedIds": [
+        "the-essay-links-go-to-this-site-s-own-writing-pages-which-only-exist-on-this-branch-so-they-will-404-until-it-is-deployed-with-them-locally-they-also-404-because-the-preview-database-holds-sample-posts"
       ],
       "rankedIds": [
         "editor-s-pgport-leaks-into-the-app-and-hangs-every-database-page",
