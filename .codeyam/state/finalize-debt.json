@@ -21,6 +21,12 @@
       "shortSha": "a3bcb2c",
       "subject": "feat: ne -- Link Adventures to the running essays",
       "deferredAt": "2026-11-07T00:20:37Z"
+    },
+    {
+      "sha": "e0986fa1bb18876d492264bbfac074b28303d228",
+      "shortSha": "e0986fa",
+      "subject": "feat: Re-sanitize stored posts that predate the external-link fix",
+      "deferredAt": "2026-11-07T00:43:09Z"
     }
   ],
   "finalizeIntent": "fast",
