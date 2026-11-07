@@ -27,6 +27,12 @@
       "shortSha": "e0986fa",
       "subject": "feat: Re-sanitize stored posts that predate the external-link fix",
       "deferredAt": "2026-11-07T00:43:09Z"
+    },
+    {
+      "sha": "830909a6fc172d757cd2abb3bdadb52cc072a228",
+      "shortSha": "830909a",
+      "subject": "feat: Make the Adventures essay links resolve",
+      "deferredAt": "2026-11-07T01:09:21Z"
     }
   ],
   "finalizeIntent": "fast",
