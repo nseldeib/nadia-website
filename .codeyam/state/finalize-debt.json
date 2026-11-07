@@ -15,6 +15,12 @@
       "shortSha": "9ebbbc5",
       "subject": "feat: ne -- Keep the homepage and sitemap current with new posts",
       "deferredAt": "2026-11-06T23:37:25Z"
+    },
+    {
+      "sha": "a3bcb2c7eadfa18d7ba307a296b899bd6b014b71",
+      "shortSha": "a3bcb2c",
+      "subject": "feat: ne -- Link Adventures to the running essays",
+      "deferredAt": "2026-11-07T00:20:37Z"
     }
   ],
   "finalizeIntent": "fast",
