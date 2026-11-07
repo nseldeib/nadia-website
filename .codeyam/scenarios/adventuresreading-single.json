@@ -1,0 +1,12 @@
+{
+  "name": "AdventuresReading - Single",
+  "id": "f93895f1-cc60-4b7c-8daa-78f7e7547e39",
+  "url": "/isolated-components/AdventuresReading?s=Single",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "AdventuresReading",
+  "scenarioType": "component",
+  "description": "One essay only; label and ruled list keep their rhythm without siblings."
+}

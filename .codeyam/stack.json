@@ -117,6 +117,7 @@
   ],
   "routing": {
     "isolationRoute": "app/isolated-components",
+    "isolationRouteOwnership": "project",
     "pagesDir": "app",
     "type": "file-based"
   },

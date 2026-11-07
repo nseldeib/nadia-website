@@ -1,0 +1,24 @@
+{
+  "surface": "AdventuresReading",
+  "surface_kind": "component",
+  "states": [
+    {
+      "dimension": "links",
+      "value": "empty",
+      "rationale": "source-derived state links=empty",
+      "status": "planned"
+    },
+    {
+      "dimension": "links",
+      "value": "one",
+      "rationale": "source-derived state links=one",
+      "status": "covered"
+    },
+    {
+      "dimension": "links",
+      "value": "many",
+      "rationale": "source-derived state links=many",
+      "status": "planned"
+    }
+  ]
+}

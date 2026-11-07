@@ -1783,6 +1783,60 @@
       "runner": "tests"
     },
     {
+      "description": "A slug with a reserved character is escaped so it stays one path segment instead of breaking out into a query string or a second segment.",
+      "file": "app/lib/readingLinks.test.ts",
+      "format": "vitest",
+      "key": "toReadingLinks › escapes reserved characters so the slug stays a single path segment",
+      "line": 35,
+      "registeredAt": "2026-11-07T00:05:21.586770+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "The ordinary case: a slug becomes an internal /writing/ path and the title becomes the visible label, so the essay opens on this site.",
+      "file": "app/lib/readingLinks.test.ts",
+      "format": "vitest",
+      "key": "toReadingLinks › maps a slug to an internal writing path and keeps the title as label",
+      "line": 7,
+      "registeredAt": "2026-11-07T00:05:21.586770+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "The href is always root-relative, never an external Substack URL — the link list treats these as same-tab internal links.",
+      "file": "app/lib/readingLinks.test.ts",
+      "format": "vitest",
+      "key": "toReadingLinks › never produces an external URL",
+      "line": 41,
+      "registeredAt": "2026-11-07T00:05:21.586770+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "The authored order is the order the reader sees, so it must survive.",
+      "file": "app/lib/readingLinks.test.ts",
+      "format": "vitest",
+      "key": "toReadingLinks › preserves the authored order of several entries",
+      "line": 14,
+      "registeredAt": "2026-11-07T00:05:21.586770+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "An empty list renders nothing upstream; the transform must not invent entries.",
+      "file": "app/lib/readingLinks.test.ts",
+      "format": "vitest",
+      "key": "toReadingLinks › returns an empty list for no entries",
+      "line": 24,
+      "registeredAt": "2026-11-07T00:05:21.586770+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Stray whitespace from hand-edited JSON must not leak into the URL as %20.",
+      "file": "app/lib/readingLinks.test.ts",
+      "format": "vitest",
+      "key": "toReadingLinks › trims whitespace around a slug",
+      "line": 29,
+      "registeredAt": "2026-11-07T00:05:21.586770+00:00",
+      "runner": "tests"
+    },
+    {
       "description": "The baseline: an ordinary note passes clean and hands back the parsed value, which is what the route persists.",
       "file": "app/lib/validateMessage.test.ts",
       "format": "vitest",

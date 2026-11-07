@@ -251,6 +251,13 @@
       ],
       "importedBy": []
     },
+    "app/isolated-components/AdventuresReading/page.tsx": {
+      "imports": [
+        "components/AdventuresReading.tsx",
+        "content/site.ts"
+      ],
+      "importedBy": []
+    },
     "app/isolated-components/AdvisoryCard/page.tsx": {
       "imports": [
         "components/work/AdvisoryCard.tsx",
@@ -721,6 +728,19 @@
         "prisma/seed.ts"
       ]
     },
+    "app/lib/readingLinks.test.ts": {
+      "imports": [
+        "app/lib/readingLinks.ts"
+      ],
+      "importedBy": []
+    },
+    "app/lib/readingLinks.ts": {
+      "imports": [],
+      "importedBy": [
+        "app/lib/readingLinks.test.ts",
+        "components/AdventuresReading.tsx"
+      ]
+    },
     "app/lib/sanitizePostHtml.test.ts": {
       "imports": [
         "app/lib/sanitizePostHtml.ts"
@@ -988,12 +1008,30 @@
         "content/site.ts",
         "components/PhotoRotator.tsx",
         "components/SectionHead.tsx",
+        "components/AdventuresReading.tsx",
         "components/Section.module.css",
         "components/Adventures.module.css"
       ],
       "importedBy": [
         "app/isolated-components/Adventures/page.tsx",
         "app/page.tsx"
+      ]
+    },
+    "components/AdventuresReading.module.css": {
+      "imports": [],
+      "importedBy": [
+        "components/AdventuresReading.tsx"
+      ]
+    },
+    "components/AdventuresReading.tsx": {
+      "imports": [
+        "app/lib/readingLinks.ts",
+        "components/work/WorkLinkList.tsx",
+        "components/AdventuresReading.module.css"
+      ],
+      "importedBy": [
+        "app/isolated-components/AdventuresReading/page.tsx",
+        "components/Adventures.tsx"
       ]
     },
     "components/Contact": {
@@ -1463,6 +1501,7 @@
       ],
       "importedBy": [
         "app/isolated-components/WorkLinkList/page.tsx",
+        "components/AdventuresReading.tsx",
         "components/work/WorkNarrative.tsx"
       ]
     },
@@ -1614,6 +1653,7 @@
         "app/isolated-components/SocialRow/page.tsx",
         "app/isolated-components/SentConfirmation/page.tsx",
         "app/isolated-components/AboutFacts/page.tsx",
+        "app/isolated-components/AdventuresReading/page.tsx",
         "app/isolated-components/TypedHeadline/page.tsx",
         "app/isolated-components/SubmitRow/page.tsx",
         "app/isolated-components/WorkNarrative/page.tsx",
@@ -1989,6 +2029,15 @@
       "name": "__file_root__",
       "imports": [
         "components/Adventures.tsx::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "app/isolated-components/AdventuresReading/page.tsx::__file_root__": {
+      "filePath": "app/isolated-components/AdventuresReading/page.tsx",
+      "name": "__file_root__",
+      "imports": [
+        "components/AdventuresReading.tsx::__file_root__",
+        "content/site.ts::__file_root__"
       ],
       "importedBy": []
     },
@@ -2747,6 +2796,31 @@
         "prisma/seed.ts::__file_root__"
       ]
     },
+    "app/lib/readingLinks.test.ts::__file_root__": {
+      "filePath": "app/lib/readingLinks.test.ts",
+      "name": "__file_root__",
+      "imports": [
+        "app/lib/readingLinks.ts::toReadingLinks"
+      ],
+      "importedBy": []
+    },
+    "app/lib/readingLinks.ts::ReadingEntry": {
+      "filePath": "app/lib/readingLinks.ts",
+      "name": "ReadingEntry",
+      "imports": [],
+      "importedBy": [
+        "components/AdventuresReading.tsx::__file_root__"
+      ]
+    },
+    "app/lib/readingLinks.ts::toReadingLinks": {
+      "filePath": "app/lib/readingLinks.ts",
+      "name": "toReadingLinks",
+      "imports": [],
+      "importedBy": [
+        "app/lib/readingLinks.test.ts::__file_root__",
+        "components/AdventuresReading.tsx::__file_root__"
+      ]
+    },
     "app/lib/sanitizePostHtml.test.ts::__file_root__": {
       "filePath": "app/lib/sanitizePostHtml.test.ts",
       "name": "__file_root__",
@@ -3191,8 +3265,36 @@
         "content/site.ts::__file_root__",
         "components/PhotoRotator.tsx::PhotoRotator",
         "components/SectionHead.tsx::SectionHead",
+        "components/AdventuresReading.tsx::AdventuresReading",
         "components/Section.module.css::__file_root__",
         "components/Adventures.module.css::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "components/AdventuresReading.module.css::__file_root__": {
+      "filePath": "components/AdventuresReading.module.css",
+      "name": "__file_root__",
+      "imports": [],
+      "importedBy": [
+        "components/AdventuresReading.tsx::__file_root__"
+      ]
+    },
+    "components/AdventuresReading.tsx::AdventuresReading": {
+      "filePath": "components/AdventuresReading.tsx",
+      "name": "AdventuresReading",
+      "imports": [],
+      "importedBy": [
+        "components/Adventures.tsx::__file_root__"
+      ]
+    },
+    "components/AdventuresReading.tsx::__file_root__": {
+      "filePath": "components/AdventuresReading.tsx",
+      "name": "__file_root__",
+      "imports": [
+        "app/lib/readingLinks.ts::ReadingEntry",
+        "app/lib/readingLinks.ts::toReadingLinks",
+        "components/work/WorkLinkList.tsx::WorkLinkList",
+        "components/AdventuresReading.module.css::__file_root__"
       ],
       "importedBy": []
     },
@@ -3947,5 +4049,5 @@
       "importedBy": []
     }
   },
-  "lastUpdated": "2026-11-06T23:14:27Z"
+  "lastUpdated": "2026-11-07T00:09:34Z"
 }

@@ -1,0 +1,283 @@
+{
+  "timestamp": "2026-11-07T00:19:42Z",
+  "title": "ne -- Link Adventures to the running essays",
+  "type": "feature",
+  "userRequest": "## Summary\n\nThe Adventures section talks about running (\"a slow, happy runner\") but links to nothing, while Nadia has written several running essays, including today's \"Racetoberfest Reflection: Four Races in Five Weekends.\" This plan adds a quiet \"Read about the running\" link list under the Adventures prose, pointing at those essays on `/writing`, so a reader who's interested can go further.\n\n## Key Decisions\n\n- **Curate the links in `content/site.json`, not by tag.** Substack has no tags in the feed, and the right set is an editorial choice. Store slugs and titles in a new optional `adventures.reading` field (`{ label, links: {slug, title}[] }`).\n- **Candidate list. Nadia confirms the final set and order in the preview:**\n  - `racetoberfest-reflection-four-races`: Racetoberfest Reflection: Four Races in Five Weekends\n  - `running-towards-and-past-35`: Running Towards (and Past) 35!\n  - `on-stubbornness-trail-running-and`: On Stubbornness, Trail Running, and Questionable Decisions\n  - `the-magic-of-attempting-hard-things`: The Magic of Attempting Hard Things (check that it belongs)\n- **Links go to internal `/writing/<slug>`,** same tab, like the homepage Writing list. This depends on writing on-site being deployed. If this plan ships first, use the `blog.nseldeib.com/p/<slug>` URLs instead.\n- **Match the Work section's link list visually** (`WorkLinkList` styling) rather than inventing a new pattern. But internal links shouldn't get `target=\"_blank\"`, so either give `WorkLinkList` an `external` flag or render a small sibling list. Decide during execution; prefer the flag if it stays small.\n- **Copy (label) is Nadia's to approve.** Placeholder: \"Read about the running\".\n\n## Implementation\n\n### 1. Content and type\n\n**File**: `content/site.json`, **File**: `content/site.ts`\n\nAdd `adventures.reading` with the curated links, and add the optional field to the `adventures` type.\n\n### 2. Render the list\n\n**File**: `components/Adventures.tsx`\n\nBelow the paragraphs in `section.body`, render the label and links when `adventures.reading` exists.\n\n### 3. Isolation scenario\n\n**File**: `app/isolated-components/Adventures/page.tsx`\n\nAdd scenarios with and without `reading`.\n\n## Reused existing code\n\n- `WorkLinkList` from `components/work/WorkLinkList.tsx` (glossary entry: `WorkLinkList`)\n- `Adventures` from `components/Adventures.tsx`\n- link-row styling in `components/Work.module.css`\n\n## Scenarios to Demonstrate\n\n- Adventures with three or four running links, desktop and mobile\n- Adventures with no `reading` field (unchanged from today)\n- A long title wrapping inside the narrow column beside the photo rotator",
+  "description": "The Adventures section now ends with a \"Recent Adventures: Read About My Running Shenanigans\" list linking to four running essays on the site (/writing/<slug>), driven by a new adventures.reading block in content/site.json. A new AdventuresReading component renders the list through WorkLinkList, which gained an external flag (default true, so existing work links are unchanged) and an optional className; slug-to-URL mapping lives in the tested app/lib/readingLinks.ts helper. Scope verdict: this cycle delivers a content enhancement outside the project deliverables list; all five project deliverables were already delivered and none are deferred here (three were marked by the agent in earlier cycles, not this one). Known caveat: the /writing/<slug> pages exist only on this branch, so the links 404 locally and until it deploys.",
+  "modifiedFiles": [
+    {
+      "path": ".codeyam/dependency-graph.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/glossary.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/per-test-evidence.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/ne--link-adventures-to-the-running-essays.md\t.codeyam/plans/completed/ne--link-adventures-to-the-running-essays.md",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/proposed-plans.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/adventures-default.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/.capture-pipeline.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/adventures-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/home-full-page--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/home-mobile--mobile.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/worklinklist-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/worklinklist-single--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/stack.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache/all.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache/blobs/78ac2c5a44590989fc78d38f6bdd652336c604dd4f5617c56314b509786eead3.json",
+      "status": "deleted"
+    },
+    {
+      "path": ".codeyam/test-cache/blobs/89ee0f268109de0473f5bb94441519ccbb92bab320af7c077506aa10edd25436.json",
+      "status": "deleted"
+    },
+    {
+      "path": ".codeyam/test-cache/blobs/c0346a061d1a30fe5c087eda13b14a9de8344b7091e6152d1d4e7337fa801373.json",
+      "status": "deleted"
+    },
+    {
+      "path": ".codeyam/test-registry.json",
+      "status": "modified"
+    },
+    {
+      "path": "components/Adventures.tsx",
+      "status": "modified"
+    },
+    {
+      "path": "components/work/WorkLinkList.tsx",
+      "status": "modified"
+    },
+    {
+      "path": "content/site.json",
+      "status": "modified"
+    },
+    {
+      "path": "content/site.ts",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/adventuresreading-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/adventuresreading-longtitles.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/adventuresreading-single.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/coverage-plan/adventures.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/coverage-plan/adventuresreading.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/adventuresreading-default--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/adventuresreading-longtitles--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/adventuresreading-single--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/test-cache/blobs/4b3551517ffea5e2db2d7c5cd34cd0b76c28e00abdc016cc077cbf5d7d7b7685.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/test-cache/blobs/aacae3471d3f9ce5dcdc5b648171aac17eeca6e56d824778fec7e979fbbef551.json",
+      "status": "added"
+    },
+    {
+      "path": "app/isolated-components/AdventuresReading/page.tsx",
+      "status": "added"
+    },
+    {
+      "path": "app/lib/readingLinks.test.ts",
+      "status": "added"
+    },
+    {
+      "path": "app/lib/readingLinks.ts",
+      "status": "added"
+    },
+    {
+      "path": "components/AdventuresReading.module.css",
+      "status": "added"
+    },
+    {
+      "path": "components/AdventuresReading.tsx",
+      "status": "added"
+    }
+  ],
+  "scenarioScreenshots": [
+    {
+      "name": "Home - Full page",
+      "screenshotPath": "home-full-page--desktop.png"
+    },
+    {
+      "name": "Home - Mobile",
+      "screenshotPath": "home-mobile--mobile.png"
+    },
+    {
+      "name": "Writing - Archive",
+      "screenshotPath": "writing-archive--desktop.png"
+    },
+    {
+      "name": "Writing - Post",
+      "screenshotPath": "writing-post--desktop.png"
+    },
+    {
+      "name": "About - Default",
+      "screenshotPath": "about-default--desktop.png"
+    },
+    {
+      "name": "Adventures - Default",
+      "screenshotPath": "adventures-default--desktop.png"
+    },
+    {
+      "name": "AdventuresReading - Default",
+      "screenshotPath": "adventuresreading-default--desktop.png"
+    },
+    {
+      "name": "AdventuresReading - LongTitles",
+      "screenshotPath": "adventuresreading-longtitles--desktop.png"
+    },
+    {
+      "name": "AdventuresReading - Single",
+      "screenshotPath": "adventuresreading-single--desktop.png"
+    },
+    {
+      "name": "Contact - Default",
+      "screenshotPath": "contact-default--desktop.png"
+    },
+    {
+      "name": "ContactForm - Default",
+      "screenshotPath": "contactform-default--desktop.png"
+    },
+    {
+      "name": "ContactForm - Mobile",
+      "screenshotPath": "contactform-mobile--mobile.png"
+    },
+    {
+      "name": "Elsewhere - Default",
+      "screenshotPath": "elsewhere-default--desktop.png"
+    },
+    {
+      "name": "Footer - Default",
+      "screenshotPath": "footer-default--desktop.png"
+    },
+    {
+      "name": "FooterPlace - CityOnly",
+      "screenshotPath": "footerplace-cityonly--desktop.png"
+    },
+    {
+      "name": "FooterPlace - Default",
+      "screenshotPath": "footerplace-default--desktop.png"
+    },
+    {
+      "name": "FooterSignoff - Default",
+      "screenshotPath": "footersignoff-default--desktop.png"
+    },
+    {
+      "name": "FooterSignoff - Linked",
+      "screenshotPath": "footersignoff-linked--desktop.png"
+    },
+    {
+      "name": "FooterSignoff - NoBrand",
+      "screenshotPath": "footersignoff-nobrand--desktop.png"
+    },
+    {
+      "name": "FooterSignoff - Unlinked",
+      "screenshotPath": "footersignoff-unlinked--desktop.png"
+    },
+    {
+      "name": "Hero - Default",
+      "screenshotPath": "hero-default--desktop.png"
+    },
+    {
+      "name": "NotFound - Default",
+      "screenshotPath": "notfound-default--desktop.png"
+    },
+    {
+      "name": "Work - Default",
+      "screenshotPath": "work-default--desktop.png"
+    },
+    {
+      "name": "WorkLinkList - Default",
+      "screenshotPath": "worklinklist-default--desktop.png"
+    },
+    {
+      "name": "WorkLinkList - Single",
+      "screenshotPath": "worklinklist-single--desktop.png"
+    },
+    {
+      "name": "WorkNarrative - Default",
+      "screenshotPath": "worknarrative-default--desktop.png"
+    },
+    {
+      "name": "Writing - Default",
+      "screenshotPath": "writing-default--desktop.png"
+    }
+  ],
+  "testResults": {
+    "total": 218,
+    "passed": 218,
+    "failed": 0,
+    "runners": [
+      {
+        "name": "tests",
+        "total": 218,
+        "passed": 218
+      }
+    ]
+  }
+}

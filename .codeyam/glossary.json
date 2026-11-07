@@ -24,6 +24,19 @@
     ]
   },
   {
+    "description": "Running-essays footnote under the Adventures prose: a mono label over a ruled list of internal same-tab /writing links; renders nothing when there are no essays.",
+    "filePath": "components/AdventuresReading.tsx",
+    "name": "AdventuresReading",
+    "scenarios": [
+      "adventuresreading-default",
+      "adventuresreading-single",
+      "adventuresreading-longtitles"
+    ],
+    "tags": [
+      "adventures"
+    ]
+  },
+  {
     "description": "The advisory offer. The specifics sit inside a details element: someone scanning needs the offer, someone who wants the scope will open it.",
     "filePath": "components/work/AdvisoryCard.tsx",
     "name": "AdvisoryCard",
@@ -955,6 +968,15 @@
       "writing"
     ],
     "testFile": "app/lib/posts.test.ts"
+  },
+  {
+    "description": "Maps authored Adventures essay entries {slug,title} to internal /writing/<slug> link items {href,label} for the ruled link list, preserving order, trimming and escaping the slug.",
+    "filePath": "app/lib/readingLinks.ts",
+    "name": "toReadingLinks",
+    "tags": [
+      "adventures"
+    ],
+    "testFile": "app/lib/readingLinks.test.ts"
   },
   {
     "description": "The 400 reply for a body that could not be parsed at all.",

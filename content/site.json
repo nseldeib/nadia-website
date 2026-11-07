@@ -191,6 +191,27 @@
       "When I moved to San Francisco in my early 20s, I finally learned to surf. I also started running, though my only race was Bay to Breakers (twice). Years later, I discovered the roads and trails of Colorado, and now run and surf in New York. Along the way, I picked up yoga, bouldering, and snowboarding. These days, I’m a fast, serious reader and a slow, happy runner.",
       "After nearly a decade on the West Coast and three years in Denver, I’m back east in New York City. Favorite adventures include hiking and safari in South Africa; surfing in Costa Rica, Mexico, Cornwall, Bali, and Del Mar, where I spent a couple of magical years; and exploring Cairo, Sydney, and New Zealand. I love semi-local adventures too, from Colorado mountain towns and fourteeners to exploring in and around New York City."
     ],
+    "reading": {
+      "label": "Recent Adventures: Read About My Running Shenanigans",
+      "links": [
+        {
+          "slug": "racetoberfest-reflection-four-races",
+          "title": "Racetoberfest Reflection: Four Races in Five Weekends"
+        },
+        {
+          "slug": "running-towards-and-past-35",
+          "title": "Running Towards (and Past) 35!"
+        },
+        {
+          "slug": "on-stubbornness-trail-running-and",
+          "title": "On Stubbornness, Trail Running, and Questionable Decisions"
+        },
+        {
+          "slug": "the-magic-of-attempting-hard-things",
+          "title": "The Magic of Attempting Hard Things"
+        }
+      ]
+    },
     "frames": [
       {
         "src": "/images/running-the-full-marathon-at-boulderthon.9a944bb0.jpg",

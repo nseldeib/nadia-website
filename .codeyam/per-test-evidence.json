@@ -1,10 +1,12 @@
 {
   "POST /api/contact › answers malformed JSON with 400": {
     "file": "app/api/contact/route.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
+      "pass|changed|2026-11-07T00:04:01.107Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -12,17 +14,17 @@
       "pass|changed|2026-11-06T15:11:51.090Z",
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
-      "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:19:26.697Z"
     ]
   },
   "POST /api/contact › rejects an invalid submission with 422 and saves nothing": {
     "file": "app/api/contact/route.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
+      "pass|changed|2026-11-07T00:04:01.107Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -30,17 +32,17 @@
       "pass|changed|2026-11-06T15:11:51.090Z",
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
-      "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:19:26.697Z"
     ]
   },
   "POST /api/contact › returns 500 and does not attempt delivery when the write fails": {
     "file": "app/api/contact/route.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
+      "pass|changed|2026-11-07T00:04:01.107Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -48,17 +50,17 @@
       "pass|changed|2026-11-06T15:11:51.090Z",
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
-      "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:19:26.697Z"
     ]
   },
   "POST /api/contact › saves the note and still returns 201 when delivery fails": {
     "file": "app/api/contact/route.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
+      "pass|changed|2026-11-07T00:04:01.107Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -66,17 +68,17 @@
       "pass|changed|2026-11-06T15:11:51.090Z",
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
-      "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:19:26.697Z"
     ]
   },
   "POST /api/contact › stamps emailedAt once delivery succeeds": {
     "file": "app/api/contact/route.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
+      "pass|changed|2026-11-07T00:04:01.107Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -84,17 +86,17 @@
       "pass|changed|2026-11-06T15:11:51.090Z",
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
-      "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:19:26.697Z"
     ]
   },
   "POST /api/contact › still returns 201 when stamping fails after a successful send": {
     "file": "app/api/contact/route.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
+      "pass|changed|2026-11-07T00:04:01.107Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -102,17 +104,17 @@
       "pass|changed|2026-11-06T15:11:51.090Z",
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
-      "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:19:26.697Z"
     ]
   },
   "POST /api/contact › writes nothing when the honeypot is tripped": {
     "file": "app/api/contact/route.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
+      "pass|changed|2026-11-07T00:04:01.107Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -120,17 +122,16 @@
       "pass|changed|2026-11-06T15:11:51.090Z",
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
-      "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:19:26.697Z"
     ]
   },
   "SITE_URL › is the bare apex over https, with no trailing slash": {
     "file": "app/lib/siteUrl.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -139,16 +140,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "SITE_URL › names the apex rather than a redirecting host": {
     "file": "app/lib/siteUrl.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -157,16 +158,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "adjacentPosts › previous is the next-older post and next is the next-newer one": {
     "file": "app/lib/posts.test.ts",
-    "lastRunAt": "2026-11-06T23:13:36.639Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T23:13:36.639Z",
       "pass|changed|2026-11-06T23:10:14.834Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
@@ -176,10 +177,11 @@
   },
   "adjacentPosts › returns nulls for an unknown slug": {
     "file": "app/lib/posts.test.ts",
-    "lastRunAt": "2026-11-06T23:13:36.639Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T23:13:36.639Z",
       "pass|changed|2026-11-06T23:10:14.834Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
@@ -189,10 +191,11 @@
   },
   "allPostSlugs › returns every stored slug, newest first": {
     "file": "app/lib/posts.test.ts",
-    "lastRunAt": "2026-11-06T23:13:36.639Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T23:13:36.639Z",
       "pass|changed|2026-11-06T23:10:14.834Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
@@ -202,10 +205,11 @@
   },
   "archivePageUrl › appends an encoded cursor for later pages": {
     "file": "app/lib/substackFeed.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -218,10 +222,11 @@
   },
   "archivePageUrl › builds the first page URL without a cursor": {
     "file": "app/lib/substackFeed.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -234,10 +239,11 @@
   },
   "archivePageUrl › never asks for more than the API accepts": {
     "file": "app/lib/substackFeed.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -250,10 +256,11 @@
   },
   "backfill-posts main › exits non-zero and still disconnects when the reconcile throws": {
     "file": "scripts/backfill-posts.test.ts",
-    "lastRunAt": "2026-11-06T23:13:36.639Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T23:13:36.639Z",
       "pass|changed|2026-11-06T23:10:14.834Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
@@ -263,10 +270,11 @@
   },
   "backfill-posts main › exits non-zero when the feed could not be read": {
     "file": "scripts/backfill-posts.test.ts",
-    "lastRunAt": "2026-11-06T23:13:36.639Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T23:13:36.639Z",
       "pass|changed|2026-11-06T23:10:14.834Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
@@ -277,10 +285,11 @@
   },
   "backfill-posts main › forces a full reconcile and reports the stored total": {
     "file": "scripts/backfill-posts.test.ts",
-    "lastRunAt": "2026-11-06T23:13:36.639Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T23:13:36.639Z",
       "pass|changed|2026-11-06T23:10:14.834Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
@@ -291,10 +300,11 @@
   },
   "buildSendPayload › carries the composed note as the plaintext part": {
     "file": "app/lib/sendNotification.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -303,16 +313,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "buildSendPayload › escapes the note inside the HTML part": {
     "file": "app/lib/sendNotification.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -321,16 +331,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "buildSendPayload › identifies the recipient by the inbox address": {
     "file": "app/lib/sendNotification.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -339,16 +349,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "buildSendPayload › puts the topic and the sender in the subject": {
     "file": "app/lib/sendNotification.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -357,16 +367,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "buildSendPayload › replies to the sender, and delivers to the configured inbox": {
     "file": "app/lib/sendNotification.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -375,16 +385,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "composeBody › omits the source line when there is no source page": {
     "file": "app/lib/sendNotification.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -393,16 +403,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "composeBody › puts the metadata first and the message last, verbatim": {
     "file": "app/lib/sendNotification.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -411,16 +421,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "contactResponses › answers a tripped honeypot exactly like a success": {
     "file": "app/lib/contactResponses.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -429,16 +439,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "contactResponses › answers unreadable input with 400": {
     "file": "app/lib/contactResponses.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -447,16 +457,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "contactResponses › reports the saved row with a 201": {
     "file": "app/lib/contactResponses.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -465,16 +475,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "contactResponses › returns the field problems with a 422": {
     "file": "app/lib/contactResponses.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -483,16 +493,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "contactResponses › says nothing was sent when the write failed": {
     "file": "app/lib/contactResponses.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -501,16 +511,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "deliverAndStamp › does not stamp when the provider rejects the send": {
     "file": "app/lib/deliverAndStamp.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -519,16 +529,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "deliverAndStamp › never throws, even when stamping blows up": {
     "file": "app/lib/deliverAndStamp.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -537,16 +547,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "deliverAndStamp › reports delivered-unstamped when the row update fails": {
     "file": "app/lib/deliverAndStamp.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -555,16 +565,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "deliverAndStamp › reports the provider reason on a failed send": {
     "file": "app/lib/deliverAndStamp.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -573,16 +583,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "deliverAndStamp › sends before it stamps": {
     "file": "app/lib/deliverAndStamp.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -591,16 +601,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "deliverAndStamp › stamps the saved row once the provider accepts": {
     "file": "app/lib/deliverAndStamp.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -609,16 +619,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "deliverAndStamp › works without an onProblem hook": {
     "file": "app/lib/deliverAndStamp.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -627,16 +637,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "describeError › falls back for a non-Error value": {
     "file": "app/lib/describeError.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -649,10 +659,11 @@
   },
   "describeError › falls back for an Error with an empty message": {
     "file": "app/lib/describeError.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -665,10 +676,11 @@
   },
   "describeError › uses the message of an Error": {
     "file": "app/lib/describeError.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -681,10 +693,11 @@
   },
   "describeSendFailure › includes the status and the provider detail": {
     "file": "app/lib/sendNotification.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -693,16 +706,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "describeSendFailure › omits the separator when there is no detail": {
     "file": "app/lib/sendNotification.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -711,16 +724,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "describeSendFailure › still reports the status when the body cannot be read": {
     "file": "app/lib/sendNotification.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -729,16 +742,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "describeSendFailure › truncates a long body": {
     "file": "app/lib/sendNotification.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -747,16 +760,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "escapeHtml › does not double-escape its own output": {
     "file": "app/lib/sendNotification.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -765,16 +778,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "escapeHtml › escapes the characters that could alter the markup": {
     "file": "app/lib/sendNotification.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -783,16 +796,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "excerptFromHtml › cuts long text on a word boundary with an ellipsis": {
     "file": "app/lib/sanitizePostHtml.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|full|2026-11-06T15:15:12.641Z"
@@ -800,10 +813,11 @@
   },
   "excerptFromHtml › hard-cuts a single word longer than the limit": {
     "file": "app/lib/sanitizePostHtml.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|full|2026-11-06T15:15:12.641Z"
@@ -811,10 +825,11 @@
   },
   "excerptFromHtml › puts a space between blocks so captions do not weld onto paragraphs": {
     "file": "app/lib/sanitizePostHtml.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -823,10 +838,11 @@
   },
   "excerptFromHtml › returns short text unchanged, without markup": {
     "file": "app/lib/sanitizePostHtml.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|full|2026-11-06T15:15:12.641Z"
@@ -834,10 +850,11 @@
   },
   "fetchArchiveIndex › fails when the first page fails": {
     "file": "app/lib/substackFeed.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -850,10 +867,11 @@
   },
   "fetchArchiveIndex › never throws on a network error": {
     "file": "app/lib/substackFeed.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -866,10 +884,11 @@
   },
   "fetchArchiveIndex › returns a partial list when a later page fails": {
     "file": "app/lib/substackFeed.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -882,10 +901,11 @@
   },
   "fetchArchiveIndex › stops at the page ceiling": {
     "file": "app/lib/substackFeed.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -898,10 +918,11 @@
   },
   "fetchArchiveIndex › walks the cursor until the last page": {
     "file": "app/lib/substackFeed.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -914,10 +935,11 @@
   },
   "fetchFeed › never throws on a network error": {
     "file": "app/lib/substackFeed.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -926,10 +948,11 @@
   },
   "fetchFeed › reports a non-2xx status without throwing": {
     "file": "app/lib/substackFeed.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|full|2026-11-06T15:15:12.641Z"
@@ -937,10 +960,11 @@
   },
   "fetchFeed › returns the parsed posts on success": {
     "file": "app/lib/substackFeed.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|full|2026-11-06T15:15:12.641Z"
@@ -948,10 +972,11 @@
   },
   "fetchFeed › treats a feed with no usable posts as a failure": {
     "file": "app/lib/substackFeed.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|full|2026-11-06T15:15:12.641Z"
@@ -959,10 +984,11 @@
   },
   "fetchPostBySlug › reports a non-2xx response": {
     "file": "app/lib/substackFeed.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -975,10 +1001,11 @@
   },
   "fetchPostBySlug › reports a post missing required fields": {
     "file": "app/lib/substackFeed.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -991,10 +1018,11 @@
   },
   "fetchPostBySlug › returns the parsed post": {
     "file": "app/lib/substackFeed.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -1007,10 +1035,12 @@
   },
   "findPost via generateMetadata › does not reconcile when the slug is already stored": {
     "file": "app/writing/[slug]/page.test.ts",
-    "lastRunAt": "2026-11-06T23:13:36.639Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
+      "pass|changed|2026-11-07T00:04:01.107Z",
       "pass|changed|2026-11-06T23:13:36.639Z",
       "pass|changed|2026-11-06T23:10:14.834Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
@@ -1021,10 +1051,12 @@
   },
   "findPost via generateMetadata › reconciles once and looks again for an unknown slug": {
     "file": "app/writing/[slug]/page.test.ts",
-    "lastRunAt": "2026-11-06T23:13:36.639Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
+      "pass|changed|2026-11-07T00:04:01.107Z",
       "pass|changed|2026-11-06T23:13:36.639Z",
       "pass|changed|2026-11-06T23:10:14.834Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
@@ -1035,10 +1067,11 @@
   },
   "formatPostDate › formats in UTC, not the local timezone": {
     "file": "app/lib/postDates.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|full|2026-11-06T15:15:12.641Z"
@@ -1046,10 +1079,11 @@
   },
   "formatPostDate › renders the short month-day form": {
     "file": "app/lib/postDates.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|full|2026-11-06T15:15:12.641Z"
@@ -1057,10 +1091,11 @@
   },
   "formatPostDateLong › formats in UTC, not the local timezone": {
     "file": "app/lib/postDates.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|full|2026-11-06T15:15:12.641Z"
@@ -1068,10 +1103,11 @@
   },
   "formatPostDateLong › spells out day, month and year": {
     "file": "app/lib/postDates.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|full|2026-11-06T15:15:12.641Z"
@@ -1079,10 +1115,12 @@
   },
   "generateMetadata › falls back to an excerpt of the body when there is no subtitle": {
     "file": "app/writing/[slug]/page.test.ts",
-    "lastRunAt": "2026-11-06T23:13:36.639Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
+      "pass|changed|2026-11-07T00:04:01.107Z",
       "pass|changed|2026-11-06T23:13:36.639Z",
       "pass|changed|2026-11-06T23:10:14.834Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
@@ -1092,10 +1130,12 @@
   },
   "generateMetadata › is self-canonical on this domain and uses the subtitle as description": {
     "file": "app/writing/[slug]/page.test.ts",
-    "lastRunAt": "2026-11-06T23:13:36.639Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
+      "pass|changed|2026-11-07T00:04:01.107Z",
       "pass|changed|2026-11-06T23:13:36.639Z",
       "pass|changed|2026-11-06T23:10:14.834Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
@@ -1105,10 +1145,12 @@
   },
   "generateMetadata › titles a missing post as not found": {
     "file": "app/writing/[slug]/page.test.ts",
-    "lastRunAt": "2026-11-06T23:13:36.639Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
+      "pass|changed|2026-11-07T00:04:01.107Z",
       "pass|changed|2026-11-06T23:13:36.639Z",
       "pass|changed|2026-11-06T23:10:14.834Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
@@ -1118,10 +1160,11 @@
   },
   "getPost › looks a post up by slug": {
     "file": "app/lib/posts.test.ts",
-    "lastRunAt": "2026-11-06T23:13:36.639Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T23:13:36.639Z",
       "pass|changed|2026-11-06T23:10:14.834Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
@@ -1131,10 +1174,11 @@
   },
   "groupPostsByYear › cuts a newest-first list where the year changes": {
     "file": "app/lib/postDates.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|full|2026-11-06T15:15:12.641Z"
@@ -1142,10 +1186,11 @@
   },
   "groupPostsByYear › preserves the order it was given": {
     "file": "app/lib/postDates.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -1154,10 +1199,11 @@
   },
   "groupPostsByYear › returns no groups for no posts": {
     "file": "app/lib/postDates.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|full|2026-11-06T15:15:12.641Z"
@@ -1165,50 +1211,59 @@
   },
   "homepage data wiring › does not run the sync during the render itself": {
     "file": "app/page.test.ts",
-    "lastRunAt": "2026-11-06T23:13:36.639Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
+      "pass|changed|2026-11-07T00:04:01.107Z",
       "pass|changed|2026-11-06T23:13:36.639Z",
       "pass|full|2026-11-06T23:11:47.194Z"
     ]
   },
   "homepage data wiring › reads three recent posts for the Writing section": {
     "file": "app/page.test.ts",
-    "lastRunAt": "2026-11-06T23:13:36.639Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
+      "pass|changed|2026-11-07T00:04:01.107Z",
       "pass|changed|2026-11-06T23:13:36.639Z",
       "pass|full|2026-11-06T23:11:47.194Z"
     ]
   },
   "homepage data wiring › schedules a quiet feed sync to run after the response": {
     "file": "app/page.test.ts",
-    "lastRunAt": "2026-11-06T23:13:36.639Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
+      "pass|changed|2026-11-07T00:04:01.107Z",
       "pass|changed|2026-11-06T23:13:36.639Z",
       "pass|full|2026-11-06T23:11:47.194Z"
     ]
   },
   "homepage data wiring › stays rendered per request": {
     "file": "app/page.test.ts",
-    "lastRunAt": "2026-11-06T23:13:36.639Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
+      "pass|changed|2026-11-07T00:04:01.107Z",
       "pass|changed|2026-11-06T23:13:36.639Z",
       "pass|full|2026-11-06T23:11:47.194Z"
     ]
   },
   "inBatches › calls fn once for every item": {
     "file": "app/lib/inBatches.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -1221,10 +1276,11 @@
   },
   "inBatches › does nothing for an empty list": {
     "file": "app/lib/inBatches.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -1237,10 +1293,11 @@
   },
   "inBatches › never has more than size calls in flight": {
     "file": "app/lib/inBatches.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -1253,10 +1310,11 @@
   },
   "inBatches › rejects when fn rejects": {
     "file": "app/lib/inBatches.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -1269,10 +1327,11 @@
   },
   "inBatches › treats a size below one as one": {
     "file": "app/lib/inBatches.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -1285,10 +1344,12 @@
   },
   "isHoneypotTripped › does not trip for an ordinary submission": {
     "file": "app/lib/contactRequest.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
+      "pass|changed|2026-11-07T00:04:01.107Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -1296,17 +1357,17 @@
       "pass|changed|2026-11-06T15:11:51.090Z",
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
-      "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:19:26.697Z"
     ]
   },
   "isHoneypotTripped › does not trip on whitespace alone": {
     "file": "app/lib/contactRequest.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
+      "pass|changed|2026-11-07T00:04:01.107Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -1314,17 +1375,17 @@
       "pass|changed|2026-11-06T15:11:51.090Z",
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
-      "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:19:26.697Z"
     ]
   },
   "isHoneypotTripped › survives payloads that are not objects": {
     "file": "app/lib/contactRequest.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
+      "pass|changed|2026-11-07T00:04:01.107Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -1332,17 +1393,17 @@
       "pass|changed|2026-11-06T15:11:51.090Z",
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
-      "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:19:26.697Z"
     ]
   },
   "isHoneypotTripped › trips when the hidden field has content": {
     "file": "app/lib/contactRequest.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
+      "pass|changed|2026-11-07T00:04:01.107Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -1350,17 +1411,16 @@
       "pass|changed|2026-11-06T15:11:51.090Z",
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
-      "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:19:26.697Z"
     ]
   },
   "listPosts › applies a limit when given one": {
     "file": "app/lib/posts.test.ts",
-    "lastRunAt": "2026-11-06T23:13:36.639Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T23:13:36.639Z",
       "pass|changed|2026-11-06T23:10:14.834Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
@@ -1370,10 +1430,11 @@
   },
   "listPosts › reads newest first without the body, uncapped by default": {
     "file": "app/lib/posts.test.ts",
-    "lastRunAt": "2026-11-06T23:13:36.639Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T23:13:36.639Z",
       "pass|changed|2026-11-06T23:10:14.834Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
@@ -1383,10 +1444,11 @@
   },
   "parseApiPost › maps a complete post onto the feed shape": {
     "file": "app/lib/substackFeed.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -1399,10 +1461,11 @@
   },
   "parseApiPost › rejects a body that is not a post": {
     "file": "app/lib/substackFeed.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -1415,10 +1478,11 @@
   },
   "parseApiPost › rejects a post missing any required field": {
     "file": "app/lib/substackFeed.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -1431,10 +1495,11 @@
   },
   "parseApiPost › turns a blank subtitle into null": {
     "file": "app/lib/substackFeed.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -1447,10 +1512,11 @@
   },
   "parseArchive › reads entries and the next cursor from one page": {
     "file": "app/lib/substackFeed.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -1463,10 +1529,11 @@
   },
   "parseArchive › reports no next cursor on the last page": {
     "file": "app/lib/substackFeed.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -1479,10 +1546,11 @@
   },
   "parseArchive › returns nothing for a body that is not an archive page": {
     "file": "app/lib/substackFeed.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -1495,10 +1563,11 @@
   },
   "parseArchive › skips entries missing slug, audience or a valid date": {
     "file": "app/lib/substackFeed.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -1511,10 +1580,11 @@
   },
   "parseFeed › parses a single item, which fast-xml-parser hands back as a bare object": {
     "file": "app/lib/substackFeed.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|full|2026-11-06T15:15:12.641Z"
@@ -1522,10 +1592,11 @@
   },
   "parseFeed › parses many items in feed order": {
     "file": "app/lib/substackFeed.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|full|2026-11-06T15:15:12.641Z"
@@ -1533,10 +1604,11 @@
   },
   "parseFeed › returns nothing for a feed with no items or non-feed XML": {
     "file": "app/lib/substackFeed.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|full|2026-11-06T15:15:12.641Z"
@@ -1544,10 +1616,11 @@
   },
   "parseFeed › skips items missing a slug, title, date, or body": {
     "file": "app/lib/substackFeed.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -1556,10 +1629,11 @@
   },
   "parseFeed › stores an empty description as a null subtitle": {
     "file": "app/lib/substackFeed.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|full|2026-11-06T15:15:12.641Z"
@@ -1567,10 +1641,11 @@
   },
   "pickActive › can return the last section": {
     "file": "app/lib/activeSection.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -1579,16 +1654,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "pickActive › does not depend on the order ids were added to the set": {
     "file": "app/lib/activeSection.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -1597,16 +1672,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "pickActive › ignores ids that are not in the ordered list": {
     "file": "app/lib/activeSection.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -1615,16 +1690,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "pickActive › is null when nothing is visible": {
     "file": "app/lib/activeSection.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -1633,16 +1708,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "pickActive › is null when there is no ordered list": {
     "file": "app/lib/activeSection.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -1651,16 +1726,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "pickActive › prefers the earliest in document order when several are visible": {
     "file": "app/lib/activeSection.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -1669,16 +1744,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "pickActive › returns the one visible section": {
     "file": "app/lib/activeSection.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -1687,16 +1762,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "postYear › reads the UTC year": {
     "file": "app/lib/postDates.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|full|2026-11-06T15:15:12.641Z"
@@ -1704,10 +1779,12 @@
   },
   "readJsonBody › accepts valid JSON that is not an object": {
     "file": "app/lib/contactRequest.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
+      "pass|changed|2026-11-07T00:04:01.107Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -1715,17 +1792,17 @@
       "pass|changed|2026-11-06T15:11:51.090Z",
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
-      "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:19:26.697Z"
     ]
   },
   "readJsonBody › reports failure instead of throwing on malformed JSON": {
     "file": "app/lib/contactRequest.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
+      "pass|changed|2026-11-07T00:04:01.107Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -1733,17 +1810,17 @@
       "pass|changed|2026-11-06T15:11:51.090Z",
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
-      "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:19:26.697Z"
     ]
   },
   "readJsonBody › reports failure on an empty body": {
     "file": "app/lib/contactRequest.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
+      "pass|changed|2026-11-07T00:04:01.107Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -1751,17 +1828,17 @@
       "pass|changed|2026-11-06T15:11:51.090Z",
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
-      "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:19:26.697Z"
     ]
   },
   "readJsonBody › returns the parsed payload for valid JSON": {
     "file": "app/lib/contactRequest.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
+      "pass|changed|2026-11-07T00:04:01.107Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -1769,17 +1846,16 @@
       "pass|changed|2026-11-06T15:11:51.090Z",
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
-      "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:19:26.697Z"
     ]
   },
   "readMailConfig › names every missing variable without revealing any value": {
     "file": "app/lib/sendNotification.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -1788,16 +1864,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "readMailConfig › names only the one that is absent": {
     "file": "app/lib/sendNotification.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -1806,16 +1882,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "readMailConfig › returns the config once all three are present": {
     "file": "app/lib/sendNotification.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -1824,16 +1900,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "readMailConfig › treats an empty string as unset": {
     "file": "app/lib/sendNotification.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -1842,16 +1918,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "recentPostsForHome › returns an empty list instead of throwing": {
     "file": "app/lib/posts.test.ts",
-    "lastRunAt": "2026-11-06T23:13:36.639Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T23:13:36.639Z",
       "pass|changed|2026-11-06T23:10:14.834Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
@@ -1862,10 +1938,11 @@
   },
   "recentPostsForHome › returns the three most recent posts": {
     "file": "app/lib/posts.test.ts",
-    "lastRunAt": "2026-11-06T23:13:36.639Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T23:13:36.639Z",
       "pass|changed|2026-11-06T23:10:14.834Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
@@ -1875,10 +1952,11 @@
   },
   "reconcileWithinDeadline › returns the sync result when it finishes in time": {
     "file": "app/lib/posts.test.ts",
-    "lastRunAt": "2026-11-06T23:13:36.639Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T23:13:36.639Z",
       "pass|changed|2026-11-06T23:10:14.834Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
@@ -1888,10 +1966,11 @@
   },
   "reconcileWithinDeadline › stops waiting at the deadline": {
     "file": "app/lib/posts.test.ts",
-    "lastRunAt": "2026-11-06T23:13:36.639Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T23:13:36.639Z",
       "pass|changed|2026-11-06T23:10:14.834Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
@@ -1901,10 +1980,11 @@
   },
   "reconcileWithinDeadline › turns a thrown reconcile into a failed result": {
     "file": "app/lib/posts.test.ts",
-    "lastRunAt": "2026-11-06T23:13:36.639Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T23:13:36.639Z",
       "pass|changed|2026-11-06T23:10:14.834Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
@@ -1914,10 +1994,11 @@
   },
   "requireConnectionString › names where the value belongs": {
     "file": "app/lib/prismaConnection.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -1926,16 +2007,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "requireConnectionString › returns the connection string when it is set": {
     "file": "app/lib/prismaConnection.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -1944,16 +2025,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "requireConnectionString › states the default port when the string leaves it out": {
     "file": "app/lib/prismaConnection.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -1962,10 +2043,11 @@
   },
   "requireConnectionString › throws when DATABASE_URL is absent": {
     "file": "app/lib/prismaConnection.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -1974,16 +2056,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "requireConnectionString › treats an empty string as unset": {
     "file": "app/lib/prismaConnection.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -1992,16 +2074,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "robots › disallows nothing, so it cannot advertise the isolation routes": {
     "file": "app/robots.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -2010,16 +2092,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "robots › lets every crawler read the whole site": {
     "file": "app/robots.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -2028,16 +2110,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "robots › points at the sitemap on the canonical host": {
     "file": "app/robots.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -2046,16 +2128,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "sanitizePostHtml › drops Substack subscribe forms and buttons along with their text": {
     "file": "app/lib/sanitizePostHtml.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -2064,10 +2146,11 @@
   },
   "sanitizePostHtml › drops javascript: hrefs": {
     "file": "app/lib/sanitizePostHtml.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|full|2026-11-06T15:15:12.641Z"
@@ -2075,10 +2158,11 @@
   },
   "sanitizePostHtml › keeps the essay vocabulary": {
     "file": "app/lib/sanitizePostHtml.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|full|2026-11-06T15:15:12.641Z"
@@ -2086,10 +2170,11 @@
   },
   "sanitizePostHtml › keeps the img from a picture wrapper with its srcset": {
     "file": "app/lib/sanitizePostHtml.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -2098,10 +2183,11 @@
   },
   "sanitizePostHtml › leaves non-http links alone": {
     "file": "app/lib/sanitizePostHtml.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|full|2026-11-06T15:15:12.641Z"
@@ -2109,10 +2195,11 @@
   },
   "sanitizePostHtml › opens external links in a new tab with a safe rel": {
     "file": "app/lib/sanitizePostHtml.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|full|2026-11-06T15:15:12.641Z"
@@ -2120,10 +2207,11 @@
   },
   "sanitizePostHtml › removes scripts and svg controls entirely": {
     "file": "app/lib/sanitizePostHtml.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|full|2026-11-06T15:15:12.641Z"
@@ -2131,10 +2219,11 @@
   },
   "sanitizePostHtml › strips class attributes from allowed tags": {
     "file": "app/lib/sanitizePostHtml.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|full|2026-11-06T15:15:12.641Z"
@@ -2142,10 +2231,11 @@
   },
   "sanitizePostHtml › unwraps layout divs but keeps their text": {
     "file": "app/lib/sanitizePostHtml.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|full|2026-11-06T15:15:12.641Z"
@@ -2153,10 +2243,11 @@
   },
   "selectBackfillCandidates › drops posts already in the feed": {
     "file": "app/lib/posts.test.ts",
-    "lastRunAt": "2026-11-06T23:13:36.639Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T23:13:36.639Z",
       "pass|changed|2026-11-06T23:10:14.834Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
@@ -2165,16 +2256,16 @@
       "pass|changed|2026-11-06T15:13:23.681Z",
       "pass|changed|2026-11-06T15:11:51.090Z",
       "pass|changed|2026-11-06T15:10:25.118Z",
-      "pass|changed|2026-11-06T14:29:44.226Z",
-      "pass|changed|2026-11-06T02:19:26.697Z"
+      "pass|changed|2026-11-06T14:29:44.226Z"
     ]
   },
   "selectBackfillCandidates › keeps only public posts": {
     "file": "app/lib/posts.test.ts",
-    "lastRunAt": "2026-11-06T23:13:36.639Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T23:13:36.639Z",
       "pass|changed|2026-11-06T23:10:14.834Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
@@ -2183,16 +2274,16 @@
       "pass|changed|2026-11-06T15:13:23.681Z",
       "pass|changed|2026-11-06T15:11:51.090Z",
       "pass|changed|2026-11-06T15:10:25.118Z",
-      "pass|changed|2026-11-06T14:29:44.226Z",
-      "pass|changed|2026-11-06T02:19:26.697Z"
+      "pass|changed|2026-11-06T14:29:44.226Z"
     ]
   },
   "selectBackfillCandidates › returns nothing for an empty archive": {
     "file": "app/lib/posts.test.ts",
-    "lastRunAt": "2026-11-06T23:13:36.639Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T23:13:36.639Z",
       "pass|changed|2026-11-06T23:10:14.834Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
@@ -2201,16 +2292,16 @@
       "pass|changed|2026-11-06T15:13:23.681Z",
       "pass|changed|2026-11-06T15:11:51.090Z",
       "pass|changed|2026-11-06T15:10:25.118Z",
-      "pass|changed|2026-11-06T14:29:44.226Z",
-      "pass|changed|2026-11-06T02:19:26.697Z"
+      "pass|changed|2026-11-06T14:29:44.226Z"
     ]
   },
   "sendUrl › defaults to the US host": {
     "file": "app/lib/sendNotification.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -2219,16 +2310,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "sendUrl › falls back to US for an unrecognised region": {
     "file": "app/lib/sendNotification.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -2237,16 +2328,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "sendUrl › uses the EU host when the region says so, case-insensitively": {
     "file": "app/lib/sendNotification.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -2255,16 +2346,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "siteUrl › joins a root-relative path without doubling the slash": {
     "file": "app/lib/siteUrl.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -2273,16 +2364,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "siteUrl › never emits a doubled slash after the origin": {
     "file": "app/lib/siteUrl.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -2291,16 +2382,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "siteUrl › returns the bare origin for the site root": {
     "file": "app/lib/siteUrl.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -2309,16 +2400,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "siteUrl › tolerates a path given without its leading slash": {
     "file": "app/lib/siteUrl.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -2327,16 +2418,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "sitemap › advertises no host that only redirects": {
     "file": "app/sitemap.test.ts",
-    "lastRunAt": "2026-11-06T23:13:36.639Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T23:13:36.639Z",
       "pass|changed|2026-11-06T23:10:14.834Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
@@ -2345,16 +2436,16 @@
       "pass|changed|2026-11-06T15:13:23.681Z",
       "pass|changed|2026-11-06T15:11:51.090Z",
       "pass|changed|2026-11-06T15:10:25.118Z",
-      "pass|changed|2026-11-06T14:29:44.226Z",
-      "pass|changed|2026-11-06T02:19:26.697Z"
+      "pass|changed|2026-11-06T14:29:44.226Z"
     ]
   },
   "sitemap › gives the homepage top priority": {
     "file": "app/sitemap.test.ts",
-    "lastRunAt": "2026-11-06T23:13:36.639Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T23:13:36.639Z",
       "pass|changed|2026-11-06T23:10:14.834Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
@@ -2363,16 +2454,16 @@
       "pass|changed|2026-11-06T15:13:23.681Z",
       "pass|changed|2026-11-06T15:11:51.090Z",
       "pass|changed|2026-11-06T15:10:25.118Z",
-      "pass|changed|2026-11-06T14:29:44.226Z",
-      "pass|changed|2026-11-06T02:19:26.697Z"
+      "pass|changed|2026-11-06T14:29:44.226Z"
     ]
   },
   "sitemap › is revalidated on the feed cadence rather than frozen at build": {
     "file": "app/sitemap.test.ts",
-    "lastRunAt": "2026-11-06T23:14:14.007Z",
-    "lastRunKind": "targeted",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
+    "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|targeted|2026-11-06T23:14:14.007Z",
       "fail|targeted|2026-11-06T23:14:08.634Z",
       "pass|changed|2026-11-06T23:13:36.639Z",
@@ -2381,10 +2472,11 @@
   },
   "sitemap › lists the homepage, the archive, and one entry per post": {
     "file": "app/sitemap.test.ts",
-    "lastRunAt": "2026-11-06T23:13:36.639Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T23:13:36.639Z",
       "pass|changed|2026-11-06T23:10:14.834Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
@@ -2393,16 +2485,16 @@
       "pass|changed|2026-11-06T15:13:23.681Z",
       "pass|changed|2026-11-06T15:11:51.090Z",
       "pass|changed|2026-11-06T15:10:25.118Z",
-      "pass|changed|2026-11-06T14:29:44.226Z",
-      "pass|changed|2026-11-06T02:19:26.697Z"
+      "pass|changed|2026-11-06T14:29:44.226Z"
     ]
   },
   "sitemap › stamps every entry with a real date, dating posts by publication": {
     "file": "app/sitemap.test.ts",
-    "lastRunAt": "2026-11-06T23:13:36.639Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T23:13:36.639Z",
       "pass|changed|2026-11-06T23:10:14.834Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
@@ -2411,16 +2503,16 @@
       "pass|changed|2026-11-06T15:13:23.681Z",
       "pass|changed|2026-11-06T15:11:51.090Z",
       "pass|changed|2026-11-06T15:10:25.118Z",
-      "pass|changed|2026-11-06T14:29:44.226Z",
-      "pass|changed|2026-11-06T02:19:26.697Z"
+      "pass|changed|2026-11-06T14:29:44.226Z"
     ]
   },
   "sitemap › still serves the fixed routes when the store cannot be read": {
     "file": "app/sitemap.test.ts",
-    "lastRunAt": "2026-11-06T23:13:36.639Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T23:13:36.639Z",
       "pass|changed|2026-11-06T23:10:14.834Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
@@ -2429,16 +2521,16 @@
       "pass|changed|2026-11-06T15:13:23.681Z",
       "pass|changed|2026-11-06T15:11:51.090Z",
       "pass|changed|2026-11-06T15:10:25.118Z",
-      "pass|changed|2026-11-06T14:29:44.226Z",
-      "pass|changed|2026-11-06T02:19:26.697Z"
+      "pass|changed|2026-11-06T14:29:44.226Z"
     ]
   },
   "slugFromLink › ignores a query string or fragment": {
     "file": "app/lib/substackFeed.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|full|2026-11-06T15:15:12.641Z"
@@ -2446,10 +2538,11 @@
   },
   "slugFromLink › returns null for a link that is not a post": {
     "file": "app/lib/substackFeed.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|full|2026-11-06T15:15:12.641Z"
@@ -2457,10 +2550,11 @@
   },
   "slugFromLink › takes the slug Substack already uses": {
     "file": "app/lib/substackFeed.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|full|2026-11-06T15:15:12.641Z"
@@ -2468,10 +2562,11 @@
   },
   "splitOnBrand › handles the brand at the start or the end": {
     "file": "app/lib/text.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -2480,16 +2575,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "splitOnBrand › is case-sensitive": {
     "file": "app/lib/text.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -2498,16 +2593,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "splitOnBrand › reassembles to the original string": {
     "file": "app/lib/text.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -2516,16 +2611,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "splitOnBrand › returns the whole string when the brand is absent": {
     "file": "app/lib/text.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -2534,16 +2629,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "splitOnBrand › splits a sentence around the brand": {
     "file": "app/lib/text.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -2552,16 +2647,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "splitOnBrand › splits on the first occurrence only": {
     "file": "app/lib/text.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -2570,16 +2665,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "splitOnBrand › survives empty input": {
     "file": "app/lib/text.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -2588,16 +2683,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "storeIsFresh via syncPostsFromFeed › consults the feed when the newest row is older than the window": {
     "file": "app/lib/posts.test.ts",
-    "lastRunAt": "2026-11-06T23:13:36.639Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T23:13:36.639Z",
       "pass|changed|2026-11-06T23:10:14.834Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
@@ -2607,10 +2702,11 @@
   },
   "storeIsFresh via syncPostsFromFeed › consults the feed when the store is empty": {
     "file": "app/lib/posts.test.ts",
-    "lastRunAt": "2026-11-06T23:13:36.639Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T23:13:36.639Z",
       "pass|changed|2026-11-06T23:10:14.834Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
@@ -2620,10 +2716,11 @@
   },
   "storeIsFresh via syncPostsFromFeed › skips the feed when the newest row was updated within the revalidate window": {
     "file": "app/lib/posts.test.ts",
-    "lastRunAt": "2026-11-06T23:13:36.639Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T23:13:36.639Z",
       "pass|changed|2026-11-06T23:10:14.834Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
@@ -2633,10 +2730,12 @@
   },
   "str › returns empty for a non-string": {
     "file": "app/lib/validateMessage.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
+      "pass|changed|2026-11-07T00:04:01.107Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -2644,17 +2743,17 @@
       "pass|changed|2026-11-06T15:11:51.090Z",
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
-      "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:19:26.697Z"
     ]
   },
   "str › trims a string": {
     "file": "app/lib/validateMessage.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
+      "pass|changed|2026-11-07T00:04:01.107Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -2662,17 +2761,16 @@
       "pass|changed|2026-11-06T15:11:51.090Z",
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
-      "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:19:26.697Z"
     ]
   },
   "submitMessage › POSTs JSON to the contact route with sourcePage attached": {
     "file": "app/lib/submitMessage.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -2681,16 +2779,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "submitMessage › falls back to a message when the error body is unreadable": {
     "file": "app/lib/submitMessage.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -2699,16 +2797,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "submitMessage › passes through the server error message on a 500": {
     "file": "app/lib/submitMessage.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -2717,16 +2815,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "submitMessage › reports a failure when fetch throws": {
     "file": "app/lib/submitMessage.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -2735,16 +2833,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "submitMessage › reports sent on a 2xx": {
     "file": "app/lib/submitMessage.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -2753,16 +2851,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "submitMessage › surfaces per-field problems from a 422": {
     "file": "app/lib/submitMessage.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -2771,16 +2869,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "submitMessage › treats a 422 without problems as a failure": {
     "file": "app/lib/submitMessage.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -2789,16 +2887,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "summarize › counts delivered and undelivered separately": {
     "file": "prisma/seedRows.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -2807,16 +2905,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "summarize › reads correctly for an empty set": {
     "file": "prisma/seedRows.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -2825,16 +2923,16 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
     ]
   },
   "syncPostsFromFeed backfill › backfills posts that have aged out of the RSS window": {
     "file": "app/lib/posts.test.ts",
-    "lastRunAt": "2026-11-06T23:13:36.639Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T23:13:36.639Z",
       "pass|changed|2026-11-06T23:10:14.834Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
@@ -2843,16 +2941,16 @@
       "pass|changed|2026-11-06T15:13:23.681Z",
       "pass|changed|2026-11-06T15:11:51.090Z",
       "pass|changed|2026-11-06T15:10:25.118Z",
-      "pass|changed|2026-11-06T14:29:44.226Z",
-      "pass|changed|2026-11-06T02:19:26.697Z"
+      "pass|changed|2026-11-06T14:29:44.226Z"
     ]
   },
   "syncPostsFromFeed backfill › does not backfill when the feed itself fails": {
     "file": "app/lib/posts.test.ts",
-    "lastRunAt": "2026-11-06T23:13:36.639Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T23:13:36.639Z",
       "pass|changed|2026-11-06T23:10:14.834Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
@@ -2861,16 +2959,16 @@
       "pass|changed|2026-11-06T15:13:23.681Z",
       "pass|changed|2026-11-06T15:11:51.090Z",
       "pass|changed|2026-11-06T15:10:25.118Z",
-      "pass|changed|2026-11-06T14:29:44.226Z",
-      "pass|changed|2026-11-06T02:19:26.697Z"
+      "pass|changed|2026-11-06T14:29:44.226Z"
     ]
   },
   "syncPostsFromFeed backfill › never throws when a backfill write fails": {
     "file": "app/lib/posts.test.ts",
-    "lastRunAt": "2026-11-06T23:13:36.639Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T23:13:36.639Z",
       "pass|changed|2026-11-06T23:10:14.834Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
@@ -2879,16 +2977,16 @@
       "pass|changed|2026-11-06T15:13:23.681Z",
       "pass|changed|2026-11-06T15:11:51.090Z",
       "pass|changed|2026-11-06T15:10:25.118Z",
-      "pass|changed|2026-11-06T14:29:44.226Z",
-      "pass|changed|2026-11-06T02:19:26.697Z"
+      "pass|changed|2026-11-06T14:29:44.226Z"
     ]
   },
   "syncPostsFromFeed backfill › reports an archive failure without losing the feed results": {
     "file": "app/lib/posts.test.ts",
-    "lastRunAt": "2026-11-06T23:13:36.639Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T23:13:36.639Z",
       "pass|changed|2026-11-06T23:10:14.834Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
@@ -2897,16 +2995,16 @@
       "pass|changed|2026-11-06T15:13:23.681Z",
       "pass|changed|2026-11-06T15:11:51.090Z",
       "pass|changed|2026-11-06T15:10:25.118Z",
-      "pass|changed|2026-11-06T14:29:44.226Z",
-      "pass|changed|2026-11-06T02:19:26.697Z"
+      "pass|changed|2026-11-06T14:29:44.226Z"
     ]
   },
   "syncPostsFromFeed backfill › skips archive posts the store already holds": {
     "file": "app/lib/posts.test.ts",
-    "lastRunAt": "2026-11-06T23:13:36.639Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T23:13:36.639Z",
       "pass|changed|2026-11-06T23:10:14.834Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
@@ -2915,16 +3013,16 @@
       "pass|changed|2026-11-06T15:13:23.681Z",
       "pass|changed|2026-11-06T15:11:51.090Z",
       "pass|changed|2026-11-06T15:10:25.118Z",
-      "pass|changed|2026-11-06T14:29:44.226Z",
-      "pass|changed|2026-11-06T02:19:26.697Z"
+      "pass|changed|2026-11-06T14:29:44.226Z"
     ]
   },
   "syncPostsFromFeed backfill › stores the posts it can and reports the ones it cannot": {
     "file": "app/lib/posts.test.ts",
-    "lastRunAt": "2026-11-06T23:13:36.639Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T23:13:36.639Z",
       "pass|changed|2026-11-06T23:10:14.834Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
@@ -2933,166 +3031,61 @@
       "pass|changed|2026-11-06T15:13:23.681Z",
       "pass|changed|2026-11-06T15:11:51.090Z",
       "pass|changed|2026-11-06T15:10:25.118Z",
-      "pass|changed|2026-11-06T14:29:44.226Z",
-      "pass|changed|2026-11-06T02:19:26.697Z"
+      "pass|changed|2026-11-06T14:29:44.226Z"
     ]
   },
   "syncPostsQuietly › respects the freshness skip": {
     "file": "app/lib/posts.test.ts",
-    "lastRunAt": "2026-11-06T23:13:36.639Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T23:13:36.639Z",
       "pass|full|2026-11-06T23:11:47.194Z"
     ]
   },
   "syncPostsQuietly › runs the reconcile and resolves to nothing": {
     "file": "app/lib/posts.test.ts",
-    "lastRunAt": "2026-11-06T23:13:36.639Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T23:13:36.639Z",
       "pass|full|2026-11-06T23:11:47.194Z"
     ]
   },
   "syncPostsQuietly › swallows a failed write after the feed was fetched": {
     "file": "app/lib/posts.test.ts",
-    "lastRunAt": "2026-11-06T23:13:36.639Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T23:13:36.639Z",
       "pass|full|2026-11-06T23:11:47.194Z"
     ]
   },
   "syncPostsQuietly › swallows a thrown reconcile": {
     "file": "app/lib/posts.test.ts",
-    "lastRunAt": "2026-11-06T23:13:36.639Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T23:13:36.639Z",
       "pass|full|2026-11-06T23:11:47.194Z"
     ]
   },
   "the topic allow-list and the form agree › accepts every topic the form actually offers": {
     "file": "app/lib/validateMessage.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
-      "pass|changed|2026-11-06T22:26:38.658Z",
-      "pass|changed|2026-11-06T15:15:37.671Z",
-      "pass|changed|2026-11-06T15:15:04.946Z",
-      "pass|changed|2026-11-06T15:13:23.681Z",
-      "pass|changed|2026-11-06T15:11:51.090Z",
-      "pass|changed|2026-11-06T15:10:25.118Z",
-      "pass|changed|2026-11-06T14:29:44.226Z",
-      "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
-    ]
-  },
-  "the topic allow-list and the form agree › accepts the chip the form selects by default": {
-    "file": "app/lib/validateMessage.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
-    "lastRunKind": "changed",
-    "lastStatus": "pass",
-    "statusRing": [
-      "pass|changed|2026-11-06T22:26:38.658Z",
-      "pass|changed|2026-11-06T15:15:37.671Z",
-      "pass|changed|2026-11-06T15:15:04.946Z",
-      "pass|changed|2026-11-06T15:13:23.681Z",
-      "pass|changed|2026-11-06T15:11:51.090Z",
-      "pass|changed|2026-11-06T15:10:25.118Z",
-      "pass|changed|2026-11-06T14:29:44.226Z",
-      "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
-    ]
-  },
-  "toMessageRow › converts both timestamps when present": {
-    "file": "prisma/seedRows.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
-    "lastRunKind": "changed",
-    "lastStatus": "pass",
-    "statusRing": [
-      "pass|changed|2026-11-06T22:26:38.658Z",
-      "pass|changed|2026-11-06T15:15:37.671Z",
-      "pass|changed|2026-11-06T15:15:04.946Z",
-      "pass|changed|2026-11-06T15:13:23.681Z",
-      "pass|changed|2026-11-06T15:11:51.090Z",
-      "pass|changed|2026-11-06T15:10:25.118Z",
-      "pass|changed|2026-11-06T14:29:44.226Z",
-      "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
-    ]
-  },
-  "toMessageRow › distinguishes an absent createdAt from an absent emailedAt": {
-    "file": "prisma/seedRows.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
-    "lastRunKind": "changed",
-    "lastStatus": "pass",
-    "statusRing": [
-      "pass|changed|2026-11-06T22:26:38.658Z",
-      "pass|changed|2026-11-06T15:15:37.671Z",
-      "pass|changed|2026-11-06T15:15:04.946Z",
-      "pass|changed|2026-11-06T15:13:23.681Z",
-      "pass|changed|2026-11-06T15:11:51.090Z",
-      "pass|changed|2026-11-06T15:10:25.118Z",
-      "pass|changed|2026-11-06T14:29:44.226Z",
-      "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
-    ]
-  },
-  "toMessageRow › keeps an explicit null emailedAt": {
-    "file": "prisma/seedRows.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
-    "lastRunKind": "changed",
-    "lastStatus": "pass",
-    "statusRing": [
-      "pass|changed|2026-11-06T22:26:38.658Z",
-      "pass|changed|2026-11-06T15:15:37.671Z",
-      "pass|changed|2026-11-06T15:15:04.946Z",
-      "pass|changed|2026-11-06T15:13:23.681Z",
-      "pass|changed|2026-11-06T15:11:51.090Z",
-      "pass|changed|2026-11-06T15:10:25.118Z",
-      "pass|changed|2026-11-06T14:29:44.226Z",
-      "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
-    ]
-  },
-  "toMessageRow › normalises a missing sourcePage to null": {
-    "file": "prisma/seedRows.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
-    "lastRunKind": "changed",
-    "lastStatus": "pass",
-    "statusRing": [
-      "pass|changed|2026-11-06T22:26:38.658Z",
-      "pass|changed|2026-11-06T15:15:37.671Z",
-      "pass|changed|2026-11-06T15:15:04.946Z",
-      "pass|changed|2026-11-06T15:13:23.681Z",
-      "pass|changed|2026-11-06T15:11:51.090Z",
-      "pass|changed|2026-11-06T15:10:25.118Z",
-      "pass|changed|2026-11-06T14:29:44.226Z",
-      "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
-    ]
-  },
-  "toPostRow › sanitizes the body and keeps every other field": {
-    "file": "app/lib/posts.test.ts",
-    "lastRunAt": "2026-11-06T23:13:36.639Z",
-    "lastRunKind": "changed",
-    "lastStatus": "pass",
-    "statusRing": [
-      "pass|changed|2026-11-06T23:13:36.639Z",
-      "pass|changed|2026-11-06T23:10:14.834Z",
+      "pass|changed|2026-11-07T00:05:13.310Z",
+      "pass|changed|2026-11-07T00:04:01.107Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -3103,12 +3096,31 @@
       "pass|changed|2026-11-06T02:19:26.697Z"
     ]
   },
-  "validateMessage › accepts a well-formed message": {
+  "the topic allow-list and the form agree › accepts the chip the form selects by default": {
     "file": "app/lib/validateMessage.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
+      "pass|changed|2026-11-07T00:04:01.107Z",
+      "pass|changed|2026-11-06T22:26:38.658Z",
+      "pass|changed|2026-11-06T15:15:37.671Z",
+      "pass|changed|2026-11-06T15:15:04.946Z",
+      "pass|changed|2026-11-06T15:13:23.681Z",
+      "pass|changed|2026-11-06T15:11:51.090Z",
+      "pass|changed|2026-11-06T15:10:25.118Z",
+      "pass|changed|2026-11-06T14:29:44.226Z",
+      "pass|changed|2026-11-06T02:19:26.697Z"
+    ]
+  },
+  "toMessageRow › converts both timestamps when present": {
+    "file": "prisma/seedRows.test.ts",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
+    "lastRunKind": "changed",
+    "lastStatus": "pass",
+    "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -3117,16 +3129,161 @@
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
       "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:18:09.699Z"
+    ]
+  },
+  "toMessageRow › distinguishes an absent createdAt from an absent emailedAt": {
+    "file": "prisma/seedRows.test.ts",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
+    "lastRunKind": "changed",
+    "lastStatus": "pass",
+    "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
+      "pass|changed|2026-11-06T22:26:38.658Z",
+      "pass|changed|2026-11-06T15:15:37.671Z",
+      "pass|changed|2026-11-06T15:15:04.946Z",
+      "pass|changed|2026-11-06T15:13:23.681Z",
+      "pass|changed|2026-11-06T15:11:51.090Z",
+      "pass|changed|2026-11-06T15:10:25.118Z",
+      "pass|changed|2026-11-06T14:29:44.226Z",
+      "pass|changed|2026-11-06T02:19:26.697Z",
+      "pass|changed|2026-11-06T02:18:09.699Z"
+    ]
+  },
+  "toMessageRow › keeps an explicit null emailedAt": {
+    "file": "prisma/seedRows.test.ts",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
+    "lastRunKind": "changed",
+    "lastStatus": "pass",
+    "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
+      "pass|changed|2026-11-06T22:26:38.658Z",
+      "pass|changed|2026-11-06T15:15:37.671Z",
+      "pass|changed|2026-11-06T15:15:04.946Z",
+      "pass|changed|2026-11-06T15:13:23.681Z",
+      "pass|changed|2026-11-06T15:11:51.090Z",
+      "pass|changed|2026-11-06T15:10:25.118Z",
+      "pass|changed|2026-11-06T14:29:44.226Z",
+      "pass|changed|2026-11-06T02:19:26.697Z",
+      "pass|changed|2026-11-06T02:18:09.699Z"
+    ]
+  },
+  "toMessageRow › normalises a missing sourcePage to null": {
+    "file": "prisma/seedRows.test.ts",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
+    "lastRunKind": "changed",
+    "lastStatus": "pass",
+    "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
+      "pass|changed|2026-11-06T22:26:38.658Z",
+      "pass|changed|2026-11-06T15:15:37.671Z",
+      "pass|changed|2026-11-06T15:15:04.946Z",
+      "pass|changed|2026-11-06T15:13:23.681Z",
+      "pass|changed|2026-11-06T15:11:51.090Z",
+      "pass|changed|2026-11-06T15:10:25.118Z",
+      "pass|changed|2026-11-06T14:29:44.226Z",
+      "pass|changed|2026-11-06T02:19:26.697Z",
+      "pass|changed|2026-11-06T02:18:09.699Z"
+    ]
+  },
+  "toPostRow › sanitizes the body and keeps every other field": {
+    "file": "app/lib/posts.test.ts",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
+    "lastRunKind": "changed",
+    "lastStatus": "pass",
+    "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
+      "pass|changed|2026-11-06T23:13:36.639Z",
+      "pass|changed|2026-11-06T23:10:14.834Z",
+      "pass|changed|2026-11-06T22:26:38.658Z",
+      "pass|changed|2026-11-06T15:15:37.671Z",
+      "pass|changed|2026-11-06T15:15:04.946Z",
+      "pass|changed|2026-11-06T15:13:23.681Z",
+      "pass|changed|2026-11-06T15:11:51.090Z",
+      "pass|changed|2026-11-06T15:10:25.118Z",
+      "pass|changed|2026-11-06T14:29:44.226Z"
+    ]
+  },
+  "toReadingLinks › escapes reserved characters so the slug stays a single path segment": {
+    "file": "app/lib/readingLinks.test.ts",
+    "lastRunAt": "2026-11-07T00:05:21.586Z",
+    "lastRunKind": "full",
+    "lastStatus": "pass",
+    "statusRing": [
+      "pass|full|2026-11-07T00:05:21.586Z"
+    ]
+  },
+  "toReadingLinks › maps a slug to an internal writing path and keeps the title as label": {
+    "file": "app/lib/readingLinks.test.ts",
+    "lastRunAt": "2026-11-07T00:05:21.586Z",
+    "lastRunKind": "full",
+    "lastStatus": "pass",
+    "statusRing": [
+      "pass|full|2026-11-07T00:05:21.586Z"
+    ]
+  },
+  "toReadingLinks › never produces an external URL": {
+    "file": "app/lib/readingLinks.test.ts",
+    "lastRunAt": "2026-11-07T00:05:21.586Z",
+    "lastRunKind": "full",
+    "lastStatus": "pass",
+    "statusRing": [
+      "pass|full|2026-11-07T00:05:21.586Z"
+    ]
+  },
+  "toReadingLinks › preserves the authored order of several entries": {
+    "file": "app/lib/readingLinks.test.ts",
+    "lastRunAt": "2026-11-07T00:05:21.586Z",
+    "lastRunKind": "full",
+    "lastStatus": "pass",
+    "statusRing": [
+      "pass|full|2026-11-07T00:05:21.586Z"
+    ]
+  },
+  "toReadingLinks › returns an empty list for no entries": {
+    "file": "app/lib/readingLinks.test.ts",
+    "lastRunAt": "2026-11-07T00:05:21.586Z",
+    "lastRunKind": "full",
+    "lastStatus": "pass",
+    "statusRing": [
+      "pass|full|2026-11-07T00:05:21.586Z"
+    ]
+  },
+  "toReadingLinks › trims whitespace around a slug": {
+    "file": "app/lib/readingLinks.test.ts",
+    "lastRunAt": "2026-11-07T00:05:21.586Z",
+    "lastRunKind": "full",
+    "lastStatus": "pass",
+    "statusRing": [
+      "pass|full|2026-11-07T00:05:21.586Z"
+    ]
+  },
+  "validateMessage › accepts a well-formed message": {
+    "file": "app/lib/validateMessage.test.ts",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
+    "lastRunKind": "changed",
+    "lastStatus": "pass",
+    "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
+      "pass|changed|2026-11-07T00:04:01.107Z",
+      "pass|changed|2026-11-06T22:26:38.658Z",
+      "pass|changed|2026-11-06T15:15:37.671Z",
+      "pass|changed|2026-11-06T15:15:04.946Z",
+      "pass|changed|2026-11-06T15:13:23.681Z",
+      "pass|changed|2026-11-06T15:11:51.090Z",
+      "pass|changed|2026-11-06T15:10:25.118Z",
+      "pass|changed|2026-11-06T14:29:44.226Z",
+      "pass|changed|2026-11-06T02:19:26.697Z"
     ]
   },
   "validateMessage › accepts addresses a stricter pattern would wrongly reject": {
     "file": "app/lib/validateMessage.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
+      "pass|changed|2026-11-07T00:04:01.107Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -3134,17 +3291,17 @@
       "pass|changed|2026-11-06T15:11:51.090Z",
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
-      "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:19:26.697Z"
     ]
   },
   "validateMessage › accepts every listed topic and rejects anything else": {
     "file": "app/lib/validateMessage.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
+      "pass|changed|2026-11-07T00:04:01.107Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -3152,17 +3309,17 @@
       "pass|changed|2026-11-06T15:11:51.090Z",
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
-      "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:19:26.697Z"
     ]
   },
   "validateMessage › carries sourcePage through, or null when absent": {
     "file": "app/lib/validateMessage.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
+      "pass|changed|2026-11-07T00:04:01.107Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -3170,17 +3327,17 @@
       "pass|changed|2026-11-06T15:11:51.090Z",
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
-      "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:19:26.697Z"
     ]
   },
   "validateMessage › enforces the length limits": {
     "file": "app/lib/validateMessage.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
+      "pass|changed|2026-11-07T00:04:01.107Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -3188,17 +3345,17 @@
       "pass|changed|2026-11-06T15:11:51.090Z",
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
-      "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:19:26.697Z"
     ]
   },
   "validateMessage › rejects an address with no @ or no dotted domain": {
     "file": "app/lib/validateMessage.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
+      "pass|changed|2026-11-07T00:04:01.107Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -3206,17 +3363,17 @@
       "pass|changed|2026-11-06T15:11:51.090Z",
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
-      "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:19:26.697Z"
     ]
   },
   "validateMessage › reports every problem at once, not just the first": {
     "file": "app/lib/validateMessage.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
+      "pass|changed|2026-11-07T00:04:01.107Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -3224,17 +3381,17 @@
       "pass|changed|2026-11-06T15:11:51.090Z",
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
-      "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:19:26.697Z"
     ]
   },
   "validateMessage › requires a name, an email, and a body": {
     "file": "app/lib/validateMessage.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
+      "pass|changed|2026-11-07T00:04:01.107Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -3242,17 +3399,17 @@
       "pass|changed|2026-11-06T15:11:51.090Z",
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
-      "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:19:26.697Z"
     ]
   },
   "validateMessage › survives a non-object payload": {
     "file": "app/lib/validateMessage.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
+      "pass|changed|2026-11-07T00:04:01.107Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -3260,17 +3417,17 @@
       "pass|changed|2026-11-06T15:11:51.090Z",
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
-      "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:19:26.697Z"
     ]
   },
   "validateMessage › treats whitespace-only input as missing": {
     "file": "app/lib/validateMessage.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
+      "pass|changed|2026-11-07T00:04:01.107Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -3278,17 +3435,17 @@
       "pass|changed|2026-11-06T15:11:51.090Z",
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
-      "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:19:26.697Z"
     ]
   },
   "validateMessage › trims every field before validating": {
     "file": "app/lib/validateMessage.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
+      "pass|changed|2026-11-07T00:04:01.107Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|changed|2026-11-06T15:15:04.946Z",
@@ -3296,17 +3453,16 @@
       "pass|changed|2026-11-06T15:11:51.090Z",
       "pass|changed|2026-11-06T15:10:25.118Z",
       "pass|changed|2026-11-06T14:29:44.226Z",
-      "pass|changed|2026-11-06T02:19:26.697Z",
-      "pass|changed|2026-11-06T02:18:09.699Z",
-      "pass|changed|2026-11-06T02:17:53.139Z"
+      "pass|changed|2026-11-06T02:19:26.697Z"
     ]
   },
   "withExplicitPort › adds 5432 to a port-less URL and keeps credentials and query intact": {
     "file": "app/lib/prismaConnection.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|full|2026-11-06T15:15:12.641Z"
@@ -3314,10 +3470,11 @@
   },
   "withExplicitPort › leaves a URL that names a port alone": {
     "file": "app/lib/prismaConnection.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|full|2026-11-06T15:15:12.641Z"
@@ -3325,10 +3482,11 @@
   },
   "withExplicitPort › returns an unparseable string exactly as given": {
     "file": "app/lib/prismaConnection.test.ts",
-    "lastRunAt": "2026-11-06T22:26:38.658Z",
+    "lastRunAt": "2026-11-07T00:05:13.310Z",
     "lastRunKind": "changed",
     "lastStatus": "pass",
     "statusRing": [
+      "pass|changed|2026-11-07T00:05:13.310Z",
       "pass|changed|2026-11-06T22:26:38.658Z",
       "pass|changed|2026-11-06T15:15:37.671Z",
       "pass|full|2026-11-06T15:15:12.641Z"
