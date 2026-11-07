@@ -100,20 +100,23 @@
       "source": "session-review",
       "status": "pending",
       "proposedAt": "2026-11-06T16:15:58.661814+00:00",
-      "rank": 6,
+      "rank": 7,
       "sightings": 1
     },
     {
       "id": "database-writes-are-checked-against-a-stand-in-database-not-a-real-one-and-the-one-time-backfill-command-has-no-automated-test-neither-has-been-run-against-any-real-database-yet",
       "title": "Database writes are checked against a stand-in database, not a real one, and the one-time backfill command has no automated test; neither has been run against any real database yet.",
       "mode": "backend",
-      "body": "## Summary\n\nDatabase writes are checked against a stand-in database, not a real one, and the one-time backfill command has no automated test; neither has been run against any real database yet.\n\nAt the approval gate for \"Backfill posts that aged out of the Substack feed\" the user approved the built work past this gap: it differs from what the plan asked for. Built from plan `ne--backfill-posts-that-aged-out-of-the-substack-feed` (now at `.codeyam/plans/completed/ne--backfill-posts-that-aged-out-of-the-substack-feed.md`).\n\nOlder Substack posts that have dropped out of the feed now stay on your Writing page instead of disappearing.\n\n## What you can now do\n- See every past post on `/writing`, not just the ~20 newest the feed still lists\n- Run `npm run posts:backfill` once to pull in posts the site has never stored\n- External links in posts open in a new tab, as intended\n- Pages load reliably again in the preview (the database connection always uses the right port)\n\nRead that plan and the code it changed before planning how to close the gap.",
-      "reason": "Approved past at the approval gate for \"Backfill posts that aged out of the Substack feed\".",
+      "body": "",
+      "reason": "The new re-sanitize command has also never touched real posts.",
       "source": "session-review",
       "status": "pending",
       "proposedAt": "2026-11-06T16:15:58.661814+00:00",
       "rank": 2,
-      "sightings": 1,
+      "sightings": 2,
+      "notes": [
+        "2026-11-07: Seen again: the new posts:resanitize script was only exercised in tests — the database in .env has no Post table (P2021), so it has not run against real posts."
+      ],
       "offeredCount": 3,
       "lastOfferedAt": "2026-11-07T00:21:55.132247+00:00"
     },
@@ -151,7 +154,7 @@
       "status": "pending",
       "proposedAt": "2026-11-06T23:38:45.514652+00:00",
       "kind": "tech-debt",
-      "rank": 7,
+      "rank": 8,
       "sightings": 1
     },
     {
@@ -185,6 +188,18 @@
       "source": "session-review",
       "status": "pending",
       "proposedAt": "2026-11-07T00:21:42.651004+00:00",
+      "rank": 6,
+      "sightings": 1
+    },
+    {
+      "id": "the-script-has-not-been-run-against-real-posts-yet-the-database-in-env-has-no-posts-table-so-the-database-writes-are-only-checked-with-a-stand-in-database-in-tests",
+      "title": "The script has not been run against real posts yet: the database in .env has no posts table, so the database writes are only checked with a stand-in database in tests.",
+      "mode": "backend",
+      "body": "## Summary\n\nThe script has not been run against real posts yet: the database in .env has no posts table, so the database writes are only checked with a stand-in database in tests.\n\nAt the approval gate for \"Re-clean older posts with the external-link fix\" the user approved the built work past this gap: it differs from what the plan asked for. Built from plan `re-sanitize-stored-posts-that-predate-the-external-link-fix` (now at `.codeyam/plans/completed/re-sanitize-stored-posts-that-predate-the-external-link-fix.md`).\n\nPosts saved before the external-link fix can now be cleaned up in one command, so old posts get the same safe links as new ones.\n\n## What you can now do\n- Run `npm run posts:resanitize` to update older stored posts\n- Add `--dry-run` to see which posts would change without changing anything\n- Only posts that actually need it get rewritten; the rest are left untouched\n\nRead that plan and the code it changed before planning how to close the gap.",
+      "reason": "Approved past at the approval gate for \"Re-clean older posts with the external-link fix\".",
+      "source": "session-review",
+      "status": "pending",
+      "proposedAt": "2026-11-07T00:44:17.924396+00:00",
       "sightings": 1
     }
   ],
@@ -267,6 +282,25 @@
         "isolation-fixture-migration-fails-every-route-and-rolls-back",
         "capture-hydration-check-flags-links-rendered-through-innerhtml",
         "session-finalize-rejects-allow-pending-integration-that-recapture-stale-requires",
+        "the-plan-asked-for-tests-of-the-existing-rss-parser-against-a-captured-feed-sample-those-were-not-added-and-the-new-archive-tests-use-hand-written-samples-shaped-like-the-live-responses-checked-on-2026-11-05",
+        "split-the-posts-module-into-sync-and-read-halves"
+      ]
+    },
+    {
+      "at": "2026-11-07T00:44:17.924396+00:00",
+      "feature": "Re-clean older posts with the external-link fix",
+      "notes": "Small maintenance cycle (sibling script + tested lib, all files under 80 lines, no debt). Only recurring concern: none of the branch's database scripts (backfill, resanitize) has run against the real posts database — the .env Neon DB lacks…",
+      "proposedIds": [
+        "database-writes-are-checked-against-a-stand-in-database-not-a-real-one-and-the-one-time-backfill-command-has-no-automated-test-neither-has-been-run-against-any-real-database-yet",
+        "the-script-has-not-been-run-against-real-posts-yet-the-database-in-env-has-no-posts-table-so-the-database-writes-are-only-checked-with-a-stand-in-database-in-tests"
+      ],
+      "rankedIds": [
+        "editor-s-pgport-leaks-into-the-app-and-hangs-every-database-page",
+        "database-writes-are-checked-against-a-stand-in-database-not-a-real-one-and-the-one-time-backfill-command-has-no-automated-test-neither-has-been-run-against-any-real-database-yet",
+        "isolation-fixture-migration-fails-every-route-and-rolls-back",
+        "capture-hydration-check-flags-links-rendered-through-innerhtml",
+        "session-finalize-rejects-allow-pending-integration-that-recapture-stale-requires",
+        "the-essay-links-go-to-this-site-s-own-writing-pages-which-only-exist-on-this-branch-so-they-will-404-until-it-is-deployed-with-them-locally-they-also-404-because-the-preview-database-holds-sample-posts",
         "the-plan-asked-for-tests-of-the-existing-rss-parser-against-a-captured-feed-sample-those-were-not-added-and-the-new-archive-tests-use-hand-written-samples-shaped-like-the-live-responses-checked-on-2026-11-05",
         "split-the-posts-module-into-sync-and-read-halves"
       ]
