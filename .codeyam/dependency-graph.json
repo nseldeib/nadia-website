@@ -740,7 +740,8 @@
       "imports": [],
       "importedBy": [
         "app/lib/readingLinks.test.ts",
-        "components/AdventuresReading.tsx"
+        "components/AdventuresReading.tsx",
+        "scripts/backfill-posts.ts"
       ]
     },
     "app/lib/resanitizePosts.test.ts": {
@@ -1679,6 +1680,7 @@
         "app/isolated-components/WorkNarrative/page.tsx",
         "app/writing/page.tsx",
         "app/writing/[slug]/page.tsx",
+        "prisma/seedRows.test.ts",
         "components/Hero.tsx",
         "components/Elsewhere.tsx",
         "components/Work.tsx",
@@ -1688,7 +1690,8 @@
         "components/ContactForm.tsx",
         "components/Writing.tsx",
         "components/NotFound.tsx",
-        "components/About.tsx"
+        "components/About.tsx",
+        "scripts/backfill-posts.ts"
       ]
     },
     "eslint.config.mjs": {
@@ -1737,6 +1740,7 @@
     },
     "prisma/seedRows.test.ts": {
       "imports": [
+        "content/site.ts",
         "prisma/seedRows.ts"
       ],
       "importedBy": []
@@ -1758,7 +1762,9 @@
       "imports": [
         "app/lib/loadEnv.ts",
         "app/lib/prisma.ts",
-        "app/lib/posts.ts"
+        "app/lib/posts.ts",
+        "app/lib/readingLinks.ts",
+        "content/site.ts"
       ],
       "importedBy": [
         "scripts/backfill-posts.test.ts"
@@ -2838,6 +2844,8 @@
       "filePath": "app/lib/readingLinks.test.ts",
       "name": "__file_root__",
       "imports": [
+        "app/lib/readingLinks.ts::missingReadingLinksWarning",
+        "app/lib/readingLinks.ts::missingReadingSlugs",
         "app/lib/readingLinks.ts::toReadingLinks"
       ],
       "importedBy": []
@@ -2848,6 +2856,24 @@
       "imports": [],
       "importedBy": [
         "components/AdventuresReading.tsx::__file_root__"
+      ]
+    },
+    "app/lib/readingLinks.ts::missingReadingLinksWarning": {
+      "filePath": "app/lib/readingLinks.ts",
+      "name": "missingReadingLinksWarning",
+      "imports": [],
+      "importedBy": [
+        "app/lib/readingLinks.test.ts::__file_root__",
+        "scripts/backfill-posts.ts::__file_root__"
+      ]
+    },
+    "app/lib/readingLinks.ts::missingReadingSlugs": {
+      "filePath": "app/lib/readingLinks.ts",
+      "name": "missingReadingSlugs",
+      "imports": [],
+      "importedBy": [
+        "app/lib/readingLinks.test.ts::__file_root__",
+        "scripts/backfill-posts.ts::__file_root__"
       ]
     },
     "app/lib/readingLinks.ts::toReadingLinks": {
@@ -4055,7 +4081,8 @@
         "components/ContactForm.tsx::__file_root__",
         "components/Writing.tsx::__file_root__",
         "components/NotFound.tsx::__file_root__",
-        "components/About.tsx::__file_root__"
+        "components/About.tsx::__file_root__",
+        "scripts/backfill-posts.ts::__file_root__"
       ]
     },
     "hooks/useActiveSection.ts::__file_root__": {
@@ -4081,8 +4108,11 @@
         "app/lib/loadEnv.ts::__file_root__",
         "app/lib/prismaConnection.ts::requireConnectionString",
         "prisma/seedRows.ts::SeedMessage",
+        "prisma/seedRows.ts::SeedPost",
+        "prisma/seedRows.ts::seedTable",
         "prisma/seedRows.ts::summarize",
-        "prisma/seedRows.ts::toMessageRow"
+        "prisma/seedRows.ts::toMessageRow",
+        "prisma/seedRows.ts::toSeedPostRow"
       ],
       "importedBy": []
     },
@@ -4090,9 +4120,13 @@
       "filePath": "prisma/seedRows.test.ts",
       "name": "__file_root__",
       "imports": [
+        "content/site.ts::__file_root__",
         "prisma/seedRows.ts::SeedMessage",
+        "prisma/seedRows.ts::SeedPost",
+        "prisma/seedRows.ts::seedTable",
         "prisma/seedRows.ts::summarize",
-        "prisma/seedRows.ts::toMessageRow"
+        "prisma/seedRows.ts::toMessageRow",
+        "prisma/seedRows.ts::toSeedPostRow"
       ],
       "importedBy": []
     },
@@ -4110,7 +4144,10 @@
       "imports": [
         "app/lib/loadEnv.ts::__file_root__",
         "app/lib/prisma.ts::__file_root__",
-        "app/lib/posts.ts::syncPostsFromFeed"
+        "app/lib/posts.ts::syncPostsFromFeed",
+        "app/lib/readingLinks.ts::missingReadingLinksWarning",
+        "app/lib/readingLinks.ts::missingReadingSlugs",
+        "content/site.ts::__file_root__"
       ],
       "importedBy": []
     },
@@ -4144,5 +4181,5 @@
       "importedBy": []
     }
   },
-  "lastUpdated": "2026-11-07T00:30:47Z"
+  "lastUpdated": "2026-11-07T01:02:20Z"
 }

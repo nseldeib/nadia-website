@@ -140,7 +140,7 @@
       "file": "scripts/backfill-posts.test.ts",
       "format": "vitest",
       "key": "backfill-posts main › exits non-zero and still disconnects when the reconcile throws",
-      "line": 59,
+      "line": 112,
       "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     },
@@ -149,7 +149,7 @@
       "file": "scripts/backfill-posts.test.ts",
       "format": "vitest",
       "key": "backfill-posts main › exits non-zero when the feed could not be read",
-      "line": 50,
+      "line": 68,
       "registeredAt": "2026-11-06T15:13:34.949047+00:00",
       "runner": "tests"
     },
@@ -158,8 +158,35 @@
       "file": "scripts/backfill-posts.test.ts",
       "format": "vitest",
       "key": "backfill-posts main › forces a full reconcile and reports the stored total",
-      "line": 39,
+      "line": 57,
       "registeredAt": "2026-11-06T15:13:34.949047+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "The check is a warning only: a failed feed read still sets the exit code, and a missing essay does not mask or change it.",
+      "file": "scripts/backfill-posts.test.ts",
+      "format": "vitest",
+      "key": "backfill-posts main › keeps the failed-read exit code when an essay is also missing",
+      "line": 101,
+      "registeredAt": "2026-11-07T01:00:47.748669+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Every link resolving is the normal case and must stay quiet.",
+      "file": "scripts/backfill-posts.test.ts",
+      "format": "vitest",
+      "key": "backfill-posts main › stays silent when every linked essay is stored",
+      "line": 91,
+      "registeredAt": "2026-11-07T01:00:47.748669+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A linked essay the table lacks is named, so the broken link is caught at deploy rather than by a reader; the fill still counts as a success.",
+      "file": "scripts/backfill-posts.test.ts",
+      "format": "vitest",
+      "key": "backfill-posts main › warns naming a linked essay the table lacks without failing",
+      "line": 78,
+      "registeredAt": "2026-11-07T01:00:47.748669+00:00",
       "runner": "tests"
     },
     {
@@ -811,6 +838,69 @@
       "runner": "tests"
     },
     {
+      "description": "The warning names every broken slug and where to fix it.",
+      "file": "app/lib/readingLinks.test.ts",
+      "format": "vitest",
+      "key": "missingReadingLinksWarning › names the count, each missing slug, and the file to fix",
+      "line": 45,
+      "registeredAt": "2026-11-07T01:00:47.748669+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Nothing missing means no warning at all, so a clean run stays quiet.",
+      "file": "app/lib/readingLinks.test.ts",
+      "format": "vitest",
+      "key": "missingReadingLinksWarning › returns null when nothing is missing",
+      "line": 40,
+      "registeredAt": "2026-11-07T01:00:47.748669+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "The warning reads in the order the reader sees the links, not store order.",
+      "file": "app/lib/readingLinks.test.ts",
+      "format": "vitest",
+      "key": "missingReadingSlugs › keeps the authored order",
+      "line": 17,
+      "registeredAt": "2026-11-07T01:00:47.748669+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "No authored links means nothing can be missing.",
+      "file": "app/lib/readingLinks.test.ts",
+      "format": "vitest",
+      "key": "missingReadingSlugs › returns an empty list for no entries",
+      "line": 33,
+      "registeredAt": "2026-11-07T01:00:47.748669+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Every link resolving is the normal state and must produce no warning.",
+      "file": "app/lib/readingLinks.test.ts",
+      "format": "vitest",
+      "key": "missingReadingSlugs › returns an empty list when every slug is stored",
+      "line": 22,
+      "registeredAt": "2026-11-07T01:00:47.748669+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Only the slugs the store lacks are reported: those are the links that 404.",
+      "file": "app/lib/readingLinks.test.ts",
+      "format": "vitest",
+      "key": "missingReadingSlugs › returns only the slugs the store does not hold",
+      "line": 12,
+      "registeredAt": "2026-11-07T01:00:47.748669+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Hand-edited whitespace must not report a stored essay as missing, since the link itself trims the slug and would resolve.",
+      "file": "app/lib/readingLinks.test.ts",
+      "format": "vitest",
+      "key": "missingReadingSlugs › trims an authored slug before checking it",
+      "line": 28,
+      "registeredAt": "2026-11-07T01:00:47.748669+00:00",
+      "runner": "tests"
+    },
+    {
       "description": "The single-post response must map onto the same shape the RSS produces, so both paths store identical rows.",
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
@@ -1297,6 +1387,15 @@
       "runner": "tests"
     },
     {
+      "description": "Every Adventures link must have a seeded essay, or it 404s in the preview and in a freshly seeded local database.",
+      "file": "prisma/seedRows.test.ts",
+      "format": "vitest",
+      "key": "running-essays seed file › holds a post for every slug the Adventures section links to",
+      "line": 57,
+      "registeredAt": "2026-11-07T01:00:47.748669+00:00",
+      "runner": "tests"
+    },
+    {
       "description": "A disallowed tag's TEXT must go too, or \"Subscribe\" strands mid-essay.",
       "file": "app/lib/sanitizePostHtml.test.ts",
       "format": "vitest",
@@ -1375,6 +1474,33 @@
       "key": "sanitizePostHtml › unwraps layout divs but keeps their text",
       "line": 28,
       "registeredAt": "2026-11-06T15:15:12.641309+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A malformed file must not crash the seed or hand Prisma a non-array.",
+      "file": "prisma/seedRows.test.ts",
+      "format": "vitest",
+      "key": "seedTable › returns an empty list for a malformed shape",
+      "line": 27,
+      "registeredAt": "2026-11-07T01:00:47.748669+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A file that seeds other tables only is valid and seeds nothing here.",
+      "file": "prisma/seedRows.test.ts",
+      "format": "vitest",
+      "key": "seedTable › returns an empty list when the table is absent",
+      "line": 22,
+      "registeredAt": "2026-11-07T01:00:47.748669+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "The ordinary case: the named table's rows come back as-is.",
+      "file": "prisma/seedRows.test.ts",
+      "format": "vitest",
+      "key": "seedTable › returns the rows of the named table",
+      "line": 17,
+      "registeredAt": "2026-11-07T01:00:47.748669+00:00",
       "runner": "tests"
     },
     {
@@ -1724,7 +1850,7 @@
       "file": "prisma/seedRows.test.ts",
       "format": "vitest",
       "key": "summarize › counts delivered and undelivered separately",
-      "line": 50,
+      "line": 114,
       "registeredAt": "2026-08-27T21:49:03Z",
       "runner": "tests"
     },
@@ -1733,7 +1859,7 @@
       "file": "prisma/seedRows.test.ts",
       "format": "vitest",
       "key": "summarize › reads correctly for an empty set",
-      "line": 62,
+      "line": 126,
       "registeredAt": "2026-08-27T21:49:03Z",
       "runner": "tests"
     },
@@ -1850,7 +1976,7 @@
       "file": "prisma/seedRows.test.ts",
       "format": "vitest",
       "key": "toMessageRow › converts both timestamps when present",
-      "line": 23,
+      "line": 87,
       "registeredAt": "2026-08-27T21:49:03Z",
       "runner": "tests"
     },
@@ -1859,7 +1985,7 @@
       "file": "prisma/seedRows.test.ts",
       "format": "vitest",
       "key": "toMessageRow › distinguishes an absent createdAt from an absent emailedAt",
-      "line": 15,
+      "line": 79,
       "registeredAt": "2026-08-27T21:49:03Z",
       "runner": "tests"
     },
@@ -1868,7 +1994,7 @@
       "file": "prisma/seedRows.test.ts",
       "format": "vitest",
       "key": "toMessageRow › keeps an explicit null emailedAt",
-      "line": 35,
+      "line": 99,
       "registeredAt": "2026-08-27T21:49:03Z",
       "runner": "tests"
     },
@@ -1877,7 +2003,7 @@
       "file": "prisma/seedRows.test.ts",
       "format": "vitest",
       "key": "toMessageRow › normalises a missing sourcePage to null",
-      "line": 41,
+      "line": 105,
       "registeredAt": "2026-08-27T21:49:03Z",
       "runner": "tests"
     },
@@ -1895,7 +2021,7 @@
       "file": "app/lib/readingLinks.test.ts",
       "format": "vitest",
       "key": "toReadingLinks › escapes reserved characters so the slug stays a single path segment",
-      "line": 35,
+      "line": 84,
       "registeredAt": "2026-11-07T00:05:21.586770+00:00",
       "runner": "tests"
     },
@@ -1904,7 +2030,7 @@
       "file": "app/lib/readingLinks.test.ts",
       "format": "vitest",
       "key": "toReadingLinks › maps a slug to an internal writing path and keeps the title as label",
-      "line": 7,
+      "line": 56,
       "registeredAt": "2026-11-07T00:05:21.586770+00:00",
       "runner": "tests"
     },
@@ -1913,7 +2039,7 @@
       "file": "app/lib/readingLinks.test.ts",
       "format": "vitest",
       "key": "toReadingLinks › never produces an external URL",
-      "line": 41,
+      "line": 90,
       "registeredAt": "2026-11-07T00:05:21.586770+00:00",
       "runner": "tests"
     },
@@ -1922,7 +2048,7 @@
       "file": "app/lib/readingLinks.test.ts",
       "format": "vitest",
       "key": "toReadingLinks › preserves the authored order of several entries",
-      "line": 14,
+      "line": 63,
       "registeredAt": "2026-11-07T00:05:21.586770+00:00",
       "runner": "tests"
     },
@@ -1931,7 +2057,7 @@
       "file": "app/lib/readingLinks.test.ts",
       "format": "vitest",
       "key": "toReadingLinks › returns an empty list for no entries",
-      "line": 24,
+      "line": 33,
       "registeredAt": "2026-11-07T00:05:21.586770+00:00",
       "runner": "tests"
     },
@@ -1940,8 +2066,35 @@
       "file": "app/lib/readingLinks.test.ts",
       "format": "vitest",
       "key": "toReadingLinks › trims whitespace around a slug",
-      "line": 29,
+      "line": 78,
       "registeredAt": "2026-11-07T00:05:21.586770+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Prisma wants a Date, the seed file carries an ISO string.",
+      "file": "prisma/seedRows.test.ts",
+      "format": "vitest",
+      "key": "toSeedPostRow › converts publishedAt to a Date",
+      "line": 36,
+      "registeredAt": "2026-11-07T01:00:47.748669+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "updatedAt is left to Prisma so the far-future capture value never reaches a developer's database.",
+      "file": "prisma/seedRows.test.ts",
+      "format": "vitest",
+      "key": "toSeedPostRow › does not carry updatedAt into the row",
+      "line": 48,
+      "registeredAt": "2026-11-07T01:00:47.748669+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "subtitle is nullable; an absent one must be an explicit null in the row.",
+      "file": "prisma/seedRows.test.ts",
+      "format": "vitest",
+      "key": "toSeedPostRow › normalises a missing subtitle to null",
+      "line": 41,
+      "registeredAt": "2026-11-07T01:00:47.748669+00:00",
       "runner": "tests"
     },
     {

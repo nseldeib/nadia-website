@@ -1,0 +1,159 @@
+{
+  "timestamp": "2026-11-07T01:08:27Z",
+  "title": "Make the Adventures essay links resolve",
+  "type": "feature",
+  "userRequest": "## Summary\n\nThe essay links go to this site's own writing pages, which only exist on this branch, so they will 404 until it is deployed with them. Locally they also 404 because the preview database holds sample posts.\n\nAt the approval gate for \"Running essays linked from Adventures\" the user approved the built work past this gap: it differs from what the plan asked for. Built from plan `ne--link-adventures-to-the-running-essays` (now at `.codeyam/plans/completed/ne--link-adventures-to-the-running-essays.md`).\n\nVisitors who finish the Adventures section can now go straight to your running essays.\n\n## What you can now do\n- See a **Recent Adventures: Read About My Running Shenanigans** list at the end of Adventures\n- Open four running essays, from the Racetoberfest reflection to The Magic of Attempting Hard Things\n- Change which essays appear, or their order, by editing the list in `content/site.json`\n\nRead that plan and the code it changed before planning how to close the gap.\n\n## Key Decisions\n\n- **Live site: no code change needed for the 404 itself.** Neither `main` nor `origin/main` has `app/writing/`; the links and the pages ship together on this branch. They resolve once deployed and the documented deploy step (`db:push` → `posts:backfill`) fills the Post table. Even without the backfill, `findPost` reconciles on an unknown slug (feed + archive backfill), and all four essays are public on Substack (verified 2026-11-06 via the posts API).\n- **Preview: add the four real essays to the sample posts** (user's choice). Fetched once from Substack's posts API, run through `sanitizePostHtml`, stored with a far-future `updatedAt` so the page never calls Substack during capture (same trick as the writing scenarios).\n- **Missing-link check after backfill** (user's choice). After the reconcile, `posts:backfill` lists every `adventures.reading` slug the Post table still lacks. Warn, don't fail: the fill itself worked, and a missing essay is an editorial fix in `site.json`.\n\n## Implementation\n\n### 1. Sample essays\n\n**File**: `.codeyam/seed-data/running-essays.json` (new): four `Post` rows for the slugs in `content/site.json` `adventures.reading`, with real title, subtitle, date, sanitized body, and canonical URL.\n\n**File**: `prisma/seed.ts`: also upsert those Post rows, so `npm run db:seed` gives a local database working essay links.\n\n**Scenarios**: `home-full-page` and `home-mobile` seeds gain the same four Post rows, so following an essay link from the homepage preview lands on a real page.\n\n### 2. Missing-link check\n\n**File**: `app/lib/readingLinks.ts`: `missingReadingSlugs(configured, storedSlugs)`, pure, order-preserving.\n\n**File**: `scripts/backfill-posts.ts`: after the sync, look up the configured slugs and print a warning naming any that are missing (exit code unchanged).\n\n## Tests\n\n- `readingLinks.test.ts`: `missingReadingSlugs` returns only absent slugs, in authored order; empty when all present.\n- A seed-data test: every `adventures.reading` slug has a row in `running-essays.json` (catches the next edit to site.json).\n- `backfill-posts.test.ts`: warns naming the missing slug; silent when all present; exit code unaffected.",
+  "description": "The Adventures section links to this site's own writing pages for four running essays. Those links 404'd locally because the preview database only held sample posts. Fix: the four real running essays now ship as seed data (.codeyam/seed-data/running-essays.json) and db:seed upserts them, so the links resolve in the preview. posts:backfill now prints a warning naming any Adventures link whose post is missing; the exit code is unchanged. Refactors: seed.ts uses one readSeedFile helper, there is a pure seedTable mapper, and the warning text comes from missingReadingLinksWarning. 17 new tests, all passing. Scope verdict: all five project deliverables were already delivered in earlier cycles. This cycle is upkeep on the delivered site, so nothing was delivered or deferred. Open risks: no test checks the database after the seed upsert, and on the live site the links resolve only after deploy plus db:push and posts:backfill, which were not run this cycle.",
+  "modifiedFiles": [
+    {
+      "path": ".codeyam/dependency-graph.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/glossary.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/per-test-evidence.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/completed/the-essay-links-go-to-this-site-s-own-writing-pages-which-only-exist-on-this-branch-so-they-will-404-until-it-is.md",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/plans/the-essay-links-go-to-this-site-s-own-writing-pages-which-only-exist-on-this-branch-so-they-will-404-until-it-is.md",
+      "status": "deleted"
+    },
+    {
+      "path": ".codeyam/scenarios/home-full-page.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/home-mobile.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/home-full-page--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/home-mobile--mobile.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache/all.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache/blobs/3e3e4757a119885cb23559bed868e553f10b1d29d50049102a7a7d62eaf0feb3.json",
+      "status": "deleted"
+    },
+    {
+      "path": ".codeyam/test-cache/blobs/4aead3b643839292f33102a1e00651c95babdbfad311d7697c781989d6837289.json",
+      "status": "deleted"
+    },
+    {
+      "path": ".codeyam/test-cache/blobs/9d9d935d5fc5a19d2725dacd4efedab92b16215c2eee74724347207bcfef3136.json",
+      "status": "deleted"
+    },
+    {
+      "path": ".codeyam/test-registry.json",
+      "status": "modified"
+    },
+    {
+      "path": "app/lib/readingLinks.test.ts",
+      "status": "modified"
+    },
+    {
+      "path": "app/lib/readingLinks.ts",
+      "status": "modified"
+    },
+    {
+      "path": "prisma/seed.ts",
+      "status": "modified"
+    },
+    {
+      "path": "prisma/seedRows.test.ts",
+      "status": "modified"
+    },
+    {
+      "path": "prisma/seedRows.ts",
+      "status": "modified"
+    },
+    {
+      "path": "scripts/backfill-posts.test.ts",
+      "status": "modified"
+    },
+    {
+      "path": "scripts/backfill-posts.ts",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/seed-data/running-essays.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/state/red-proofs/the-essay-links-go-to-this-site-s-own-writing-pages-which-only-exist-on-this-branch-so-they-will-404-until-it-is.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/test-cache/blobs/86077908ff24f7e30192ca2da67d787a70045b7c10a7c9aa75d87fd74954f9a8.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/test-cache/blobs/d79ea7a2591f931e139e91df11858c8ff01165e133d9190baa29f577e7553342.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/test-cache/blobs/fd730e60c15254eb2816154e32084c365af70045790758da0e9d7500a4071204.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/test-cache/blobs/fed305599dbeae4790714ad83a7a6e846f6c4584a1d323eb7cb24e528a2ef5e6.json",
+      "status": "added"
+    }
+  ],
+  "scenarioScreenshots": [
+    {
+      "name": "Home - Full page",
+      "screenshotPath": "home-full-page--desktop.png"
+    },
+    {
+      "name": "Home - Mobile",
+      "screenshotPath": "home-mobile--mobile.png"
+    },
+    {
+      "name": "Adventures - Default",
+      "screenshotPath": "adventures-default--desktop.png"
+    },
+    {
+      "name": "AdventuresReading - Default",
+      "screenshotPath": "adventuresreading-default--desktop.png"
+    },
+    {
+      "name": "AdventuresReading - LongTitles",
+      "screenshotPath": "adventuresreading-longtitles--desktop.png"
+    },
+    {
+      "name": "AdventuresReading - Single",
+      "screenshotPath": "adventuresreading-single--desktop.png"
+    }
+  ],
+  "testResults": {
+    "total": 36,
+    "passed": 36,
+    "failed": 0,
+    "runners": [
+      {
+        "name": "tests",
+        "total": 36,
+        "passed": 36
+      }
+    ]
+  }
+}

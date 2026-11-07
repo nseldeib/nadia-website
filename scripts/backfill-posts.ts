@@ -16,6 +16,28 @@
 import '../app/lib/loadEnv';
 import { prisma } from '../app/lib/prisma';
 import { syncPostsFromFeed } from '../app/lib/posts';
+import { missingReadingLinksWarning, missingReadingSlugs } from '../app/lib/readingLinks';
+import site from '../content/site';
+
+/**
+ * Name every essay the Adventures section links to that the table still lacks.
+ * A warning, not a failure: the fill itself worked, and the fix is editorial
+ * (correct or drop the entry in content/site.json), not a re-run.
+ */
+async function warnAboutMissingReadingLinks() {
+  const entries = site.adventures.reading?.links ?? [];
+  if (!entries.length) return;
+  const rows = await prisma.post.findMany({
+    where: { slug: { in: entries.map((e) => e.slug.trim()) } },
+    select: { slug: true },
+  });
+  const missing = missingReadingSlugs(
+    entries,
+    rows.map((r) => r.slug),
+  );
+  const warning = missingReadingLinksWarning(missing);
+  if (warning) console.warn(warning);
+}
 
 async function main() {
   const result = await syncPostsFromFeed({ force: true });
@@ -23,6 +45,8 @@ async function main() {
 
   console.log(JSON.stringify(result, null, 2));
   console.log(`Post table now holds ${total} post(s).`);
+
+  await warnAboutMissingReadingLinks();
 
   // A failed feed read means nothing was written; say so with the exit code so
   // a deploy step running this does not carry on as if it had worked.

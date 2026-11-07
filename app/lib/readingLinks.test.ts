@@ -1,5 +1,54 @@
 import { describe, expect, it } from 'vitest';
-import { toReadingLinks } from './readingLinks';
+import { missingReadingLinksWarning, missingReadingSlugs, toReadingLinks } from './readingLinks';
+
+const entries = [
+  { slug: 'b', title: 'B' },
+  { slug: 'a', title: 'A' },
+  { slug: 'c', title: 'C' },
+];
+
+describe('missingReadingSlugs', () => {
+  // Only the slugs the store lacks are reported: those are the links that 404.
+  it('returns only the slugs the store does not hold', () => {
+    expect(missingReadingSlugs(entries, ['a'])).toEqual(['b', 'c']);
+  });
+
+  // The warning reads in the order the reader sees the links, not store order.
+  it('keeps the authored order', () => {
+    expect(missingReadingSlugs(entries, [])).toEqual(['b', 'a', 'c']);
+  });
+
+  // Every link resolving is the normal state and must produce no warning.
+  it('returns an empty list when every slug is stored', () => {
+    expect(missingReadingSlugs(entries, new Set(['a', 'b', 'c']))).toEqual([]);
+  });
+
+  // Hand-edited whitespace must not report a stored essay as missing, since
+  // the link itself trims the slug and would resolve.
+  it('trims an authored slug before checking it', () => {
+    expect(missingReadingSlugs([{ slug: ' a ', title: 'A' }], ['a'])).toEqual([]);
+  });
+
+  // No authored links means nothing can be missing.
+  it('returns an empty list for no entries', () => {
+    expect(missingReadingSlugs([], ['a'])).toEqual([]);
+  });
+});
+
+describe('missingReadingLinksWarning', () => {
+  // Nothing missing means no warning at all, so a clean run stays quiet.
+  it('returns null when nothing is missing', () => {
+    expect(missingReadingLinksWarning([])).toBeNull();
+  });
+
+  // The warning names every broken slug and where to fix it.
+  it('names the count, each missing slug, and the file to fix', () => {
+    const warning = missingReadingLinksWarning(['typo-slug', 'paid-post']);
+    expect(warning).toContain('2 essay(s)');
+    expect(warning).toContain('typo-slug, paid-post');
+    expect(warning).toContain('content/site.json');
+  });
+});
 
 describe('toReadingLinks', () => {
   // The ordinary case: a slug becomes an internal /writing/ path and the title

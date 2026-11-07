@@ -733,6 +733,24 @@
     "testFile": "scripts/resanitize-posts.test.ts"
   },
   {
+    "description": "Formats the one-line backfill warning naming the missing essay slugs and pointing at content/site.json, or returns null when none are missing.",
+    "filePath": "app/lib/readingLinks.ts",
+    "name": "missingReadingLinksWarning",
+    "tags": [
+      "adventures-essay-links"
+    ],
+    "testFile": "app/lib/readingLinks.test.ts"
+  },
+  {
+    "description": "Returns the Adventures essay slugs that the Post store does not hold, trimmed and in authored order. Each one is a link that would 404.",
+    "filePath": "app/lib/readingLinks.ts",
+    "name": "missingReadingSlugs",
+    "tags": [
+      "adventures-essay-links"
+    ],
+    "testFile": "app/lib/readingLinks.test.ts"
+  },
+  {
     "description": "The 422 reply carrying per-field problems so the form can point at what needs fixing. 422 rather than 400: the request was understood, its contents were not acceptable.",
     "filePath": "app/lib/contactResponses.ts",
     "name": "needsAnotherLook",
@@ -811,6 +829,18 @@
     "testFile": "app/lib/sendNotification.test.ts"
   },
   {
+    "description": "Reads one table's rows from an optional seed JSON file, returning an empty list when the file is missing or unreadable.",
+    "filePath": "prisma/seed.ts",
+    "name": "readSeedFile",
+    "tags": [
+      "adventures-essay-links"
+    ],
+    "untestabilityReason": {
+      "justification": "filesystem read inside seed.ts, which runs main() and connects to the database on import; the parsing it composes is seedTable, which is tested",
+      "kind": "platform-glue"
+    }
+  },
+  {
     "description": "Reads the seed message fixture from the same file the scenario captures use, so a local database and a captured screenshot look at identical data. Returns an empty list when the file is absent or unreadable: a clone that only wants a running site does not need the demo inbox, and an empty table is a valid state.",
     "filePath": "prisma/seed.ts",
     "name": "readSeedMessages",
@@ -872,6 +902,27 @@
     "filePath": "app/lib/contactResponses.ts",
     "name": "saved",
     "testFile": "app/lib/contactResponses.test.ts"
+  },
+  {
+    "description": "Upserts the running essays from running-essays.json into the Post table so Adventures links resolve locally, keeping posts the feed sync wrote.",
+    "filePath": "prisma/seed.ts",
+    "name": "seedEssays",
+    "tags": [
+      "adventures-essay-links"
+    ],
+    "untestabilityReason": {
+      "justification": "database upsert loop inside seed.ts, which runs main() on import; its row mapping toSeedPostRow is tested",
+      "kind": "platform-glue"
+    }
+  },
+  {
+    "description": "Pulls one table's rows out of a parsed seed file shaped seed.<Table>, returning an empty list for an absent table or malformed shape.",
+    "filePath": "prisma/seedRows.ts",
+    "name": "seedTable",
+    "tags": [
+      "adventures-essay-links"
+    ],
+    "testFile": "prisma/seedRows.test.ts"
   },
   {
     "description": "Picks the archive slugs worth fetching: public audience only, never paid posts, and not already in the RSS feed.",
@@ -1006,6 +1057,15 @@
     "testFile": "app/lib/readingLinks.test.ts"
   },
   {
+    "description": "Maps one seeded essay to a Prisma Post row: publishedAt becomes a Date, a missing subtitle becomes null, and updatedAt is left to Prisma.",
+    "filePath": "prisma/seedRows.ts",
+    "name": "toSeedPostRow",
+    "tags": [
+      "adventures-essay-links"
+    ],
+    "testFile": "prisma/seedRows.test.ts"
+  },
+  {
     "description": "The 400 reply for a body that could not be parsed at all.",
     "filePath": "app/lib/contactResponses.ts",
     "name": "unreadableRequest",
@@ -1033,6 +1093,15 @@
     "filePath": "app/lib/validateMessage.ts",
     "name": "validateMessage",
     "testFile": "app/lib/validateMessage.test.ts"
+  },
+  {
+    "description": "After posts:backfill, looks up the Adventures essay slugs in the Post table and console.warns any that are missing. Warn only, never changes the exit code.",
+    "filePath": "scripts/backfill-posts.ts",
+    "name": "warnAboutMissingReadingLinks",
+    "tags": [
+      "adventures-essay-links"
+    ],
+    "testFile": "scripts/backfill-posts.test.ts"
   },
   {
     "description": "States port 5432 on a port-less Postgres URL so pg cannot fill it from PGPORT; URLs with a port, or unparseable ones, pass through unchanged.",
