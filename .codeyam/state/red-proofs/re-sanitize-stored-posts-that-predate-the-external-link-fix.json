@@ -1,0 +1,52 @@
+{
+  "provenAt": "2026-11-07T00:29:07Z",
+  "slug": "re-sanitize-stored-posts-that-predate-the-external-link-fix",
+  "paths": [],
+  "runScope": [
+    "app/lib/resanitizePosts.ts",
+    "app/lib/resanitizePosts.test.ts",
+    "scripts/resanitize-posts.test.ts",
+    "scripts/resanitize-posts.ts"
+  ],
+  "neuters": [
+    {
+      "file": "app/lib/resanitizePosts.ts",
+      "find": "if (cleaned !== post.bodyHtml)",
+      "replace": "if (cleaned || true)"
+    },
+    {
+      "file": "scripts/resanitize-posts.ts",
+      "find": "if (!dryRun) {",
+      "replace": "if (dryRun || true) {"
+    }
+  ],
+  "tests": {
+    "leaves out posts that are already clean": {
+      "withoutFix": "fail",
+      "withFix": "pass",
+      "established": {
+        "kind": "measured"
+      }
+    },
+    "updates only the posts whose cleaned body differs": {
+      "withoutFix": "fail",
+      "withFix": "pass",
+      "established": {
+        "kind": "measured"
+      }
+    },
+    "writes nothing on a dry run but reports what would change": {
+      "withoutFix": "fail",
+      "withFix": "pass",
+      "established": {
+        "kind": "measured"
+      }
+    }
+  },
+  "proof": {
+    "verdict": "proven",
+    "flipped": [
+      "writes nothing on a dry run but reports what would change"
+    ]
+  }
+}

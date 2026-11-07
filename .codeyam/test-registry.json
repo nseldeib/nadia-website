@@ -1000,6 +1000,60 @@
       "runner": "tests"
     },
     {
+      "description": "Running the script twice must change nothing the second time.",
+      "file": "app/lib/resanitizePosts.test.ts",
+      "format": "vitest",
+      "key": "postsNeedingResanitize › is idempotent: a second pass over its own output returns nothing",
+      "line": 32,
+      "registeredAt": "2026-11-07T00:29:44.562946+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Rows the sanitizer would not change must not be rewritten.",
+      "file": "app/lib/resanitizePosts.test.ts",
+      "format": "vitest",
+      "key": "postsNeedingResanitize › leaves out posts that are already clean",
+      "line": 20,
+      "registeredAt": "2026-11-07T00:29:44.562946+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Internal and mailto links are not external, so they stay as stored.",
+      "file": "app/lib/resanitizePosts.test.ts",
+      "format": "vitest",
+      "key": "postsNeedingResanitize › leaves out posts whose only links are not external",
+      "line": 26,
+      "registeredAt": "2026-11-07T00:29:44.562946+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Only the changed rows come back, in their original order.",
+      "file": "app/lib/resanitizePosts.test.ts",
+      "format": "vitest",
+      "key": "postsNeedingResanitize › picks out just the stale posts from a mixed set",
+      "line": 38,
+      "registeredAt": "2026-11-07T00:29:44.562946+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "The bug this exists for: an old external link gains target and rel.",
+      "file": "app/lib/resanitizePosts.test.ts",
+      "format": "vitest",
+      "key": "postsNeedingResanitize › returns a post with an old external link, carrying the cleaned body",
+      "line": 10,
+      "registeredAt": "2026-11-07T00:29:44.562946+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "An empty table is a valid input, not an error.",
+      "file": "app/lib/resanitizePosts.test.ts",
+      "format": "vitest",
+      "key": "postsNeedingResanitize › returns nothing for no posts",
+      "line": 49,
+      "registeredAt": "2026-11-07T00:29:44.562946+00:00",
+      "runner": "tests"
+    },
+    {
       "description": "A bare JSON value parses fine. Deciding it is not a usable message is validation's job, not parsing's — conflating the two would answer 400 where the form expects a 422 with field problems.",
       "file": "app/lib/contactRequest.test.ts",
       "format": "vitest",
@@ -1159,6 +1213,60 @@
       "key": "requireConnectionString › treats an empty string as unset",
       "line": 49,
       "registeredAt": "2026-08-27T21:49:03Z",
+      "runner": "tests"
+    },
+    {
+      "description": "A crash still releases the database connection and fails the run.",
+      "file": "scripts/resanitize-posts.test.ts",
+      "format": "vitest",
+      "key": "resanitize-posts main › exits non-zero and still disconnects when the read throws",
+      "line": 71,
+      "registeredAt": "2026-11-07T00:29:44.562946+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Only the stale row is rewritten, with the current sanitizer's output.",
+      "file": "scripts/resanitize-posts.test.ts",
+      "format": "vitest",
+      "key": "resanitize-posts main › updates only the posts whose cleaned body differs",
+      "line": 49,
+      "registeredAt": "2026-11-07T00:29:44.562946+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A dry run against production must not write a single row.",
+      "file": "scripts/resanitize-posts.test.ts",
+      "format": "vitest",
+      "key": "resanitize-posts main › writes nothing on a dry run but reports what would change",
+      "line": 62,
+      "registeredAt": "2026-11-07T00:29:44.562946+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A real run names each rewritten slug and totals them.",
+      "file": "app/lib/resanitizePosts.test.ts",
+      "format": "vitest",
+      "key": "resanitizeReport › lists each changed slug and a summary for a real run",
+      "line": 56,
+      "registeredAt": "2026-11-07T00:29:44.562946+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Nothing to do still prints the summary line.",
+      "file": "app/lib/resanitizePosts.test.ts",
+      "format": "vitest",
+      "key": "resanitizeReport › prints only the summary when nothing changed",
+      "line": 73,
+      "registeredAt": "2026-11-07T00:29:44.562946+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A dry run must not read as if it wrote anything.",
+      "file": "app/lib/resanitizePosts.test.ts",
+      "format": "vitest",
+      "key": "resanitizeReport › says would re-sanitize on a dry run",
+      "line": 65,
+      "registeredAt": "2026-11-07T00:29:44.562946+00:00",
       "runner": "tests"
     },
     {

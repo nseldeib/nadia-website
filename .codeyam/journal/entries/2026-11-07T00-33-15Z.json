@@ -1,0 +1,109 @@
+{
+  "timestamp": "2026-11-07T00:33:15Z",
+  "title": "Re-sanitize stored posts that predate the external-link fix",
+  "type": "feature",
+  "userRequest": "## Summary\nsanitizePostHtml used to strip the target/rel attributes it added to external links. That is fixed, but feed sync only rewrites posts still in the feed, and the backfill only creates missing posts. Posts stored before the fix that have since aged out keep the old markup forever.\n\n## Key Decisions\n- Re-run the current sanitizer over every stored post body; do not refetch from Substack.\n- Idempotent: running it twice changes nothing.\n\n## Implementation\n- Add a `--resanitize` mode (or a sibling script) next to `scripts/backfill-posts.ts` that reads each `Post` row, runs `app/lib/sanitizePostHtml.ts` on its body, and updates only rows whose output differs.\n- Unit test alongside `scripts/backfill-posts.test.ts` covering an old-markup body and an already-clean body.\n- Document the one-time run next to the `posts:backfill` deploy step.",
+  "description": "Adds a one-off maintenance script, npm run posts:resanitize (scripts/resanitize-posts.ts), that re-runs the current post sanitizer over Post rows stored before the external-link fix and rewrites only the rows whose stored HTML would change. The selection and reporting logic lives in app/lib/resanitizePosts.ts (postsNeedingResanitize, resanitizeReport) so it is unit-tested without a database; the script's main only orchestrates. A --dry-run flag, added beyond the plan and accepted by the user, reports what would change without writing. 12 tests cover it, 3 proven to fail against an injected fault. Not yet run against real posts: the Neon database configured in .env has no Post table, so the script has only been exercised in tests. Scope verdict: this cycle is a maintenance follow-up and delivers none of the five project deliverables, all of which were already delivered; none deferred. Three of those rows were marked by the agent rather than the user (rebuild, redesign, design exploration) and remain worth confirming.",
+  "modifiedFiles": [
+    {
+      "path": ".codeyam/dependency-graph.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/glossary.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/per-test-evidence.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/re-sanitize-stored-posts-that-predate-the-external-link-fix.md\t.codeyam/plans/completed/re-sanitize-stored-posts-that-predate-the-external-link-fix.md",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/the-racetoberfest-link-is-shortened-to-racetoberfest-four-races-in-five-weekends-so-it-fits-on-two-lines-on-phones-the.md",
+      "status": "deleted"
+    },
+    {
+      "path": ".codeyam/proposed-plans.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache/all.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache/blobs/4b3551517ffea5e2db2d7c5cd34cd0b76c28e00abdc016cc077cbf5d7d7b7685.json",
+      "status": "deleted"
+    },
+    {
+      "path": ".codeyam/test-cache/blobs/aacae3471d3f9ce5dcdc5b648171aac17eeca6e56d824778fec7e979fbbef551.json",
+      "status": "deleted"
+    },
+    {
+      "path": ".codeyam/test-registry.json",
+      "status": "modified"
+    },
+    {
+      "path": "DATABASE.md",
+      "status": "modified"
+    },
+    {
+      "path": "package.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/completed/re-sanitize-stored-posts-that-predate-the-external-link-fix.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/state/red-proofs/re-sanitize-stored-posts-that-predate-the-external-link-fix.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/test-cache/blobs/3e3e4757a119885cb23559bed868e553f10b1d29d50049102a7a7d62eaf0feb3.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/test-cache/blobs/4aead3b643839292f33102a1e00651c95babdbfad311d7697c781989d6837289.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/test-cache/blobs/9d9d935d5fc5a19d2725dacd4efedab92b16215c2eee74724347207bcfef3136.json",
+      "status": "added"
+    },
+    {
+      "path": "app/lib/resanitizePosts.test.ts",
+      "status": "added"
+    },
+    {
+      "path": "app/lib/resanitizePosts.ts",
+      "status": "added"
+    },
+    {
+      "path": "scripts/resanitize-posts.test.ts",
+      "status": "added"
+    },
+    {
+      "path": "scripts/resanitize-posts.ts",
+      "status": "added"
+    }
+  ],
+  "testResults": {
+    "total": 230,
+    "passed": 230,
+    "failed": 0,
+    "runners": [
+      {
+        "name": "tests",
+        "total": 230,
+        "passed": 230
+      }
+    ]
+  }
+}

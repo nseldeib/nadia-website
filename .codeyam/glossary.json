@@ -724,6 +724,15 @@
     "testFile": "scripts/backfill-posts.test.ts"
   },
   {
+    "description": "Entry point of npm run posts:resanitize: reads every stored post, rewrites only the bodies the current sanitizer changes, writes nothing with --dry-run, and always disconnects.",
+    "filePath": "scripts/resanitize-posts.ts",
+    "name": "main",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "scripts/resanitize-posts.test.ts"
+  },
+  {
     "description": "The 422 reply carrying per-field problems so the form can point at what needs fixing. 422 rather than 400: the request was understood, its contents were not acceptable.",
     "filePath": "app/lib/contactResponses.ts",
     "name": "needsAnotherLook",
@@ -781,6 +790,15 @@
     "testFile": "app/lib/postDates.test.ts"
   },
   {
+    "description": "Returns the stored posts whose body the current sanitizer would change, each with its cleaned body; already-clean posts are left out so a second pass returns nothing.",
+    "filePath": "app/lib/resanitizePosts.ts",
+    "name": "postsNeedingResanitize",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "app/lib/resanitizePosts.test.ts"
+  },
+  {
     "description": "Parses an untrusted request body into a result rather than throwing or returning a response, so parsing holds no opinion about HTTP. Malformed input is an expected arrival on a public endpoint, not an exceptional one.",
     "filePath": "app/lib/contactRequest.ts",
     "name": "readJsonBody",
@@ -824,6 +842,15 @@
     "filePath": "app/lib/prismaConnection.ts",
     "name": "requireConnectionString",
     "testFile": "app/lib/prismaConnection.test.ts"
+  },
+  {
+    "description": "Builds the re-sanitize script's output lines: one per changed slug plus a summary, worded as would re-sanitize on a dry run.",
+    "filePath": "app/lib/resanitizePosts.ts",
+    "name": "resanitizeReport",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "app/lib/resanitizePosts.test.ts"
   },
   {
     "description": "Generates robots.txt: every crawler may read the whole site, and the sitemap is advertised on the canonical host so no fetch pays a redirect hop. Nothing is disallowed on purpose — the editor's isolation routes already 404 in production, and robots.txt is public, so naming them would advertise paths rather than hide them.",

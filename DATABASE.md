@@ -205,11 +205,22 @@ separate step before the writing routes deploy:
 npm run db:push
 # 3. Fill it with every public post Substack lists, not just the newest 20.
 npm run posts:backfill
+# 4. Re-clean bodies stored before the current sanitizer (one-time; see below).
+npm run posts:resanitize
 ```
 
 The backfill prints what it did (`added`, `updated`, `backfilled`) and the
 table's final count, and exits non-zero if the feed could not be read. It is
 safe to re-run.
+
+`posts:resanitize` re-runs the current `sanitizePostHtml` over every stored
+body and rewrites only the rows whose output changes, printing each slug it
+touched. Bodies are sanitized on the way in, so a sanitizer fix otherwise only
+reaches posts the feed sync rewrites — a post that has aged out of the feed
+keeps whatever markup it was stored with. Run it once after any change to the
+sanitizer. It fetches nothing from Substack and is safe to re-run; a second run
+reports `re-sanitized 0`. To see what it would change without writing anything,
+run `npm run posts:resanitize -- --dry-run` first.
 
 Why a backfill at all: Substack's RSS carries only the 20 newest posts. The
 site also asks Substack's archive API for the full list and fetches any post

@@ -650,6 +650,7 @@
       "importedBy": [
         "prisma/seed.ts",
         "prisma.config.ts",
+        "scripts/resanitize-posts.ts",
         "scripts/backfill-posts.ts",
         "vitest.config.ts"
       ]
@@ -711,6 +712,7 @@
       "importedBy": [
         "app/lib/posts.ts",
         "app/api/contact/route.ts",
+        "scripts/resanitize-posts.ts",
         "scripts/backfill-posts.ts"
       ]
     },
@@ -741,6 +743,22 @@
         "components/AdventuresReading.tsx"
       ]
     },
+    "app/lib/resanitizePosts.test.ts": {
+      "imports": [
+        "app/lib/resanitizePosts.ts",
+        "app/lib/sanitizePostHtml.ts"
+      ],
+      "importedBy": []
+    },
+    "app/lib/resanitizePosts.ts": {
+      "imports": [
+        "app/lib/sanitizePostHtml.ts"
+      ],
+      "importedBy": [
+        "app/lib/resanitizePosts.test.ts",
+        "scripts/resanitize-posts.ts"
+      ]
+    },
     "app/lib/sanitizePostHtml.test.ts": {
       "imports": [
         "app/lib/sanitizePostHtml.ts"
@@ -750,8 +768,10 @@
     "app/lib/sanitizePostHtml.ts": {
       "imports": [],
       "importedBy": [
+        "app/lib/resanitizePosts.test.ts",
         "app/lib/posts.ts",
         "app/lib/sanitizePostHtml.test.ts",
+        "app/lib/resanitizePosts.ts",
         "app/writing/[slug]/page.tsx"
       ]
     },
@@ -1744,6 +1764,22 @@
         "scripts/backfill-posts.test.ts"
       ]
     },
+    "scripts/resanitize-posts.test.ts": {
+      "imports": [
+        "scripts/resanitize-posts.ts"
+      ],
+      "importedBy": []
+    },
+    "scripts/resanitize-posts.ts": {
+      "imports": [
+        "app/lib/loadEnv.ts",
+        "app/lib/prisma.ts",
+        "app/lib/resanitizePosts.ts"
+      ],
+      "importedBy": [
+        "scripts/resanitize-posts.test.ts"
+      ]
+    },
     "vitest.config.ts": {
       "imports": [
         "app/lib/loadEnv.ts"
@@ -2607,6 +2643,7 @@
       "importedBy": [
         "prisma/seed.ts::__file_root__",
         "prisma.config.ts::__file_root__",
+        "scripts/resanitize-posts.ts::__file_root__",
         "scripts/backfill-posts.ts::__file_root__",
         "vitest.config.ts::__file_root__"
       ]
@@ -2775,6 +2812,7 @@
       "importedBy": [
         "app/lib/posts.ts::__file_root__",
         "app/api/contact/route.ts::__file_root__",
+        "scripts/resanitize-posts.ts::__file_root__",
         "scripts/backfill-posts.ts::__file_root__"
       ]
     },
@@ -2821,6 +2859,40 @@
         "components/AdventuresReading.tsx::__file_root__"
       ]
     },
+    "app/lib/resanitizePosts.test.ts::__file_root__": {
+      "filePath": "app/lib/resanitizePosts.test.ts",
+      "name": "__file_root__",
+      "imports": [
+        "app/lib/resanitizePosts.ts::postsNeedingResanitize",
+        "app/lib/resanitizePosts.ts::resanitizeReport",
+        "app/lib/sanitizePostHtml.ts::sanitizePostHtml"
+      ],
+      "importedBy": []
+    },
+    "app/lib/resanitizePosts.ts::__file_root__": {
+      "filePath": "app/lib/resanitizePosts.ts",
+      "name": "__file_root__",
+      "imports": [
+        "app/lib/sanitizePostHtml.ts::sanitizePostHtml"
+      ],
+      "importedBy": []
+    },
+    "app/lib/resanitizePosts.ts::postsNeedingResanitize": {
+      "filePath": "app/lib/resanitizePosts.ts",
+      "name": "postsNeedingResanitize",
+      "imports": [],
+      "importedBy": [
+        "scripts/resanitize-posts.ts::__file_root__"
+      ]
+    },
+    "app/lib/resanitizePosts.ts::resanitizeReport": {
+      "filePath": "app/lib/resanitizePosts.ts",
+      "name": "resanitizeReport",
+      "imports": [],
+      "importedBy": [
+        "scripts/resanitize-posts.ts::__file_root__"
+      ]
+    },
     "app/lib/sanitizePostHtml.test.ts::__file_root__": {
       "filePath": "app/lib/sanitizePostHtml.test.ts",
       "name": "__file_root__",
@@ -2844,8 +2916,10 @@
       "name": "sanitizePostHtml",
       "imports": [],
       "importedBy": [
+        "app/lib/resanitizePosts.test.ts::__file_root__",
         "app/lib/posts.ts::__file_root__",
-        "app/lib/sanitizePostHtml.test.ts::__file_root__"
+        "app/lib/sanitizePostHtml.test.ts::__file_root__",
+        "app/lib/resanitizePosts.ts::__file_root__"
       ]
     },
     "app/lib/sendNotification.test.ts::__file_root__": {
@@ -4040,6 +4114,27 @@
       ],
       "importedBy": []
     },
+    "scripts/resanitize-posts.test.ts::runScript": {
+      "filePath": "scripts/resanitize-posts.test.ts",
+      "name": "runScript",
+      "imports": [
+        "scripts/resanitize-posts.ts::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "scripts/resanitize-posts.ts::__file_root__": {
+      "filePath": "scripts/resanitize-posts.ts",
+      "name": "__file_root__",
+      "imports": [
+        "app/lib/loadEnv.ts::__file_root__",
+        "app/lib/prisma.ts::__file_root__",
+        "app/lib/resanitizePosts.ts::postsNeedingResanitize",
+        "app/lib/resanitizePosts.ts::resanitizeReport"
+      ],
+      "importedBy": [
+        "scripts/resanitize-posts.test.ts::runScript"
+      ]
+    },
     "vitest.config.ts::__file_root__": {
       "filePath": "vitest.config.ts",
       "name": "__file_root__",
@@ -4049,5 +4144,5 @@
       "importedBy": []
     }
   },
-  "lastUpdated": "2026-11-07T00:09:34Z"
+  "lastUpdated": "2026-11-07T00:30:47Z"
 }
