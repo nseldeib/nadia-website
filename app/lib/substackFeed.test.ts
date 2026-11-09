@@ -82,7 +82,21 @@ describe('parseApiPost', () => {
       publishedAt: new Date('2024-07-24T12:00:00.000Z'),
       canonicalUrl: 'https://blog.nseldeib.com/p/our-vision-for-codeyam-why-build',
       bodyHtml: '<p>Hello</p>',
+      coverImageUrl: null,
     });
+  });
+
+  // An older post fetched by slug must get its cover too, or its share card
+  // falls back to the site photo.
+  it('reads the cover image', () => {
+    const cover = 'https://substackcdn.com/image/fetch/$s_!x!,f_auto/https%3A%2F%2Fexample.com%2Fc.jpeg';
+    expect(parseApiPost({ ...full, cover_image: cover })?.coverImageUrl).toBe(cover);
+  });
+
+  // A missing or blank cover is no cover.
+  it('treats a missing or blank cover image as none', () => {
+    expect(parseApiPost({ ...full, cover_image: '' })?.coverImageUrl).toBeNull();
+    expect(parseApiPost({ ...full, cover_image: 42 })?.coverImageUrl).toBeNull();
   });
 
   // A blank or missing subtitle is stored as null, matching the feed parser.
@@ -266,9 +280,10 @@ describe('parseFeed', () => {
     pubDate = 'Mon, 06 Jul 2026 12:00:00 GMT',
     description = '<![CDATA[A subtitle]]>',
     body = '<![CDATA[<p>Body</p>]]>',
-  }: Partial<Record<'link' | 'title' | 'pubDate' | 'description' | 'body', string>> = {}) =>
+    enclosure = '',
+  }: Partial<Record<'link' | 'title' | 'pubDate' | 'description' | 'body' | 'enclosure', string>> = {}) =>
     `<item><title>${title}</title><link>${link}</link><pubDate>${pubDate}</pubDate>` +
-    `<description>${description}</description><content:encoded>${body}</content:encoded></item>`;
+    `<description>${description}</description>${enclosure}<content:encoded>${body}</content:encoded></item>`;
   const rss = (...items: string[]) =>
     `<?xml version="1.0"?><rss xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel>${items.join('')}</channel></rss>`;
 
@@ -284,8 +299,25 @@ describe('parseFeed', () => {
         publishedAt: new Date('2026-07-06T12:00:00Z'),
         canonicalUrl: 'https://blog.nseldeib.com/p/first',
         bodyHtml: '<p>Body</p>',
+        coverImageUrl: null,
       },
     ]);
+  });
+
+  // Substack puts each post's cover image in an image enclosure; that is the
+  // picture its share card should show.
+  it('reads the cover image from an image enclosure', () => {
+    const url = 'https://substackcdn.com/image/fetch/$s_!x!,f_auto/https%3A%2F%2Fexample.com%2Fc.jpeg';
+    const posts = parseFeed(rss(item({ enclosure: `<enclosure url="${url}" length="0" type="image/jpeg"/>` })));
+    expect(posts[0].coverImageUrl).toBe(url);
+  });
+
+  // An audio or video enclosure, a podcast episode, is not a cover image.
+  it('ignores an enclosure that is not an image', () => {
+    const posts = parseFeed(
+      rss(item({ enclosure: '<enclosure url="https://example.com/ep.mp3" length="1" type="audio/mpeg"/>' })),
+    );
+    expect(posts[0].coverImageUrl).toBeNull();
   });
 
   // Multiple items keep the feed's order.

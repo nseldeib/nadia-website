@@ -55,6 +55,7 @@ export type SeedPost = {
   publishedAt: string;
   canonicalUrl: string;
   bodyHtml: string;
+  coverImageUrl?: string | null;
 };
 
 /**
@@ -70,6 +71,7 @@ export function toSeedPostRow(p: SeedPost) {
     publishedAt: new Date(p.publishedAt),
     canonicalUrl: p.canonicalUrl,
     bodyHtml: p.bodyHtml,
+    coverImageUrl: p.coverImageUrl ?? null,
   };
 }
 

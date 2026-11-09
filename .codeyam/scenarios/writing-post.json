@@ -11,6 +11,7 @@
       {
         "bodyHtml": "<p>Applying to the South Park Commons Founder Fellowship: My Experience and Advice. The opening paragraph of the essay.</p>",
         "canonicalUrl": "https://blog.nseldeib.com/p/applying-to-the-south-park-commons",
+        "coverImageUrl": null,
         "firstSeenAt": "2026-07-14T00:00:00.000Z",
         "publishedAt": "2026-07-13T16:52:49.000Z",
         "slug": "applying-to-the-south-park-commons",
@@ -21,6 +22,7 @@
       {
         "bodyHtml": "<p>Most of what I have learned about shipping came from doing it badly first.</p><h2>Start smaller than feels reasonable</h2><p>The first version should embarrass you a little. <strong>If it does not</strong>, you waited <em>too long</em>.</p><ul><li>Pick one user.</li><li>Pick one problem.</li><li>Ship by Friday.</li></ul><blockquote><p>You can just ship things.</p></blockquote><p>Thanks for reading.</p>",
         "canonicalUrl": "https://blog.nseldeib.com/p/you-can-just-ship-things",
+        "coverImageUrl": "https://substackcdn.com/image/fetch/$s_!H_Af!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd271aa05-c83c-4ec9-a624-b44568ffa2c8.heic",
         "firstSeenAt": "2026-07-14T00:00:00.000Z",
         "publishedAt": "2026-07-06T20:56:20.000Z",
         "slug": "you-can-just-ship-things",
@@ -31,6 +33,7 @@
       {
         "bodyHtml": "<p>What If Creativity Was the Constraint?. The opening paragraph of the essay.</p>",
         "canonicalUrl": "https://blog.nseldeib.com/p/what-if-creativity-was-the-constraint",
+        "coverImageUrl": null,
         "firstSeenAt": "2026-07-14T00:00:00.000Z",
         "publishedAt": "2026-06-12T20:27:10.000Z",
         "slug": "what-if-creativity-was-the-constraint",
@@ -41,6 +44,7 @@
       {
         "bodyHtml": "<p>A Year of Building. The opening paragraph of the essay.</p>",
         "canonicalUrl": "https://blog.nseldeib.com/p/a-year-of-building",
+        "coverImageUrl": null,
         "firstSeenAt": "2026-07-14T00:00:00.000Z",
         "publishedAt": "2025-12-30T18:00:00.000Z",
         "slug": "a-year-of-building",
@@ -51,6 +55,7 @@
       {
         "bodyHtml": "<p>First Post. The opening paragraph of the essay.</p>",
         "canonicalUrl": "https://blog.nseldeib.com/p/first-post",
+        "coverImageUrl": null,
         "firstSeenAt": "2026-07-14T00:00:00.000Z",
         "publishedAt": "2024-07-24T15:00:00.000Z",
         "slug": "first-post",

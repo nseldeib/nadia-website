@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { SITE_URL } from './lib/siteUrl';
+import { SHARE_IMAGE } from './lib/shareImage';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -14,7 +15,9 @@ export const metadata: Metadata = {
     url: SITE_URL,
     siteName: 'Nadia Eldeib',
     type: 'website',
+    images: [SHARE_IMAGE],
   },
+  twitter: { card: 'summary_large_image' },
   alternates: { canonical: SITE_URL },
 };
 

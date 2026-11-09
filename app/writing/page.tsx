@@ -6,6 +6,7 @@ import ArchiveList from '@/components/writing/ArchiveList';
 import WritingCta from '@/components/writing/WritingCta';
 import { listPosts, reconcileWithinDeadline } from '@/app/lib/posts';
 import { siteUrl } from '@/app/lib/siteUrl';
+import { SHARE_IMAGE } from '@/app/lib/shareImage';
 import styles from './writing.module.css';
 
 /* Rendered per request so a scenario's seeded rows are the rows this page
@@ -23,6 +24,7 @@ export const metadata: Metadata = {
     url: siteUrl('/writing'),
     siteName: 'Nadia Eldeib',
     type: 'website',
+    images: [SHARE_IMAGE],
   },
 };
 

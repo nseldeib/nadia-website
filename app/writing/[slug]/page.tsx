@@ -9,6 +9,7 @@ import { adjacentPosts, getPost, reconcileWithinDeadline } from '@/app/lib/posts
 import { excerptFromHtml } from '@/app/lib/sanitizePostHtml';
 import { formatPostDateLong } from '@/app/lib/postDates';
 import { siteUrl } from '@/app/lib/siteUrl';
+import { postShareImage } from '@/app/lib/shareImage';
 import styles from './post.module.css';
 
 export const dynamic = 'force-dynamic';
@@ -59,6 +60,7 @@ export async function generateMetadata({
       siteName: 'Nadia Eldeib',
       type: 'article',
       publishedTime: post.publishedAt.toISOString(),
+      images: [postShareImage(post)],
     },
   };
 }

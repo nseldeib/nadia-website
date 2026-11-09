@@ -1,0 +1,18 @@
+{
+  "surface": "PostPage",
+  "surface_kind": "component",
+  "states": [
+    {
+      "dimension": "stored",
+      "value": "true",
+      "rationale": "source-derived state stored=true",
+      "status": "planned"
+    },
+    {
+      "dimension": "stored",
+      "value": "false",
+      "rationale": "source-derived state stored=false",
+      "status": "planned"
+    }
+  ]
+}

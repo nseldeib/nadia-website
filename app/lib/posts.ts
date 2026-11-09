@@ -107,6 +107,7 @@ export function toPostRow(post: FeedPost) {
     publishedAt: post.publishedAt,
     canonicalUrl: post.canonicalUrl,
     bodyHtml: sanitizePostHtml(post.bodyHtml),
+    coverImageUrl: post.coverImageUrl,
   };
 }
 

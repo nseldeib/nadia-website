@@ -64,6 +64,33 @@
       "runner": "tests"
     },
     {
+      "description": "Screen readers and broken-image fallbacks read the alt text.",
+      "file": "app/lib/shareImage.test.ts",
+      "format": "vitest",
+      "key": "SHARE_IMAGE › carries descriptive alt text",
+      "line": 42,
+      "registeredAt": "2026-11-07T01:24:46.949486+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "LinkedIn, X and Slack render a large card only for a 1200 by 630 image.",
+      "file": "app/lib/shareImage.test.ts",
+      "format": "vitest",
+      "key": "SHARE_IMAGE › is sized for a large link preview card",
+      "line": 29,
+      "registeredAt": "2026-11-07T01:24:46.949486+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "The file is served from public/, so the URL must be root-relative for metadataBase to make it absolute.",
+      "file": "app/lib/shareImage.test.ts",
+      "format": "vitest",
+      "key": "SHARE_IMAGE › points at the served JPEG under public images",
+      "line": 36,
+      "registeredAt": "2026-11-07T01:24:46.949486+00:00",
+      "runner": "tests"
+    },
+    {
       "description": "Pins the canonical origin's exact shape. Three consumers concatenate onto it — document metadata, robots.txt, sitemap.xml — so a trailing slash here silently becomes \"//sitemap.xml\" in the advertised sitemap link.",
       "file": "app/lib/siteUrl.test.ts",
       "format": "vitest",
@@ -86,7 +113,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "adjacentPosts › previous is the next-older post and next is the next-newer one",
-      "line": 328,
+      "line": 337,
       "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     },
@@ -95,7 +122,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "adjacentPosts › returns nulls for an unknown slug",
-      "line": 321,
+      "line": 330,
       "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     },
@@ -104,7 +131,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "allPostSlugs › returns every stored slug, newest first",
-      "line": 345,
+      "line": 354,
       "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     },
@@ -113,7 +140,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "archivePageUrl › appends an encoded cursor for later pages",
-      "line": 117,
+      "line": 131,
       "registeredAt": "2026-11-06T02:18:20Z",
       "runner": "tests"
     },
@@ -122,7 +149,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "archivePageUrl › builds the first page URL without a cursor",
-      "line": 111,
+      "line": 125,
       "registeredAt": "2026-11-06T02:18:20Z",
       "runner": "tests"
     },
@@ -131,7 +158,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "archivePageUrl › never asks for more than the API accepts",
-      "line": 124,
+      "line": 138,
       "registeredAt": "2026-11-06T02:18:20Z",
       "runner": "tests"
     },
@@ -482,7 +509,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "fetchArchiveIndex › fails when the first page fails",
-      "line": 171,
+      "line": 185,
       "registeredAt": "2026-11-06T02:19:39.610854+00:00",
       "runner": "tests"
     },
@@ -491,7 +518,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "fetchArchiveIndex › never throws on a network error",
-      "line": 191,
+      "line": 205,
       "registeredAt": "2026-11-06T02:19:39.610854+00:00",
       "runner": "tests"
     },
@@ -500,7 +527,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "fetchArchiveIndex › returns a partial list when a later page fails",
-      "line": 156,
+      "line": 170,
       "registeredAt": "2026-11-06T02:19:39.610854+00:00",
       "runner": "tests"
     },
@@ -509,7 +536,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "fetchArchiveIndex › stops at the page ceiling",
-      "line": 181,
+      "line": 195,
       "registeredAt": "2026-11-06T02:19:39.610854+00:00",
       "runner": "tests"
     },
@@ -518,7 +545,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "fetchArchiveIndex › walks the cursor until the last page",
-      "line": 141,
+      "line": 155,
       "registeredAt": "2026-11-06T02:19:39.610854+00:00",
       "runner": "tests"
     },
@@ -527,7 +554,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "fetchFeed › never throws on a network error",
-      "line": 191,
+      "line": 205,
       "registeredAt": "2026-11-06T15:13:34.949047+00:00",
       "runner": "tests"
     },
@@ -536,7 +563,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "fetchFeed › reports a non-2xx status without throwing",
-      "line": 342,
+      "line": 374,
       "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     },
@@ -545,7 +572,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "fetchFeed › returns the parsed posts on success",
-      "line": 333,
+      "line": 365,
       "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     },
@@ -554,7 +581,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "fetchFeed › treats a feed with no usable posts as a failure",
-      "line": 348,
+      "line": 380,
       "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     },
@@ -563,7 +590,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "fetchPostBySlug › reports a non-2xx response",
-      "line": 224,
+      "line": 238,
       "registeredAt": "2026-11-06T02:19:39.610854+00:00",
       "runner": "tests"
     },
@@ -572,7 +599,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "fetchPostBySlug › reports a post missing required fields",
-      "line": 233,
+      "line": 247,
       "registeredAt": "2026-11-06T02:19:39.610854+00:00",
       "runner": "tests"
     },
@@ -581,7 +608,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "fetchPostBySlug › returns the parsed post",
-      "line": 205,
+      "line": 219,
       "registeredAt": "2026-11-06T02:19:39.610854+00:00",
       "runner": "tests"
     },
@@ -671,7 +698,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "getPost › looks a post up by slug",
-      "line": 312,
+      "line": 321,
       "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     },
@@ -824,7 +851,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "listPosts › applies a limit when given one",
-      "line": 289,
+      "line": 298,
       "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     },
@@ -833,7 +860,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "listPosts › reads newest first without the body, uncapped by default",
-      "line": 278,
+      "line": 287,
       "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     },
@@ -910,11 +937,20 @@
       "runner": "tests"
     },
     {
+      "description": "An older post fetched by slug must get its cover too, or its share card falls back to the site photo.",
+      "file": "app/lib/substackFeed.test.ts",
+      "format": "vitest",
+      "key": "parseApiPost › reads the cover image",
+      "line": 91,
+      "registeredAt": "2026-11-07T01:24:46.949486+00:00",
+      "runner": "tests"
+    },
+    {
       "description": "An error body or null must not throw.",
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "parseApiPost › rejects a body that is not a post",
-      "line": 103,
+      "line": 117,
       "registeredAt": "2026-11-06T02:18:20Z",
       "runner": "tests"
     },
@@ -923,8 +959,17 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "parseApiPost › rejects a post missing any required field",
-      "line": 96,
+      "line": 110,
       "registeredAt": "2026-11-06T02:18:20Z",
+      "runner": "tests"
+    },
+    {
+      "description": "A missing or blank cover is no cover.",
+      "file": "app/lib/substackFeed.test.ts",
+      "format": "vitest",
+      "key": "parseApiPost › treats a missing or blank cover image as none",
+      "line": 97,
+      "registeredAt": "2026-11-07T01:24:46.949486+00:00",
       "runner": "tests"
     },
     {
@@ -932,7 +977,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "parseApiPost › turns a blank subtitle into null",
-      "line": 89,
+      "line": 103,
       "registeredAt": "2026-11-06T02:18:20Z",
       "runner": "tests"
     },
@@ -973,11 +1018,20 @@
       "runner": "tests"
     },
     {
+      "description": "An audio or video enclosure, a podcast episode, is not a cover image.",
+      "file": "app/lib/substackFeed.test.ts",
+      "format": "vitest",
+      "key": "parseFeed › ignores an enclosure that is not an image",
+      "line": 316,
+      "registeredAt": "2026-11-07T01:24:46.949486+00:00",
+      "runner": "tests"
+    },
+    {
       "description": "A one-post feed must not be lost to the bare-object shape.",
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "parseFeed › parses a single item, which fast-xml-parser hands back as a bare object",
-      "line": 276,
+      "line": 291,
       "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     },
@@ -986,8 +1040,17 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "parseFeed › parses many items in feed order",
-      "line": 292,
+      "line": 324,
       "registeredAt": "2026-11-06T15:15:12.641309+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Substack puts each post's cover image in an image enclosure; that is the picture its share card should show.",
+      "file": "app/lib/substackFeed.test.ts",
+      "format": "vitest",
+      "key": "parseFeed › reads the cover image from an image enclosure",
+      "line": 309,
+      "registeredAt": "2026-11-07T01:24:46.949486+00:00",
       "runner": "tests"
     },
     {
@@ -995,7 +1058,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "parseFeed › returns nothing for a feed with no items or non-feed XML",
-      "line": 319,
+      "line": 351,
       "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     },
@@ -1004,7 +1067,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "parseFeed › skips items missing a slug, title, date, or body",
-      "line": 305,
+      "line": 337,
       "registeredAt": "2026-11-06T15:13:34.949047+00:00",
       "runner": "tests"
     },
@@ -1013,7 +1076,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "parseFeed › stores an empty description as a null subtitle",
-      "line": 300,
+      "line": 332,
       "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     },
@@ -1078,6 +1141,42 @@
       "key": "pickActive › returns the one visible section",
       "line": 14,
       "registeredAt": "2026-08-26T22:20:16Z",
+      "runner": "tests"
+    },
+    {
+      "description": "A post card shows that post, not the site: its Substack cover, cropped by Substack's image CDN to the large-card size.",
+      "file": "app/lib/shareImage.test.ts",
+      "format": "vitest",
+      "key": "postShareImage › crops a Substack cover to 1200 by 630",
+      "line": 52,
+      "registeredAt": "2026-11-07T01:24:46.949486+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "The cover has no alt text of its own; the post title says what it is for.",
+      "file": "app/lib/shareImage.test.ts",
+      "format": "vitest",
+      "key": "postShareImage › describes the cover with the post title",
+      "line": 62,
+      "registeredAt": "2026-11-07T01:24:46.949486+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A post without a usable cover still gets a picture: the site one.",
+      "file": "app/lib/shareImage.test.ts",
+      "format": "vitest",
+      "key": "postShareImage › falls back to the site image when there is no usable cover",
+      "line": 75,
+      "registeredAt": "2026-11-07T01:24:46.949486+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A cover hosted somewhere other than Substack's CDN cannot be cropped, so it is used as-is and no size is claimed for it.",
+      "file": "app/lib/shareImage.test.ts",
+      "format": "vitest",
+      "key": "postShareImage › uses any other https cover unchanged without a size",
+      "line": 68,
+      "registeredAt": "2026-11-07T01:24:46.949486+00:00",
       "runner": "tests"
     },
     {
@@ -1220,7 +1319,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "recentPostsForHome › returns an empty list instead of throwing",
-      "line": 304,
+      "line": 313,
       "registeredAt": "2026-11-06T15:13:34.949047+00:00",
       "runner": "tests"
     },
@@ -1229,7 +1328,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "recentPostsForHome › returns the three most recent posts",
-      "line": 297,
+      "line": 306,
       "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     },
@@ -1238,7 +1337,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "reconcileWithinDeadline › returns the sync result when it finishes in time",
-      "line": 219,
+      "line": 228,
       "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     },
@@ -1247,7 +1346,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "reconcileWithinDeadline › stops waiting at the deadline",
-      "line": 225,
+      "line": 234,
       "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     },
@@ -1256,7 +1355,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "reconcileWithinDeadline › turns a thrown reconcile into a failed result",
-      "line": 231,
+      "line": 240,
       "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     },
@@ -1508,7 +1607,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "selectBackfillCandidates › drops posts already in the feed",
-      "line": 165,
+      "line": 166,
       "registeredAt": "2026-11-06T02:18:20Z",
       "runner": "tests"
     },
@@ -1517,7 +1616,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "selectBackfillCandidates › keeps only public posts",
-      "line": 158,
+      "line": 159,
       "registeredAt": "2026-11-06T02:18:20Z",
       "runner": "tests"
     },
@@ -1526,7 +1625,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "selectBackfillCandidates › returns nothing for an empty archive",
-      "line": 170,
+      "line": 171,
       "registeredAt": "2026-11-06T02:18:20Z",
       "runner": "tests"
     },
@@ -1555,6 +1654,51 @@
       "key": "sendUrl › uses the EU host when the region says so, case-insensitively",
       "line": 91,
       "registeredAt": "2026-08-27T21:49:03Z",
+      "runner": "tests"
+    },
+    {
+      "description": "X shows the large image card only when the card type asks for it.",
+      "file": "app/lib/shareImage.test.ts",
+      "format": "vitest",
+      "key": "share image on every page › asks X for the large image card",
+      "line": 90,
+      "registeredAt": "2026-11-07T01:24:46.949486+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "Each post sets its own openGraph for its title and URL, so one without a cover must carry the site image itself.",
+      "file": "app/lib/shareImage.test.ts",
+      "format": "vitest",
+      "key": "share image on every page › is kept on a writing post without a cover",
+      "line": 120,
+      "registeredAt": "2026-11-07T01:24:46.949486+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "The archive sets its own openGraph, which replaces the parent one, so it must carry the image itself.",
+      "file": "app/lib/shareImage.test.ts",
+      "format": "vitest",
+      "key": "share image on every page › is kept on the writing archive openGraph",
+      "line": 96,
+      "registeredAt": "2026-11-07T01:24:46.949486+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "The homepage inherits the root layout openGraph.",
+      "file": "app/lib/shareImage.test.ts",
+      "format": "vitest",
+      "key": "share image on every page › is set on the root layout openGraph",
+      "line": 85,
+      "registeredAt": "2026-11-07T01:24:46.949486+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "A post with a cover shares that cover, not the site photo.",
+      "file": "app/lib/shareImage.test.ts",
+      "format": "vitest",
+      "key": "share image on every page › is the post cover on a writing post that has one",
+      "line": 110,
+      "registeredAt": "2026-11-07T01:24:46.949486+00:00",
       "runner": "tests"
     },
     {
@@ -1652,7 +1796,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "slugFromLink › ignores a query string or fragment",
-      "line": 249,
+      "line": 263,
       "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     },
@@ -1661,7 +1805,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "slugFromLink › returns null for a link that is not a post",
-      "line": 255,
+      "line": 269,
       "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     },
@@ -1670,7 +1814,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "slugFromLink › takes the slug Substack already uses",
-      "line": 242,
+      "line": 256,
       "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     },
@@ -1742,7 +1886,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "storeIsFresh via syncPostsFromFeed › consults the feed when the newest row is older than the window",
-      "line": 199,
+      "line": 208,
       "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     },
@@ -1751,7 +1895,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "storeIsFresh via syncPostsFromFeed › consults the feed when the store is empty",
-      "line": 208,
+      "line": 217,
       "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     },
@@ -1760,7 +1904,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "storeIsFresh via syncPostsFromFeed › skips the feed when the newest row was updated within the revalidate window",
-      "line": 189,
+      "line": 198,
       "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     },
@@ -1868,7 +2012,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "syncPostsFromFeed backfill › backfills posts that have aged out of the RSS window",
-      "line": 74,
+      "line": 75,
       "registeredAt": "2026-11-06T02:18:20Z",
       "runner": "tests"
     },
@@ -1877,7 +2021,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "syncPostsFromFeed backfill › does not backfill when the feed itself fails",
-      "line": 146,
+      "line": 147,
       "registeredAt": "2026-11-06T02:18:20Z",
       "runner": "tests"
     },
@@ -1886,7 +2030,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "syncPostsFromFeed backfill › never throws when a backfill write fails",
-      "line": 134,
+      "line": 135,
       "registeredAt": "2026-11-06T02:18:20Z",
       "runner": "tests"
     },
@@ -1895,7 +2039,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "syncPostsFromFeed backfill › reports an archive failure without losing the feed results",
-      "line": 108,
+      "line": 109,
       "registeredAt": "2026-11-06T02:18:20Z",
       "runner": "tests"
     },
@@ -1904,7 +2048,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "syncPostsFromFeed backfill › skips archive posts the store already holds",
-      "line": 92,
+      "line": 93,
       "registeredAt": "2026-11-06T02:18:20Z",
       "runner": "tests"
     },
@@ -1913,7 +2057,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "syncPostsFromFeed backfill › stores the posts it can and reports the ones it cannot",
-      "line": 119,
+      "line": 120,
       "registeredAt": "2026-11-06T02:18:20Z",
       "runner": "tests"
     },
@@ -1922,7 +2066,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "syncPostsQuietly › respects the freshness skip",
-      "line": 251,
+      "line": 260,
       "registeredAt": "2026-11-06T23:11:47.194301+00:00",
       "runner": "tests"
     },
@@ -1931,7 +2075,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "syncPostsQuietly › runs the reconcile and resolves to nothing",
-      "line": 241,
+      "line": 250,
       "registeredAt": "2026-11-06T23:11:47.194301+00:00",
       "runner": "tests"
     },
@@ -1940,7 +2084,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "syncPostsQuietly › swallows a failed write after the feed was fetched",
-      "line": 267,
+      "line": 276,
       "registeredAt": "2026-11-06T23:11:47.194301+00:00",
       "runner": "tests"
     },
@@ -1949,7 +2093,7 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "syncPostsQuietly › swallows a thrown reconcile",
-      "line": 260,
+      "line": 269,
       "registeredAt": "2026-11-06T23:11:47.194301+00:00",
       "runner": "tests"
     },
@@ -2012,8 +2156,17 @@
       "file": "app/lib/posts.test.ts",
       "format": "vitest",
       "key": "toPostRow › sanitizes the body and keeps every other field",
-      "line": 178,
+      "line": 179,
       "registeredAt": "2026-11-06T02:18:20Z",
+      "runner": "tests"
+    },
+    {
+      "description": "The cover is stored with the post so its share card can show it without asking Substack at render time.",
+      "file": "app/lib/posts.test.ts",
+      "format": "vitest",
+      "key": "toPostRow › stores the cover image URL",
+      "line": 188,
+      "registeredAt": "2026-11-07T01:24:46.949486+00:00",
       "runner": "tests"
     },
     {

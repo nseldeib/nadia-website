@@ -53,6 +53,7 @@ function feedPost(slug: string): FeedPost {
     publishedAt: new Date('2026-07-06'),
     canonicalUrl: `https://blog.nseldeib.com/p/${slug}`,
     bodyHtml: '<p>Body</p>',
+    coverImageUrl: null,
   };
 }
 
@@ -180,6 +181,14 @@ describe('toPostRow', () => {
     expect(row).toMatchObject({ slug: 's', title: 'Title s', subtitle: null, canonicalUrl: 'https://blog.nseldeib.com/p/s' });
     expect(row.bodyHtml).toContain('<p>Hi</p>');
     expect(row.bodyHtml).not.toMatch(/<form|<input|<button/);
+  });
+
+  // The cover is stored with the post so its share card can show it without
+  // asking Substack at render time.
+  it('stores the cover image URL', () => {
+    const cover = 'https://substackcdn.com/image/fetch/$s_!x!,f_auto/https%3A%2F%2Fexample.com%2Fc.jpeg';
+    expect(toPostRow({ ...feedPost('s'), coverImageUrl: cover }).coverImageUrl).toBe(cover);
+    expect(toPostRow(feedPost('s')).coverImageUrl).toBeNull();
   });
 });
 

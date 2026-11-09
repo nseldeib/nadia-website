@@ -555,9 +555,12 @@
     "app/layout.tsx": {
       "imports": [
         "app/lib/siteUrl.ts",
+        "app/lib/shareImage.ts",
         "app/globals.css"
       ],
-      "importedBy": []
+      "importedBy": [
+        "app/lib/shareImage.test.ts"
+      ]
     },
     "app/lib/activeSection.test.ts": {
       "imports": [
@@ -793,6 +796,24 @@
         "app/api/contact/route.ts"
       ]
     },
+    "app/lib/shareImage.test.ts": {
+      "imports": [
+        "app/lib/shareImage.ts",
+        "app/layout.tsx",
+        "app/writing/page.tsx",
+        "app/writing/[slug]/page.tsx"
+      ],
+      "importedBy": []
+    },
+    "app/lib/shareImage.ts": {
+      "imports": [],
+      "importedBy": [
+        "app/layout.tsx",
+        "app/lib/shareImage.test.ts",
+        "app/writing/page.tsx",
+        "app/writing/[slug]/page.tsx"
+      ]
+    },
     "app/lib/siteUrl.test.ts": {
       "imports": [
         "app/lib/siteUrl.ts"
@@ -960,9 +981,11 @@
         "app/lib/sanitizePostHtml.ts",
         "app/lib/postDates.ts",
         "app/lib/siteUrl.ts",
+        "app/lib/shareImage.ts",
         "app/writing/[slug]/post.module.css"
       ],
       "importedBy": [
+        "app/lib/shareImage.test.ts",
         "app/writing/[slug]/page.test.ts"
       ]
     },
@@ -981,9 +1004,12 @@
         "components/writing/WritingCta.tsx",
         "app/lib/posts.ts",
         "app/lib/siteUrl.ts",
+        "app/lib/shareImage.ts",
         "app/writing/writing.module.css"
       ],
-      "importedBy": []
+      "importedBy": [
+        "app/lib/shareImage.test.ts"
+      ]
     },
     "app/writing/writing.module.css": {
       "imports": [],
@@ -2476,9 +2502,12 @@
       "name": "__file_root__",
       "imports": [
         "app/lib/siteUrl.ts::__file_root__",
+        "app/lib/shareImage.ts::__file_root__",
         "app/globals.css::__file_root__"
       ],
-      "importedBy": []
+      "importedBy": [
+        "app/lib/shareImage.test.ts::__file_root__"
+      ]
     },
     "app/lib/activeSection.test.ts::__file_root__": {
       "filePath": "app/lib/activeSection.test.ts",
@@ -3045,6 +3074,33 @@
         "app/lib/sendNotification.test.ts::__file_root__"
       ]
     },
+    "app/lib/shareImage.test.ts::__file_root__": {
+      "filePath": "app/lib/shareImage.test.ts",
+      "name": "__file_root__",
+      "imports": [
+        "app/lib/shareImage.ts::__file_root__",
+        "app/layout.tsx::__file_root__",
+        "app/writing/page.tsx::__file_root__",
+        "app/writing/[slug]/page.tsx::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "app/lib/shareImage.ts::__file_root__": {
+      "filePath": "app/lib/shareImage.ts",
+      "name": "__file_root__",
+      "imports": [],
+      "importedBy": [
+        "app/writing/page.tsx::__file_root__"
+      ]
+    },
+    "app/lib/shareImage.ts::postShareImage": {
+      "filePath": "app/lib/shareImage.ts",
+      "name": "postShareImage",
+      "imports": [],
+      "importedBy": [
+        "app/writing/[slug]/page.tsx::__file_root__"
+      ]
+    },
     "app/lib/siteUrl.test.ts::__file_root__": {
       "filePath": "app/lib/siteUrl.test.ts",
       "name": "__file_root__",
@@ -3283,6 +3339,7 @@
         "app/lib/sanitizePostHtml.ts::excerptFromHtml",
         "app/lib/postDates.ts::formatPostDateLong",
         "app/lib/siteUrl.ts::siteUrl",
+        "app/lib/shareImage.ts::postShareImage",
         "app/writing/[slug]/post.module.css::__file_root__"
       ],
       "importedBy": []
@@ -3307,6 +3364,7 @@
         "app/lib/posts.ts::listPosts",
         "app/lib/posts.ts::reconcileWithinDeadline",
         "app/lib/siteUrl.ts::siteUrl",
+        "app/lib/shareImage.ts::__file_root__",
         "app/writing/writing.module.css::__file_root__"
       ],
       "importedBy": []
@@ -4181,5 +4239,5 @@
       "importedBy": []
     }
   },
-  "lastUpdated": "2026-11-07T01:02:20Z"
+  "lastUpdated": "2026-11-09T15:30:49Z"
 }

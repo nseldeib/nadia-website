@@ -44,6 +44,8 @@ export type FeedPost = {
   publishedAt: Date;
   canonicalUrl: string;
   bodyHtml: string;
+  /** The post's cover image, the picture its share card shows; null when none. */
+  coverImageUrl: string | null;
 };
 
 export type FeedResult = { ok: true; posts: FeedPost[] } | { ok: false; reason: string };
@@ -82,6 +84,20 @@ function asText(value: unknown): string {
     return asText((value as Record<string, unknown>)['#text']);
   }
   return '';
+}
+
+/**
+ * The cover image Substack attaches to an item as `<enclosure type="image/…">`.
+ *
+ * Only an image enclosure counts: a podcast post's enclosure is its audio.
+ */
+function coverFromEnclosure(value: unknown): string | null {
+  for (const enclosure of asArray(value as Record<string, unknown> | Record<string, unknown>[] | undefined)) {
+    const type = asText(enclosure?.['@_type']);
+    const url = asText(enclosure?.['@_url']).trim();
+    if (url && type.startsWith('image/')) return url;
+  }
+  return null;
 }
 
 /**
@@ -126,6 +142,7 @@ export function parseFeed(xml: string): FeedPost[] {
       publishedAt,
       canonicalUrl: link,
       bodyHtml,
+      coverImageUrl: coverFromEnclosure(item?.enclosure),
     });
   }
 
@@ -196,7 +213,16 @@ export function parseApiPost(json: unknown): FeedPost | null {
   if (!slug || !title || !publishedAt || !bodyHtml || !canonicalUrl) return null;
 
   const subtitle = typeof item.subtitle === 'string' ? item.subtitle.trim() : '';
-  return { slug, title, subtitle: subtitle || null, publishedAt, canonicalUrl, bodyHtml };
+  const cover = typeof item.cover_image === 'string' ? item.cover_image.trim() : '';
+  return {
+    slug,
+    title,
+    subtitle: subtitle || null,
+    publishedAt,
+    canonicalUrl,
+    bodyHtml,
+    coverImageUrl: cover || null,
+  };
 }
 
 async function getJson(url: string): Promise<{ ok: true; json: unknown } | { ok: false; reason: string }> {

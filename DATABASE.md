@@ -213,6 +213,13 @@ The backfill prints what it did (`added`, `updated`, `backfilled`) and the
 table's final count, and exits non-zero if the feed could not be read. It is
 safe to re-run.
 
+Each post's `coverImageUrl` (its Substack cover, used as that post's link
+preview image) is written whenever the post is fetched. The 20 posts in the RSS
+are re-fetched on every sync, so they pick up a cover on their own. A post
+stored before the column existed and since aged out of the RSS keeps a null
+cover, and its preview falls back to the site image, until its row is deleted
+and backfilled again.
+
 `posts:resanitize` re-runs the current `sanitizePostHtml` over every stored
 body and rewrites only the rows whose output changes, printing each slug it
 touched. Bodies are sanitized on the way in, so a sanitizer fix otherwise only

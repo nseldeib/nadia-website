@@ -211,7 +211,9 @@
       "status": "pending",
       "proposedAt": "2026-11-07T00:44:17.924396+00:00",
       "rank": 6,
-      "sightings": 1
+      "sightings": 1,
+      "offeredCount": 1,
+      "lastOfferedAt": "2026-11-07T01:11:06.001196+00:00"
     },
     {
       "id": "run-the-post-backfill-automatically-after-each-deploy",
@@ -230,7 +232,9 @@
         "obs-a48d8a6acece"
       ],
       "evidenceSessions": 2,
-      "ideaRank": 1
+      "ideaRank": 1,
+      "offeredCount": 1,
+      "lastOfferedAt": "2026-11-07T01:11:06.001196+00:00"
     },
     {
       "id": "the-step-that-adds-the-essays-to-a-local-database-has-no-test-that-checks-the-database-afterwards-only-the-row-conversion-it-uses-is-tested",

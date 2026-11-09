@@ -556,6 +556,15 @@
     "testFile": "app/lib/contactResponses.test.ts"
   },
   {
+    "description": "Reads a feed item's cover image URL from its image enclosure, ignoring audio or video enclosures; null when none.",
+    "filePath": "app/lib/substackFeed.ts",
+    "name": "coverFromEnclosure",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "app/lib/substackFeed.test.ts"
+  },
+  {
     "description": "Attempts delivery of a saved note and stamps emailedAt strictly AFTER the provider accepts, never before and never on a failed send. Returns delivered, not-delivered, or delivered-unstamped. emailedAt is the only record of whether a note reached the inbox, so stamping optimistically would make an undelivered note indistinguishable from a delivered one. Takes its collaborators as arguments so all three outcomes are reachable without a database or a mail provider.",
     "filePath": "app/lib/deliverAndStamp.ts",
     "name": "deliverAndStamp",
@@ -797,6 +806,15 @@
     "filePath": "app/lib/activeSection.ts",
     "name": "pickActive",
     "testFile": "app/lib/activeSection.test.ts"
+  },
+  {
+    "description": "Picks the link-preview image for one writing post: its Substack cover re-cropped by Substack's CDN to 1200x630 with the size stated, any other https cover as-is, else the site-wide summit SHARE_IMAGE.",
+    "filePath": "app/lib/shareImage.ts",
+    "name": "postShareImage",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "app/lib/shareImage.test.ts"
   },
   {
     "description": "The UTC year a post belongs to.",

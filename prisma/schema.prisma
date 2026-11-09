@@ -67,6 +67,9 @@ model Post {
   publishedAt  DateTime
   bodyHtml     String
   canonicalUrl String
+  /// The post's Substack cover image, shown on its link-preview card. Null when
+  /// Substack lists none, in which case the card uses the site image.
+  coverImageUrl String?
   firstSeenAt  DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
