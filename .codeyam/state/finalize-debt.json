@@ -42,5 +42,9 @@
     }
   ],
   "finalizeIntent": "fast",
-  "finalizeIntentBranch": "feat/backfill-substack-posts"
+  "finalizeIntentBranch": "feat/backfill-substack-posts",
+  "lastWarned": {
+    "at": "2026-11-09T15:42:25Z",
+    "deferredCommits": 7
+  }
 }

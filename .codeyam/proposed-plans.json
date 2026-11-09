@@ -105,10 +105,10 @@
     },
     {
       "id": "database-writes-are-checked-against-a-stand-in-database-not-a-real-one-and-the-one-time-backfill-command-has-no-automated-test-neither-has-been-run-against-any-real-database-yet",
-      "title": "Database writes are checked against a stand-in database, not a real one, and the one-time backfill command has no automated test. Neither has been run against any real database yet.",
+      "title": "database-writes-are-checked-against-a-stand-in-database-not-a-real-one-and-the-one-time-backfill-command-has-no-automated-test-neither-has-been-run-against-any-real-database-yet",
       "mode": "backend",
-      "body": "## Summary\nDatabase writes are only checked against a stand-in database. This cycle added another one: `db:seed` now upserts the four running essays from `.codeyam/seed-data/running-essays.json`. Only the pure row mapping (`seedTable`) is tested, not the rows that end up in the database.\n\n## Key Decisions\n- Test against a real, throwaway Postgres database, not a mock.\n\n## Implementation\n- Add an integration test that runs the seed against a scratch database and checks the four essay rows exist and are idempotent on re-run.\n- Cover `posts:backfill` the same way.",
-      "reason": "Database writes, now including the seed step's essay upsert, are only tested with a stand-in.",
+      "body": "",
+      "reason": "The new coverImageUrl write is also only checked against a mocked database.",
       "severity": 2,
       "source": "session-review",
       "category": "debt",
@@ -116,10 +116,11 @@
       "proposedAt": "2026-11-06T16:15:58.661814+00:00",
       "kind": "tech-debt",
       "rank": 2,
-      "sightings": 3,
+      "sightings": 4,
       "notes": [
         "2026-11-07: Seen again: the new posts:resanitize script was only exercised in tests — the database in .env has no Post table (P2021), so it has not run against real posts.",
-        "2026-11-07: Seen again 2026-11-07: the new db:seed essay upsert has no test that reads the database afterwards."
+        "2026-11-07: Seen again 2026-11-07: the new db:seed essay upsert has no test that reads the database afterwards.",
+        "2026-11-09: Seen again: the new coverImageUrl column is saved by the backfill, but the save is mocked in tests and was only verified by hand."
       ],
       "offeredCount": 3,
       "lastOfferedAt": "2026-11-07T00:21:55.132247+00:00"
@@ -217,16 +218,20 @@
     },
     {
       "id": "run-the-post-backfill-automatically-after-each-deploy",
-      "title": "Run the post backfill automatically after each deploy",
+      "title": "run-the-post-backfill-automatically-after-each-deploy",
       "mode": "backend",
-      "body": "## Who benefits\nThe site owner, who otherwise has to remember to run the database update and backfill by hand after deploying.\n\n## Evidence\n- obs-9db0b1308e19: older Substack posts silently vanished from the site once they aged out of the feed, and nobody noticed until posts were missing.\n- obs-a48d8a6acece: the Adventures essay links only resolve on the live site after deploy plus a manual db:push and posts:backfill.\n\n## Smallest useful version\nAfter a production deploy, run `posts:backfill` once (for example from a Vercel deploy hook or the build step) and log the missing-link warning where the owner will see it.\n\n## Case against\nIt runs writes against the production database during a deploy, so a failure could slow or block deploys. The backfill is close to a one-time job, and the on-request homepage sync already covers new posts, so a short checklist in DATABASE.md may be enough.",
-      "reason": "Posts and essay links on the live site depend on a manual backfill that is easy to forget.",
+      "body": "",
+      "reason": "Cover images need another manual db:push + backfill on production.",
       "severity": 3,
       "source": "feature-synthesis",
+      "category": "fix",
       "status": "pending",
       "proposedAt": "2026-11-07T01:10:52.772369+00:00",
-      "kind": "feature",
-      "sightings": 1,
+      "kind": "tech-debt",
+      "sightings": 2,
+      "notes": [
+        "2026-11-09: Seen again: post cover images need db:push and posts:backfill on production before they appear."
+      ],
       "evidenceIds": [
         "obs-9db0b1308e19",
         "obs-a48d8a6acece"
@@ -256,6 +261,50 @@
       "source": "session-review",
       "status": "pending",
       "proposedAt": "2026-11-07T01:10:52.772369+00:00",
+      "sightings": 1
+    },
+    {
+      "id": "the-plan-used-next-s-opengraph-image-file-convention-it-was-replaced-by-a-shared-share-image-constant-spread-into-each-page-s-opengraph-because-pages-that-set-their-own-opengraph-dropped-the-file-convention-image",
+      "title": "The plan used Next's opengraph-image file convention; it was replaced by a shared SHARE_IMAGE constant spread into each page's openGraph, because pages that set their own openGraph dropped the file-convention image.",
+      "mode": "backend",
+      "body": "## Summary\n\nThe plan used Next's opengraph-image file convention; it was replaced by a shared SHARE_IMAGE constant spread into each page's openGraph, because pages that set their own openGraph dropped the file-convention image.\n\nAt the approval gate for \"Social share preview images\" the user approved the built work past this gap: it differs from what the plan asked for. Built from plan `ne--add-a-social-share-preview-image` (now at `.codeyam/plans/completed/ne--add-a-social-share-preview-image.md`).\n\nLinks to your site now unfurl as a large image card when shared on social media, Slack, or messages.\n\n## What you can now do\n- Share the homepage or /writing and get a summit-photo preview card\n- Share any essay and its preview shows that post's own Substack cover\n- Posts without a cover fall back to the summit image automatically\n\nRead that plan and the code it changed before planning how to close the gap.",
+      "reason": "Approved past at the approval gate for \"Social share preview images\".",
+      "source": "session-review",
+      "status": "pending",
+      "proposedAt": "2026-11-09T15:42:54.150826+00:00",
+      "sightings": 1
+    },
+    {
+      "id": "scope-grew-at-your-request-each-writing-post-now-shares-its-own-substack-cover-which-added-a-coverimageurl-column-to-the-post-table",
+      "title": "Scope grew at your request: each writing post now shares its own Substack cover, which added a coverImageUrl column to the Post table.",
+      "mode": "backend",
+      "body": "## Summary\n\nScope grew at your request: each writing post now shares its own Substack cover, which added a coverImageUrl column to the Post table.\n\nAt the approval gate for \"Social share preview images\" the user approved the built work past this gap: it differs from what the plan asked for. Built from plan `ne--add-a-social-share-preview-image` (now at `.codeyam/plans/completed/ne--add-a-social-share-preview-image.md`).\n\nLinks to your site now unfurl as a large image card when shared on social media, Slack, or messages.\n\n## What you can now do\n- Share the homepage or /writing and get a summit-photo preview card\n- Share any essay and its preview shows that post's own Substack cover\n- Posts without a cover fall back to the summit image automatically\n\nRead that plan and the code it changed before planning how to close the gap.",
+      "reason": "Approved past at the approval gate for \"Social share preview images\".",
+      "source": "session-review",
+      "status": "pending",
+      "proposedAt": "2026-11-09T15:42:54.150826+00:00",
+      "sightings": 1
+    },
+    {
+      "id": "the-coverimageurl-column-was-added-to-the-database-named-in-env-neondb-which-appears-to-be-the-real-one-as-well-as-the-editor-s-preview-databases-it-is-an-empty-optional-column",
+      "title": "The coverImageUrl column was added to the database named in .env (neondb, which appears to be the real one) as well as the editor's preview databases; it is an empty optional column.",
+      "mode": "backend",
+      "body": "## Summary\n\nThe coverImageUrl column was added to the database named in .env (neondb, which appears to be the real one) as well as the editor's preview databases; it is an empty optional column.\n\nAt the approval gate for \"Social share preview images\" the user approved the built work past this gap: it differs from what the plan asked for. Built from plan `ne--add-a-social-share-preview-image` (now at `.codeyam/plans/completed/ne--add-a-social-share-preview-image.md`).\n\nLinks to your site now unfurl as a large image card when shared on social media, Slack, or messages.\n\n## What you can now do\n- Share the homepage or /writing and get a summit-photo preview card\n- Share any essay and its preview shows that post's own Substack cover\n- Posts without a cover fall back to the summit image automatically\n\nRead that plan and the code it changed before planning how to close the gap.",
+      "reason": "Approved past at the approval gate for \"Social share preview images\".",
+      "source": "session-review",
+      "status": "pending",
+      "proposedAt": "2026-11-09T15:42:54.150826+00:00",
+      "sightings": 1
+    },
+    {
+      "id": "no-test-observes-the-cover-actually-being-written-to-the-database-the-upsert-is-mocked-so-tests-check-the-row-handed-to-it-not-the-stored-value-it-was-confirmed-manually-against-the-preview-database",
+      "title": "No test observes the cover actually being written to the database: the upsert is mocked, so tests check the row handed to it, not the stored value. It was confirmed manually against the preview database.",
+      "mode": "backend",
+      "body": "## Summary\n\nNo test observes the cover actually being written to the database: the upsert is mocked, so tests check the row handed to it, not the stored value. It was confirmed manually against the preview database.\n\nAt the approval gate for \"Social share preview images\" the user approved the built work past this gap: it differs from what the plan asked for. Built from plan `ne--add-a-social-share-preview-image` (now at `.codeyam/plans/completed/ne--add-a-social-share-preview-image.md`).\n\nLinks to your site now unfurl as a large image card when shared on social media, Slack, or messages.\n\n## What you can now do\n- Share the homepage or /writing and get a summit-photo preview card\n- Share any essay and its preview shows that post's own Substack cover\n- Posts without a cover fall back to the summit image automatically\n\nRead that plan and the code it changed before planning how to close the gap.",
+      "reason": "Approved past at the approval gate for \"Social share preview images\".",
+      "source": "session-review",
+      "status": "pending",
+      "proposedAt": "2026-11-09T15:42:54.150826+00:00",
       "sightings": 1
     }
   ],
@@ -380,6 +429,19 @@
         "the-plan-asked-for-tests-of-the-existing-rss-parser-against-a-captured-feed-sample-those-were-not-added-and-the-new-archive-tests-use-hand-written-samples-shaped-like-the-live-responses-checked-on-2026-11-05",
         "split-the-posts-module-into-sync-and-read-halves",
         "no-test-exercises-the-real-next-after-response-hook-the-homepage-test-confirms-the-sync-is-handed-to-it-not-that-next-later-runs-it"
+      ]
+    },
+    {
+      "at": "2026-11-09T15:42:54.150826+00:00",
+      "feature": "Social share preview images",
+      "notes": "Small, smooth cycle. Re-sighted the mocked-DB-write and manual-backfill-after-deploy issues; ranking unchanged otherwise.",
+      "proposedIds": [
+        "database-writes-are-checked-against-a-stand-in-database-not-a-real-one-and-the-one-time-backfill-command-has-no-automated-test-neither-has-been-run-against-any-real-database-yet",
+        "run-the-post-backfill-automatically-after-each-deploy",
+        "the-plan-used-next-s-opengraph-image-file-convention-it-was-replaced-by-a-shared-share-image-constant-spread-into-each-page-s-opengraph-because-pages-that-set-their-own-opengraph-dropped-the-file-convention-image",
+        "scope-grew-at-your-request-each-writing-post-now-shares-its-own-substack-cover-which-added-a-coverimageurl-column-to-the-post-table",
+        "the-coverimageurl-column-was-added-to-the-database-named-in-env-neondb-which-appears-to-be-the-real-one-as-well-as-the-editor-s-preview-databases-it-is-an-empty-optional-column",
+        "no-test-observes-the-cover-actually-being-written-to-the-database-the-upsert-is-mocked-so-tests-check-the-row-handed-to-it-not-the-stored-value-it-was-confirmed-manually-against-the-preview-database"
       ]
     }
   ],
