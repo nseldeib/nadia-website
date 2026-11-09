@@ -33,6 +33,12 @@
       "shortSha": "830909a",
       "subject": "feat: Make the Adventures essay links resolve",
       "deferredAt": "2026-11-07T01:09:21Z"
+    },
+    {
+      "sha": "854eb9eaeacb7576d2e01ff4db5d859ef5ba043d",
+      "shortSha": "854eb9e",
+      "subject": "feat: Add a social share preview image",
+      "deferredAt": "2026-11-09T15:41:49Z"
     }
   ],
   "finalizeIntent": "fast",
