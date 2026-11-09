@@ -1,50 +1,7 @@
 {
-  "lastFinalizedAt": "2026-11-06T15:45:49Z",
-  "lastFinalizedSha": "41a6d1d9f93ba242709a84dd68b91cddad343d49",
-  "lastFullFinalizeSha": "41a6d1d9f93ba242709a84dd68b91cddad343d49",
-  "lastFullFinalizeTree": "a7bc943328d6ccbbe51927de5e7a332e307f764f9b0955b200a678b871509dc2",
-  "deferred": [
-    {
-      "sha": "7b276d87748410417e3d8fdd8d7c22838eff09c6",
-      "shortSha": "7b276d8",
-      "subject": "chore: Restore linting on Next 16",
-      "deferredAt": "2026-11-06T22:32:06Z"
-    },
-    {
-      "sha": "9ebbbc526d3a01cdb10ed5d1f3b935d4242d4071",
-      "shortSha": "9ebbbc5",
-      "subject": "feat: ne -- Keep the homepage and sitemap current with new posts",
-      "deferredAt": "2026-11-06T23:37:25Z"
-    },
-    {
-      "sha": "a3bcb2c7eadfa18d7ba307a296b899bd6b014b71",
-      "shortSha": "a3bcb2c",
-      "subject": "feat: ne -- Link Adventures to the running essays",
-      "deferredAt": "2026-11-07T00:20:37Z"
-    },
-    {
-      "sha": "e0986fa1bb18876d492264bbfac074b28303d228",
-      "shortSha": "e0986fa",
-      "subject": "feat: Re-sanitize stored posts that predate the external-link fix",
-      "deferredAt": "2026-11-07T00:43:09Z"
-    },
-    {
-      "sha": "830909a6fc172d757cd2abb3bdadb52cc072a228",
-      "shortSha": "830909a",
-      "subject": "feat: Make the Adventures essay links resolve",
-      "deferredAt": "2026-11-07T01:09:21Z"
-    },
-    {
-      "sha": "854eb9eaeacb7576d2e01ff4db5d859ef5ba043d",
-      "shortSha": "854eb9e",
-      "subject": "feat: Add a social share preview image",
-      "deferredAt": "2026-11-09T15:41:49Z"
-    }
-  ],
-  "finalizeIntent": "fast",
-  "finalizeIntentBranch": "feat/backfill-substack-posts",
-  "lastWarned": {
-    "at": "2026-11-09T15:42:25Z",
-    "deferredCommits": 7
-  }
+  "lastFinalizedAt": "2026-11-09T19:13:55Z",
+  "lastFinalizedSha": "66e6457f251ef1bcb494c11b96f2a815ee266fee",
+  "lastFullFinalizeSha": "66e6457f251ef1bcb494c11b96f2a815ee266fee",
+  "lastFullFinalizeTree": "7f82725daeefe2b89f7389b420985a5e6ea116ffb9180614917108eeb298183f",
+  "deferred": []
 }

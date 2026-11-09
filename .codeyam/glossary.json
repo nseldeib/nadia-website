@@ -859,15 +859,6 @@
     }
   },
   {
-    "description": "Reads the seed message fixture from the same file the scenario captures use, so a local database and a captured screenshot look at identical data. Returns an empty list when the file is absent or unreadable: a clone that only wants a running site does not need the demo inbox, and an empty table is a valid state.",
-    "filePath": "prisma/seed.ts",
-    "name": "readSeedMessages",
-    "untestabilityReason": {
-      "justification": "Reads a fixed project path via readFileSync with no injection point, so neither the success path nor the missing-file fallback can be varied from a test. The transforms applied to what it returns are covered in prisma/seedRows.test.ts.",
-      "kind": "platform-glue"
-    }
-  },
-  {
     "description": "The homepage's recent posts; returns an empty list instead of throwing when the database is unreachable.",
     "filePath": "app/lib/posts.ts",
     "name": "recentPostsForHome",
