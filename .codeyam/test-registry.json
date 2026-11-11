@@ -140,7 +140,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "archivePageUrl › appends an encoded cursor for later pages",
-      "line": 131,
+      "line": 212,
       "registeredAt": "2026-11-06T02:18:20Z",
       "runner": "tests"
     },
@@ -149,7 +149,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "archivePageUrl › builds the first page URL without a cursor",
-      "line": 125,
+      "line": 206,
       "registeredAt": "2026-11-06T02:18:20Z",
       "runner": "tests"
     },
@@ -158,7 +158,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "archivePageUrl › never asks for more than the API accepts",
-      "line": 138,
+      "line": 219,
       "registeredAt": "2026-11-06T02:18:20Z",
       "runner": "tests"
     },
@@ -322,6 +322,69 @@
       "key": "contactResponses › says nothing was sent when the write failed",
       "line": 42,
       "registeredAt": "2026-08-27T21:51:58.787119+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "The real case that prompted this: Substack's feed sends curly quotes as decimal codes, and without decoding they show on the page verbatim.",
+      "file": "app/lib/text.test.ts",
+      "format": "vitest",
+      "key": "decodeEntities › decodes decimal character codes",
+      "line": 7,
+      "registeredAt": "2026-11-09T22:29:09Z",
+      "runner": "tests"
+    },
+    {
+      "description": "Hex codes are the same characters written another way; both cases of the x must work, since HTML accepts either.",
+      "file": "app/lib/text.test.ts",
+      "format": "vitest",
+      "key": "decodeEntities › decodes hex character codes in either case",
+      "line": 13,
+      "registeredAt": "2026-11-09T22:29:09Z",
+      "runner": "tests"
+    },
+    {
+      "description": "Decoding happens once: an escaped ampersand becomes a literal one, not a second round of decoding that would change what the author wrote.",
+      "file": "app/lib/text.test.ts",
+      "format": "vitest",
+      "key": "decodeEntities › decodes only one level",
+      "line": 45,
+      "registeredAt": "2026-11-09T22:29:09Z",
+      "runner": "tests"
+    },
+    {
+      "description": "Named codes cover the punctuation an essay title actually uses.",
+      "file": "app/lib/text.test.ts",
+      "format": "vitest",
+      "key": "decodeEntities › decodes the common named codes",
+      "line": 19,
+      "registeredAt": "2026-11-09T22:29:09Z",
+      "runner": "tests"
+    },
+    {
+      "description": "A number that is not a real character must not throw — a thrown error would cost the whole feed, not one title.",
+      "file": "app/lib/text.test.ts",
+      "format": "vitest",
+      "key": "decodeEntities › keeps an out-of-range or zero number as written",
+      "line": 32,
+      "registeredAt": "2026-11-09T22:29:09Z",
+      "runner": "tests"
+    },
+    {
+      "description": "An unrecognised name must survive as written rather than vanish, so an odd code is visible and fixable instead of silently deleting text.",
+      "file": "app/lib/text.test.ts",
+      "format": "vitest",
+      "key": "decodeEntities › keeps an unknown named code as written",
+      "line": 26,
+      "registeredAt": "2026-11-09T22:29:09Z",
+      "runner": "tests"
+    },
+    {
+      "description": "Plain text, a bare ampersand, and an empty string pass through unchanged.",
+      "file": "app/lib/text.test.ts",
+      "format": "vitest",
+      "key": "decodeEntities › leaves text without codes unchanged",
+      "line": 37,
+      "registeredAt": "2026-11-09T22:29:09Z",
       "runner": "tests"
     },
     {
@@ -509,7 +572,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "fetchArchiveIndex › fails when the first page fails",
-      "line": 185,
+      "line": 266,
       "registeredAt": "2026-11-06T02:19:39.610854+00:00",
       "runner": "tests"
     },
@@ -518,7 +581,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "fetchArchiveIndex › never throws on a network error",
-      "line": 205,
+      "line": 286,
       "registeredAt": "2026-11-06T02:19:39.610854+00:00",
       "runner": "tests"
     },
@@ -527,7 +590,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "fetchArchiveIndex › returns a partial list when a later page fails",
-      "line": 170,
+      "line": 251,
       "registeredAt": "2026-11-06T02:19:39.610854+00:00",
       "runner": "tests"
     },
@@ -536,7 +599,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "fetchArchiveIndex › stops at the page ceiling",
-      "line": 195,
+      "line": 276,
       "registeredAt": "2026-11-06T02:19:39.610854+00:00",
       "runner": "tests"
     },
@@ -545,7 +608,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "fetchArchiveIndex › walks the cursor until the last page",
-      "line": 155,
+      "line": 236,
       "registeredAt": "2026-11-06T02:19:39.610854+00:00",
       "runner": "tests"
     },
@@ -554,7 +617,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "fetchFeed › never throws on a network error",
-      "line": 205,
+      "line": 286,
       "registeredAt": "2026-11-06T15:13:34.949047+00:00",
       "runner": "tests"
     },
@@ -563,7 +626,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "fetchFeed › reports a non-2xx status without throwing",
-      "line": 374,
+      "line": 455,
       "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     },
@@ -572,7 +635,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "fetchFeed › returns the parsed posts on success",
-      "line": 365,
+      "line": 446,
       "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     },
@@ -581,7 +644,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "fetchFeed › treats a feed with no usable posts as a failure",
-      "line": 380,
+      "line": 461,
       "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     },
@@ -590,7 +653,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "fetchPostBySlug › reports a non-2xx response",
-      "line": 238,
+      "line": 319,
       "registeredAt": "2026-11-06T02:19:39.610854+00:00",
       "runner": "tests"
     },
@@ -599,7 +662,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "fetchPostBySlug › reports a post missing required fields",
-      "line": 247,
+      "line": 328,
       "registeredAt": "2026-11-06T02:19:39.610854+00:00",
       "runner": "tests"
     },
@@ -608,7 +671,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "fetchPostBySlug › returns the parsed post",
-      "line": 219,
+      "line": 300,
       "registeredAt": "2026-11-06T02:19:39.610854+00:00",
       "runner": "tests"
     },
@@ -932,7 +995,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "parseApiPost › maps a complete post onto the feed shape",
-      "line": 77,
+      "line": 158,
       "registeredAt": "2026-11-06T02:18:20Z",
       "runner": "tests"
     },
@@ -941,7 +1004,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "parseApiPost › reads the cover image",
-      "line": 91,
+      "line": 172,
       "registeredAt": "2026-11-07T01:24:46.949486+00:00",
       "runner": "tests"
     },
@@ -950,7 +1013,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "parseApiPost › rejects a body that is not a post",
-      "line": 117,
+      "line": 198,
       "registeredAt": "2026-11-06T02:18:20Z",
       "runner": "tests"
     },
@@ -959,7 +1022,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "parseApiPost › rejects a post missing any required field",
-      "line": 110,
+      "line": 191,
       "registeredAt": "2026-11-06T02:18:20Z",
       "runner": "tests"
     },
@@ -968,7 +1031,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "parseApiPost › treats a missing or blank cover image as none",
-      "line": 97,
+      "line": 178,
       "registeredAt": "2026-11-07T01:24:46.949486+00:00",
       "runner": "tests"
     },
@@ -977,7 +1040,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "parseApiPost › turns a blank subtitle into null",
-      "line": 103,
+      "line": 184,
       "registeredAt": "2026-11-06T02:18:20Z",
       "runner": "tests"
     },
@@ -986,7 +1049,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "parseArchive › reads entries and the next cursor from one page",
-      "line": 19,
+      "line": 100,
       "registeredAt": "2026-11-06T02:18:20Z",
       "runner": "tests"
     },
@@ -995,7 +1058,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "parseArchive › reports no next cursor on the last page",
-      "line": 36,
+      "line": 117,
       "registeredAt": "2026-11-06T02:18:20Z",
       "runner": "tests"
     },
@@ -1004,7 +1067,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "parseArchive › returns nothing for a body that is not an archive page",
-      "line": 57,
+      "line": 138,
       "registeredAt": "2026-11-06T02:18:20Z",
       "runner": "tests"
     },
@@ -1013,7 +1076,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "parseArchive › skips entries missing slug, audience or a valid date",
-      "line": 43,
+      "line": 124,
       "registeredAt": "2026-11-06T02:18:20Z",
       "runner": "tests"
     },
@@ -1022,7 +1085,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "parseFeed › ignores an enclosure that is not an image",
-      "line": 316,
+      "line": 397,
       "registeredAt": "2026-11-07T01:24:46.949486+00:00",
       "runner": "tests"
     },
@@ -1031,7 +1094,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "parseFeed › parses a single item, which fast-xml-parser hands back as a bare object",
-      "line": 291,
+      "line": 372,
       "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     },
@@ -1040,7 +1103,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "parseFeed › parses many items in feed order",
-      "line": 324,
+      "line": 405,
       "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     },
@@ -1049,7 +1112,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "parseFeed › reads the cover image from an image enclosure",
-      "line": 309,
+      "line": 390,
       "registeredAt": "2026-11-07T01:24:46.949486+00:00",
       "runner": "tests"
     },
@@ -1058,7 +1121,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "parseFeed › returns nothing for a feed with no items or non-feed XML",
-      "line": 351,
+      "line": 432,
       "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     },
@@ -1067,7 +1130,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "parseFeed › skips items missing a slug, title, date, or body",
-      "line": 337,
+      "line": 418,
       "registeredAt": "2026-11-06T15:13:34.949047+00:00",
       "runner": "tests"
     },
@@ -1076,8 +1139,71 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "parseFeed › stores an empty description as a null subtitle",
-      "line": 332,
+      "line": 413,
       "registeredAt": "2026-11-06T15:15:12.641309+00:00",
+      "runner": "tests"
+    },
+    {
+      "description": "The bug these samples exposed: Substack sends the subtitle's quotes as codes inside CDATA, and they showed on the page as `&#8220;`.",
+      "file": "app/lib/substackFeed.test.ts",
+      "format": "vitest",
+      "key": "parsers against captured Substack responses › decodes character codes in the real subtitle",
+      "line": 51,
+      "registeredAt": "2026-11-09T22:29:09Z",
+      "runner": "tests"
+    },
+    {
+      "description": "Bodies are HTML and are rendered as HTML, so their codes must be left for the browser — decoding them would turn escaped text into markup.",
+      "file": "app/lib/substackFeed.test.ts",
+      "format": "vitest",
+      "key": "parsers against captured Substack responses › leaves character codes in real bodies untouched",
+      "line": 57,
+      "registeredAt": "2026-11-09T22:29:09Z",
+      "runner": "tests"
+    },
+    {
+      "description": "A post fetched by slug must come out in the same shape the feed gives, so a post that has aged out of the feed is stored just like a new one.",
+      "file": "app/lib/substackFeed.test.ts",
+      "format": "vitest",
+      "key": "parsers against captured Substack responses › reads a real single-post response into the same shape the feed gives",
+      "line": 83,
+      "registeredAt": "2026-11-09T22:29:09Z",
+      "runner": "tests"
+    },
+    {
+      "description": "The archive page is how the site learns of posts older than the feed; its entries and its cursor to the next page must both read correctly.",
+      "file": "app/lib/substackFeed.test.ts",
+      "format": "vitest",
+      "key": "parsers against captured Substack responses › reads entries and the next-page cursor from a real archive page",
+      "line": 71,
+      "registeredAt": "2026-11-09T22:29:09Z",
+      "runner": "tests"
+    },
+    {
+      "description": "The real feed's three items must all survive parsing, newest first — a field Substack renamed or reshaped would drop them here.",
+      "file": "app/lib/substackFeed.test.ts",
+      "format": "vitest",
+      "key": "parsers against captured Substack responses › reads every item of the real feed in feed order",
+      "line": 31,
+      "registeredAt": "2026-11-09T22:29:09Z",
+      "runner": "tests"
+    },
+    {
+      "description": "Every real post carries a cover image; it is what the share card shows.",
+      "file": "app/lib/substackFeed.test.ts",
+      "format": "vitest",
+      "key": "parsers against captured Substack responses › reads the cover image of every real feed item",
+      "line": 63,
+      "registeredAt": "2026-11-09T22:29:09Z",
+      "runner": "tests"
+    },
+    {
+      "description": "Titles, dates and URLs are what every writing page shows and links to.",
+      "file": "app/lib/substackFeed.test.ts",
+      "format": "vitest",
+      "key": "parsers against captured Substack responses › reads titles, dates and canonical URLs from the real feed",
+      "line": 40,
+      "registeredAt": "2026-11-09T22:29:09Z",
       "runner": "tests"
     },
     {
@@ -1796,7 +1922,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "slugFromLink › ignores a query string or fragment",
-      "line": 263,
+      "line": 344,
       "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     },
@@ -1805,7 +1931,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "slugFromLink › returns null for a link that is not a post",
-      "line": 269,
+      "line": 350,
       "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     },
@@ -1814,7 +1940,7 @@
       "file": "app/lib/substackFeed.test.ts",
       "format": "vitest",
       "key": "slugFromLink › takes the slug Substack already uses",
-      "line": 256,
+      "line": 337,
       "registeredAt": "2026-11-06T15:15:12.641309+00:00",
       "runner": "tests"
     },
@@ -1823,7 +1949,7 @@
       "file": "app/lib/text.test.ts",
       "format": "vitest",
       "key": "splitOnBrand › handles the brand at the start or the end",
-      "line": 36,
+      "line": 82,
       "registeredAt": "2026-08-26T22:17:48.634180+00:00",
       "runner": "tests"
     },
@@ -1832,7 +1958,7 @@
       "file": "app/lib/text.test.ts",
       "format": "vitest",
       "key": "splitOnBrand › is case-sensitive",
-      "line": 47,
+      "line": 93,
       "registeredAt": "2026-08-26T22:17:48.634180+00:00",
       "runner": "tests"
     },
@@ -1841,7 +1967,7 @@
       "file": "app/lib/text.test.ts",
       "format": "vitest",
       "key": "splitOnBrand › reassembles to the original string",
-      "line": 60,
+      "line": 106,
       "registeredAt": "2026-08-26T22:17:48.634180+00:00",
       "runner": "tests"
     },
@@ -1850,7 +1976,7 @@
       "file": "app/lib/text.test.ts",
       "format": "vitest",
       "key": "splitOnBrand › returns the whole string when the brand is absent",
-      "line": 17,
+      "line": 63,
       "registeredAt": "2026-08-26T22:17:48.634180+00:00",
       "runner": "tests"
     },
@@ -1859,7 +1985,7 @@
       "file": "app/lib/text.test.ts",
       "format": "vitest",
       "key": "splitOnBrand › splits a sentence around the brand",
-      "line": 7,
+      "line": 53,
       "registeredAt": "2026-08-26T22:17:48.634180+00:00",
       "runner": "tests"
     },
@@ -1868,7 +1994,7 @@
       "file": "app/lib/text.test.ts",
       "format": "vitest",
       "key": "splitOnBrand › splits on the first occurrence only",
-      "line": 27,
+      "line": 73,
       "registeredAt": "2026-08-26T22:17:48.634180+00:00",
       "runner": "tests"
     },
@@ -1877,7 +2003,7 @@
       "file": "app/lib/text.test.ts",
       "format": "vitest",
       "key": "splitOnBrand › survives empty input",
-      "line": 53,
+      "line": 99,
       "registeredAt": "2026-08-26T22:17:48.634180+00:00",
       "runner": "tests"
     },

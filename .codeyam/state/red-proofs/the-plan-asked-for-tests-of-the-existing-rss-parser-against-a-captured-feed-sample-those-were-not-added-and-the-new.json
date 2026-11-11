@@ -1,0 +1,31 @@
+{
+  "provenAt": "2026-11-09T22:28:37Z",
+  "slug": "the-plan-asked-for-tests-of-the-existing-rss-parser-against-a-captured-feed-sample-those-were-not-added-and-the-new",
+  "paths": [],
+  "runScope": [
+    "app/lib/substackFeed.ts",
+    "app/lib/substackFeed.test.ts"
+  ],
+  "neuters": [
+    {
+      "file": "app/lib/substackFeed.ts",
+      "find": "return decodeEntities(asText(value)).trim();",
+      "replace": "return asText(value).trim();"
+    }
+  ],
+  "tests": {
+    "decodes character codes in the real subtitle": {
+      "withoutFix": "fail",
+      "withFix": "pass",
+      "established": {
+        "kind": "measured"
+      }
+    }
+  },
+  "proof": {
+    "verdict": "proven",
+    "flipped": [
+      "decodes character codes in the real subtitle"
+    ]
+  }
+}

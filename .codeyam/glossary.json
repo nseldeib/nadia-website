@@ -565,6 +565,15 @@
     "testFile": "app/lib/substackFeed.test.ts"
   },
   {
+    "description": "Turns HTML character codes such as &#8220;, &#x2019; and &amp; back into the characters they stand for, for text shown as text. Unknown codes and out-of-range numbers are kept as written, and it decodes one level only. Never for HTML that is rendered as HTML.",
+    "filePath": "app/lib/text.ts",
+    "name": "decodeEntities",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "app/lib/text.test.ts"
+  },
+  {
     "description": "Attempts delivery of a saved note and stamps emailedAt strictly AFTER the provider accepts, never before and never on a failed send. Returns delivered, not-delivered, or delivered-unstamped. emailedAt is the only record of whether a note reached the inbox, so stamping optimistically would make an undelivered note indistinguishable from a delivered one. Takes its collaborators as arguments so all three outcomes are reachable without a database or a mail provider.",
     "filePath": "app/lib/deliverAndStamp.ts",
     "name": "deliverAndStamp",
@@ -806,6 +815,15 @@
     "filePath": "app/lib/activeSection.ts",
     "name": "pickActive",
     "testFile": "app/lib/activeSection.test.ts"
+  },
+  {
+    "description": "Reads a feed title or subtitle as the page will show it: the node's text with Substack's in-CDATA character codes decoded and whitespace trimmed. Only for text fields, never a post body.",
+    "filePath": "app/lib/substackFeed.ts",
+    "name": "plainTextField",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "app/lib/substackFeed.test.ts"
   },
   {
     "description": "Picks the link-preview image for one writing post: its Substack cover re-cropped by Substack's CDN to 1200x630 with the size stated, any other https cover as-is, else the site-wide summit SHARE_IMAGE.",

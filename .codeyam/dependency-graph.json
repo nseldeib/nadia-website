@@ -856,7 +856,8 @@
     },
     "app/lib/substackFeed.ts": {
       "imports": [
-        "app/lib/describeError.ts"
+        "app/lib/describeError.ts",
+        "app/lib/text.ts"
       ],
       "importedBy": [
         "app/sitemap.test.ts",
@@ -875,6 +876,7 @@
       "imports": [],
       "importedBy": [
         "app/lib/text.test.ts",
+        "app/lib/substackFeed.ts",
         "components/Footer.tsx"
       ]
     },
@@ -3165,7 +3167,8 @@
       "filePath": "app/lib/substackFeed.ts",
       "name": "__file_root__",
       "imports": [
-        "app/lib/describeError.ts::describeError"
+        "app/lib/describeError.ts::describeError",
+        "app/lib/text.ts::decodeEntities"
       ],
       "importedBy": []
     },
@@ -3173,9 +3176,19 @@
       "filePath": "app/lib/text.test.ts",
       "name": "__file_root__",
       "imports": [
+        "app/lib/text.ts::decodeEntities",
         "app/lib/text.ts::splitOnBrand"
       ],
       "importedBy": []
+    },
+    "app/lib/text.ts::decodeEntities": {
+      "filePath": "app/lib/text.ts",
+      "name": "decodeEntities",
+      "imports": [],
+      "importedBy": [
+        "app/lib/text.test.ts::__file_root__",
+        "app/lib/substackFeed.ts::__file_root__"
+      ]
     },
     "app/lib/text.ts::splitOnBrand": {
       "filePath": "app/lib/text.ts",
@@ -4239,5 +4252,5 @@
       "importedBy": []
     }
   },
-  "lastUpdated": "2026-11-09T20:24:38Z"
+  "lastUpdated": "2026-11-11T16:55:44Z"
 }
