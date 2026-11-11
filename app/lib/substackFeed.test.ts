@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
+import { readFileSync } from 'node:fs';
 import {
   API_BASE,
   ARCHIVE_MAX_PAGES,
@@ -12,6 +13,86 @@ import {
   parseFeed,
   slugFromLink,
 } from './substackFeed';
+
+/**
+ * A response captured from the live Substack on 2026-11-09, so the parsers are
+ * checked against what Substack really sends rather than a sample shaped by
+ * our own assumptions. `post.json` has its reader comments emptied.
+ */
+function readFixture(name: 'feed.xml' | 'archive-page.json' | 'post.json'): string {
+  return readFileSync(new URL(`./__fixtures__/substack/${name}`, import.meta.url), 'utf8');
+}
+
+describe('parsers against captured Substack responses', () => {
+  const feedPosts = parseFeed(readFixture('feed.xml'));
+
+  // The real feed's three items must all survive parsing, newest first — a
+  // field Substack renamed or reshaped would drop them here.
+  it('reads every item of the real feed in feed order', () => {
+    expect(feedPosts.map((p) => p.slug)).toEqual([
+      'racetoberfest-reflection-four-races',
+      'how-orthogonal-goals-led-to-unexpected',
+      'running-towards-and-past-35',
+    ]);
+  });
+
+  // Titles, dates and URLs are what every writing page shows and links to.
+  it('reads titles, dates and canonical URLs from the real feed', () => {
+    expect(feedPosts[0]).toMatchObject({
+      title: 'Racetoberfest Reflection: Four Races in Five Weekends',
+      publishedAt: new Date('2026-11-05T19:39:04Z'),
+      canonicalUrl: 'https://blog.nseldeib.com/p/racetoberfest-reflection-four-races',
+    });
+    expect(feedPosts[2].title).toBe('Running Towards (and Past) 35!');
+  });
+
+  // The bug these samples exposed: Substack sends the subtitle's quotes as
+  // codes inside CDATA, and they showed on the page as `&#8220;`.
+  it('decodes character codes in the real subtitle', () => {
+    expect(feedPosts[0].subtitle).toBe('“You like doing hard things!”');
+  });
+
+  // Bodies are HTML and are rendered as HTML, so their codes must be left for
+  // the browser — decoding them would turn escaped text into markup.
+  it('leaves character codes in real bodies untouched', () => {
+    expect(feedPosts[0].bodyHtml).toContain('&#8220;');
+    expect(feedPosts[0].bodyHtml.startsWith('<p>')).toBe(true);
+  });
+
+  // Every real post carries a cover image; it is what the share card shows.
+  it('reads the cover image of every real feed item', () => {
+    for (const post of feedPosts) {
+      expect(post.coverImageUrl).toMatch(/^https:\/\/substackcdn\.com\/image\/fetch\//);
+    }
+  });
+
+  // The archive page is how the site learns of posts older than the feed;
+  // its entries and its cursor to the next page must both read correctly.
+  it('reads entries and the next-page cursor from a real archive page', () => {
+    const page = parseArchive(JSON.parse(readFixture('archive-page.json')));
+    expect(page.entries).toEqual([
+      { slug: 'racetoberfest-reflection-four-races', audience: 'everyone', publishedAt: new Date('2026-11-05T19:39:04.711Z') },
+      { slug: 'how-orthogonal-goals-led-to-unexpected', audience: 'everyone', publishedAt: new Date('2026-10-13T20:29:53.121Z') },
+      { slug: 'running-towards-and-past-35', audience: 'everyone', publishedAt: new Date('2026-09-01T21:40:09.066Z') },
+    ]);
+    expect(page.nextCursor).toBe('eyJwb3N0X2RhdGUiOiIyMDI2LTA5LTAxVDIxOjQwOjA5LjA2NjY1MVoifQ==');
+  });
+
+  // A post fetched by slug must come out in the same shape the feed gives,
+  // so a post that has aged out of the feed is stored just like a new one.
+  it('reads a real single-post response into the same shape the feed gives', () => {
+    const post = parseApiPost(JSON.parse(readFixture('post.json')));
+    expect(post).toMatchObject({
+      slug: 'running-towards-and-past-35',
+      title: 'Running Towards (and Past) 35!',
+      subtitle: 'Running, aging, ambition, and my 35th birthday wish: your support for Runtoberfest',
+      publishedAt: new Date('2026-09-01T21:40:09.066Z'),
+      canonicalUrl: 'https://blog.nseldeib.com/p/running-towards-and-past-35',
+      coverImageUrl: feedPosts[2].coverImageUrl,
+    });
+    expect(post?.bodyHtml.length).toBeGreaterThan(1000);
+  });
+});
 
 describe('parseArchive', () => {
   // The live archive response shape (verified 2026-11-05): a `posts` array and

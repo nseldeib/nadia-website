@@ -1,0 +1,762 @@
+{
+  "posts": [
+    {
+      "id": 223662776,
+      "editor_v2": false,
+      "publication_id": 2308072,
+      "title": "Racetoberfest Reflection: Four Races in Five Weekends",
+      "social_title": null,
+      "search_engine_title": null,
+      "search_engine_description": null,
+      "type": "newsletter",
+      "slug": "racetoberfest-reflection-four-races",
+      "post_date": "2026-11-05T19:39:04.711Z",
+      "audience": "everyone",
+      "podcast_duration": null,
+      "video_upload_id": null,
+      "podcast_upload_id": null,
+      "write_comment_permissions": "everyone",
+      "should_send_free_preview": false,
+      "free_unlock_required": false,
+      "default_comment_sort": null,
+      "canonical_url": "https://blog.nseldeib.com/p/racetoberfest-reflection-four-races",
+      "section_id": null,
+      "top_exclusions": [],
+      "pins": [],
+      "is_section_pinned": false,
+      "section_slug": null,
+      "section_name": null,
+      "reactions": {
+        "❤": 1
+      },
+      "restacks": 0,
+      "restacked_post_id": null,
+      "restacked_post_slug": null,
+      "restacked_pub_name": null,
+      "restacked_pub_logo_url": null,
+      "subtitle": "“You like doing hard things!”",
+      "cover_image": "https://substackcdn.com/image/fetch/$s_!As2W!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F7bb51aee-78bc-4aeb-a6b7-38466d99cc21_5712x4284.jpeg",
+      "cover_image_is_square": false,
+      "cover_image_is_explicit": false,
+      "podcast_url": null,
+      "videoUpload": null,
+      "podcastFields": {
+        "post_id": 223662776,
+        "podcast_episode_number": null,
+        "podcast_season_number": null,
+        "podcast_episode_type": null,
+        "should_syndicate_to_other_feed": null,
+        "syndicate_to_section_id": null,
+        "hide_from_feed": false,
+        "free_podcast_url": null,
+        "free_podcast_duration": null,
+        "preview_contains_ad": false,
+        "was_imported_self_serve_sync": false,
+        "draft_free_podcast_url": null,
+        "draft_free_podcast_duration": null
+      },
+      "podcast_preview_upload_id": null,
+      "podcastUpload": null,
+      "podcastPreviewUpload": null,
+      "voiceover_upload_id": null,
+      "voiceoverUpload": null,
+      "has_voiceover": false,
+      "description": "“You like doing hard things!”",
+      "body_json": null,
+      "body_html": null,
+      "has_dynamic_content": false,
+      "truncated_body_text": "Pre-Read Caveat: I am still learning as an amateur runner. These are personal experiences and reflections on what worked (or did not) for me, not recommendations or training advice.",
+      "wordcount": 3877,
+      "post_preview_limit": null,
+      "language": "en",
+      "postTags": [
+        {
+          "id": "0c3e1441-4235-4662-ac19-a2e85c926d4e",
+          "publication_id": 2308072,
+          "name": "Startups",
+          "slug": "startups",
+          "hidden": false
+        },
+        {
+          "id": "10c6ad25-51d3-4d34-a741-232dbf7c184e",
+          "publication_id": 2308072,
+          "name": "Personal Growth",
+          "slug": "personal-growth",
+          "hidden": false
+        },
+        {
+          "id": "281d81a8-f688-458b-aa34-2f7bd4022bb9",
+          "publication_id": 2308072,
+          "name": "Adventure",
+          "slug": "adventure",
+          "hidden": false
+        },
+        {
+          "id": "38d22124-05c3-4977-8c9d-449e637c0892",
+          "publication_id": 2308072,
+          "name": "Growth",
+          "slug": "growth",
+          "hidden": false
+        },
+        {
+          "id": "402e1a93-443c-4569-91c3-a7fa334bc75d",
+          "publication_id": 2308072,
+          "name": "Founder Life",
+          "slug": "founder-life",
+          "hidden": false
+        },
+        {
+          "id": "77d831c3-2f3e-4981-8c4b-c3c4331dd640",
+          "publication_id": 2308072,
+          "name": "Trail Running",
+          "slug": "trail-running",
+          "hidden": false
+        },
+        {
+          "id": "7bca1da4-2d22-4f0d-9795-f4429bd431cf",
+          "publication_id": 2308072,
+          "name": "Colorado",
+          "slug": "colorado",
+          "hidden": false
+        },
+        {
+          "id": "9180101f-3eb7-479d-9f3b-80f83cd4c7a4",
+          "publication_id": 2308072,
+          "name": "Running",
+          "slug": "running",
+          "hidden": false
+        },
+        {
+          "id": "a152d4bb-9d06-4899-831e-8cfcfc97345b",
+          "publication_id": 2308072,
+          "name": "Learning",
+          "slug": "learning",
+          "hidden": false
+        },
+        {
+          "id": "d75a7bfa-1cb6-4ec1-aa1d-87add9d259a1",
+          "publication_id": 2308072,
+          "name": "NYC",
+          "slug": "nyc",
+          "hidden": false
+        },
+        {
+          "id": "f4ab3fc7-2da2-4566-a1ab-5366838aa2dc",
+          "publication_id": 2308072,
+          "name": "Grit",
+          "slug": "grit",
+          "hidden": false
+        }
+      ],
+      "teaser_post_eligible": true,
+      "postCountryBlocks": [],
+      "disable_drop_cap": false,
+      "cover_image_crop": null,
+      "headlineTest": null,
+      "coverImagePalette": {
+        "Vibrant": {
+          "rgb": [
+            213,
+            110,
+            33
+          ],
+          "population": 28
+        },
+        "DarkVibrant": {
+          "rgb": [
+            163,
+            80,
+            17
+          ],
+          "population": 92
+        },
+        "LightVibrant": {
+          "rgb": [
+            172,
+            204,
+            238
+          ],
+          "population": 119
+        },
+        "Muted": {
+          "rgb": [
+            166,
+            132,
+            87
+          ],
+          "population": 303
+        },
+        "DarkMuted": {
+          "rgb": [
+            48,
+            59,
+            92
+          ],
+          "population": 93
+        },
+        "LightMuted": {
+          "rgb": [
+            155,
+            179,
+            206
+          ],
+          "population": 340
+        }
+      },
+      "publishedBylines": [
+        {
+          "id": 552827,
+          "name": "Nadia Eldeib",
+          "handle": "nseldeib",
+          "photo_url": "https://substack-post-media.s3.amazonaws.com/public/images/5cccef64-7e0b-4ab8-b879-64afeaedfe7f_1206x1206.jpeg",
+          "bio": "Building CodeYam, the first robust software simulator. Co-founder & CEO of Nod Labs, Inc. (CodeYam). Based in Denver, CO. ",
+          "profile_set_up_at": "2021-07-27T20:37:07.215Z",
+          "reader_installed_at": "2022-03-10T02:56:41.316Z",
+          "publicationUsers": [
+            {
+              "id": 2327541,
+              "user_id": 552827,
+              "publication_id": 2308072,
+              "role": "admin",
+              "public": true,
+              "is_primary": true,
+              "publication": {
+                "id": 2308072,
+                "name": "Nadia’s Substack",
+                "subdomain": "nseldeib",
+                "custom_domain": "blog.nseldeib.com",
+                "custom_domain_optional": false,
+                "hero_text": "Personal writing about my adventures and observations in startups, technology, AI, running, surfing, work, life, and whatever else I am exploring.",
+                "logo_url": "https://substack-post-media.s3.amazonaws.com/public/images/09d5cb23-77df-4fc8-afdb-8b937aa8a4e7_1206x1206.png",
+                "author_id": 552827,
+                "primary_user_id": 552827,
+                "theme_var_background_pop": "#2EE240",
+                "created_at": "2024-01-30T17:09:52.845Z",
+                "email_from_name": null,
+                "copyright": "Nadia Eldeib",
+                "founding_plan_name": "Founding Member",
+                "community_enabled": true,
+                "invite_only": false,
+                "payments_state": "disabled",
+                "language": null,
+                "explicit": false,
+                "homepage_type": "newspaper",
+                "is_personal_mode": false,
+                "logo_url_wide": null
+              }
+            }
+          ],
+          "twitter_screen_name": "nseldeib",
+          "is_guest": false,
+          "bestseller_tier": null,
+          "status": {
+            "bestsellerTier": null,
+            "subscriberTier": null,
+            "leaderboard": null,
+            "vip": false,
+            "badge": null,
+            "subscriber": null
+          }
+        }
+      ],
+      "reaction": null,
+      "reaction_count": 1,
+      "comment_count": 2,
+      "child_comment_count": 1,
+      "audio_items": [
+        {
+          "post_id": 223662776,
+          "voice_id": "en-US-OnyxTurboMultilingualNeural",
+          "audio_url": "https://substack-video.s3.amazonaws.com/video_upload/post/223662776/tts/27ec93e9-7ab4-4934-aa15-6d9c8a9da202/en-US-OnyxTurboMultilingualNeural.mp3",
+          "type": "tts",
+          "status": "completed"
+        }
+      ],
+      "is_geoblocked": false,
+      "is_editor_preview": false,
+      "hasCashtag": false
+    },
+    {
+      "id": 220256303,
+      "editor_v2": false,
+      "publication_id": 2308072,
+      "title": "How Orthogonal Goals Led to Unexpected Progress",
+      "social_title": null,
+      "search_engine_title": null,
+      "search_engine_description": null,
+      "type": "newsletter",
+      "slug": "how-orthogonal-goals-led-to-unexpected",
+      "post_date": "2026-10-13T20:29:53.121Z",
+      "audience": "everyone",
+      "podcast_duration": null,
+      "video_upload_id": null,
+      "podcast_upload_id": null,
+      "write_comment_permissions": "everyone",
+      "should_send_free_preview": false,
+      "free_unlock_required": false,
+      "default_comment_sort": null,
+      "canonical_url": "https://blog.nseldeib.com/p/how-orthogonal-goals-led-to-unexpected",
+      "section_id": null,
+      "top_exclusions": [],
+      "pins": [],
+      "is_section_pinned": false,
+      "section_slug": null,
+      "section_name": null,
+      "reactions": {
+        "❤": 4
+      },
+      "restacks": 0,
+      "restacked_post_id": null,
+      "restacked_post_slug": null,
+      "restacked_pub_name": null,
+      "restacked_pub_logo_url": null,
+      "subtitle": "Breaking through by shifting from brute force to a more fluid approach to goals.",
+      "cover_image": "https://substackcdn.com/image/fetch/$s_!1I0U!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fcdca511e-16e0-4968-9bb6-90203fb47db8_1206x2089.jpeg",
+      "cover_image_is_square": false,
+      "cover_image_is_explicit": false,
+      "podcast_url": null,
+      "videoUpload": null,
+      "podcastFields": {
+        "post_id": 220256303,
+        "podcast_episode_number": null,
+        "podcast_season_number": null,
+        "podcast_episode_type": null,
+        "should_syndicate_to_other_feed": null,
+        "syndicate_to_section_id": null,
+        "hide_from_feed": false,
+        "free_podcast_url": null,
+        "free_podcast_duration": null,
+        "preview_contains_ad": false,
+        "was_imported_self_serve_sync": false,
+        "draft_free_podcast_url": null,
+        "draft_free_podcast_duration": null
+      },
+      "podcast_preview_upload_id": null,
+      "podcastUpload": null,
+      "podcastPreviewUpload": null,
+      "voiceover_upload_id": null,
+      "voiceoverUpload": null,
+      "has_voiceover": false,
+      "description": "Breaking through by shifting from brute force to a more fluid approach to goals.",
+      "body_json": null,
+      "body_html": null,
+      "has_dynamic_content": false,
+      "truncated_body_text": "The Olympic sport of fencing and the elusive pull-up",
+      "wordcount": 1234,
+      "post_preview_limit": null,
+      "language": "en",
+      "postTags": [
+        {
+          "id": "0c3e1441-4235-4662-ac19-a2e85c926d4e",
+          "publication_id": 2308072,
+          "name": "Startups",
+          "slug": "startups",
+          "hidden": false
+        },
+        {
+          "id": "0dc980e4-2dbf-4299-8e77-01f2f282bacf",
+          "publication_id": 2308072,
+          "name": "AI",
+          "slug": "ai",
+          "hidden": false
+        },
+        {
+          "id": "10c6ad25-51d3-4d34-a741-232dbf7c184e",
+          "publication_id": 2308072,
+          "name": "Personal Growth",
+          "slug": "personal-growth",
+          "hidden": false
+        },
+        {
+          "id": "281d81a8-f688-458b-aa34-2f7bd4022bb9",
+          "publication_id": 2308072,
+          "name": "Adventure",
+          "slug": "adventure",
+          "hidden": false
+        },
+        {
+          "id": "2a26f91e-8719-4f1a-b44b-4fc29a643416",
+          "publication_id": 2308072,
+          "name": "Career Journey",
+          "slug": "career-journey",
+          "hidden": false
+        },
+        {
+          "id": "402e1a93-443c-4569-91c3-a7fa334bc75d",
+          "publication_id": 2308072,
+          "name": "Founder Life",
+          "slug": "founder-life",
+          "hidden": false
+        },
+        {
+          "id": "6c92787a-e669-4659-b0cc-4c28275ea5e3",
+          "publication_id": 2308072,
+          "name": "Endurance",
+          "slug": "endurance",
+          "hidden": false
+        },
+        {
+          "id": "77d831c3-2f3e-4981-8c4b-c3c4331dd640",
+          "publication_id": 2308072,
+          "name": "Trail Running",
+          "slug": "trail-running",
+          "hidden": false
+        },
+        {
+          "id": "7bca1da4-2d22-4f0d-9795-f4429bd431cf",
+          "publication_id": 2308072,
+          "name": "Colorado",
+          "slug": "colorado",
+          "hidden": false
+        },
+        {
+          "id": "8752b110-d3af-4452-8836-bed70f0d40d0",
+          "publication_id": 2308072,
+          "name": "Productivity",
+          "slug": "productivity",
+          "hidden": false
+        },
+        {
+          "id": "9180101f-3eb7-479d-9f3b-80f83cd4c7a4",
+          "publication_id": 2308072,
+          "name": "Running",
+          "slug": "running",
+          "hidden": false
+        },
+        {
+          "id": "d75a7bfa-1cb6-4ec1-aa1d-87add9d259a1",
+          "publication_id": 2308072,
+          "name": "NYC",
+          "slug": "nyc",
+          "hidden": false
+        },
+        {
+          "id": "e59fa440-23d7-4d50-81f2-2ceabdf19976",
+          "publication_id": 2308072,
+          "name": "Creativity",
+          "slug": "creativity",
+          "hidden": false
+        },
+        {
+          "id": "ecf1e4e2-9620-49ef-be71-cd4b1d32c18c",
+          "publication_id": 2308072,
+          "name": "Entrepreneurship",
+          "slug": "entrepreneurship",
+          "hidden": false
+        }
+      ],
+      "teaser_post_eligible": true,
+      "postCountryBlocks": [],
+      "disable_drop_cap": false,
+      "cover_image_crop": null,
+      "headlineTest": null,
+      "coverImagePalette": {
+        "Vibrant": {
+          "rgb": [
+            76,
+            132,
+            172
+          ],
+          "population": 472
+        },
+        "DarkVibrant": {
+          "rgb": [
+            24,
+            68,
+            99
+          ],
+          "population": 112
+        },
+        "LightVibrant": {
+          "rgb": [
+            125,
+            161,
+            198
+          ],
+          "population": 319
+        },
+        "Muted": {
+          "rgb": [
+            84,
+            132,
+            171
+          ],
+          "population": 9
+        },
+        "DarkMuted": {
+          "rgb": [
+            65,
+            70,
+            52
+          ],
+          "population": 466
+        },
+        "LightMuted": {
+          "rgb": [
+            177,
+            171,
+            173
+          ],
+          "population": 440
+        }
+      },
+      "publishedBylines": [
+        {
+          "id": 552827,
+          "name": "Nadia Eldeib",
+          "handle": "nseldeib",
+          "photo_url": "https://substack-post-media.s3.amazonaws.com/public/images/5cccef64-7e0b-4ab8-b879-64afeaedfe7f_1206x1206.jpeg",
+          "bio": "Building CodeYam, the first robust software simulator. Co-founder & CEO of Nod Labs, Inc. (CodeYam). Based in Denver, CO. ",
+          "profile_set_up_at": "2021-07-27T20:37:07.215Z",
+          "reader_installed_at": "2022-03-10T02:56:41.316Z",
+          "publicationUsers": [
+            {
+              "id": 2327541,
+              "user_id": 552827,
+              "publication_id": 2308072,
+              "role": "admin",
+              "public": true,
+              "is_primary": true,
+              "publication": {
+                "id": 2308072,
+                "name": "Nadia’s Substack",
+                "subdomain": "nseldeib",
+                "custom_domain": "blog.nseldeib.com",
+                "custom_domain_optional": false,
+                "hero_text": "Personal writing about my adventures and observations in startups, technology, AI, running, surfing, work, life, and whatever else I am exploring.",
+                "logo_url": "https://substack-post-media.s3.amazonaws.com/public/images/09d5cb23-77df-4fc8-afdb-8b937aa8a4e7_1206x1206.png",
+                "author_id": 552827,
+                "primary_user_id": 552827,
+                "theme_var_background_pop": "#2EE240",
+                "created_at": "2024-01-30T17:09:52.845Z",
+                "email_from_name": null,
+                "copyright": "Nadia Eldeib",
+                "founding_plan_name": "Founding Member",
+                "community_enabled": true,
+                "invite_only": false,
+                "payments_state": "disabled",
+                "language": null,
+                "explicit": false,
+                "homepage_type": "newspaper",
+                "is_personal_mode": false,
+                "logo_url_wide": null
+              }
+            }
+          ],
+          "twitter_screen_name": "nseldeib",
+          "is_guest": false,
+          "bestseller_tier": null,
+          "status": {
+            "bestsellerTier": null,
+            "subscriberTier": null,
+            "leaderboard": null,
+            "vip": false,
+            "badge": null,
+            "subscriber": null
+          }
+        }
+      ],
+      "reaction": null,
+      "reaction_count": 4,
+      "comment_count": 2,
+      "child_comment_count": 1,
+      "audio_items": [
+        {
+          "post_id": 220256303,
+          "voice_id": "en-US-OnyxTurboMultilingualNeural",
+          "audio_url": "https://substack-video.s3.amazonaws.com/video_upload/post/220256303/tts/7222432d-6f1d-404f-8e20-38ee2ed6b778/en-US-OnyxTurboMultilingualNeural.mp3",
+          "type": "tts",
+          "status": "completed"
+        }
+      ],
+      "is_geoblocked": false,
+      "is_editor_preview": false,
+      "hasCashtag": false
+    },
+    {
+      "id": 213765081,
+      "editor_v2": false,
+      "publication_id": 2308072,
+      "title": "Running Towards (and Past) 35!",
+      "social_title": "Running Towards (and Past) 35!",
+      "search_engine_title": null,
+      "search_engine_description": null,
+      "type": "newsletter",
+      "slug": "running-towards-and-past-35",
+      "post_date": "2026-09-01T21:40:09.066Z",
+      "audience": "everyone",
+      "podcast_duration": null,
+      "video_upload_id": null,
+      "podcast_upload_id": null,
+      "write_comment_permissions": "everyone",
+      "should_send_free_preview": false,
+      "free_unlock_required": false,
+      "default_comment_sort": null,
+      "canonical_url": "https://blog.nseldeib.com/p/running-towards-and-past-35",
+      "section_id": null,
+      "top_exclusions": [],
+      "pins": [],
+      "is_section_pinned": false,
+      "section_slug": null,
+      "section_name": null,
+      "reactions": {
+        "❤": 7
+      },
+      "restacks": 2,
+      "restacked_post_id": null,
+      "restacked_post_slug": null,
+      "restacked_pub_name": null,
+      "restacked_pub_logo_url": null,
+      "subtitle": "Running, aging, ambition, and my 35th birthday wish: your support for Runtoberfest",
+      "cover_image": "https://substackcdn.com/image/fetch/$s_!selH!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F47667817-ae90-4be6-aed3-35f522975cae_1024x768.jpeg",
+      "cover_image_is_square": false,
+      "cover_image_is_explicit": false,
+      "podcast_url": null,
+      "videoUpload": null,
+      "podcastFields": null,
+      "podcast_preview_upload_id": null,
+      "podcastUpload": null,
+      "podcastPreviewUpload": null,
+      "voiceover_upload_id": null,
+      "voiceoverUpload": null,
+      "has_voiceover": false,
+      "description": "Running, aging, ambition, and my 35th birthday wish: your support for Runtoberfest",
+      "body_json": null,
+      "body_html": null,
+      "has_dynamic_content": false,
+      "truncated_body_text": "I have a confession: sometime post-pandemic, I stopped doing birthday math. Time seems to speed up with each year, so I just settled on “I’m in my mid-30s” and stopped worrying about the specifics. Similarly, I told folks I’d “just moved” to Denver after nearly three years there. More recently, I’ve “just moved” to NYC, though it’s been a more reasonabl…",
+      "wordcount": 1490,
+      "post_preview_limit": null,
+      "language": "en",
+      "postTags": [],
+      "teaser_post_eligible": true,
+      "postCountryBlocks": [],
+      "disable_drop_cap": false,
+      "cover_image_crop": null,
+      "headlineTest": null,
+      "coverImagePalette": {
+        "Vibrant": {
+          "rgb": [
+            87,
+            133,
+            200
+          ],
+          "population": 494
+        },
+        "DarkVibrant": {
+          "rgb": [
+            16,
+            35,
+            11
+          ],
+          "population": 30
+        },
+        "LightVibrant": {
+          "rgb": [
+            105,
+            158,
+            228
+          ],
+          "population": 6
+        },
+        "Muted": {
+          "rgb": [
+            81,
+            117,
+            169
+          ],
+          "population": 184
+        },
+        "DarkMuted": {
+          "rgb": [
+            84,
+            102,
+            57
+          ],
+          "population": 309
+        },
+        "LightMuted": {
+          "rgb": [
+            204,
+            217,
+            229
+          ],
+          "population": 248
+        }
+      },
+      "publishedBylines": [
+        {
+          "id": 552827,
+          "name": "Nadia Eldeib",
+          "handle": "nseldeib",
+          "photo_url": "https://substack-post-media.s3.amazonaws.com/public/images/5cccef64-7e0b-4ab8-b879-64afeaedfe7f_1206x1206.jpeg",
+          "bio": "Building CodeYam, the first robust software simulator. Co-founder & CEO of Nod Labs, Inc. (CodeYam). Based in Denver, CO. ",
+          "profile_set_up_at": "2021-07-27T20:37:07.215Z",
+          "reader_installed_at": "2022-03-10T02:56:41.316Z",
+          "publicationUsers": [
+            {
+              "id": 2327541,
+              "user_id": 552827,
+              "publication_id": 2308072,
+              "role": "admin",
+              "public": true,
+              "is_primary": true,
+              "publication": {
+                "id": 2308072,
+                "name": "Nadia’s Substack",
+                "subdomain": "nseldeib",
+                "custom_domain": "blog.nseldeib.com",
+                "custom_domain_optional": false,
+                "hero_text": "Personal writing about my adventures and observations in startups, technology, AI, running, surfing, work, life, and whatever else I am exploring.",
+                "logo_url": "https://substack-post-media.s3.amazonaws.com/public/images/09d5cb23-77df-4fc8-afdb-8b937aa8a4e7_1206x1206.png",
+                "author_id": 552827,
+                "primary_user_id": 552827,
+                "theme_var_background_pop": "#2EE240",
+                "created_at": "2024-01-30T17:09:52.845Z",
+                "email_from_name": null,
+                "copyright": "Nadia Eldeib",
+                "founding_plan_name": "Founding Member",
+                "community_enabled": true,
+                "invite_only": false,
+                "payments_state": "disabled",
+                "language": null,
+                "explicit": false,
+                "homepage_type": "newspaper",
+                "is_personal_mode": false,
+                "logo_url_wide": null
+              }
+            }
+          ],
+          "twitter_screen_name": "nseldeib",
+          "is_guest": false,
+          "bestseller_tier": null,
+          "status": {
+            "bestsellerTier": null,
+            "subscriberTier": null,
+            "leaderboard": null,
+            "vip": false,
+            "badge": null,
+            "subscriber": null
+          }
+        }
+      ],
+      "reaction": null,
+      "reaction_count": 7,
+      "comment_count": 3,
+      "child_comment_count": 2,
+      "audio_items": [
+        {
+          "post_id": 213765081,
+          "voice_id": "en-US-OnyxTurboMultilingualNeural",
+          "audio_url": "https://substack-video.s3.amazonaws.com/video_upload/post/213765081/tts/cc2861ac-373a-4493-b47d-636b68441ac3/en-US-OnyxTurboMultilingualNeural.mp3",
+          "type": "tts",
+          "status": "completed"
+        }
+      ],
+      "is_geoblocked": false,
+      "is_editor_preview": false,
+      "hasCashtag": false
+    }
+  ],
+  "nextCursor": "eyJwb3N0X2RhdGUiOiIyMDI2LTA5LTAxVDIxOjQwOjA5LjA2NjY1MVoifQ=="
+}

@@ -12,6 +12,7 @@
 
 import { XMLParser } from 'fast-xml-parser';
 import { describeError } from './describeError';
+import { decodeEntities } from './text';
 
 /** The only feed this site reads. */
 export const FEED_URL = 'https://blog.nseldeib.com/feed';
@@ -87,6 +88,19 @@ function asText(value: unknown): string {
 }
 
 /**
+ * A text field from the feed, as the page will show it.
+ *
+ * Substack HTML-escapes titles and subtitles inside CDATA, and the XML parser
+ * does not decode inside CDATA, so a subtitle arrives as
+ * `&#8220;You like doing hard things!&#8221;`. Left alone the codes show on the
+ * page verbatim. Only for fields rendered as text — a body is HTML and must
+ * never go through this.
+ */
+function plainTextField(value: unknown): string {
+  return decodeEntities(asText(value)).trim();
+}
+
+/**
  * The cover image Substack attaches to an item as `<enclosure type="image/…">`.
  *
  * Only an image enclosure counts: a podcast post's enclosure is its audio.
@@ -127,13 +141,13 @@ export function parseFeed(xml: string): FeedPost[] {
   for (const item of items) {
     const link = asText(item?.link);
     const slug = link ? slugFromLink(link) : null;
-    const title = asText(item?.title).trim();
+    const title = plainTextField(item?.title);
     const publishedAt = parseDate(asText(item?.pubDate));
     const bodyHtml = asText(item?.['content:encoded']);
 
     if (!slug || !title || !publishedAt || !bodyHtml) continue;
 
-    const subtitle = asText(item?.description).trim();
+    const subtitle = plainTextField(item?.description);
 
     posts.push({
       slug,
