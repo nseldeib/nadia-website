@@ -1,0 +1,121 @@
+/* Back on the dark ground: the light surface ends with the essay, so the
+   footer reads as the site closing around the post rather than part of it. */
+.footer {
+  padding: var(--spacing-2xl) 0 var(--spacing-xl);
+}
+
+.wrap {
+  max-width: var(--wrap-max);
+  margin: 0 auto;
+  padding: 0 var(--wrap-pad);
+}
+
+/* ── The one action ──────────────────────────────────────────────────────── */
+
+.subscribe {
+  max-width: var(--measure);
+  margin: 0 auto;
+  text-align: center;
+}
+
+.invite {
+  margin: 0;
+  color: var(--ink-2);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: var(--spacing-md);
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--text-lead);
+  letter-spacing: var(--tracking-display);
+  color: var(--ink);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+.cta:hover {
+  color: var(--rust);
+}
+
+/* ── Navigation, deliberately quieter ────────────────────────────────────── */
+
+/* The rule is doing real work: it separates the one action above from the
+   navigation below, so the eye stops treating them as a set of equal options. */
+.around {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-lg);
+  margin-top: var(--spacing-2xl);
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--rule);
+}
+
+.step {
+  display: block;
+  text-decoration: none;
+  color: var(--ink-2);
+  transition: color var(--transition-fast);
+}
+.step:hover {
+  color: var(--ink);
+}
+.next {
+  text-align: right;
+}
+
+.dir {
+  display: block;
+  font-family: var(--font-mono-stack);
+  font-size: var(--text-mono-sm);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--meta);
+}
+
+.stepTitle {
+  display: block;
+  margin-top: var(--spacing-2xs);
+  font-size: var(--text-body-sm);
+  line-height: var(--leading-tight);
+}
+
+.back {
+  display: block;
+  margin-top: var(--spacing-lg);
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--rule);
+  text-align: center;
+  font-family: var(--font-mono-stack);
+  font-size: var(--text-mono-sm);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--meta);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+.back:hover {
+  color: var(--rust);
+}
+
+@media (max-width: 860px) {
+  .footer {
+    padding: var(--spacing-xl) 0;
+  }
+  .wrap {
+    padding: 0 24px;
+  }
+  /* Stacked, both left-aligned — a right-aligned "Newer" under a left-aligned
+     "Older" reads as two unrelated things once they are in one column. */
+  .around {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+  .next {
+    text-align: left;
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "provenAt": "2026-11-06T23:14:15Z",
+  "slug": "ne--keep-the-homepage-and-sitemap-current-with-new-posts",
+  "paths": [
+    "app/sitemap.ts",
+    "app/page.tsx"
+  ],
+  "runScope": [
+    "app/sitemap.ts",
+    "app/page.tsx",
+    "app/lib/posts.ts",
+    "app/lib/posts.test.ts"
+  ],
+  "neuters": [
+    {
+      "file": "app/lib/posts.ts",
+      "find": "// Deliberately silent: see above.",
+      "replace": "throw new Error('neutered');"
+    }
+  ],
+  "tests": {
+    "is revalidated on the feed cadence rather than frozen at build": {
+      "withoutFix": "fail",
+      "withFix": "pass",
+      "established": {
+        "kind": "measured"
+      }
+    },
+    "schedules a quiet feed sync to run after the response": {
+      "withoutFix": "fail",
+      "withFix": "pass",
+      "established": {
+        "kind": "measured"
+      }
+    },
+    "swallows a failed write after the feed was fetched": {
+      "withoutFix": "fail",
+      "withFix": "pass",
+      "established": {
+        "kind": "measured"
+      }
+    },
+    "swallows a thrown reconcile": {
+      "withoutFix": "fail",
+      "withFix": "pass",
+      "established": {
+        "kind": "measured"
+      }
+    }
+  },
+  "proof": {
+    "verdict": "proven",
+    "flipped": [
+      "is revalidated on the feed cadence rather than frozen at build"
+    ]
+  }
+}

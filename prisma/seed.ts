@@ -19,7 +19,7 @@ import path from 'path';
 import { PrismaClient } from '@prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { requireConnectionString } from '../app/lib/prismaConnection';
-import { type SeedMessage, summarize, toMessageRow } from './seedRows';
+import { type SeedMessage, type SeedPost, seedTable, summarize, toMessageRow, toSeedPostRow } from './seedRows';
 
 const adapter = new PrismaPg({ connectionString: requireConnectionString() });
 const prisma = new PrismaClient({ adapter });
@@ -33,19 +33,41 @@ const prisma = new PrismaClient({ adapter });
  */
 const SEED_FILE = path.join(__dirname, '..', '.codeyam', 'seed-data', 'messages-received.json');
 
-function readSeedMessages(): SeedMessage[] {
+/**
+ * The essays the Adventures section links to, stored as real (sanitized)
+ * Substack posts so those links open a page locally instead of a 404. The same
+ * file seeds the homepage scenarios.
+ */
+const ESSAYS_FILE = path.join(__dirname, '..', '.codeyam', 'seed-data', 'running-essays.json');
+
+/**
+ * One table's rows from a seed file. The files are optional: a clone that only
+ * wants a running site does not need the demo inbox or the essays, and an
+ * empty table is a valid state.
+ */
+function readSeedFile<T>(file: string, table: string): T[] {
   try {
-    const raw = JSON.parse(readFileSync(SEED_FILE, 'utf8'));
-    return raw?.seed?.Message ?? [];
+    return seedTable<T>(JSON.parse(readFileSync(file, 'utf8')), table);
   } catch {
-    // The seed file is optional: a clone that only wants a running site does
-    // not need the demo inbox, and an empty table is a valid state.
     return [];
   }
 }
 
+async function seedEssays() {
+  const essays = readSeedFile<SeedPost>(ESSAYS_FILE, 'Post');
+  // Upsert, not replace: a local Post table may also hold posts the feed sync
+  // wrote, and those must survive a re-seed.
+  for (const essay of essays) {
+    const row = toSeedPostRow(essay);
+    await prisma.post.upsert({ where: { slug: row.slug }, create: row, update: row });
+  }
+  console.log(`Seeded ${essays.length} linked essay(s).`);
+}
+
 async function main() {
-  const messages = readSeedMessages();
+  await seedEssays();
+
+  const messages = readSeedFile<SeedMessage>(SEED_FILE, 'Message');
 
   if (!messages.length) {
     console.log(

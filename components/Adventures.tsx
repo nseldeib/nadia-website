@@ -1,6 +1,7 @@
 import site from '@/content/site';
 import PhotoRotator from './PhotoRotator';
 import SectionHead from './SectionHead';
+import AdventuresReading from './AdventuresReading';
 import section from './Section.module.css';
 import styles from './Adventures.module.css';
 
@@ -13,6 +14,7 @@ import styles from './Adventures.module.css';
  */
 export default function Adventures() {
   const { adventures } = site;
+  const { reading } = adventures;
 
   return (
     <section className={section.section} id="adventures">
@@ -25,6 +27,7 @@ export default function Adventures() {
             {adventures.paragraphs.map((p) => (
               <p key={p.slice(0, 40)}>{p}</p>
             ))}
+            {reading && <AdventuresReading {...reading} />}
           </div>
           {/* 1.28 is the widest frame the snowboard source fills without
               cropping her arms; every other photo fits inside it. */}

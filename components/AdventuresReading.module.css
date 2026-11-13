@@ -1,0 +1,21 @@
+/* "Read about the running": a mono label over the same ruled list the Work
+   section uses, so the links read as a footnote to the prose, not a new block. */
+.reading {
+  margin-top: var(--spacing-lg);
+}
+.readingLabel {
+  margin: 0;
+  font-family: var(--font-mono-stack);
+  font-size: var(--text-label);
+  font-weight: inherit;
+  letter-spacing: var(--tracking-eyebrow);
+  /* The label can run long enough to wrap in this column; give the second
+     line air instead of the tight default an h3 inherits here. */
+  line-height: var(--leading-body);
+  text-transform: uppercase;
+  color: var(--meta);
+}
+/* Two classes so this outranks `.links`' own margin regardless of CSS order. */
+.reading .readingList {
+  margin-top: var(--spacing-sm);
+}

@@ -1,0 +1,51 @@
+.page {
+  padding: var(--spacing-2xl) 0 var(--spacing-2xl);
+}
+
+.wrap {
+  max-width: var(--wrap-max);
+  margin: 0 auto;
+  padding: 0 var(--wrap-pad);
+}
+
+/* The archive has no section number — the numbered sequence belongs to the
+   one-page site, and borrowing `07` here would imply this is another of its
+   sections rather than a place of its own. */
+.eyebrow {
+  margin: 0;
+  font-family: var(--font-mono-stack);
+  font-size: var(--text-mono-sm);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--meta);
+}
+
+.heading {
+  margin: var(--spacing-sm) 0 0;
+  font-size: var(--text-section);
+}
+
+.lede {
+  margin: var(--spacing-md) 0 0;
+  max-width: var(--measure);
+  font-size: var(--text-lead);
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+
+.empty {
+  margin: var(--spacing-xl) 0 0;
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--rule);
+  max-width: var(--measure);
+  color: var(--meta);
+}
+
+@media (max-width: 860px) {
+  .page {
+    padding: var(--spacing-xl) 0;
+  }
+  .wrap {
+    padding: 0 24px;
+  }
+}

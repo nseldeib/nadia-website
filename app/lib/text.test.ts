@@ -1,5 +1,51 @@
 import { describe, it, expect } from 'vitest';
-import { splitOnBrand } from './text';
+import { decodeEntities, splitOnBrand } from './text';
+
+describe('decodeEntities', () => {
+  // The real case that prompted this: Substack's feed sends curly quotes as
+  // decimal codes, and without decoding they show on the page verbatim.
+  it('decodes decimal character codes', () => {
+    expect(decodeEntities('&#8220;You like doing hard things!&#8221;')).toBe('“You like doing hard things!”');
+  });
+
+  // Hex codes are the same characters written another way; both cases of the
+  // x must work, since HTML accepts either.
+  it('decodes hex character codes in either case', () => {
+    expect(decodeEntities('it&#x2019;s')).toBe('it’s');
+    expect(decodeEntities('it&#X2019;s')).toBe('it’s');
+  });
+
+  // Named codes cover the punctuation an essay title actually uses.
+  it('decodes the common named codes', () => {
+    expect(decodeEntities('Tom &amp; Jerry &mdash; &ldquo;hi&rdquo; &hellip;')).toBe('Tom & Jerry — “hi” …');
+    expect(decodeEntities('a&nbsp;b')).toBe('a b');
+  });
+
+  // An unrecognised name must survive as written rather than vanish, so an
+  // odd code is visible and fixable instead of silently deleting text.
+  it('keeps an unknown named code as written', () => {
+    expect(decodeEntities('&notarealcode; stays')).toBe('&notarealcode; stays');
+  });
+
+  // A number that is not a real character must not throw — a thrown error
+  // would cost the whole feed, not one title.
+  it('keeps an out-of-range or zero number as written', () => {
+    expect(decodeEntities('&#0; and &#99999999;')).toBe('&#0; and &#99999999;');
+  });
+
+  // Plain text, a bare ampersand, and an empty string pass through unchanged.
+  it('leaves text without codes unchanged', () => {
+    expect(decodeEntities('Running Towards (and Past) 35!')).toBe('Running Towards (and Past) 35!');
+    expect(decodeEntities('R&D')).toBe('R&D');
+    expect(decodeEntities('')).toBe('');
+  });
+
+  // Decoding happens once: an escaped ampersand becomes a literal one, not a
+  // second round of decoding that would change what the author wrote.
+  it('decodes only one level', () => {
+    expect(decodeEntities('&amp;#8220;')).toBe('&#8220;');
+  });
+});
 
 describe('splitOnBrand', () => {
   // The footer signoff is one authored string with the brand inside it. The

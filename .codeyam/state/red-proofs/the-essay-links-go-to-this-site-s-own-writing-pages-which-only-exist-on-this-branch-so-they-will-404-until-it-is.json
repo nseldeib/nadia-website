@@ -1,0 +1,39 @@
+{
+  "provenAt": "2026-11-07T00:59:53Z",
+  "slug": "the-essay-links-go-to-this-site-s-own-writing-pages-which-only-exist-on-this-branch-so-they-will-404-until-it-is",
+  "paths": [],
+  "runScope": [
+    "scripts/backfill-posts.ts",
+    "scripts/backfill-posts.test.ts",
+    "prisma/seedRows.test.ts"
+  ],
+  "neuters": [
+    {
+      "file": "scripts/backfill-posts.ts",
+      "find": "  await warnAboutMissingReadingLinks();",
+      "replace": "  void warnAboutMissingReadingLinks;"
+    }
+  ],
+  "tests": {
+    "holds a post for every slug the Adventures section links to": {
+      "withoutFix": "pass",
+      "withFix": "pass",
+      "established": {
+        "kind": "measured"
+      }
+    },
+    "warns naming a linked essay the table lacks without failing": {
+      "withoutFix": "fail",
+      "withFix": "pass",
+      "established": {
+        "kind": "measured"
+      }
+    }
+  },
+  "proof": {
+    "verdict": "proven",
+    "flipped": [
+      "warns naming a linked essay the table lacks without failing"
+    ]
+  }
+}

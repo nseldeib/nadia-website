@@ -24,11 +24,36 @@
     ]
   },
   {
+    "description": "Running-essays footnote under the Adventures prose: a mono label over a ruled list of internal same-tab /writing links; renders nothing when there are no essays.",
+    "filePath": "components/AdventuresReading.tsx",
+    "name": "AdventuresReading",
+    "scenarios": [
+      "adventuresreading-default",
+      "adventuresreading-single",
+      "adventuresreading-longtitles"
+    ],
+    "tags": [
+      "adventures"
+    ]
+  },
+  {
     "description": "The advisory offer. The specifics sit inside a details element: someone scanning needs the offer, someone who wants the scope will open it.",
     "filePath": "components/work/AdvisoryCard.tsx",
     "name": "AdvisoryCard",
     "scenarios": [
       "advisorycard-default"
+    ]
+  },
+  {
+    "description": "The archive's posts grouped under year headings.",
+    "filePath": "components/writing/ArchiveList.tsx",
+    "name": "ArchiveList",
+    "scenarios": [
+      "archivelist-default",
+      "archivelist-singleyear"
+    ],
+    "tags": [
+      "writing"
     ]
   },
   {
@@ -225,7 +250,8 @@
     "name": "Page",
     "scenarios": [
       "home-full-page"
-    ]
+    ],
+    "testFile": "app/page.test.ts"
   },
   {
     "description": "Cross-fades photographs on a shared eight-second slot, so every rotation on the page lands on one beat instead of something always being mid-fade. Frames are pre-cropped to the container's aspect, so nothing is enlarged or trimmed at render time.",
@@ -238,11 +264,46 @@
     ]
   },
   {
+    "description": "Renders a sanitized post body with the site's essay typography.",
+    "filePath": "components/writing/PostBody.tsx",
+    "name": "PostBody",
+    "scenarios": [
+      "postbody-default"
+    ],
+    "tags": [
+      "writing"
+    ]
+  },
+  {
+    "description": "End-of-essay footer with the Substack call to action and previous/next post links.",
+    "filePath": "components/writing/PostFooter.tsx",
+    "name": "PostFooter",
+    "scenarios": [
+      "postfooter-default",
+      "postfooter-newest",
+      "postfooter-oldest"
+    ],
+    "tags": [
+      "writing"
+    ]
+  },
+  {
     "description": "Recent essays, dated so the list reads as a timeline.",
     "filePath": "components/writing/PostList.tsx",
     "name": "PostList",
     "scenarios": [
       "postlist-default"
+    ]
+  },
+  {
+    "description": "A single essay at /writing/<slug>, with date, title, body, Substack credit, and previous/next links.",
+    "filePath": "app/writing/[slug]/page.tsx",
+    "name": "PostPage",
+    "scenarios": [
+      "writing-post"
+    ],
+    "tags": [
+      "writing"
     ]
   },
   {
@@ -384,6 +445,17 @@
     ]
   },
   {
+    "description": "The /writing archive: reconciles on a deadline, then lists every stored post by year, or an empty-state note.",
+    "filePath": "app/writing/page.tsx",
+    "name": "WritingArchivePage",
+    "scenarios": [
+      "writing-archive"
+    ],
+    "tags": [
+      "writing"
+    ]
+  },
+  {
     "description": "The link through to the newsletter, placed after the post list so the invitation to subscribe lands only once the three sample posts have been read past.",
     "filePath": "components/writing/WritingCta.tsx",
     "name": "WritingCta",
@@ -398,6 +470,72 @@
     "scenarios": [
       "writingintro-default"
     ]
+  },
+  {
+    "description": "Top navigation for the writing pages: the wordmark home, the archive link (marked current on /writing), and Get in touch.",
+    "filePath": "components/writing/WritingNav.tsx",
+    "name": "WritingNav",
+    "scenarios": [
+      "writingnav-default",
+      "writingnav-post"
+    ],
+    "tags": [
+      "writing"
+    ]
+  },
+  {
+    "description": "The next-older (previous) and next-newer (next) posts around a slug.",
+    "filePath": "app/lib/posts.ts",
+    "name": "adjacentPosts",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "app/lib/posts.test.ts"
+  },
+  {
+    "description": "Every stored slug newest first, for the sitemap and static params.",
+    "filePath": "app/lib/posts.ts",
+    "name": "allPostSlugs",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "app/lib/posts.test.ts"
+  },
+  {
+    "description": "Builds the archive API URL for the first page or for the page an opaque cursor names.",
+    "filePath": "app/lib/substackFeed.ts",
+    "name": "archivePageUrl",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "app/lib/substackFeed.test.ts"
+  },
+  {
+    "description": "Normalizes fast-xml-parser's bare-value-or-array child shape to an array. Exercised through parseFeed.",
+    "filePath": "app/lib/substackFeed.ts",
+    "name": "asArray",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "app/lib/substackFeed.test.ts"
+  },
+  {
+    "description": "Reads text from a parsed XML node that may be a string, number, or #text object. Exercised through parseFeed.",
+    "filePath": "app/lib/substackFeed.ts",
+    "name": "asText",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "app/lib/substackFeed.test.ts"
+  },
+  {
+    "description": "Creates every public archive post that neither the feed nor the store has; create-only and never throws, reporting failures in the sync result.",
+    "filePath": "app/lib/posts.ts",
+    "name": "backfillFromArchive",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "app/lib/posts.test.ts"
   },
   {
     "description": "Shapes the Customer.io wire body for one note: subject from topic and sender, plain-text and escaped HTML parts, recipient identifiers, and reply_to set to the person who wrote in rather than the site's sending address.",
@@ -418,10 +556,37 @@
     "testFile": "app/lib/contactResponses.test.ts"
   },
   {
+    "description": "Reads a feed item's cover image URL from its image enclosure, ignoring audio or video enclosures; null when none.",
+    "filePath": "app/lib/substackFeed.ts",
+    "name": "coverFromEnclosure",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "app/lib/substackFeed.test.ts"
+  },
+  {
+    "description": "Turns HTML character codes such as &#8220;, &#x2019; and &amp; back into the characters they stand for, for text shown as text. Unknown codes and out-of-range numbers are kept as written, and it decodes one level only. Never for HTML that is rendered as HTML.",
+    "filePath": "app/lib/text.ts",
+    "name": "decodeEntities",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "app/lib/text.test.ts"
+  },
+  {
     "description": "Attempts delivery of a saved note and stamps emailedAt strictly AFTER the provider accepts, never before and never on a failed send. Returns delivered, not-delivered, or delivered-unstamped. emailedAt is the only record of whether a note reached the inbox, so stamping optimistically would make an undelivered note indistinguishable from a delivered one. Takes its collaborators as arguments so all three outcomes are reachable without a database or a mail provider.",
     "filePath": "app/lib/deliverAndStamp.ts",
     "name": "deliverAndStamp",
     "testFile": "app/lib/deliverAndStamp.test.ts"
+  },
+  {
+    "description": "Turns a caught value into a one-line reason, falling back when it is not an Error or has an empty message.",
+    "filePath": "app/lib/describeError.ts",
+    "name": "describeError",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "app/lib/describeError.test.ts"
   },
   {
     "description": "Turns a rejected provider response into an operator-readable reason, carrying the provider's own text because that is what separates a bad token from an unverified recipient. Truncated for a log line, and survives a body that cannot be read.",
@@ -436,10 +601,127 @@
     "testFile": "app/lib/sendNotification.test.ts"
   },
   {
+    "description": "Plain-text opening of a post body for metadata, spacing blocks apart and cutting on a word boundary.",
+    "filePath": "app/lib/sanitizePostHtml.ts",
+    "name": "excerptFromHtml",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "app/lib/sanitizePostHtml.test.ts"
+  },
+  {
+    "description": "Walks the Substack archive cursor to list every post, capped at ARCHIVE_MAX_PAGES; never throws and returns a partial list if a later page fails.",
+    "filePath": "app/lib/substackFeed.ts",
+    "name": "fetchArchiveIndex",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "app/lib/substackFeed.test.ts"
+  },
+  {
+    "description": "Fetches and parses the RSS feed with a timeout; never throws, reporting failures as a reason.",
+    "filePath": "app/lib/substackFeed.ts",
+    "name": "fetchFeed",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "app/lib/substackFeed.test.ts"
+  },
+  {
+    "description": "Fetches one post with its body from the Substack API by slug, for posts the RSS no longer carries; never throws.",
+    "filePath": "app/lib/substackFeed.ts",
+    "name": "fetchPostBySlug",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "app/lib/substackFeed.test.ts"
+  },
+  {
+    "description": "Looks a post up in the store and reconciles (on a deadline) only when the slug is unknown.",
+    "filePath": "app/writing/[slug]/page.tsx",
+    "name": "findPost",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "app/writing/[slug]/page.test.ts"
+  },
+  {
+    "description": "Short 'Jul 13' post date, formatted in UTC so screenshots do not drift between timezones.",
+    "filePath": "app/lib/postDates.ts",
+    "name": "formatPostDate",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "app/lib/postDates.test.ts"
+  },
+  {
+    "description": "Long '13 July 2026' post date for the post page, formatted in UTC.",
+    "filePath": "app/lib/postDates.ts",
+    "name": "formatPostDateLong",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "app/lib/postDates.test.ts"
+  },
+  {
+    "description": "Post page metadata: self-canonical URL, article Open Graph, subtitle or body excerpt as description.",
+    "filePath": "app/writing/[slug]/page.tsx",
+    "name": "generateMetadata",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "app/writing/[slug]/page.test.ts"
+  },
+  {
+    "description": "Fetches a URL as JSON with the feed revalidate window and timeout, returning a result union instead of throwing.",
+    "filePath": "app/lib/substackFeed.ts",
+    "name": "getJson",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "app/lib/substackFeed.test.ts"
+  },
+  {
+    "description": "One stored post with its body, or null for an unknown slug.",
+    "filePath": "app/lib/posts.ts",
+    "name": "getPost",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "app/lib/posts.test.ts"
+  },
+  {
+    "description": "Cuts an already-sorted post list into year runs without re-sorting it.",
+    "filePath": "app/lib/postDates.ts",
+    "name": "groupPostsByYear",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "app/lib/postDates.test.ts"
+  },
+  {
+    "description": "Runs an async function over a list with at most N calls in flight, so reconcile writes and fetches stay within the small Postgres pool.",
+    "filePath": "app/lib/inBatches.ts",
+    "name": "inBatches",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "app/lib/inBatches.test.ts"
+  },
+  {
     "description": "Reports whether the hidden company field came back filled in. Whitespace does not count, since a stray space from an autofill would otherwise silently discard a real person's message while telling them it succeeded.",
     "filePath": "app/lib/contactRequest.ts",
     "name": "isHoneypotTripped",
     "testFile": "app/lib/contactRequest.test.ts"
+  },
+  {
+    "description": "Stored posts newest first without bodies, optionally capped. Reads the store, never the feed.",
+    "filePath": "app/lib/posts.ts",
+    "name": "listPosts",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "app/lib/posts.test.ts"
   },
   {
     "description": "Seeds the Message table with the received-messages world used by the home-full-page scenario, so a capture shows a coherent inbox rather than leftover state.",
@@ -451,16 +733,124 @@
     }
   },
   {
+    "description": "The posts:backfill script: forces a full reconcile, reports the stored total, and exits non-zero on a failed feed read.",
+    "filePath": "scripts/backfill-posts.ts",
+    "name": "main",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "scripts/backfill-posts.test.ts"
+  },
+  {
+    "description": "Entry point of npm run posts:resanitize: reads every stored post, rewrites only the bodies the current sanitizer changes, writes nothing with --dry-run, and always disconnects.",
+    "filePath": "scripts/resanitize-posts.ts",
+    "name": "main",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "scripts/resanitize-posts.test.ts"
+  },
+  {
+    "description": "Formats the one-line backfill warning naming the missing essay slugs and pointing at content/site.json, or returns null when none are missing.",
+    "filePath": "app/lib/readingLinks.ts",
+    "name": "missingReadingLinksWarning",
+    "tags": [
+      "adventures-essay-links"
+    ],
+    "testFile": "app/lib/readingLinks.test.ts"
+  },
+  {
+    "description": "Returns the Adventures essay slugs that the Post store does not hold, trimmed and in authored order. Each one is a link that would 404.",
+    "filePath": "app/lib/readingLinks.ts",
+    "name": "missingReadingSlugs",
+    "tags": [
+      "adventures-essay-links"
+    ],
+    "testFile": "app/lib/readingLinks.test.ts"
+  },
+  {
     "description": "The 422 reply carrying per-field problems so the form can point at what needs fixing. 422 rather than 400: the request was understood, its contents were not acceptable.",
     "filePath": "app/lib/contactResponses.ts",
     "name": "needsAnotherLook",
     "testFile": "app/lib/contactResponses.test.ts"
   },
   {
+    "description": "Maps the Substack single-post API response onto the same FeedPost shape the RSS parser produces, or null when a required field is missing.",
+    "filePath": "app/lib/substackFeed.ts",
+    "name": "parseApiPost",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "app/lib/substackFeed.test.ts"
+  },
+  {
+    "description": "Parses one Substack archive API page into entries with slug, audience and date plus the next pagination cursor, skipping incomplete entries.",
+    "filePath": "app/lib/substackFeed.ts",
+    "name": "parseArchive",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "app/lib/substackFeed.test.ts"
+  },
+  {
+    "description": "Parses a feed RFC-822 date, treating anything unparseable as missing. Exercised through parseFeed.",
+    "filePath": "app/lib/substackFeed.ts",
+    "name": "parseDate",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "app/lib/substackFeed.test.ts"
+  },
+  {
+    "description": "Turns Substack RSS XML into posts, skipping any item missing a slug, title, date, or body.",
+    "filePath": "app/lib/substackFeed.ts",
+    "name": "parseFeed",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "app/lib/substackFeed.test.ts"
+  },
+  {
     "description": "Picks the active section from document order and the set of currently visible ids. Sections are contiguous so two can briefly both cross the observer band; document order breaks the tie, which keeps the nav indicator moving forward instead of flickering between neighbours.",
     "filePath": "app/lib/activeSection.ts",
     "name": "pickActive",
     "testFile": "app/lib/activeSection.test.ts"
+  },
+  {
+    "description": "Reads a feed title or subtitle as the page will show it: the node's text with Substack's in-CDATA character codes decoded and whitespace trimmed. Only for text fields, never a post body.",
+    "filePath": "app/lib/substackFeed.ts",
+    "name": "plainTextField",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "app/lib/substackFeed.test.ts"
+  },
+  {
+    "description": "Picks the link-preview image for one writing post: its Substack cover re-cropped by Substack's CDN to 1200x630 with the size stated, any other https cover as-is, else the site-wide summit SHARE_IMAGE.",
+    "filePath": "app/lib/shareImage.ts",
+    "name": "postShareImage",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "app/lib/shareImage.test.ts"
+  },
+  {
+    "description": "The UTC year a post belongs to.",
+    "filePath": "app/lib/postDates.ts",
+    "name": "postYear",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "app/lib/postDates.test.ts"
+  },
+  {
+    "description": "Returns the stored posts whose body the current sanitizer would change, each with its cleaned body; already-clean posts are left out so a second pass returns nothing.",
+    "filePath": "app/lib/resanitizePosts.ts",
+    "name": "postsNeedingResanitize",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "app/lib/resanitizePosts.test.ts"
   },
   {
     "description": "Parses an untrusted request body into a result rather than throwing or returning a response, so parsing holds no opinion about HTTP. Malformed input is an expected arrival on a public endpoint, not an exceptional one.",
@@ -475,13 +865,34 @@
     "testFile": "app/lib/sendNotification.test.ts"
   },
   {
-    "description": "Reads the seed message fixture from the same file the scenario captures use, so a local database and a captured screenshot look at identical data. Returns an empty list when the file is absent or unreadable: a clone that only wants a running site does not need the demo inbox, and an empty table is a valid state.",
+    "description": "Reads one table's rows from an optional seed JSON file, returning an empty list when the file is missing or unreadable.",
     "filePath": "prisma/seed.ts",
-    "name": "readSeedMessages",
+    "name": "readSeedFile",
+    "tags": [
+      "adventures-essay-links"
+    ],
     "untestabilityReason": {
-      "justification": "Reads a fixed project path via readFileSync with no injection point, so neither the success path nor the missing-file fallback can be varied from a test. The transforms applied to what it returns are covered in prisma/seedRows.test.ts.",
+      "justification": "filesystem read inside seed.ts, which runs main() and connects to the database on import; the parsing it composes is seedTable, which is tested",
       "kind": "platform-glue"
     }
+  },
+  {
+    "description": "The homepage's recent posts; returns an empty list instead of throwing when the database is unreachable.",
+    "filePath": "app/lib/posts.ts",
+    "name": "recentPostsForHome",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "app/lib/posts.test.ts"
+  },
+  {
+    "description": "Runs a reconcile but stops waiting at a deadline; a thrown reconcile becomes a failed result.",
+    "filePath": "app/lib/posts.ts",
+    "name": "reconcileWithinDeadline",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "app/lib/posts.test.ts"
   },
   {
     "description": "Reads DATABASE_URL and throws a message naming .env.local and DATABASE.md when it is absent or empty. Shared by the Next.js client singleton and the standalone seed script so the two entry points cannot drift; Postgres has no local-file fallback, so failing here rather than at first query is what turns a cryptic driver error into an actionable one.",
@@ -490,16 +901,64 @@
     "testFile": "app/lib/prismaConnection.test.ts"
   },
   {
+    "description": "Builds the re-sanitize script's output lines: one per changed slug plus a summary, worded as would re-sanitize on a dry run.",
+    "filePath": "app/lib/resanitizePosts.ts",
+    "name": "resanitizeReport",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "app/lib/resanitizePosts.test.ts"
+  },
+  {
     "description": "Generates robots.txt: every crawler may read the whole site, and the sitemap is advertised on the canonical host so no fetch pays a redirect hop. Nothing is disallowed on purpose — the editor's isolation routes already 404 in production, and robots.txt is public, so naming them would advertise paths rather than hide them.",
     "filePath": "app/robots.ts",
     "name": "robots",
     "testFile": "app/robots.test.ts"
   },
   {
+    "description": "Reduces a Substack post body to the essay tag allowlist, dropping subscribe forms and controls with their text, and opens external links in a new tab.",
+    "filePath": "app/lib/sanitizePostHtml.ts",
+    "name": "sanitizePostHtml",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "app/lib/sanitizePostHtml.test.ts"
+  },
+  {
     "description": "The 201 reply carrying the new row id, returned whether or not the email went out, because the row exists either way and delivery is not the sender's problem.",
     "filePath": "app/lib/contactResponses.ts",
     "name": "saved",
     "testFile": "app/lib/contactResponses.test.ts"
+  },
+  {
+    "description": "Upserts the running essays from running-essays.json into the Post table so Adventures links resolve locally, keeping posts the feed sync wrote.",
+    "filePath": "prisma/seed.ts",
+    "name": "seedEssays",
+    "tags": [
+      "adventures-essay-links"
+    ],
+    "untestabilityReason": {
+      "justification": "database upsert loop inside seed.ts, which runs main() on import; its row mapping toSeedPostRow is tested",
+      "kind": "platform-glue"
+    }
+  },
+  {
+    "description": "Pulls one table's rows out of a parsed seed file shaped seed.<Table>, returning an empty list for an absent table or malformed shape.",
+    "filePath": "prisma/seedRows.ts",
+    "name": "seedTable",
+    "tags": [
+      "adventures-essay-links"
+    ],
+    "testFile": "prisma/seedRows.test.ts"
+  },
+  {
+    "description": "Picks the archive slugs worth fetching: public audience only, never paid posts, and not already in the RSS feed.",
+    "filePath": "app/lib/posts.ts",
+    "name": "selectBackfillCandidates",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "app/lib/posts.test.ts"
   },
   {
     "description": "Delivers one contact-form note to the configured inbox through Customer.io's transactional API. Never throws: the row is already saved by the time it runs, so a delivery failure comes back as a result to record rather than an exception. The only module that reads CONTACT_INBOX, which it never logs or returns.",
@@ -532,10 +991,37 @@
     "testFile": "app/sitemap.test.ts"
   },
   {
+    "description": "The Substack slug from a /p/<slug> post URL, or null.",
+    "filePath": "app/lib/substackFeed.ts",
+    "name": "slugFromLink",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "app/lib/substackFeed.test.ts"
+  },
+  {
     "description": "Splits an authored sentence around the first occurrence of a brand name so it can be linked in place. The signoff stays one piece of copy instead of being assembled from fragments, and reassembly is exact.",
     "filePath": "app/lib/text.ts",
     "name": "splitOnBrand",
     "testFile": "app/lib/text.test.ts"
+  },
+  {
+    "description": "True when the newest stored post was updated within the feed revalidate window, so a reconcile can skip the feed.",
+    "filePath": "app/lib/posts.ts",
+    "name": "storeIsFresh",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "app/lib/posts.test.ts"
+  },
+  {
+    "description": "Returns which of a set of slugs the Post table already holds, in one query.",
+    "filePath": "app/lib/posts.ts",
+    "name": "storedSlugs",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "app/lib/posts.test.ts"
   },
   {
     "description": "Coerces an untrusted JSON value to a trimmed string, collapsing anything that is not a string to empty so a number or object can never reach a length check.",
@@ -556,9 +1042,54 @@
     "testFile": "prisma/seedRows.test.ts"
   },
   {
+    "description": "Reconciles the Post store with the RSS feed by upserting feed posts, then backfills posts that aged out of the feed from the archive API; never deletes.",
+    "filePath": "app/lib/posts.ts",
+    "name": "syncPostsFromFeed",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "app/lib/posts.test.ts"
+  },
+  {
+    "description": "Runs the feed reconcile for a post-response hook and swallows any failure, so a Substack or database outage never surfaces as an unhandled rejection after the homepage response is sent.",
+    "filePath": "app/lib/posts.ts",
+    "name": "syncPostsQuietly",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "app/lib/posts.test.ts"
+  },
+  {
     "description": "Maps one seed record to a database row. Leaves createdAt undefined when absent so the column default applies, while emailedAt is explicitly null: the two absences mean different things, and a null emailedAt is the seeded record of a note that arrived but was never delivered.",
     "filePath": "prisma/seedRows.ts",
     "name": "toMessageRow",
+    "testFile": "prisma/seedRows.test.ts"
+  },
+  {
+    "description": "Converts a fetched post into the stored Post row with its body sanitized; shared by the feed upsert and archive backfill paths.",
+    "filePath": "app/lib/posts.ts",
+    "name": "toPostRow",
+    "tags": [
+      "writing"
+    ],
+    "testFile": "app/lib/posts.test.ts"
+  },
+  {
+    "description": "Maps authored Adventures essay entries {slug,title} to internal /writing/<slug> link items {href,label} for the ruled link list, preserving order, trimming and escaping the slug.",
+    "filePath": "app/lib/readingLinks.ts",
+    "name": "toReadingLinks",
+    "tags": [
+      "adventures"
+    ],
+    "testFile": "app/lib/readingLinks.test.ts"
+  },
+  {
+    "description": "Maps one seeded essay to a Prisma Post row: publishedAt becomes a Date, a missing subtitle becomes null, and updatedAt is left to Prisma.",
+    "filePath": "prisma/seedRows.ts",
+    "name": "toSeedPostRow",
+    "tags": [
+      "adventures-essay-links"
+    ],
     "testFile": "prisma/seedRows.test.ts"
   },
   {
@@ -589,5 +1120,23 @@
     "filePath": "app/lib/validateMessage.ts",
     "name": "validateMessage",
     "testFile": "app/lib/validateMessage.test.ts"
+  },
+  {
+    "description": "After posts:backfill, looks up the Adventures essay slugs in the Post table and console.warns any that are missing. Warn only, never changes the exit code.",
+    "filePath": "scripts/backfill-posts.ts",
+    "name": "warnAboutMissingReadingLinks",
+    "tags": [
+      "adventures-essay-links"
+    ],
+    "testFile": "scripts/backfill-posts.test.ts"
+  },
+  {
+    "description": "States port 5432 on a port-less Postgres URL so pg cannot fill it from PGPORT; URLs with a port, or unparseable ones, pass through unchanged.",
+    "filePath": "app/lib/prismaConnection.ts",
+    "name": "withExplicitPort",
+    "tags": [
+      "database"
+    ],
+    "testFile": "app/lib/prismaConnection.test.ts"
   }
 ]

@@ -1,0 +1,100 @@
+.archive {
+  margin-top: var(--spacing-xl);
+}
+
+/* The year sits in its own left column, aligned with the dates below it, so
+   the eye reads one continuous list rather than a stack of sections. */
+.year {
+  display: grid;
+  grid-template-columns: 84px 1fr;
+  gap: var(--spacing-md);
+  align-items: start;
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--rule);
+}
+.year + .year {
+  margin-top: var(--spacing-lg);
+}
+
+.yearMark {
+  position: sticky;
+  top: calc(var(--nav-height-scrolled) + var(--spacing-md));
+  margin: 0;
+  font-family: var(--font-mono-stack);
+  font-size: var(--text-label);
+  font-weight: var(--font-weight-normal);
+  letter-spacing: var(--tracking-mono);
+  color: var(--meta);
+  line-height: var(--leading-body);
+}
+
+.posts {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.posts li + li {
+  border-top: 1px solid var(--rule);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: var(--spacing-md);
+  align-items: baseline;
+  padding: 18px 0;
+  text-decoration: none;
+  color: var(--ink);
+  transition: color var(--transition-fast);
+}
+.row:hover {
+  color: var(--rust);
+}
+
+.date {
+  font-family: var(--font-mono-stack);
+  font-size: var(--text-label);
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+  color: var(--meta);
+}
+
+.text {
+  display: block;
+}
+
+.title {
+  display: block;
+  font-size: var(--text-lead);
+  line-height: var(--leading-tight);
+}
+
+/* The subtitle stays quiet — it is the reason to open the post, not a second
+   title competing with the first. */
+.subtitle {
+  display: block;
+  margin-top: var(--spacing-2xs);
+  max-width: var(--measure);
+  font-size: var(--text-body-sm);
+  line-height: var(--leading-body);
+  color: var(--meta);
+}
+
+@media (max-width: 860px) {
+  /* The year stops being a column and becomes a marker above its run — at
+     phone width a 84px gutter costs more than the alignment is worth. */
+  .year {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xs);
+  }
+  .yearMark {
+    position: static;
+  }
+  .row {
+    grid-template-columns: 62px 1fr;
+    gap: 12px;
+  }
+  .title {
+    font-size: var(--text-body);
+  }
+}

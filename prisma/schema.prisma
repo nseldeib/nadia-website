@@ -22,8 +22,12 @@ datasource db {
 // you add one.
 // ──────────────────────────────────────────────
 
-// The only thing this site persists. Page content lives in the repo as files so
-// the CMS can version it; this table holds notes people send through the form.
+// Notes people send through the contact form.
+//
+// This used to be the only table, and this comment used to say page content
+// lives in the repo as files rather than in the database. `Post` broke the
+// second half of that sentence, so it no longer claims it.
+//
 // The handler writes the row first and mails second, so `emailedAt` staying null
 // is the durable record that a message arrived but delivery failed.
 model Message {
@@ -37,4 +41,37 @@ model Message {
   sourcePage String?
 
   @@index([createdAt])
+}
+
+// One essay, mirrored from the Substack at blog.nseldeib.com.
+//
+// Authored there, never here. This is a cache, not a CMS — which is why every
+// row keeps the `canonicalUrl` it came from rather than pretending to be the
+// original.
+//
+// It exists for one concrete reason: Substack's RSS only ever returns the 20
+// most recent posts. The feed is the source of NEW essays and this table is the
+// memory of OLD ones, so the 21st post published does not silently push the
+// first one off the site. A row is written the first time a post is seen and is
+// never removed when it leaves the feed window.
+//
+// `bodyHtml` is stored already sanitized. Substack's own subscribe forms and
+// image-expand controls are baked into the feed's `content:encoded`, and they
+// are stripped on the way in rather than on the way out, so nothing downstream
+// has to remember to do it.
+model Post {
+  id           Int      @id @default(autoincrement())
+  slug         String   @unique
+  title        String
+  subtitle     String?
+  publishedAt  DateTime
+  bodyHtml     String
+  canonicalUrl String
+  /// The post's Substack cover image, shown on its link-preview card. Null when
+  /// Substack lists none, in which case the card uses the site image.
+  coverImageUrl String?
+  firstSeenAt  DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([publishedAt])
 }

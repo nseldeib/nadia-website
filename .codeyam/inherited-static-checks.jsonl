@@ -1,0 +1,1 @@
+{"branch":"feat/backfill-substack-posts","check":"tsc","cited":{"app/lib/sanitizePostHtml.ts":"be9fe6e506495dda50929ab13a5eb74d910b52b4","app/lib/substackFeed.ts":"12a2844e0c8f41ccb28e54e2d93579bc53cd6599"},"firstSeenSha":"67c9452348e63c29fe83c18bf684a907d08b12ab","sessionId":"573a410f-2313-46cf-a1cd-5911498b1d9e","recordedAt":"2026-11-06T02:08:41Z"}

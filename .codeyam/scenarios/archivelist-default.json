@@ -1,0 +1,12 @@
+{
+  "name": "ArchiveList - Default",
+  "id": "740b7374-c83d-4149-8527-101453399b03",
+  "url": "/isolated-components/ArchiveList?s=Default",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "ArchiveList",
+  "scenarioType": "component",
+  "description": "Five essays across 2024-2026: year markers in the left column, rows with and without subtitles."
+}

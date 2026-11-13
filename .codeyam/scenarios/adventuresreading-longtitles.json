@@ -1,0 +1,12 @@
+{
+  "name": "AdventuresReading - LongTitles",
+  "id": "132ab5fd-ba32-44dd-ba80-4ab3b6e5187e",
+  "url": "/isolated-components/AdventuresReading?s=LongTitles",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "componentName": "AdventuresReading",
+  "scenarioType": "component",
+  "description": "Titles long enough to wrap in the 458px text column; each stays one ruled row."
+}

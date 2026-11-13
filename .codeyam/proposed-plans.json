@@ -2,15 +2,19 @@
   "proposals": [
     {
       "id": "isolation-fixture-migration-fails-every-route-and-rolls-back",
-      "title": "Isolation-fixture migration fails every route and rolls back",
+      "title": "Isolation fixture migration fails every route and rolls back",
       "mode": "backend",
-      "body": "## What happened\nAt Reconcile, `migrate-isolation-fixtures` was run after reshaping the ElsewhereRow / SubmitRow / TopicChips isolation routes so they could be lifted. The real migration returned HTTP 500 for all 70 routes and rolled back. The only way forward was to commit a verdict file (`.codeyam/state/isolation-migration-verdict.json`), which turns ISOLATION_ROUTE_TRACKED_IN_APP_SOURCE into an advisory check. That check becomes blocking again if any file under `app/isolated-components` is edited.\n\n## What would have helped\nA dry run that finds the routes that would fail before migrating anything, and a per-route failure reason (not one 500 for the whole batch), so the migration could finish instead of being parked behind a verdict file.",
-      "reason": "migrate-isolation-fixtures 500'd all 70 isolation routes, so an advisory verdict had to be recorded instead",
+      "body": "## What happened\n`migrate-isolation-fixtures` broke all 78 isolation routes and rolled back; verdict in .codeyam/state/isolation-migration-verdict.json.\n\n## What would have helped\nA migration that succeeds on this project, or a verdict naming the first failing route and why.",
+      "reason": "migrate-isolation-fixtures broke all 78 isolation routes and rolled back.",
       "severity": 3,
       "source": "codeyam-improvement",
       "status": "pending",
       "proposedAt": "2026-11-06T02:03:25.009101+00:00",
-      "sightings": 1
+      "rank": 3,
+      "sightings": 2,
+      "notes": [
+        "2026-11-06: Seen again at finalize on the Substack backfill branch: all 78 isolation routes broke and the migration rolled back; recorded as advisory only."
+      ]
     },
     {
       "id": "session-finalize-rejects-allow-pending-integration-that-recapture-stale-requires",
@@ -22,6 +26,7 @@
       "source": "codeyam-improvement",
       "status": "pending",
       "proposedAt": "2026-11-06T02:03:25.009101+00:00",
+      "rank": 5,
       "sightings": 1
     },
     {
@@ -39,6 +44,276 @@
       "sightingsAtDecision": 1,
       "offeredCount": 1,
       "lastOfferedAt": "2026-11-06T02:03:38.866282+00:00"
+    },
+    {
+      "id": "re-sanitize-stored-posts-that-predate-the-external-link-fix",
+      "title": "Re-sanitize stored posts that predate the external-link fix",
+      "mode": "backend",
+      "body": "## Summary\nsanitizePostHtml used to strip the target/rel attributes it added to external links. That is fixed, but feed sync only rewrites posts still in the feed, and the backfill only creates missing posts. Posts stored before the fix that have since aged out keep the old markup forever.\n\n## Key Decisions\n- Re-run the current sanitizer over every stored post body; do not refetch from Substack.\n- Idempotent: running it twice changes nothing.\n\n## Implementation\n- Add a `--resanitize` mode (or a sibling script) next to `scripts/backfill-posts.ts` that reads each `Post` row, runs `app/lib/sanitizePostHtml.ts` on its body, and updates only rows whose output differs.\n- Unit test alongside `scripts/backfill-posts.test.ts` covering an old-markup body and an already-clean body.\n- Document the one-time run next to the `posts:backfill` deploy step.",
+      "reason": "Posts stored before the fix, now out of the feed, keep links that open in the same tab.",
+      "severity": 2,
+      "source": "session-review",
+      "category": "fix",
+      "status": "written",
+      "planSlug": "re-sanitize-stored-posts-that-predate-the-external-link-fix",
+      "proposedAt": "2026-11-06T16:15:58.661814+00:00",
+      "kind": "tech-debt",
+      "rank": 4,
+      "sightings": 1,
+      "decidedAt": "2026-11-06T17:55:27Z",
+      "sightingsAtDecision": 1,
+      "offeredCount": 1,
+      "lastOfferedAt": "2026-11-06T16:16:19.884698+00:00"
+    },
+    {
+      "id": "editor-s-pgport-leaks-into-the-app-and-hangs-every-database-page",
+      "title": "Editor's PGPORT leaks into the app and hangs every database page",
+      "mode": "backend",
+      "body": "## What happened\nThe editor sets PGPORT=14252 (its own DB proxy) in the dev server environment, but nothing was listening there. The app's DATABASE_URL points at Neon with no explicit port, so the `pg` driver filled in PGPORT and dialled Neon on 14252. Every page that touched the database hung silently. I had to change app code (`app/lib/prismaConnection.ts`, withExplicitPort) to pin :5432, purely to work around the editor's environment.\n\n## What would have helped\nDon't export PGPORT (or other PG* vars) into the dev server unless the editor's proxy is actually serving and the app's connection string targets it; or have `server-identity` / preview health flag a PG* var that points at a closed port.",
+      "reason": "Every DB-backed preview page hung with no error.",
+      "severity": 4,
+      "source": "codeyam-improvement",
+      "status": "pending",
+      "proposedAt": "2026-11-06T16:15:58.661814+00:00",
+      "rank": 1,
+      "sightings": 1
+    },
+    {
+      "id": "capture-hydration-check-flags-links-rendered-through-innerhtml",
+      "title": "Capture hydration check flags links rendered through innerHTML",
+      "mode": "backend",
+      "body": "## What happened\nThe PostBody component renders sanitized HTML via dangerouslySetInnerHTML. The capture's hydration check treated the <a> elements inside that HTML as un-hydrated links and failed the capture, so the PostBody isolation fixture had to be written without any links — the scenario no longer shows the external-link behaviour this feature fixed.\n\n## What would have helped\nExclude elements inside a dangerouslySetInnerHTML subtree from the hydration check, or allow a scenario to opt out of it for a named selector.",
+      "reason": "Had to strip links from a fixture to get a capture to pass.",
+      "severity": 3,
+      "source": "codeyam-improvement",
+      "status": "pending",
+      "proposedAt": "2026-11-06T16:15:58.661814+00:00",
+      "rank": 4,
+      "sightings": 1
+    },
+    {
+      "id": "the-plan-asked-for-tests-of-the-existing-rss-parser-against-a-captured-feed-sample-those-were-not-added-and-the-new-archive-tests-use-hand-written-samples-shaped-like-the-live-responses-checked-on-2026-11-05",
+      "title": "The plan asked for tests of the existing RSS parser against a captured feed sample; those were not added, and the new archive tests use hand-written samples shaped like the live responses checked on 2026-11-05.",
+      "mode": "backend",
+      "body": "## Summary\n\nThe plan asked for tests of the existing RSS parser against a captured feed sample; those were not added, and the new archive tests use hand-written samples shaped like the live responses checked on 2026-11-05.\n\nAt the approval gate for \"Backfill posts that aged out of the Substack feed\" the user approved the built work past this gap: it differs from what the plan asked for. Built from plan `ne--backfill-posts-that-aged-out-of-the-substack-feed` (now at `.codeyam/plans/completed/ne--backfill-posts-that-aged-out-of-the-substack-feed.md`).\n\nOlder Substack posts that have dropped out of the feed now stay on your Writing page instead of disappearing.\n\n## What you can now do\n- See every past post on `/writing`, not just the ~20 newest the feed still lists\n- Run `npm run posts:backfill` once to pull in posts the site has never stored\n- External links in posts open in a new tab, as intended\n- Pages load reliably again in the preview (the database connection always uses the right port)\n\nRead that plan and the code it changed before planning how to close the gap.",
+      "reason": "Approved past at the approval gate for \"Backfill posts that aged out of the Substack feed\".",
+      "source": "session-review",
+      "status": "written",
+      "planSlug": "the-plan-asked-for-tests-of-the-existing-rss-parser-against-a-captured-feed-sample-those-were-not-added-and-the-new",
+      "proposedAt": "2026-11-06T16:15:58.661814+00:00",
+      "rank": 7,
+      "sightings": 1,
+      "decidedAt": "2026-11-09T20:27:30Z",
+      "sightingsAtDecision": 1,
+      "offeredCount": 1,
+      "lastOfferedAt": "2026-11-09T20:25:48.861266+00:00"
+    },
+    {
+      "id": "database-writes-are-checked-against-a-stand-in-database-not-a-real-one-and-the-one-time-backfill-command-has-no-automated-test-neither-has-been-run-against-any-real-database-yet",
+      "title": "database-writes-are-checked-against-a-stand-in-database-not-a-real-one-and-the-one-time-backfill-command-has-no-automated-test-neither-has-been-run-against-any-real-database-yet",
+      "mode": "backend",
+      "body": "",
+      "reason": "The new coverImageUrl write is also only checked against a mocked database.",
+      "severity": 2,
+      "source": "session-review",
+      "category": "debt",
+      "status": "pending",
+      "proposedAt": "2026-11-06T16:15:58.661814+00:00",
+      "kind": "tech-debt",
+      "rank": 2,
+      "sightings": 4,
+      "notes": [
+        "2026-11-07: Seen again: the new posts:resanitize script was only exercised in tests — the database in .env has no Post table (P2021), so it has not run against real posts.",
+        "2026-11-07: Seen again 2026-11-07: the new db:seed essay upsert has no test that reads the database afterwards.",
+        "2026-11-09: Seen again: the new coverImageUrl column is saved by the backfill, but the save is mocked in tests and was only verified by hand."
+      ],
+      "offeredCount": 3,
+      "lastOfferedAt": "2026-11-07T00:21:55.132247+00:00"
+    },
+    {
+      "id": "beyond-the-plan-the-prisma-command-line-tool-was-updated-alongside-the-prisma-library-codeyam-s-own-generated-scripts-are-now-skipped-by-lint-114-of-the-121-problems-found-and-lint-was-added-as-an-automatic-build-check",
+      "title": "Beyond the plan: the Prisma command-line tool was updated alongside the Prisma library, CodeYam's own generated scripts are now skipped by lint (114 of the 121 problems found), and lint was added as an automatic build check.",
+      "mode": "backend",
+      "body": "## Summary\n\nBeyond the plan: the Prisma command-line tool was updated alongside the Prisma library, CodeYam's own generated scripts are now skipped by lint (114 of the 121 problems found), and lint was added as an automatic build check.\n\nAt the approval gate for \"Linting works again on Next 16\" the user approved the built work past this gap: it differs from what the plan asked for. Built from plan `ne--restore-linting-on-next-16` (now at `.codeyam/plans/completed/ne--restore-linting-on-next-16.md`).\n\nThe site's lint check runs again after the Next 16 upgrade, and it now runs as part of every build check so it can't silently break again.\n\n## What you can now do\n- Run `npm run lint` and get a real result instead of a load error\n- See only findings about the site itself — CodeYam's generated tooling is excluded\n- Rely on build verification to catch future lint breakage alongside the type check\n- Pick up in-range updates to Next, Prisma, pg and fast-xml-parser already applied\n\nRead that plan and the code it changed before planning how to close the gap.",
+      "reason": "Approved past at the approval gate for \"Linting works again on Next 16\".",
+      "source": "session-review",
+      "status": "pending",
+      "proposedAt": "2026-11-06T22:33:07.960162+00:00",
+      "sightings": 1
+    },
+    {
+      "id": "after-this-upgrade-a-dev-server-that-was-already-running-has-to-be-restarted-until-it-was-the-site-preview-showed-an-error",
+      "title": "After this upgrade, a dev server that was already running has to be restarted; until it was, the site preview showed an error.",
+      "mode": "backend",
+      "body": "## Summary\n\nAfter this upgrade, a dev server that was already running has to be restarted; until it was, the site preview showed an error.\n\nAt the approval gate for \"Linting works again on Next 16\" the user approved the built work past this gap: it differs from what the plan asked for. Built from plan `ne--restore-linting-on-next-16` (now at `.codeyam/plans/completed/ne--restore-linting-on-next-16.md`).\n\nThe site's lint check runs again after the Next 16 upgrade, and it now runs as part of every build check so it can't silently break again.\n\n## What you can now do\n- Run `npm run lint` and get a real result instead of a load error\n- See only findings about the site itself — CodeYam's generated tooling is excluded\n- Rely on build verification to catch future lint breakage alongside the type check\n- Pick up in-range updates to Next, Prisma, pg and fast-xml-parser already applied\n\nRead that plan and the code it changed before planning how to close the gap.",
+      "reason": "Approved past at the approval gate for \"Linting works again on Next 16\".",
+      "source": "session-review",
+      "status": "pending",
+      "proposedAt": "2026-11-06T22:33:07.960162+00:00",
+      "sightings": 1
+    },
+    {
+      "id": "split-the-posts-module-into-sync-and-read-halves",
+      "title": "Split the posts module into sync and read halves",
+      "mode": "backend",
+      "body": "## Summary\n\n`app/lib/posts.ts` has grown to 322 lines and now holds two unrelated jobs: reconciling the store with Substack (`storeIsFresh`, `syncPostsFromFeed`, `toPostRow`, `storedSlugs`, `selectBackfillCandidates`, `backfillFromArchive`, `reconcileWithinDeadline`, `syncPostsQuietly`) and reading posts for pages (`listPosts`, `recentPostsForHome`, `getPost`, `adjacentPosts`, `allPostSlugs`). Splitting them makes each easier to test and change without touching the other.\n\n## Key Decisions\n\n- Pure move, no behaviour change. Keep `app/lib/posts.ts` re-exporting both halves so existing imports (`app/page.tsx`, `app/sitemap.ts`, writing pages, tests) keep working, then migrate callers.\n- Split `app/lib/posts.test.ts` along the same line.\n\n## Implementation\n\n1. Create `app/lib/postSync.ts` with the sync functions and `SyncResult`, `RECONCILE_DEADLINE_MS`.\n2. Create `app/lib/postQueries.ts` with the read functions and `PostSummary`.\n3. Make `app/lib/posts.ts` a re-export barrel; update imports in `app/page.tsx` and `app/sitemap.ts`.\n4. Split `app/lib/posts.test.ts` into `postSync.test.ts` and `postQueries.test.ts`; run the full test suite.",
+      "reason": "app/lib/posts.ts is now 322 lines and mixes Substack syncing with page reads",
+      "severity": 2,
+      "source": "session-review",
+      "category": "debt",
+      "status": "pending",
+      "proposedAt": "2026-11-06T23:38:45.514652+00:00",
+      "kind": "tech-debt",
+      "rank": 8,
+      "sightings": 1
+    },
+    {
+      "id": "the-three-plan-scenarios-stale-homepage-picking-up-a-new-post-on-the-next-visit-homepage-while-substack-is-down-sitemap-listing-a-new-post-were-not-recorded-as-replayable-scenarios-each-piece-is-covered-by-tests-and-a-production-build",
+      "title": "The three plan scenarios (stale homepage picking up a new post on the next visit, homepage while Substack is down, sitemap listing a new post) were not recorded as replayable scenarios; each piece is covered by tests and a production build…",
+      "mode": "backend",
+      "body": "## Summary\n\nThe three plan scenarios (stale homepage picking up a new post on the next visit, homepage while Substack is down, sitemap listing a new post) were not recorded as replayable scenarios; each piece is covered by tests and a production build…\n\nAt the approval gate for \"New posts reach the homepage and sitemap on their own\" the user approved the built work past this gap: it differs from what the plan asked for. Built from plan `ne--keep-the-homepage-and-sitemap-current-with-new-posts` (now at `.codeyam/plans/completed/ne--keep-the-homepage-and-sitemap-current-with-new-posts.md`).\n\nA post you publish on Substack now shows up on the site without a redeploy or anyone opening /writing first.\n\n## What you can now do\n- Publish on Substack and see it in the homepage Writing section within about an hour\n- Rely on `/sitemap.xml` listing new post links for search engines, refreshed hourly\n- Keep the homepage fast: the feed check runs after the page is sent, and a Substack outage never breaks it\n\nRead that plan and the code it changed before planning how to close the gap.",
+      "reason": "Approved past at the approval gate for \"New posts reach the homepage and sitemap on their own\".",
+      "source": "session-review",
+      "status": "pending",
+      "proposedAt": "2026-11-06T23:38:45.514652+00:00",
+      "sightings": 1
+    },
+    {
+      "id": "no-test-exercises-the-real-next-after-response-hook-the-homepage-test-confirms-the-sync-is-handed-to-it-not-that-next-later-runs-it",
+      "title": "No test exercises the real Next after-response hook; the homepage test confirms the sync is handed to it, not that Next later runs it.",
+      "mode": "backend",
+      "body": "## Summary\n\nNo test exercises the real Next after-response hook; the homepage test confirms the sync is handed to it, not that Next later runs it.\n\nAt the approval gate for \"New posts reach the homepage and sitemap on their own\" the user approved the built work past this gap: it differs from what the plan asked for. Built from plan `ne--keep-the-homepage-and-sitemap-current-with-new-posts` (now at `.codeyam/plans/completed/ne--keep-the-homepage-and-sitemap-current-with-new-posts.md`).\n\nA post you publish on Substack now shows up on the site without a redeploy or anyone opening /writing first.\n\n## What you can now do\n- Publish on Substack and see it in the homepage Writing section within about an hour\n- Rely on `/sitemap.xml` listing new post links for search engines, refreshed hourly\n- Keep the homepage fast: the feed check runs after the page is sent, and a Substack outage never breaks it\n\nRead that plan and the code it changed before planning how to close the gap.",
+      "reason": "Approved past at the approval gate for \"New posts reach the homepage and sitemap on their own\".",
+      "source": "session-review",
+      "status": "pending",
+      "proposedAt": "2026-11-06T23:38:45.514652+00:00",
+      "rank": 9,
+      "sightings": 1
+    },
+    {
+      "id": "the-essay-links-go-to-this-site-s-own-writing-pages-which-only-exist-on-this-branch-so-they-will-404-until-it-is-deployed-with-them-locally-they-also-404-because-the-preview-database-holds-sample-posts",
+      "title": "The essay links go to this site's own writing pages, which only exist on this branch, so they will 404 until it is deployed with them. Locally they also 404 because the preview database holds sample posts.",
+      "mode": "backend",
+      "body": "## Summary\n\nThe essay links go to this site's own writing pages, which only exist on this branch, so they will 404 until it is deployed with them. Locally they also 404 because the preview database holds sample posts.\n\nAt the approval gate for \"Running essays linked from Adventures\" the user approved the built work past this gap: it differs from what the plan asked for. Built from plan `ne--link-adventures-to-the-running-essays` (now at `.codeyam/plans/completed/ne--link-adventures-to-the-running-essays.md`).\n\nVisitors who finish the Adventures section can now go straight to your running essays.\n\n## What you can now do\n- See a **Recent Adventures: Read About My Running Shenanigans** list at the end of Adventures\n- Open four running essays, from the Racetoberfest reflection to The Magic of Attempting Hard Things\n- Change which essays appear, or their order, by editing the list in `content/site.json`\n\nRead that plan and the code it changed before planning how to close the gap.",
+      "reason": "Approved past at the approval gate for \"Running essays linked from Adventures\".",
+      "source": "session-review",
+      "status": "written",
+      "planSlug": "the-essay-links-go-to-this-site-s-own-writing-pages-which-only-exist-on-this-branch-so-they-will-404-until-it-is",
+      "proposedAt": "2026-11-07T00:21:42.651004+00:00",
+      "rank": 6,
+      "sightings": 1,
+      "decidedAt": "2026-11-07T00:46:53Z",
+      "sightingsAtDecision": 1,
+      "offeredCount": 1,
+      "lastOfferedAt": "2026-11-07T00:44:32.048670+00:00"
+    },
+    {
+      "id": "the-script-has-not-been-run-against-real-posts-yet-the-database-in-env-has-no-posts-table-so-the-database-writes-are-only-checked-with-a-stand-in-database-in-tests",
+      "title": "The script has not been run against real posts yet: the database in .env has no posts table, so the database writes are only checked with a stand-in database in tests.",
+      "mode": "backend",
+      "body": "## Summary\n\nThe script has not been run against real posts yet: the database in .env has no posts table, so the database writes are only checked with a stand-in database in tests.\n\nAt the approval gate for \"Re-clean older posts with the external-link fix\" the user approved the built work past this gap: it differs from what the plan asked for. Built from plan `re-sanitize-stored-posts-that-predate-the-external-link-fix` (now at `.codeyam/plans/completed/re-sanitize-stored-posts-that-predate-the-external-link-fix.md`).\n\nPosts saved before the external-link fix can now be cleaned up in one command, so old posts get the same safe links as new ones.\n\n## What you can now do\n- Run `npm run posts:resanitize` to update older stored posts\n- Add `--dry-run` to see which posts would change without changing anything\n- Only posts that actually need it get rewritten; the rest are left untouched\n\nRead that plan and the code it changed before planning how to close the gap.",
+      "reason": "Approved past at the approval gate for \"Re-clean older posts with the external-link fix\".",
+      "source": "session-review",
+      "status": "written",
+      "planSlug": "the-script-has-not-been-run-against-real-posts-yet-the-database-in-env-has-no-posts-table-so-the-database-writes-are",
+      "proposedAt": "2026-11-07T00:44:17.924396+00:00",
+      "rank": 6,
+      "sightings": 1,
+      "decidedAt": "2026-11-09T16:23:40Z",
+      "sightingsAtDecision": 1,
+      "offeredCount": 1,
+      "lastOfferedAt": "2026-11-07T01:11:06.001196+00:00"
+    },
+    {
+      "id": "run-the-post-backfill-automatically-after-each-deploy",
+      "title": "run-the-post-backfill-automatically-after-each-deploy",
+      "mode": "backend",
+      "body": "",
+      "reason": "Cover images need another manual db:push + backfill on production.",
+      "severity": 3,
+      "source": "feature-synthesis",
+      "category": "fix",
+      "status": "pending",
+      "proposedAt": "2026-11-07T01:10:52.772369+00:00",
+      "kind": "tech-debt",
+      "sightings": 2,
+      "notes": [
+        "2026-11-09: Seen again: post cover images need db:push and posts:backfill on production before they appear."
+      ],
+      "evidenceIds": [
+        "obs-9db0b1308e19",
+        "obs-a48d8a6acece"
+      ],
+      "evidenceSessions": 2,
+      "ideaRank": 1,
+      "offeredCount": 1,
+      "lastOfferedAt": "2026-11-07T01:11:06.001196+00:00"
+    },
+    {
+      "id": "the-step-that-adds-the-essays-to-a-local-database-has-no-test-that-checks-the-database-afterwards-only-the-row-conversion-it-uses-is-tested",
+      "title": "The step that adds the essays to a local database has no test that checks the database afterwards; only the row conversion it uses is tested.",
+      "mode": "backend",
+      "body": "## Summary\n\nThe step that adds the essays to a local database has no test that checks the database afterwards; only the row conversion it uses is tested.\n\nAt the approval gate for \"Adventures essay links now open your running essays\" the user approved the built work past this gap: it differs from what the plan asked for. Built from plan `the-essay-links-go-to-this-site-s-own-writing-pages-which-only-exist-on-this-branch-so-they-will-404-until-it-is` (now at `.codeyam/plans/completed/the-essay-links-go-to-this-site-s-own-writing-pages-which-only-exist-on-this-branch-so-they-will-404-until-it-is.md`).\n\nThe four running-essay links in the Adventures section now open real writing pages instead of a 404.\n\n## What you can now do\n- Click any Adventures essay link in the preview and read the full essay\n- See all four real running essays in the local preview, not just sample posts\n- Get a warning after backfilling posts if any Adventures link points at a missing post\n\nRead that plan and the code it changed before planning how to close the gap.",
+      "reason": "Approved past at the approval gate for \"Adventures essay links now open your running essays\".",
+      "source": "session-review",
+      "status": "pending",
+      "proposedAt": "2026-11-07T01:10:52.772369+00:00",
+      "sightings": 1
+    },
+    {
+      "id": "on-the-live-site-the-links-work-only-after-this-branch-is-deployed-and-the-database-update-and-post-backfill-are-run-that-was-not-done-this-cycle",
+      "title": "On the live site the links work only after this branch is deployed and the database update and post backfill are run; that was not done this cycle.",
+      "mode": "backend",
+      "body": "## Summary\n\nOn the live site the links work only after this branch is deployed and the database update and post backfill are run; that was not done this cycle.\n\nAt the approval gate for \"Adventures essay links now open your running essays\" the user approved the built work past this gap: it differs from what the plan asked for. Built from plan `the-essay-links-go-to-this-site-s-own-writing-pages-which-only-exist-on-this-branch-so-they-will-404-until-it-is` (now at `.codeyam/plans/completed/the-essay-links-go-to-this-site-s-own-writing-pages-which-only-exist-on-this-branch-so-they-will-404-until-it-is.md`).\n\nThe four running-essay links in the Adventures section now open real writing pages instead of a 404.\n\n## What you can now do\n- Click any Adventures essay link in the preview and read the full essay\n- See all four real running essays in the local preview, not just sample posts\n- Get a warning after backfilling posts if any Adventures link points at a missing post\n\nRead that plan and the code it changed before planning how to close the gap.",
+      "reason": "Approved past at the approval gate for \"Adventures essay links now open your running essays\".",
+      "source": "session-review",
+      "status": "pending",
+      "proposedAt": "2026-11-07T01:10:52.772369+00:00",
+      "sightings": 1
+    },
+    {
+      "id": "the-plan-used-next-s-opengraph-image-file-convention-it-was-replaced-by-a-shared-share-image-constant-spread-into-each-page-s-opengraph-because-pages-that-set-their-own-opengraph-dropped-the-file-convention-image",
+      "title": "The plan used Next's opengraph-image file convention; it was replaced by a shared SHARE_IMAGE constant spread into each page's openGraph, because pages that set their own openGraph dropped the file-convention image.",
+      "mode": "backend",
+      "body": "## Summary\n\nThe plan used Next's opengraph-image file convention; it was replaced by a shared SHARE_IMAGE constant spread into each page's openGraph, because pages that set their own openGraph dropped the file-convention image.\n\nAt the approval gate for \"Social share preview images\" the user approved the built work past this gap: it differs from what the plan asked for. Built from plan `ne--add-a-social-share-preview-image` (now at `.codeyam/plans/completed/ne--add-a-social-share-preview-image.md`).\n\nLinks to your site now unfurl as a large image card when shared on social media, Slack, or messages.\n\n## What you can now do\n- Share the homepage or /writing and get a summit-photo preview card\n- Share any essay and its preview shows that post's own Substack cover\n- Posts without a cover fall back to the summit image automatically\n\nRead that plan and the code it changed before planning how to close the gap.",
+      "reason": "Approved past at the approval gate for \"Social share preview images\".",
+      "source": "session-review",
+      "status": "pending",
+      "proposedAt": "2026-11-09T15:42:54.150826+00:00",
+      "sightings": 1
+    },
+    {
+      "id": "scope-grew-at-your-request-each-writing-post-now-shares-its-own-substack-cover-which-added-a-coverimageurl-column-to-the-post-table",
+      "title": "Scope grew at your request: each writing post now shares its own Substack cover, which added a coverImageUrl column to the Post table.",
+      "mode": "backend",
+      "body": "## Summary\n\nScope grew at your request: each writing post now shares its own Substack cover, which added a coverImageUrl column to the Post table.\n\nAt the approval gate for \"Social share preview images\" the user approved the built work past this gap: it differs from what the plan asked for. Built from plan `ne--add-a-social-share-preview-image` (now at `.codeyam/plans/completed/ne--add-a-social-share-preview-image.md`).\n\nLinks to your site now unfurl as a large image card when shared on social media, Slack, or messages.\n\n## What you can now do\n- Share the homepage or /writing and get a summit-photo preview card\n- Share any essay and its preview shows that post's own Substack cover\n- Posts without a cover fall back to the summit image automatically\n\nRead that plan and the code it changed before planning how to close the gap.",
+      "reason": "Approved past at the approval gate for \"Social share preview images\".",
+      "source": "session-review",
+      "status": "pending",
+      "proposedAt": "2026-11-09T15:42:54.150826+00:00",
+      "sightings": 1
+    },
+    {
+      "id": "the-coverimageurl-column-was-added-to-the-database-named-in-env-neondb-which-appears-to-be-the-real-one-as-well-as-the-editor-s-preview-databases-it-is-an-empty-optional-column",
+      "title": "The coverImageUrl column was added to the database named in .env (neondb, which appears to be the real one) as well as the editor's preview databases; it is an empty optional column.",
+      "mode": "backend",
+      "body": "## Summary\n\nThe coverImageUrl column was added to the database named in .env (neondb, which appears to be the real one) as well as the editor's preview databases; it is an empty optional column.\n\nAt the approval gate for \"Social share preview images\" the user approved the built work past this gap: it differs from what the plan asked for. Built from plan `ne--add-a-social-share-preview-image` (now at `.codeyam/plans/completed/ne--add-a-social-share-preview-image.md`).\n\nLinks to your site now unfurl as a large image card when shared on social media, Slack, or messages.\n\n## What you can now do\n- Share the homepage or /writing and get a summit-photo preview card\n- Share any essay and its preview shows that post's own Substack cover\n- Posts without a cover fall back to the summit image automatically\n\nRead that plan and the code it changed before planning how to close the gap.",
+      "reason": "Approved past at the approval gate for \"Social share preview images\".",
+      "source": "session-review",
+      "status": "pending",
+      "proposedAt": "2026-11-09T15:42:54.150826+00:00",
+      "sightings": 1
+    },
+    {
+      "id": "no-test-observes-the-cover-actually-being-written-to-the-database-the-upsert-is-mocked-so-tests-check-the-row-handed-to-it-not-the-stored-value-it-was-confirmed-manually-against-the-preview-database",
+      "title": "No test observes the cover actually being written to the database: the upsert is mocked, so tests check the row handed to it, not the stored value. It was confirmed manually against the preview database.",
+      "mode": "backend",
+      "body": "## Summary\n\nNo test observes the cover actually being written to the database: the upsert is mocked, so tests check the row handed to it, not the stored value. It was confirmed manually against the preview database.\n\nAt the approval gate for \"Social share preview images\" the user approved the built work past this gap: it differs from what the plan asked for. Built from plan `ne--add-a-social-share-preview-image` (now at `.codeyam/plans/completed/ne--add-a-social-share-preview-image.md`).\n\nLinks to your site now unfurl as a large image card when shared on social media, Slack, or messages.\n\n## What you can now do\n- Share the homepage or /writing and get a summit-photo preview card\n- Share any essay and its preview shows that post's own Substack cover\n- Posts without a cover fall back to the summit image automatically\n\nRead that plan and the code it changed before planning how to close the gap.",
+      "reason": "Approved past at the approval gate for \"Social share preview images\".",
+      "source": "session-review",
+      "status": "pending",
+      "proposedAt": "2026-11-09T15:42:54.150826+00:00",
+      "sightings": 1
     }
   ],
   "rounds": [
@@ -51,6 +326,148 @@
         "session-finalize-rejects-allow-pending-integration-that-recapture-stale-requires",
         "the-racetoberfest-link-is-shortened-to-racetoberfest-four-races-in-five-weekends-so-it-fits-on-two-lines-on-phones-the-plan-allowed-this-but-it-differs-from-the-post-s-full-title"
       ]
+    },
+    {
+      "at": "2026-11-06T16:15:58.661814+00:00",
+      "feature": "Backfill posts that aged out of the Substack feed",
+      "notes": "Smooth push, no pull. Biggest friction this cycle was the editor's PGPORT hanging every DB page, which forced an app-code workaround (port pin) — ranked top. Isolation migration failure re-seen. The only app fix is low-severity: stale link…",
+      "proposedIds": [
+        "re-sanitize-stored-posts-that-predate-the-external-link-fix",
+        "editor-s-pgport-leaks-into-the-app-and-hangs-every-database-page",
+        "capture-hydration-check-flags-links-rendered-through-innerhtml",
+        "isolation-fixture-migration-fails-every-route-and-rolls-back",
+        "the-plan-asked-for-tests-of-the-existing-rss-parser-against-a-captured-feed-sample-those-were-not-added-and-the-new-archive-tests-use-hand-written-samples-shaped-like-the-live-responses-checked-on-2026-11-05",
+        "database-writes-are-checked-against-a-stand-in-database-not-a-real-one-and-the-one-time-backfill-command-has-no-automated-test-neither-has-been-run-against-any-real-database-yet"
+      ],
+      "rankedIds": [
+        "isolation-fixture-migration-fails-every-route-and-rolls-back",
+        "capture-hydration-check-flags-links-rendered-through-innerhtml",
+        "session-finalize-rejects-allow-pending-integration-that-recapture-stale-requires",
+        "re-sanitize-stored-posts-that-predate-the-external-link-fix"
+      ]
+    },
+    {
+      "at": "2026-11-06T22:33:07.960162+00:00",
+      "feature": "Linting works again on Next 16",
+      "notes": "Maintenance cycle (lint restore on Next 16) resumed after a context reset at push; push went through cleanly with no queue wait. No new app issues or CodeYam friction surfaced in the push/complete tail. Ranking keeps the PGPORT leak (sev4,…",
+      "proposedIds": [
+        "beyond-the-plan-the-prisma-command-line-tool-was-updated-alongside-the-prisma-library-codeyam-s-own-generated-scripts-are-now-skipped-by-lint-114-of-the-121-problems-found-and-lint-was-added-as-an-automatic-build-check",
+        "after-this-upgrade-a-dev-server-that-was-already-running-has-to-be-restarted-until-it-was-the-site-preview-showed-an-error"
+      ],
+      "rankedIds": [
+        "editor-s-pgport-leaks-into-the-app-and-hangs-every-database-page",
+        "database-writes-are-checked-against-a-stand-in-database-not-a-real-one-and-the-one-time-backfill-command-has-no-automated-test-neither-has-been-run-against-any-real-database-yet",
+        "isolation-fixture-migration-fails-every-route-and-rolls-back",
+        "capture-hydration-check-flags-links-rendered-through-innerhtml",
+        "session-finalize-rejects-allow-pending-integration-that-recapture-stale-requires",
+        "the-plan-asked-for-tests-of-the-existing-rss-parser-against-a-captured-feed-sample-those-were-not-added-and-the-new-archive-tests-use-hand-written-samples-shaped-like-the-live-responses-checked-on-2026-11-05"
+      ]
+    },
+    {
+      "at": "2026-11-06T23:38:45.514652+00:00",
+      "feature": "New posts reach the homepage and sitemap on their own",
+      "notes": "Small backend cycle: homepage after() sync plus hourly sitemap ISR. Smooth push, no queue wait. Kept the earlier ranking: the PGPORT leak and untested real-database writes still matter most. Added a low-severity split of app/lib/posts.ts (…",
+      "proposedIds": [
+        "split-the-posts-module-into-sync-and-read-halves",
+        "the-three-plan-scenarios-stale-homepage-picking-up-a-new-post-on-the-next-visit-homepage-while-substack-is-down-sitemap-listing-a-new-post-were-not-recorded-as-replayable-scenarios-each-piece-is-covered-by-tests-and-a-production-build",
+        "no-test-exercises-the-real-next-after-response-hook-the-homepage-test-confirms-the-sync-is-handed-to-it-not-that-next-later-runs-it"
+      ],
+      "rankedIds": [
+        "editor-s-pgport-leaks-into-the-app-and-hangs-every-database-page",
+        "database-writes-are-checked-against-a-stand-in-database-not-a-real-one-and-the-one-time-backfill-command-has-no-automated-test-neither-has-been-run-against-any-real-database-yet",
+        "isolation-fixture-migration-fails-every-route-and-rolls-back",
+        "capture-hydration-check-flags-links-rendered-through-innerhtml",
+        "session-finalize-rejects-allow-pending-integration-that-recapture-stale-requires",
+        "the-plan-asked-for-tests-of-the-existing-rss-parser-against-a-captured-feed-sample-those-were-not-added-and-the-new-archive-tests-use-hand-written-samples-shaped-like-the-live-responses-checked-on-2026-11-05",
+        "split-the-posts-module-into-sync-and-read-halves"
+      ]
+    },
+    {
+      "at": "2026-11-07T00:21:42.651004+00:00",
+      "feature": "Running essays linked from Adventures",
+      "notes": "Small content cycle: a four-link essay list under Adventures. Touched files are all small (largest is content/site.json at 430 lines of data), so no debt proposed and no app bugs seen. Ranking keeps the PGPORT leak first since it hangs eve…",
+      "proposedIds": [
+        "the-essay-links-go-to-this-site-s-own-writing-pages-which-only-exist-on-this-branch-so-they-will-404-until-it-is-deployed-with-them-locally-they-also-404-because-the-preview-database-holds-sample-posts"
+      ],
+      "rankedIds": [
+        "editor-s-pgport-leaks-into-the-app-and-hangs-every-database-page",
+        "database-writes-are-checked-against-a-stand-in-database-not-a-real-one-and-the-one-time-backfill-command-has-no-automated-test-neither-has-been-run-against-any-real-database-yet",
+        "isolation-fixture-migration-fails-every-route-and-rolls-back",
+        "capture-hydration-check-flags-links-rendered-through-innerhtml",
+        "session-finalize-rejects-allow-pending-integration-that-recapture-stale-requires",
+        "the-plan-asked-for-tests-of-the-existing-rss-parser-against-a-captured-feed-sample-those-were-not-added-and-the-new-archive-tests-use-hand-written-samples-shaped-like-the-live-responses-checked-on-2026-11-05",
+        "split-the-posts-module-into-sync-and-read-halves"
+      ]
+    },
+    {
+      "at": "2026-11-07T00:44:17.924396+00:00",
+      "feature": "Re-clean older posts with the external-link fix",
+      "notes": "Small maintenance cycle (sibling script + tested lib, all files under 80 lines, no debt). Only recurring concern: none of the branch's database scripts (backfill, resanitize) has run against the real posts database — the .env Neon DB lacks…",
+      "proposedIds": [
+        "database-writes-are-checked-against-a-stand-in-database-not-a-real-one-and-the-one-time-backfill-command-has-no-automated-test-neither-has-been-run-against-any-real-database-yet",
+        "the-script-has-not-been-run-against-real-posts-yet-the-database-in-env-has-no-posts-table-so-the-database-writes-are-only-checked-with-a-stand-in-database-in-tests"
+      ],
+      "rankedIds": [
+        "editor-s-pgport-leaks-into-the-app-and-hangs-every-database-page",
+        "database-writes-are-checked-against-a-stand-in-database-not-a-real-one-and-the-one-time-backfill-command-has-no-automated-test-neither-has-been-run-against-any-real-database-yet",
+        "isolation-fixture-migration-fails-every-route-and-rolls-back",
+        "capture-hydration-check-flags-links-rendered-through-innerhtml",
+        "session-finalize-rejects-allow-pending-integration-that-recapture-stale-requires",
+        "the-essay-links-go-to-this-site-s-own-writing-pages-which-only-exist-on-this-branch-so-they-will-404-until-it-is-deployed-with-them-locally-they-also-404-because-the-preview-database-holds-sample-posts",
+        "the-plan-asked-for-tests-of-the-existing-rss-parser-against-a-captured-feed-sample-those-were-not-added-and-the-new-archive-tests-use-hand-written-samples-shaped-like-the-live-responses-checked-on-2026-11-05",
+        "split-the-posts-module-into-sync-and-read-halves"
+      ]
+    },
+    {
+      "at": "2026-11-07T01:10:52.772369+00:00",
+      "feature": "Adventures essay links now open your running essays",
+      "notes": "Smooth resumed session: push went through on the first try with nothing to pull from GitHub. The only new gap is another untested database write (db:seed essay upsert), filed as a sighting on the existing stand-in-database row. The branch …",
+      "proposedIds": [
+        "database-writes-are-checked-against-a-stand-in-database-not-a-real-one-and-the-one-time-backfill-command-has-no-automated-test-neither-has-been-run-against-any-real-database-yet",
+        "the-step-that-adds-the-essays-to-a-local-database-has-no-test-that-checks-the-database-afterwards-only-the-row-conversion-it-uses-is-tested",
+        "on-the-live-site-the-links-work-only-after-this-branch-is-deployed-and-the-database-update-and-post-backfill-are-run-that-was-not-done-this-cycle"
+      ],
+      "rankedIds": [
+        "editor-s-pgport-leaks-into-the-app-and-hangs-every-database-page",
+        "database-writes-are-checked-against-a-stand-in-database-not-a-real-one-and-the-one-time-backfill-command-has-no-automated-test-neither-has-been-run-against-any-real-database-yet",
+        "isolation-fixture-migration-fails-every-route-and-rolls-back",
+        "capture-hydration-check-flags-links-rendered-through-innerhtml",
+        "session-finalize-rejects-allow-pending-integration-that-recapture-stale-requires",
+        "the-script-has-not-been-run-against-real-posts-yet-the-database-in-env-has-no-posts-table-so-the-database-writes-are-only-checked-with-a-stand-in-database-in-tests",
+        "the-plan-asked-for-tests-of-the-existing-rss-parser-against-a-captured-feed-sample-those-were-not-added-and-the-new-archive-tests-use-hand-written-samples-shaped-like-the-live-responses-checked-on-2026-11-05",
+        "split-the-posts-module-into-sync-and-read-halves",
+        "no-test-exercises-the-real-next-after-response-hook-the-homepage-test-confirms-the-sync-is-handed-to-it-not-that-next-later-runs-it"
+      ]
+    },
+    {
+      "at": "2026-11-09T15:42:54.150826+00:00",
+      "feature": "Social share preview images",
+      "notes": "Small, smooth cycle. Re-sighted the mocked-DB-write and manual-backfill-after-deploy issues; ranking unchanged otherwise.",
+      "proposedIds": [
+        "database-writes-are-checked-against-a-stand-in-database-not-a-real-one-and-the-one-time-backfill-command-has-no-automated-test-neither-has-been-run-against-any-real-database-yet",
+        "run-the-post-backfill-automatically-after-each-deploy",
+        "the-plan-used-next-s-opengraph-image-file-convention-it-was-replaced-by-a-shared-share-image-constant-spread-into-each-page-s-opengraph-because-pages-that-set-their-own-opengraph-dropped-the-file-convention-image",
+        "scope-grew-at-your-request-each-writing-post-now-shares-its-own-substack-cover-which-added-a-coverimageurl-column-to-the-post-table",
+        "the-coverimageurl-column-was-added-to-the-database-named-in-env-neondb-which-appears-to-be-the-real-one-as-well-as-the-editor-s-preview-databases-it-is-an-empty-optional-column",
+        "no-test-observes-the-cover-actually-being-written-to-the-database-the-upsert-is-mocked-so-tests-check-the-row-handed-to-it-not-the-stored-value-it-was-confirmed-manually-against-the-preview-database"
+      ]
+    }
+  ],
+  "syntheses": [
+    {
+      "at": "2026-11-07T01:10:52.772369+00:00",
+      "consumedIds": [
+        "obs-b4d068ba57db",
+        "obs-9db0b1308e19",
+        "obs-c7bcbbe2f8d7",
+        "obs-a48d8a6acece",
+        "obs-32a65ce7cad1",
+        "obs-80eade74c7ba"
+      ],
+      "keptIds": [
+        "run-the-post-backfill-automatically-after-each-deploy"
+      ],
+      "notes": "One cluster crossed two sessions: the site's posts depend on manual database steps around deploys. Other observations describe work already shipped (homepage sync, sitemap, archive backfill, re-sanitize)."
     }
   ]
 }

@@ -1,0 +1,187 @@
+{
+  "timestamp": "2026-11-09T15:31:43Z",
+  "title": "Add a social share preview image",
+  "type": "feature",
+  "userRequest": "## Summary\n\nLinks to nadiaeldeib.com shared on LinkedIn, X, iMessage or Slack show no image, because the site has no `og:image`. `app/layout.tsx` sets `openGraph` title, description and URL but no image, and there is no `opengraph-image` file. This plan adds a site-wide 1200×630 share image so every page, including `/writing` and its posts, gets a large preview card.\n\n## Key Decisions\n\n- **Use a static file convention (`app/opengraph-image.jpg` + `opengraph-image.alt.txt`), not a generated `ImageResponse`.** The site's identity is its photography (the `hero-*` frames), and a static crop keeps that without adding a runtime. See `node_modules/next/dist/docs/01-app/03-api-reference/03-file-conventions/01-metadata/opengraph-image.md`.\n- **Source image: crop from `public/images/hero-summit.e6c47185.jpg`** (2000×975), or whichever hero frame Nadia prefers. Confirm the choice in the preview. Keep the file under about 300KB.\n- **Add `twitter: { card: 'summary_large_image' }`** to the root metadata, so X uses the large card instead of the small summary.\n- **Per-post cover images are out of scope.** Substack's archive API exposes `cover_image`, but the `Post` table doesn't store it. It's a natural follow-up once the backfill plan has landed. Until then, posts inherit the site image.\n\n## Implementation\n\n### 1. Share image\n\n**New file**: `app/opengraph-image.jpg`, **New file**: `app/opengraph-image.alt.txt`\n\n1200×630 crop of the chosen hero frame. Alt text describes the photo (for example \"Nadia on a summit above the clouds\"). Confirm the wording with Nadia.\n\n### 2. Large Twitter/X card\n\n**File**: `app/layout.tsx`\n\nAdd `twitter: { card: 'summary_large_image' }` to `metadata`.\n\n### 3. Verify\n\nConfirm in the built HTML that `og:image`, `og:image:width/height`, `og:image:alt` and `twitter:image` are present on `/`, `/writing` and a post page.\n\n## Reused existing code\n\n- `SITE_URL` / `metadataBase` in `app/layout.tsx` (resolves the image to an absolute URL)\n- hero frames under `public/images/`\n\n## Scenarios to Demonstrate\n\n- Homepage `<head>` with og:image tags\n- A post page inheriting the site image\n- The image itself at 1200×630 and at a small thumbnail size, to check it still reads",
+  "description": "Links to the site now unfurl with a large preview card. The homepage and /writing share a 1200x630 summit photo, and each writing post shares its own Substack cover image (cropped to 1200x630 via the Substack CDN), falling back to the summit image when a post has no cover. Supporting this, posts gained a nullable coverImageUrl column, filled from the RSS image enclosure and the Substack API cover_image. Scope verdict: no project deliverable was targeted by this cycle (all five are already delivered), so none are deferred; the coverImageUrl column was scope growth made at the user's request. Production needs `npm run db:push` and `posts:backfill` before covers appear on live posts.",
+  "modifiedFiles": [
+    {
+      "path": ".codeyam/dependency-graph.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/glossary.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/per-test-evidence.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/ne--add-a-social-share-preview-image.md\t.codeyam/plans/completed/ne--add-a-social-share-preview-image.md",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/proposed-plans.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/writing-post--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/writing-post.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache/all.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache/blobs/86077908ff24f7e30192ca2da67d787a70045b7c10a7c9aa75d87fd74954f9a8.json",
+      "status": "deleted"
+    },
+    {
+      "path": ".codeyam/test-cache/blobs/d79ea7a2591f931e139e91df11858c8ff01165e133d9190baa29f577e7553342.json",
+      "status": "deleted"
+    },
+    {
+      "path": ".codeyam/test-cache/blobs/fd730e60c15254eb2816154e32084c365af70045790758da0e9d7500a4071204.json",
+      "status": "deleted"
+    },
+    {
+      "path": ".codeyam/test-cache/blobs/fed305599dbeae4790714ad83a7a6e846f6c4584a1d323eb7cb24e528a2ef5e6.json",
+      "status": "deleted"
+    },
+    {
+      "path": ".codeyam/test-registry.json",
+      "status": "modified"
+    },
+    {
+      "path": "DATABASE.md",
+      "status": "modified"
+    },
+    {
+      "path": "app/layout.tsx",
+      "status": "modified"
+    },
+    {
+      "path": "app/lib/posts.test.ts",
+      "status": "modified"
+    },
+    {
+      "path": "app/lib/posts.ts",
+      "status": "modified"
+    },
+    {
+      "path": "app/lib/substackFeed.test.ts",
+      "status": "modified"
+    },
+    {
+      "path": "app/lib/substackFeed.ts",
+      "status": "modified"
+    },
+    {
+      "path": "app/writing/[slug]/page.tsx",
+      "status": "modified"
+    },
+    {
+      "path": "app/writing/page.tsx",
+      "status": "modified"
+    },
+    {
+      "path": "prisma/schema.prisma",
+      "status": "modified"
+    },
+    {
+      "path": "prisma/seedRows.ts",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/coverage-plan/postpage.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/test-cache/blobs/393a0d01620b11d109ef29bae05bf5038c221417604d0c48c489229699af0705.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/test-cache/blobs/cb14452d525cfe343c31f585b45a1ce4e314dd6f1682eac67347598171eb9526.json",
+      "status": "added"
+    },
+    {
+      "path": "app/lib/shareImage.test.ts",
+      "status": "added"
+    },
+    {
+      "path": "app/lib/shareImage.ts",
+      "status": "added"
+    },
+    {
+      "path": "public/images/share-summit.jpg",
+      "status": "added"
+    }
+  ],
+  "scenarioScreenshots": [
+    {
+      "name": "Home - Full page",
+      "screenshotPath": "home-full-page--desktop.png"
+    },
+    {
+      "name": "Home - Mobile",
+      "screenshotPath": "home-mobile--mobile.png"
+    },
+    {
+      "name": "Writing - Archive",
+      "screenshotPath": "writing-archive--desktop.png"
+    },
+    {
+      "name": "Writing - Post",
+      "screenshotPath": "writing-post--desktop.png"
+    },
+    {
+      "name": "ArchiveList - Default",
+      "screenshotPath": "archivelist-default--desktop.png"
+    },
+    {
+      "name": "ArchiveList - SingleYear",
+      "screenshotPath": "archivelist-singleyear--desktop.png"
+    },
+    {
+      "name": "PostFooter - Default",
+      "screenshotPath": "postfooter-default--desktop.png"
+    },
+    {
+      "name": "PostFooter - Newest",
+      "screenshotPath": "postfooter-newest--desktop.png"
+    },
+    {
+      "name": "PostFooter - Oldest",
+      "screenshotPath": "postfooter-oldest--desktop.png"
+    },
+    {
+      "name": "PostList - Default",
+      "screenshotPath": "postlist-default--desktop.png"
+    },
+    {
+      "name": "Writing - Default",
+      "screenshotPath": "writing-default--desktop.png"
+    }
+  ],
+  "testResults": {
+    "total": 110,
+    "passed": 110,
+    "failed": 0,
+    "runners": [
+      {
+        "name": "tests",
+        "total": 110,
+        "passed": 110
+      }
+    ]
+  }
+}

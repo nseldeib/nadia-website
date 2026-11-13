@@ -1,0 +1,66 @@
+{
+  "name": "Writing - Archive",
+  "id": "c538f990-4e88-49ce-bfc0-eb0a380cc4dc",
+  "url": "/writing",
+  "dimensions": [
+    "Desktop"
+  ],
+  "mocks": {},
+  "seed": {
+    "Post": [
+      {
+        "bodyHtml": "<p>Applying to the South Park Commons Founder Fellowship: My Experience and Advice. The opening paragraph of the essay.</p>",
+        "canonicalUrl": "https://blog.nseldeib.com/p/applying-to-the-south-park-commons",
+        "firstSeenAt": "2026-07-14T00:00:00.000Z",
+        "publishedAt": "2026-07-13T16:52:49.000Z",
+        "slug": "applying-to-the-south-park-commons",
+        "subtitle": "What the application asks, and what I would tell someone applying next.",
+        "title": "Applying to the South Park Commons Founder Fellowship: My Experience and Advice",
+        "updatedAt": "2099-01-01T00:00:00.000Z"
+      },
+      {
+        "bodyHtml": "<p>Most of what I have learned about shipping came from doing it badly first.</p><h2>Start smaller than feels reasonable</h2><p>The first version should embarrass you a little. <strong>If it does not</strong>, you waited <em>too long</em>.</p><ul><li>Pick one user.</li><li>Pick one problem.</li><li>Ship by Friday.</li></ul><blockquote><p>You can just ship things.</p></blockquote><p>Thanks for reading.</p>",
+        "canonicalUrl": "https://blog.nseldeib.com/p/you-can-just-ship-things",
+        "firstSeenAt": "2026-07-14T00:00:00.000Z",
+        "publishedAt": "2026-07-06T20:56:20.000Z",
+        "slug": "you-can-just-ship-things",
+        "subtitle": "Notes on shipping before you feel ready.",
+        "title": "You Can Just Ship Things",
+        "updatedAt": "2099-01-01T00:00:00.000Z"
+      },
+      {
+        "bodyHtml": "<p>What If Creativity Was the Constraint?. The opening paragraph of the essay.</p>",
+        "canonicalUrl": "https://blog.nseldeib.com/p/what-if-creativity-was-the-constraint",
+        "firstSeenAt": "2026-07-14T00:00:00.000Z",
+        "publishedAt": "2026-06-12T20:27:10.000Z",
+        "slug": "what-if-creativity-was-the-constraint",
+        "subtitle": null,
+        "title": "What If Creativity Was the Constraint?",
+        "updatedAt": "2099-01-01T00:00:00.000Z"
+      },
+      {
+        "bodyHtml": "<p>A Year of Building. The opening paragraph of the essay.</p>",
+        "canonicalUrl": "https://blog.nseldeib.com/p/a-year-of-building",
+        "firstSeenAt": "2026-07-14T00:00:00.000Z",
+        "publishedAt": "2025-12-30T18:00:00.000Z",
+        "slug": "a-year-of-building",
+        "subtitle": "Looking back on twelve months of shipping.",
+        "title": "A Year of Building",
+        "updatedAt": "2099-01-01T00:00:00.000Z"
+      },
+      {
+        "bodyHtml": "<p>First Post. The opening paragraph of the essay.</p>",
+        "canonicalUrl": "https://blog.nseldeib.com/p/first-post",
+        "firstSeenAt": "2026-07-14T00:00:00.000Z",
+        "publishedAt": "2024-07-24T15:00:00.000Z",
+        "slug": "first-post",
+        "subtitle": null,
+        "title": "First Post",
+        "updatedAt": "2099-01-01T00:00:00.000Z"
+      }
+    ]
+  },
+  "scenarioType": "application",
+  "pageFilePath": "app/writing/page.tsx",
+  "description": "The /writing archive with five stored essays across three years. Rows carry a far-future updatedAt so the store reads as fresh and the page never calls the live Substack feed during capture."
+}

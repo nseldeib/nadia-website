@@ -193,6 +193,48 @@ The free plan allows ten branches per project, so there is no reason to share
 one. Pointing local development at the default branch is how real messages get
 destroyed by a `db:drop-and-reseed` typo.
 
+### Before deploying the writing pages
+
+`npm run build` only runs `prisma generate` — it never touches a database. The
+`Post` table behind `/writing` has to exist in production, and be filled, as a
+separate step before the writing routes deploy:
+
+```bash
+# 1. Confirm DATABASE_URL in .env.local names the PRODUCTION (default) branch.
+# 2. Create the Post table there (additive — existing tables are untouched).
+npm run db:push
+# 3. Fill it with every public post Substack lists, not just the newest 20.
+npm run posts:backfill
+# 4. Re-clean bodies stored before the current sanitizer (one-time; see below).
+npm run posts:resanitize
+```
+
+The backfill prints what it did (`added`, `updated`, `backfilled`) and the
+table's final count, and exits non-zero if the feed could not be read. It is
+safe to re-run.
+
+Each post's `coverImageUrl` (its Substack cover, used as that post's link
+preview image) is written whenever the post is fetched. The 20 posts in the RSS
+are re-fetched on every sync, so they pick up a cover on their own. A post
+stored before the column existed and since aged out of the RSS keeps a null
+cover, and its preview falls back to the site image, until its row is deleted
+and backfilled again.
+
+`posts:resanitize` re-runs the current `sanitizePostHtml` over every stored
+body and rewrites only the rows whose output changes, printing each slug it
+touched. Bodies are sanitized on the way in, so a sanitizer fix otherwise only
+reaches posts the feed sync rewrites — a post that has aged out of the feed
+keeps whatever markup it was stored with. Run it once after any change to the
+sanitizer. It fetches nothing from Substack and is safe to re-run; a second run
+reports `re-sanitized 0`. To see what it would change without writing anything,
+run `npm run posts:resanitize -- --dry-run` first.
+
+Why a backfill at all: Substack's RSS carries only the 20 newest posts. The
+site also asks Substack's archive API for the full list and fetches any post
+the store is missing, so the archive heals itself on the next visit — but that
+reconcile runs under a 2.5-second page deadline, which is not enough to fill an
+empty table in one go.
+
 ### If the datastore changes again
 
 `app/lib/prisma.ts` is the only file that constructs a client for the app, and

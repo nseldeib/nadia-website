@@ -1,0 +1,403 @@
+{
+  "timestamp": "2026-11-06T15:16:55Z",
+  "title": "Backfill posts that aged out of the Substack feed",
+  "type": "feature",
+  "userRequest": "## Summary\n\nThe writing archive silently loses posts. Substack's RSS (`https://blog.nseldeib.com/feed`) returns only the 20 most recent posts, and the store was meant to remember older ones the first time it saw them, but the store never saw them. Since the writing plan was written (Aug 31), three new posts (Sep 1, Oct 13, Nov 5) pushed three out of the feed, and the `Post` table does not exist yet in the Neon database, so nothing was cached:\n\n- `our-vision-for-codeyam-why-build` (2024-07-24)\n- `taming-softwares-complexity-as-ai` (2024-11-26)\n- `founder-faqs-did-i-always-want-to` (2024-12-10)\n\nSubstack has 23 public posts and the site would serve 20. After this change, reconcile treats Substack's archive API as the authoritative list of slugs, backfills anything the store is missing, and a one-time `npm run posts:backfill` fills the production store before the feature ships.\n\n## Key Decisions\n\n- **Make the archive API the source for the list of slugs, and keep RSS as the source for bodies.** `GET https://blog.nseldeib.com/api/v1/archive?sort=new&limit=50` returned all 23 posts (verified 2026-11-05). `GET /api/v1/posts/<slug>` returns `body_html` for posts that have aged out (verified on `our-vision-for-codeyam-why-build`, 11,652 chars). With this, the 20-item window stops being a correctness risk. The store becomes a cache instead of the only memory of old posts.\n- **Pagination must be confirmed during execution.** In testing, the archive endpoint rejected `offset=0`, `offset=12` and `offset=24` with `\"Invalid value\"`. Without `offset`, `limit=50` returned everything. Find the working pagination form (or confirm the cap) before trusting it past 50 posts, and degrade to \"what we got\" rather than failing.\n- **Backfill is create-only, with bounded concurrency** (reuse the `CONCURRENCY = 5` pattern in `syncPostsFromFeed`). Posts still in RSS are refreshed by the existing upsert path. The backfill only inserts slugs that are absent from both the store and the feed.\n- **Skip any post whose `audience` is not `everyone`.** Today every post is public. A future paid post must not be mirrored in full.\n- **The archive API's `body_html` may differ from RSS `content:encoded`.** Run it through the same `sanitizePostHtml` and confirm against a captured fixture that no Substack chrome (buttons, forms, `pencraft` classes) survives.\n- **Production schema is a deploy step, not a build step.** `npm run build` only runs `prisma generate`. Before deploying, run `npm run db:push` and then `npm run posts:backfill` against production. Confirm at execution whether `.env`'s `DATABASE_URL` is the production Neon DB or a dev branch. Document this in `DATABASE.md`.\n\n## Implementation\n\n### 1. Archive index and single-post fetch\n\n**File**: `app/lib/substackFeed.ts`\n\nAdd `fetchArchiveIndex()` returning `{ok:true, entries:{slug, audience, publishedAt}[]} | {ok:false, reason}` and `fetchPostBySlug(slug)` returning a `FeedPost`-shaped result. Both mirror `fetchFeed`: never throw, `AbortSignal.timeout(FEED_TIMEOUT_MS)`, `next.revalidate`.\n\n### 2. Backfill during reconcile\n\n**File**: `app/lib/posts.ts`\n\nAfter the RSS upsert in `syncPostsFromFeed`, diff the archive slugs against the store plus the feed. For each missing public slug, fetch, sanitize and `create`. Extend `SyncResult` with `backfilled: number`. An archive failure must not fail the reconcile: RSS results still land.\n\n### 3. One-time backfill script\n\n**New file**: `scripts/backfill-posts.ts`\n\nLoads env via `app/lib/loadEnv` (like `prisma/seed.ts`), calls `syncPostsFromFeed({ force: true })`, and prints the `SyncResult`. Add `\"posts:backfill\": \"npx tsx scripts/backfill-posts.ts\"` to `package.json`.\n\n### 4. Document the deploy step\n\n**File**: `DATABASE.md`\n\nAdd a section: the `Post` table must be pushed to production (`npm run db:push`) and backfilled once before the writing routes deploy.\n\n### 5. Tests for the writing data layer (none exist today)\n\n**New file**: `app/lib/posts.test.ts`, **New file**: `app/lib/substackFeed.test.ts`\n\nCover `parseFeed` and `parseArchive` against captured fixtures. Mock `./prisma` and `./substackFeed` the way `app/sitemap.test.ts` mocks `./lib/posts`.\n\n## Reused existing code\n\n- `syncPostsFromFeed`, `SyncResult` from `app/lib/posts.ts`\n- `fetchFeed`, `FEED_TIMEOUT_MS`, `FEED_REVALIDATE_SECONDS`, `FeedPost` from `app/lib/substackFeed.ts`\n- `sanitizePostHtml` from `app/lib/sanitizePostHtml.ts`\n- env loading from `app/lib/loadEnv.ts`, script shape from `prisma/seed.ts`\n- `vi.hoisted` + `vi.mock` pattern from `app/sitemap.test.ts`\n\n## Reproduction Test\n\nReconcile drops any post that has aged out of the RSS feed's 20-item window.\n\n**Target**: `app/lib/posts.test.ts` (new). Run with `codeyam-editor editor refresh-tests --test posts`.\n\n```ts\n// A post absent from RSS but present in Substack's archive must still be stored.\nit(\"backfills posts that have aged out of the RSS window\", async () => {\n  fetchFeed.mockResolvedValue({ ok: true, posts: [feedPost(\"you-can-just-ship-things\")] });\n  fetchArchiveIndex.mockResolvedValue({\n    ok: true,\n    entries: [\n      { slug: \"you-can-just-ship-things\", audience: \"everyone\", publishedAt: new Date(\"2026-07-06\") },\n      { slug: \"our-vision-for-codeyam-why-build\", audience: \"everyone\", publishedAt: new Date(\"2024-07-24\") },\n    ],\n  });\n  fetchPostBySlug.mockResolvedValue({ ok: true, post: feedPost(\"our-vision-for-codeyam-why-build\") });\n  prisma.post.findMany.mockResolvedValue([]);\n\n  const result = await syncPostsFromFeed({ force: true });\n\n  expect(result.backfilled).toBe(1);\n  expect(prisma.post.create).toHaveBeenCalledWith(\n    expect.objectContaining({ data: expect.objectContaining({ slug: \"our-vision-for-codeyam-why-build\" }) }),\n  );\n});\n```\n\nStatus: PROPOSED. Confirm it fails first during execution. Expected failure: `fetchArchiveIndex` is not exported from `./substackFeed`, and `result.backfilled` is `undefined`.\n\n## Scenarios to Demonstrate\n\n- `/writing` with all 23 posts, oldest \"Our Vision for CodeYam\" (Jul 2024) at the bottom\n- `/writing/our-vision-for-codeyam-why-build`, a backfilled post, renders cleanly with no Substack buttons or forms\n- Archive API unreachable: `/writing` still renders the RSS posts\n- A non-public post in the archive is not mirrored",
+  "description": "Each reconcile now reads Substack's archive API, which lists every post, and backfills any public post the RSS feed's 20-item window no longer carries. Paid posts are never copied, and an archive failure cannot undo feed results that already landed. `npm run posts:backfill` fills an empty database before the writing pages deploy to it (DATABASE.md has the deploy steps; nothing was written to any real database this cycle).\n\nAlso this cycle, found while clearing the audit gate:\n- Bug fix: external links in essays never opened in a new tab, because the sanitizer's attribute allowlist stripped the target/rel it had just added. Fixed and tested. Already-stored posts keep the old markup until rewritten.\n- Preview fix: every database-backed page hung in the editor preview, because the editor's PGPORT combined with a port-less Neon URL sent the driver to the wrong port. requireConnectionString now states port 5432 when the URL omits it (user-approved). Production is unaffected.\n- Coverage backlog from the earlier writing feature: 28 functions and views had no glossary entry, test or scenario. All now have one (203 tests pass; 10 new scenarios, including seeded /writing archive and post pages).\n- Merged main (the homepage hotfix) into this branch at the user's request before retaking screenshots.\n\nScope verdict: this cycle advances the site's writing section. It delivers no new project-level deliverable and defers none; all five project deliverables were already delivered in earlier cycles. Deferred within this feature, disclosed at review: parseFeed is tested against hand-written XML, not a captured live feed; DB writes are tested against a mocked Prisma only; and the backfill has not been run against a real database. Running db:push and posts:backfill against production is the user's deploy step. Remaining audit items are advisory only: 8 isolation routes stay tracked in app source because the fixture migration broke every route and rolled itself back.",
+  "modifiedFiles": [
+    {
+      "path": ".codeyam/dependency-graph.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/glossary.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/per-test-evidence.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/completed/ne--hotfix-the-live-homepage-post-list.md",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/ne--add-a-social-share-preview-image.md",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/ne--backfill-posts-that-aged-out-of-the-substack-feed.md",
+      "status": "deleted"
+    },
+    {
+      "path": ".codeyam/plans/ne--keep-the-homepage-and-sitemap-current-with-new-posts.md",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/ne--link-adventures-to-the-running-essays.md",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/plans/ne--restore-linting-on-next-16.md",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenario-handlers.js",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/.capture-pipeline.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/home-full-page--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/home-mobile--mobile.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/postlist-default--desktop.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/postlist-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/writing-default--desktop.png",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/writing-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/writingcta-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/writingintro-default--desktop.png.hash",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/state/finalize-debt.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/state/isolation-migration-verdict.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache/all.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/test-cache/blobs/be8df4e8f7c28091c91163806b8c7b35be977946d57dc13c8883c3ea77aae7b5.json",
+      "status": "deleted"
+    },
+    {
+      "path": ".codeyam/test-cache/blobs/ecca3a9ac743d74b8f9c946eb5021d899c81ee41f90e9f860e2eeab2b6d0015a.json",
+      "status": "deleted"
+    },
+    {
+      "path": ".codeyam/test-registry.json",
+      "status": "modified"
+    },
+    {
+      "path": "DATABASE.md",
+      "status": "modified"
+    },
+    {
+      "path": "app/lib/posts.ts",
+      "status": "modified"
+    },
+    {
+      "path": "app/lib/prismaConnection.test.ts",
+      "status": "modified"
+    },
+    {
+      "path": "app/lib/prismaConnection.ts",
+      "status": "modified"
+    },
+    {
+      "path": "app/lib/sanitizePostHtml.ts",
+      "status": "modified"
+    },
+    {
+      "path": "app/lib/substackFeed.ts",
+      "status": "modified"
+    },
+    {
+      "path": "package.json",
+      "status": "modified"
+    },
+    {
+      "path": ".codeyam/inherited-static-checks.jsonl",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/plans/completed/ne--backfill-posts-that-aged-out-of-the-substack-feed.md",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/archivelist-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/archivelist-singleyear.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/postbody-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/postfooter-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/postfooter-newest.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/postfooter-oldest.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/archivelist-default--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/archivelist-default--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/archivelist-singleyear--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/archivelist-singleyear--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/postbody-default--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/postbody-default--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/postfooter-default--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/postfooter-default--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/postfooter-newest--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/postfooter-newest--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/postfooter-oldest--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/postfooter-oldest--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/writing-archive--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/writing-archive--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/writing-post--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/writing-post--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/writingnav-default--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/writingnav-default--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/writingnav-post--desktop.png",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/screenshots/writingnav-post--desktop.png.hash",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/writing-archive.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/writing-post.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/writingnav-default.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/scenarios/writingnav-post.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/state/red-proofs/ne--backfill-posts-that-aged-out-of-the-substack-feed.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/test-cache/blobs/1fdf7c59cd474217c875d9711c02968402185e6f248ddbbc39d99fff6f0e9ad5.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/test-cache/blobs/c4760ba82c771a000723fa090acfce6e2350806a98a65d7193c7a2b415685bff.json",
+      "status": "added"
+    },
+    {
+      "path": ".codeyam/test-cache/blobs/e02fa9a53b22d53457b4db8c3239292f0b662d024b99524a45ea56534ca680a0.json",
+      "status": "added"
+    },
+    {
+      "path": "app/isolated-components/ArchiveList/page.tsx",
+      "status": "added"
+    },
+    {
+      "path": "app/isolated-components/PostBody/page.tsx",
+      "status": "added"
+    },
+    {
+      "path": "app/isolated-components/PostFooter/page.tsx",
+      "status": "added"
+    },
+    {
+      "path": "app/isolated-components/WritingNav/page.tsx",
+      "status": "added"
+    },
+    {
+      "path": "app/lib/describeError.test.ts",
+      "status": "added"
+    },
+    {
+      "path": "app/lib/describeError.ts",
+      "status": "added"
+    },
+    {
+      "path": "app/lib/inBatches.test.ts",
+      "status": "added"
+    },
+    {
+      "path": "app/lib/inBatches.ts",
+      "status": "added"
+    },
+    {
+      "path": "app/lib/postDates.test.ts",
+      "status": "added"
+    },
+    {
+      "path": "app/lib/posts.test.ts",
+      "status": "added"
+    },
+    {
+      "path": "app/lib/sanitizePostHtml.test.ts",
+      "status": "added"
+    },
+    {
+      "path": "app/lib/substackFeed.test.ts",
+      "status": "added"
+    },
+    {
+      "path": "app/writing/[slug]/page.test.ts",
+      "status": "added"
+    },
+    {
+      "path": "scripts/backfill-posts.test.ts",
+      "status": "added"
+    },
+    {
+      "path": "scripts/backfill-posts.ts",
+      "status": "added"
+    }
+  ],
+  "scenarioScreenshots": [
+    {
+      "name": "Home - Full page",
+      "screenshotPath": "home-full-page--desktop.png"
+    },
+    {
+      "name": "Home - Mobile",
+      "screenshotPath": "home-mobile--mobile.png"
+    },
+    {
+      "name": "Writing - Archive",
+      "screenshotPath": "writing-archive--desktop.png"
+    },
+    {
+      "name": "Writing - Post",
+      "screenshotPath": "writing-post--desktop.png"
+    },
+    {
+      "name": "ArchiveList - Default",
+      "screenshotPath": "archivelist-default--desktop.png"
+    },
+    {
+      "name": "ArchiveList - SingleYear",
+      "screenshotPath": "archivelist-singleyear--desktop.png"
+    },
+    {
+      "name": "PostFooter - Default",
+      "screenshotPath": "postfooter-default--desktop.png"
+    },
+    {
+      "name": "PostFooter - Newest",
+      "screenshotPath": "postfooter-newest--desktop.png"
+    },
+    {
+      "name": "PostFooter - Oldest",
+      "screenshotPath": "postfooter-oldest--desktop.png"
+    },
+    {
+      "name": "PostList - Default",
+      "screenshotPath": "postlist-default--desktop.png"
+    },
+    {
+      "name": "Writing - Default",
+      "screenshotPath": "writing-default--desktop.png"
+    }
+  ],
+  "testResults": {
+    "total": 203,
+    "passed": 203,
+    "failed": 0,
+    "runners": [
+      {
+        "name": "tests",
+        "total": 203,
+        "passed": 203
+      }
+    ]
+  }
+}

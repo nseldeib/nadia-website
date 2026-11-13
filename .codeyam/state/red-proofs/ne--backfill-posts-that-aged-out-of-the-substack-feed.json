@@ -1,0 +1,25 @@
+{
+  "provenAt": "2026-11-06T02:17:29Z",
+  "slug": "ne--backfill-posts-that-aged-out-of-the-substack-feed",
+  "paths": [
+    "app/lib/posts.ts"
+  ],
+  "runScope": [
+    "app/lib/posts.ts"
+  ],
+  "tests": {
+    "backfills posts that have aged out of the RSS window": {
+      "withoutFix": "fail",
+      "withFix": "pass",
+      "established": {
+        "kind": "measured"
+      }
+    }
+  },
+  "proof": {
+    "verdict": "proven",
+    "flipped": [
+      "backfills posts that have aged out of the RSS window"
+    ]
+  }
+}

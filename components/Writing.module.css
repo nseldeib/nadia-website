@@ -48,6 +48,24 @@
 .title { font-size: var(--text-lead); }
 .arrow { color: var(--meta); }
 
+/* The way through to the archive. Mono and meta-coloured so it reads as
+   navigation belonging to the list above it, never as a rival to the
+   newsletter CTA below — the section keeps exactly one action. */
+.archiveLink {
+  display: inline-block;
+  margin-top: var(--spacing-md);
+  font-family: var(--font-mono-stack);
+  font-size: var(--text-mono-sm);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--meta);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+.archiveLink:hover {
+  color: var(--rust);
+}
+
 @media (max-width: 860px) {
   .posts a { grid-template-columns: 70px 1fr auto; gap: 12px; }
   .title { font-size: var(--text-body); }

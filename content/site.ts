@@ -81,6 +81,10 @@ export type Site = {
     heading: string;
     paragraphs: string[];
     frames: Frame[];
+    reading?: {
+      label: string;
+      links: { slug: string; title: string }[];
+    };
   };
   elsewhere: {
     number: string;

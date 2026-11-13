@@ -98,14 +98,25 @@
       "importedBy": []
     },
     ".codeyam/scenario-check-attribution.js": {
-      "imports": [],
+      "imports": [
+        ".codeyam/wasm-name-section.js",
+        ".codeyam/wasm-source-attribution.js"
+      ],
       "importedBy": [
+        ".codeyam/capture.js",
         ".codeyam/capture.js"
       ]
     },
     ".codeyam/scenario-check-run.js": {
-      "imports": [],
+      "imports": [
+        ".codeyam/scenario-issues.js",
+        ".codeyam/scenario-mocks.js",
+        ".codeyam/scenario-playwright.js",
+        ".codeyam/scenario-metrics.js",
+        ".codeyam/scenario-handlers.js"
+      ],
       "importedBy": [
+        ".codeyam/capture.js",
         ".codeyam/capture.js"
       ]
     },
@@ -114,7 +125,8 @@
         ".codeyam/scenario-issues.js"
       ],
       "importedBy": [
-        ".codeyam/capture.js"
+        ".codeyam/capture.js",
+        ".codeyam/scenario-check-run.js"
       ]
     },
     ".codeyam/scenario-interactivity.js": {
@@ -129,6 +141,7 @@
       "imports": [],
       "importedBy": [
         ".codeyam/capture.js",
+        ".codeyam/scenario-check-run.js",
         ".codeyam/scenario-handlers.js",
         ".codeyam/scenario-interactivity.js"
       ]
@@ -136,6 +149,7 @@
     ".codeyam/scenario-launch.js": {
       "imports": [],
       "importedBy": [
+        ".codeyam/capture.js",
         ".codeyam/capture.js"
       ]
     },
@@ -143,13 +157,15 @@
       "imports": [],
       "importedBy": [
         ".codeyam/capture.js",
+        ".codeyam/scenario-check-run.js",
         ".codeyam/scenario-playwright.js"
       ]
     },
     ".codeyam/scenario-mocks.js": {
       "imports": [],
       "importedBy": [
-        ".codeyam/capture.js"
+        ".codeyam/capture.js",
+        ".codeyam/scenario-check-run.js"
       ]
     },
     ".codeyam/scenario-playwright.js": {
@@ -158,14 +174,29 @@
         ".codeyam/scenario-targeting.js"
       ],
       "importedBy": [
-        ".codeyam/capture.js"
+        ".codeyam/capture.js",
+        ".codeyam/scenario-check-run.js"
       ]
     },
     ".codeyam/scenario-targeting.js": {
       "imports": [],
       "importedBy": [
         ".codeyam/capture.js",
+        ".codeyam/scenario-playwright.js",
+        ".codeyam/capture.js",
         ".codeyam/scenario-playwright.js"
+      ]
+    },
+    ".codeyam/wasm-name-section.js": {
+      "imports": [],
+      "importedBy": [
+        ".codeyam/scenario-check-attribution.js"
+      ]
+    },
+    ".codeyam/wasm-source-attribution.js": {
+      "imports": [],
+      "importedBy": [
+        ".codeyam/scenario-check-attribution.js"
       ]
     },
     "app/api/__codeyam_revalidate/route.ts": {
@@ -220,10 +251,24 @@
       ],
       "importedBy": []
     },
+    "app/isolated-components/AdventuresReading/page.tsx": {
+      "imports": [
+        "components/AdventuresReading.tsx",
+        "content/site.ts"
+      ],
+      "importedBy": []
+    },
     "app/isolated-components/AdvisoryCard/page.tsx": {
       "imports": [
         "components/work/AdvisoryCard.tsx",
         "content/site.ts"
+      ],
+      "importedBy": []
+    },
+    "app/isolated-components/ArchiveList/page.tsx": {
+      "imports": [
+        "components/writing/ArchiveList.tsx",
+        "app/lib/posts.ts"
       ],
       "importedBy": []
     },
@@ -365,10 +410,23 @@
       ],
       "importedBy": []
     },
+    "app/isolated-components/PostBody/page.tsx": {
+      "imports": [
+        "components/writing/PostBody.tsx"
+      ],
+      "importedBy": []
+    },
+    "app/isolated-components/PostFooter/page.tsx": {
+      "imports": [
+        "components/writing/PostFooter.tsx",
+        "app/lib/posts.ts"
+      ],
+      "importedBy": []
+    },
     "app/isolated-components/PostList/page.tsx": {
       "imports": [
         "components/writing/PostList.tsx",
-        "content/site.ts"
+        "app/lib/posts.ts"
       ],
       "importedBy": []
     },
@@ -465,7 +523,8 @@
     },
     "app/isolated-components/Writing/page.tsx": {
       "imports": [
-        "components/Writing"
+        "components/Writing",
+        "app/lib/posts.ts"
       ],
       "importedBy": []
     },
@@ -483,6 +542,12 @@
       ],
       "importedBy": []
     },
+    "app/isolated-components/WritingNav/page.tsx": {
+      "imports": [
+        "components/writing/WritingNav.tsx"
+      ],
+      "importedBy": []
+    },
     "app/isolated-components/layout.tsx": {
       "imports": [],
       "importedBy": []
@@ -490,9 +555,12 @@
     "app/layout.tsx": {
       "imports": [
         "app/lib/siteUrl.ts",
+        "app/lib/shareImage.ts",
         "app/globals.css"
       ],
-      "importedBy": []
+      "importedBy": [
+        "app/lib/shareImage.test.ts"
+      ]
     },
     "app/lib/activeSection.test.ts": {
       "imports": [
@@ -553,12 +621,91 @@
         "app/api/contact/route.ts"
       ]
     },
+    "app/lib/describeError.test.ts": {
+      "imports": [
+        "app/lib/describeError.ts"
+      ],
+      "importedBy": []
+    },
+    "app/lib/describeError.ts": {
+      "imports": [],
+      "importedBy": [
+        "app/lib/posts.ts",
+        "app/lib/describeError.test.ts",
+        "app/lib/substackFeed.ts"
+      ]
+    },
+    "app/lib/inBatches.test.ts": {
+      "imports": [
+        "app/lib/inBatches.ts"
+      ],
+      "importedBy": []
+    },
+    "app/lib/inBatches.ts": {
+      "imports": [],
+      "importedBy": [
+        "app/lib/inBatches.test.ts",
+        "app/lib/posts.ts"
+      ]
+    },
     "app/lib/loadEnv.ts": {
       "imports": [],
       "importedBy": [
         "prisma/seed.ts",
         "prisma.config.ts",
+        "scripts/resanitize-posts.ts",
+        "scripts/backfill-posts.ts",
         "vitest.config.ts"
+      ]
+    },
+    "app/lib/postDates.test.ts": {
+      "imports": [
+        "app/lib/postDates.ts"
+      ],
+      "importedBy": []
+    },
+    "app/lib/postDates.ts": {
+      "imports": [
+        "app/lib/posts.ts"
+      ],
+      "importedBy": [
+        "app/lib/postDates.test.ts",
+        "app/writing/[slug]/page.tsx",
+        "components/writing/PostList.tsx",
+        "components/writing/ArchiveList.tsx"
+      ]
+    },
+    "app/lib/posts.test.ts": {
+      "imports": [
+        "app/lib/substackFeed.ts",
+        "app/lib/posts.ts"
+      ],
+      "importedBy": []
+    },
+    "app/lib/posts.ts": {
+      "imports": [
+        "app/lib/prisma.ts",
+        "app/lib/substackFeed.ts",
+        "app/lib/sanitizePostHtml.ts",
+        "app/lib/inBatches.ts",
+        "app/lib/describeError.ts"
+      ],
+      "importedBy": [
+        "app/sitemap.ts",
+        "app/lib/postDates.ts",
+        "app/lib/posts.test.ts",
+        "app/isolated-components/PostFooter/page.tsx",
+        "app/isolated-components/PostList/page.tsx",
+        "app/isolated-components/ArchiveList/page.tsx",
+        "app/isolated-components/Writing/page.tsx",
+        "app/page.tsx",
+        "app/writing/page.tsx",
+        "app/writing/[slug]/page.tsx",
+        "components/Writing.tsx",
+        "components/writing/PostFooter.tsx",
+        "components/writing/PostList.tsx",
+        "components/writing/ArchiveList.tsx",
+        "scripts/backfill-posts.ts"
       ]
     },
     "app/lib/prisma.ts": {
@@ -566,7 +713,10 @@
         "app/lib/prismaConnection.ts"
       ],
       "importedBy": [
-        "app/api/contact/route.ts"
+        "app/lib/posts.ts",
+        "app/api/contact/route.ts",
+        "scripts/resanitize-posts.ts",
+        "scripts/backfill-posts.ts"
       ]
     },
     "app/lib/prismaConnection.test.ts": {
@@ -581,6 +731,52 @@
         "app/lib/prisma.ts",
         "app/lib/prismaConnection.test.ts",
         "prisma/seed.ts"
+      ]
+    },
+    "app/lib/readingLinks.test.ts": {
+      "imports": [
+        "app/lib/readingLinks.ts"
+      ],
+      "importedBy": []
+    },
+    "app/lib/readingLinks.ts": {
+      "imports": [],
+      "importedBy": [
+        "app/lib/readingLinks.test.ts",
+        "components/AdventuresReading.tsx",
+        "scripts/backfill-posts.ts"
+      ]
+    },
+    "app/lib/resanitizePosts.test.ts": {
+      "imports": [
+        "app/lib/resanitizePosts.ts",
+        "app/lib/sanitizePostHtml.ts"
+      ],
+      "importedBy": []
+    },
+    "app/lib/resanitizePosts.ts": {
+      "imports": [
+        "app/lib/sanitizePostHtml.ts"
+      ],
+      "importedBy": [
+        "app/lib/resanitizePosts.test.ts",
+        "scripts/resanitize-posts.ts"
+      ]
+    },
+    "app/lib/sanitizePostHtml.test.ts": {
+      "imports": [
+        "app/lib/sanitizePostHtml.ts"
+      ],
+      "importedBy": []
+    },
+    "app/lib/sanitizePostHtml.ts": {
+      "imports": [],
+      "importedBy": [
+        "app/lib/resanitizePosts.test.ts",
+        "app/lib/posts.ts",
+        "app/lib/sanitizePostHtml.test.ts",
+        "app/lib/resanitizePosts.ts",
+        "app/writing/[slug]/page.tsx"
       ]
     },
     "app/lib/sendNotification.test.ts": {
@@ -600,6 +796,24 @@
         "app/api/contact/route.ts"
       ]
     },
+    "app/lib/shareImage.test.ts": {
+      "imports": [
+        "app/lib/shareImage.ts",
+        "app/layout.tsx",
+        "app/writing/page.tsx",
+        "app/writing/[slug]/page.tsx"
+      ],
+      "importedBy": []
+    },
+    "app/lib/shareImage.ts": {
+      "imports": [],
+      "importedBy": [
+        "app/layout.tsx",
+        "app/lib/shareImage.test.ts",
+        "app/writing/page.tsx",
+        "app/writing/[slug]/page.tsx"
+      ]
+    },
     "app/lib/siteUrl.test.ts": {
       "imports": [
         "app/lib/siteUrl.ts"
@@ -614,7 +828,9 @@
         "app/sitemap.ts",
         "app/layout.tsx",
         "app/lib/siteUrl.test.ts",
-        "app/robots.test.ts"
+        "app/robots.test.ts",
+        "app/writing/page.tsx",
+        "app/writing/[slug]/page.tsx"
       ]
     },
     "app/lib/submitMessage.test.ts": {
@@ -632,6 +848,24 @@
         "components/ContactForm.tsx"
       ]
     },
+    "app/lib/substackFeed.test.ts": {
+      "imports": [
+        "app/lib/substackFeed.ts"
+      ],
+      "importedBy": []
+    },
+    "app/lib/substackFeed.ts": {
+      "imports": [
+        "app/lib/describeError.ts",
+        "app/lib/text.ts"
+      ],
+      "importedBy": [
+        "app/sitemap.test.ts",
+        "app/lib/substackFeed.test.ts",
+        "app/lib/posts.ts",
+        "app/lib/posts.test.ts"
+      ]
+    },
     "app/lib/text.test.ts": {
       "imports": [
         "app/lib/text.ts"
@@ -642,6 +876,7 @@
       "imports": [],
       "importedBy": [
         "app/lib/text.test.ts",
+        "app/lib/substackFeed.ts",
         "components/Footer.tsx"
       ]
     },
@@ -672,6 +907,12 @@
       ],
       "importedBy": []
     },
+    "app/page.test.ts": {
+      "imports": [
+        "app/page.tsx"
+      ],
+      "importedBy": []
+    },
     "app/page.tsx": {
       "imports": [
         "components/Nav.tsx",
@@ -682,9 +923,12 @@
         "components/Adventures.tsx",
         "components/Elsewhere.tsx",
         "components/Contact.tsx",
-        "components/Footer.tsx"
+        "components/Footer.tsx",
+        "app/lib/posts.ts"
       ],
-      "importedBy": []
+      "importedBy": [
+        "app/page.test.ts"
+      ]
     },
     "app/robots.test.ts": {
       "imports": [
@@ -707,17 +951,72 @@
     },
     "app/sitemap.test.ts": {
       "imports": [
+        "app/lib/siteUrl.ts",
         "app/sitemap.ts",
-        "app/lib/siteUrl.ts"
+        "app/lib/substackFeed.ts"
       ],
       "importedBy": []
     },
     "app/sitemap.ts": {
       "imports": [
-        "app/lib/siteUrl.ts"
+        "app/lib/siteUrl.ts",
+        "app/lib/posts.ts"
       ],
       "importedBy": [
         "app/sitemap.test.ts"
+      ]
+    },
+    "app/writing/[slug]/page.test.ts": {
+      "imports": [
+        "app/writing/[slug]/page.tsx"
+      ],
+      "importedBy": []
+    },
+    "app/writing/[slug]/page.tsx": {
+      "imports": [
+        "content/site.ts",
+        "components/Footer.tsx",
+        "components/writing/WritingNav.tsx",
+        "components/writing/PostBody.tsx",
+        "components/writing/PostFooter.tsx",
+        "app/lib/posts.ts",
+        "app/lib/sanitizePostHtml.ts",
+        "app/lib/postDates.ts",
+        "app/lib/siteUrl.ts",
+        "app/lib/shareImage.ts",
+        "app/writing/[slug]/post.module.css"
+      ],
+      "importedBy": [
+        "app/lib/shareImage.test.ts",
+        "app/writing/[slug]/page.test.ts"
+      ]
+    },
+    "app/writing/[slug]/post.module.css": {
+      "imports": [],
+      "importedBy": [
+        "app/writing/[slug]/page.tsx"
+      ]
+    },
+    "app/writing/page.tsx": {
+      "imports": [
+        "content/site.ts",
+        "components/Footer.tsx",
+        "components/writing/WritingNav.tsx",
+        "components/writing/ArchiveList.tsx",
+        "components/writing/WritingCta.tsx",
+        "app/lib/posts.ts",
+        "app/lib/siteUrl.ts",
+        "app/lib/shareImage.ts",
+        "app/writing/writing.module.css"
+      ],
+      "importedBy": [
+        "app/lib/shareImage.test.ts"
+      ]
+    },
+    "app/writing/writing.module.css": {
+      "imports": [],
+      "importedBy": [
+        "app/writing/page.tsx"
       ]
     },
     "components/About": {
@@ -758,12 +1057,30 @@
         "content/site.ts",
         "components/PhotoRotator.tsx",
         "components/SectionHead.tsx",
+        "components/AdventuresReading.tsx",
         "components/Section.module.css",
         "components/Adventures.module.css"
       ],
       "importedBy": [
         "app/isolated-components/Adventures/page.tsx",
         "app/page.tsx"
+      ]
+    },
+    "components/AdventuresReading.module.css": {
+      "imports": [],
+      "importedBy": [
+        "components/AdventuresReading.tsx"
+      ]
+    },
+    "components/AdventuresReading.tsx": {
+      "imports": [
+        "app/lib/readingLinks.ts",
+        "components/work/WorkLinkList.tsx",
+        "components/AdventuresReading.module.css"
+      ],
+      "importedBy": [
+        "app/isolated-components/AdventuresReading/page.tsx",
+        "components/Adventures.tsx"
       ]
     },
     "components/Contact": {
@@ -863,7 +1180,9 @@
         "app/isolated-components/Footer/page.tsx",
         "app/isolated-components/FooterPlace/page.tsx",
         "app/isolated-components/FooterSignoff/page.tsx",
-        "app/page.tsx"
+        "app/page.tsx",
+        "app/writing/page.tsx",
+        "app/writing/[slug]/page.tsx"
       ]
     },
     "components/Hero": {
@@ -1023,6 +1342,7 @@
     "components/Writing.module.css": {
       "imports": [],
       "importedBy": [
+        "components/Writing.tsx",
         "components/writing/PostList.tsx",
         "components/writing/WritingIntro.tsx",
         "components/writing/WritingCta.tsx"
@@ -1031,11 +1351,13 @@
     "components/Writing.tsx": {
       "imports": [
         "content/site.ts",
+        "app/lib/posts.ts",
         "components/SectionHead.tsx",
         "components/writing/PostList.tsx",
         "components/writing/WritingIntro.tsx",
         "components/writing/WritingCta.tsx",
-        "components/Section.module.css"
+        "components/Section.module.css",
+        "components/Writing.module.css"
       ],
       "importedBy": [
         "app/page.tsx"
@@ -1228,6 +1550,7 @@
       ],
       "importedBy": [
         "app/isolated-components/WorkLinkList/page.tsx",
+        "components/AdventuresReading.tsx",
         "components/work/WorkNarrative.tsx"
       ]
     },
@@ -1242,15 +1565,67 @@
         "components/Work.tsx"
       ]
     },
+    "components/writing/ArchiveList.module.css": {
+      "imports": [],
+      "importedBy": [
+        "components/writing/ArchiveList.tsx"
+      ]
+    },
+    "components/writing/ArchiveList.tsx": {
+      "imports": [
+        "app/lib/posts.ts",
+        "app/lib/postDates.ts",
+        "components/writing/ArchiveList.module.css"
+      ],
+      "importedBy": [
+        "app/isolated-components/ArchiveList/page.tsx",
+        "app/writing/page.tsx"
+      ]
+    },
     "components/writing/ExternalLinkIcon.tsx": {
       "imports": [],
       "importedBy": [
         "app/isolated-components/ExternalLinkIcon/page.tsx",
+        "components/writing/PostFooter.tsx",
         "components/writing/WritingCta.tsx"
+      ]
+    },
+    "components/writing/PostBody.module.css": {
+      "imports": [],
+      "importedBy": [
+        "components/writing/PostBody.tsx"
+      ]
+    },
+    "components/writing/PostBody.tsx": {
+      "imports": [
+        "components/writing/PostBody.module.css"
+      ],
+      "importedBy": [
+        "app/isolated-components/PostBody/page.tsx",
+        "app/writing/[slug]/page.tsx"
+      ]
+    },
+    "components/writing/PostFooter.module.css": {
+      "imports": [],
+      "importedBy": [
+        "components/writing/PostFooter.tsx"
+      ]
+    },
+    "components/writing/PostFooter.tsx": {
+      "imports": [
+        "app/lib/posts.ts",
+        "components/writing/ExternalLinkIcon.tsx",
+        "components/writing/PostFooter.module.css"
+      ],
+      "importedBy": [
+        "app/isolated-components/PostFooter/page.tsx",
+        "app/writing/[slug]/page.tsx"
       ]
     },
     "components/writing/PostList.tsx": {
       "imports": [
+        "app/lib/posts.ts",
+        "app/lib/postDates.ts",
         "components/Writing.module.css"
       ],
       "importedBy": [
@@ -1265,6 +1640,7 @@
       ],
       "importedBy": [
         "app/isolated-components/WritingCta/page.tsx",
+        "app/writing/page.tsx",
         "components/Writing.tsx"
       ]
     },
@@ -1275,6 +1651,22 @@
       "importedBy": [
         "app/isolated-components/WritingIntro/page.tsx",
         "components/Writing.tsx"
+      ]
+    },
+    "components/writing/WritingNav.module.css": {
+      "imports": [],
+      "importedBy": [
+        "components/writing/WritingNav.tsx"
+      ]
+    },
+    "components/writing/WritingNav.tsx": {
+      "imports": [
+        "components/writing/WritingNav.module.css"
+      ],
+      "importedBy": [
+        "app/isolated-components/WritingNav/page.tsx",
+        "app/writing/page.tsx",
+        "app/writing/[slug]/page.tsx"
       ]
     },
     "content/site.json": {
@@ -1306,14 +1698,17 @@
         "app/isolated-components/WorkLinkList/page.tsx",
         "app/isolated-components/FooterSignoff/page.tsx",
         "app/isolated-components/FormFailure/page.tsx",
-        "app/isolated-components/PostList/page.tsx",
         "app/isolated-components/FindMe/page.tsx",
         "app/isolated-components/SocialRow/page.tsx",
         "app/isolated-components/SentConfirmation/page.tsx",
         "app/isolated-components/AboutFacts/page.tsx",
+        "app/isolated-components/AdventuresReading/page.tsx",
         "app/isolated-components/TypedHeadline/page.tsx",
         "app/isolated-components/SubmitRow/page.tsx",
         "app/isolated-components/WorkNarrative/page.tsx",
+        "app/writing/page.tsx",
+        "app/writing/[slug]/page.tsx",
+        "prisma/seedRows.test.ts",
         "components/Hero.tsx",
         "components/Elsewhere.tsx",
         "components/Work.tsx",
@@ -1323,7 +1718,8 @@
         "components/ContactForm.tsx",
         "components/Writing.tsx",
         "components/NotFound.tsx",
-        "components/About.tsx"
+        "components/About.tsx",
+        "scripts/backfill-posts.ts"
       ]
     },
     "eslint.config.mjs": {
@@ -1372,6 +1768,7 @@
     },
     "prisma/seedRows.test.ts": {
       "imports": [
+        "content/site.ts",
         "prisma/seedRows.ts"
       ],
       "importedBy": []
@@ -1381,6 +1778,40 @@
       "importedBy": [
         "prisma/seedRows.test.ts",
         "prisma/seed.ts"
+      ]
+    },
+    "scripts/backfill-posts.test.ts": {
+      "imports": [
+        "scripts/backfill-posts.ts"
+      ],
+      "importedBy": []
+    },
+    "scripts/backfill-posts.ts": {
+      "imports": [
+        "app/lib/loadEnv.ts",
+        "app/lib/prisma.ts",
+        "app/lib/posts.ts",
+        "app/lib/readingLinks.ts",
+        "content/site.ts"
+      ],
+      "importedBy": [
+        "scripts/backfill-posts.test.ts"
+      ]
+    },
+    "scripts/resanitize-posts.test.ts": {
+      "imports": [
+        "scripts/resanitize-posts.ts"
+      ],
+      "importedBy": []
+    },
+    "scripts/resanitize-posts.ts": {
+      "imports": [
+        "app/lib/loadEnv.ts",
+        "app/lib/prisma.ts",
+        "app/lib/resanitizePosts.ts"
+      ],
+      "importedBy": [
+        "scripts/resanitize-posts.test.ts"
       ]
     },
     "vitest.config.ts": {
@@ -1516,21 +1947,61 @@
       ],
       "importedBy": []
     },
-    ".codeyam/scenario-check-attribution.js::__file_root__": {
+    ".codeyam/scenario-check-attribution.js::{\n  workspaceCrates,\n  filesForFunctionName,\n  functionRangeAt,\n  retirableBreakpoints,\n}": {
       "filePath": ".codeyam/scenario-check-attribution.js",
-      "name": "__file_root__",
-      "imports": [],
-      "importedBy": [
-        ".codeyam/capture.js::{\n  resolveRenderedSourcesAttribution,\n  armRenderedSourcesAttribution,\n  retryUnarmedOnReadyTimeout,\n  renderedSourcesRecordPath,\n  recordRenderedSources,\n  renderedSourcesFromOutcome,\n}"
-      ]
+      "name": "{\n  workspaceCrates,\n  filesForFunctionName,\n  functionRangeAt,\n  retirableBreakpoints,\n}",
+      "imports": [
+        ".codeyam/wasm-source-attribution.js::__file_root__"
+      ],
+      "importedBy": []
     },
-    ".codeyam/scenario-check-run.js::__file_root__": {
+    ".codeyam/scenario-check-attribution.js::{ parseWasmFunctionNames }": {
+      "filePath": ".codeyam/scenario-check-attribution.js",
+      "name": "{ parseWasmFunctionNames }",
+      "imports": [
+        ".codeyam/wasm-name-section.js::__file_root__"
+      ],
+      "importedBy": []
+    },
+    ".codeyam/scenario-check-run.js::{\n  findScenarioError,\n  SCENARIO_ERROR_MARKER,\n  hasRenderableContent,\n  describeBlankReason,\n}": {
       "filePath": ".codeyam/scenario-check-run.js",
-      "name": "__file_root__",
-      "imports": [],
-      "importedBy": [
-        ".codeyam/capture.js::{\n  DEV_SERVER_DOWN_HEADER,\n  classifyInteractionEffect,\n  resolvePixelClip,\n  interactionEffectSignal,\n  fingerprintHtml,\n  getDOMFingerprint,\n  mergeVisibleTextLength,\n  isCrossOriginRequest,\n  isCaptureFatalRequestFailure,\n  isDevServerPlaceholderResponse,\n  buildCaptureContextOptions,\n  attachCaptureCollectors,\n  navigationStatusIssue,\n  resolveSettleBudgets,\n  collectRenderedContent,\n  scenarioErrorMarkerIssue,\n  driveSingleInteraction,\n  decorateCaptureResult,\n}"
-      ]
+      "name": "{\n  findScenarioError,\n  SCENARIO_ERROR_MARKER,\n  hasRenderableContent,\n  describeBlankReason,\n}",
+      "imports": [
+        ".codeyam/scenario-metrics.js::__file_root__"
+      ],
+      "importedBy": []
+    },
+    ".codeyam/scenario-check-run.js::{\n  handleConsoleMessage,\n  handlePageError,\n  handleRequestFailed,\n}": {
+      "filePath": ".codeyam/scenario-check-run.js",
+      "name": "{\n  handleConsoleMessage,\n  handlePageError,\n  handleRequestFailed,\n}",
+      "imports": [
+        ".codeyam/scenario-handlers.js::__file_root__"
+      ],
+      "importedBy": []
+    },
+    ".codeyam/scenario-check-run.js::{\n  waitForStablePage,\n  collectContentState,\n  collectVisibleTextLength,\n  isCanvasInteraction,\n  resolveInteractionTarget,\n  performInteraction,\n  pixelSnapshot,\n  samePixels,\n  waitForPixelStable,\n}": {
+      "filePath": ".codeyam/scenario-check-run.js",
+      "name": "{\n  waitForStablePage,\n  collectContentState,\n  collectVisibleTextLength,\n  isCanvasInteraction,\n  resolveInteractionTarget,\n  performInteraction,\n  pixelSnapshot,\n  samePixels,\n  waitForPixelStable,\n}",
+      "imports": [
+        ".codeyam/scenario-playwright.js::__file_root__"
+      ],
+      "importedBy": []
+    },
+    ".codeyam/scenario-check-run.js::{ createIssue, pushIssue }": {
+      "filePath": ".codeyam/scenario-check-run.js",
+      "name": "{ createIssue, pushIssue }",
+      "imports": [
+        ".codeyam/scenario-issues.js::__file_root__"
+      ],
+      "importedBy": []
+    },
+    ".codeyam/scenario-check-run.js::{ isDeclaredErrorMock, unmockedRouteFrom }": {
+      "filePath": ".codeyam/scenario-check-run.js",
+      "name": "{ isDeclaredErrorMock, unmockedRouteFrom }",
+      "imports": [
+        ".codeyam/scenario-mocks.js::__file_root__"
+      ],
+      "importedBy": []
     },
     ".codeyam/scenario-handlers.js::{ createIssue }": {
       "filePath": ".codeyam/scenario-handlers.js",
@@ -1547,14 +2018,6 @@
         ".codeyam/scenario-issues.js::__file_root__"
       ],
       "importedBy": []
-    },
-    ".codeyam/scenario-launch.js::__file_root__": {
-      "filePath": ".codeyam/scenario-launch.js",
-      "name": "__file_root__",
-      "imports": [],
-      "importedBy": [
-        ".codeyam/capture.js::{ launchChromiumWithSelfHeal }"
-      ]
     },
     ".codeyam/scenario-metrics.js::__file_root__": {
       "filePath": ".codeyam/scenario-metrics.js",
@@ -1579,15 +2042,6 @@
         ".codeyam/scenario-metrics.js::__file_root__"
       ],
       "importedBy": []
-    },
-    ".codeyam/scenario-targeting.js::__file_root__": {
-      "filePath": ".codeyam/scenario-targeting.js",
-      "name": "__file_root__",
-      "imports": [],
-      "importedBy": [
-        ".codeyam/capture.js::{ devicePixelRatioOf }",
-        ".codeyam/scenario-playwright.js::{\n  candidateLabelSummary,\n  noMatchGuidance,\n  describeMatchCandidates,\n  resolveTextTarget,\n  pickBestCandidate,\n  pageOf,\n  targetBox,\n  pointIn,\n  devicePixelRatioOf,\n  outsideTargetMessage,\n  outsideTargetError,\n  pointerGeometry,\n  locatorPointGeometry,\n}"
-      ]
     },
     "app/api/contact/route.test.ts::__file_root__": {
       "filePath": "app/api/contact/route.test.ts",
@@ -1648,12 +2102,30 @@
       ],
       "importedBy": []
     },
+    "app/isolated-components/AdventuresReading/page.tsx::__file_root__": {
+      "filePath": "app/isolated-components/AdventuresReading/page.tsx",
+      "name": "__file_root__",
+      "imports": [
+        "components/AdventuresReading.tsx::__file_root__",
+        "content/site.ts::__file_root__"
+      ],
+      "importedBy": []
+    },
     "app/isolated-components/AdvisoryCard/page.tsx::__file_root__": {
       "filePath": "app/isolated-components/AdvisoryCard/page.tsx",
       "name": "__file_root__",
       "imports": [
         "components/work/AdvisoryCard.tsx::__file_root__",
         "content/site.ts::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "app/isolated-components/ArchiveList/page.tsx::__file_root__": {
+      "filePath": "app/isolated-components/ArchiveList/page.tsx",
+      "name": "__file_root__",
+      "imports": [
+        "components/writing/ArchiveList.tsx::__file_root__",
+        "app/lib/posts.ts::PostSummary"
       ],
       "importedBy": []
     },
@@ -1843,12 +2315,29 @@
       ],
       "importedBy": []
     },
+    "app/isolated-components/PostBody/page.tsx::__file_root__": {
+      "filePath": "app/isolated-components/PostBody/page.tsx",
+      "name": "__file_root__",
+      "imports": [
+        "components/writing/PostBody.tsx::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "app/isolated-components/PostFooter/page.tsx::__file_root__": {
+      "filePath": "app/isolated-components/PostFooter/page.tsx",
+      "name": "__file_root__",
+      "imports": [
+        "components/writing/PostFooter.tsx::__file_root__",
+        "app/lib/posts.ts::PostSummary"
+      ],
+      "importedBy": []
+    },
     "app/isolated-components/PostList/page.tsx::__file_root__": {
       "filePath": "app/isolated-components/PostList/page.tsx",
       "name": "__file_root__",
       "imports": [
         "components/writing/PostList.tsx::__file_root__",
-        "content/site.ts::__file_root__"
+        "app/lib/posts.ts::PostSummary"
       ],
       "importedBy": []
     },
@@ -1979,7 +2468,8 @@
       "filePath": "app/isolated-components/Writing/page.tsx",
       "name": "__file_root__",
       "imports": [
-        "components/Writing::__file_root__"
+        "components/Writing::__file_root__",
+        "app/lib/posts.ts::PostSummary"
       ],
       "importedBy": []
     },
@@ -2001,14 +2491,25 @@
       ],
       "importedBy": []
     },
+    "app/isolated-components/WritingNav/page.tsx::__file_root__": {
+      "filePath": "app/isolated-components/WritingNav/page.tsx",
+      "name": "__file_root__",
+      "imports": [
+        "components/writing/WritingNav.tsx::__file_root__"
+      ],
+      "importedBy": []
+    },
     "app/layout.tsx::__file_root__": {
       "filePath": "app/layout.tsx",
       "name": "__file_root__",
       "imports": [
         "app/lib/siteUrl.ts::__file_root__",
+        "app/lib/shareImage.ts::__file_root__",
         "app/globals.css::__file_root__"
       ],
-      "importedBy": []
+      "importedBy": [
+        "app/lib/shareImage.test.ts::__file_root__"
+      ]
     },
     "app/lib/activeSection.test.ts::__file_root__": {
       "filePath": "app/lib/activeSection.test.ts",
@@ -2139,6 +2640,39 @@
         "app/api/contact/route.ts::__file_root__"
       ]
     },
+    "app/lib/describeError.test.ts::__file_root__": {
+      "filePath": "app/lib/describeError.test.ts",
+      "name": "__file_root__",
+      "imports": [
+        "app/lib/describeError.ts::describeError"
+      ],
+      "importedBy": []
+    },
+    "app/lib/describeError.ts::describeError": {
+      "filePath": "app/lib/describeError.ts",
+      "name": "describeError",
+      "imports": [],
+      "importedBy": [
+        "app/lib/substackFeed.ts::__file_root__"
+      ]
+    },
+    "app/lib/inBatches.test.ts::__file_root__": {
+      "filePath": "app/lib/inBatches.test.ts",
+      "name": "__file_root__",
+      "imports": [
+        "app/lib/inBatches.ts::inBatches"
+      ],
+      "importedBy": []
+    },
+    "app/lib/inBatches.ts::inBatches": {
+      "filePath": "app/lib/inBatches.ts",
+      "name": "inBatches",
+      "imports": [],
+      "importedBy": [
+        "app/lib/inBatches.test.ts::__file_root__",
+        "app/lib/posts.ts::__file_root__"
+      ]
+    },
     "app/lib/loadEnv.ts::__file_root__": {
       "filePath": "app/lib/loadEnv.ts",
       "name": "__file_root__",
@@ -2146,7 +2680,164 @@
       "importedBy": [
         "prisma/seed.ts::__file_root__",
         "prisma.config.ts::__file_root__",
+        "scripts/resanitize-posts.ts::__file_root__",
+        "scripts/backfill-posts.ts::__file_root__",
         "vitest.config.ts::__file_root__"
+      ]
+    },
+    "app/lib/postDates.test.ts::__file_root__": {
+      "filePath": "app/lib/postDates.test.ts",
+      "name": "__file_root__",
+      "imports": [
+        "app/lib/postDates.ts::formatPostDate",
+        "app/lib/postDates.ts::formatPostDateLong",
+        "app/lib/postDates.ts::groupPostsByYear",
+        "app/lib/postDates.ts::postYear"
+      ],
+      "importedBy": []
+    },
+    "app/lib/postDates.ts::__file_root__": {
+      "filePath": "app/lib/postDates.ts",
+      "name": "__file_root__",
+      "imports": [
+        "app/lib/posts.ts::PostSummary"
+      ],
+      "importedBy": []
+    },
+    "app/lib/postDates.ts::formatPostDate": {
+      "filePath": "app/lib/postDates.ts",
+      "name": "formatPostDate",
+      "imports": [],
+      "importedBy": [
+        "app/lib/postDates.test.ts::__file_root__",
+        "components/writing/PostList.tsx::__file_root__",
+        "components/writing/ArchiveList.tsx::__file_root__"
+      ]
+    },
+    "app/lib/postDates.ts::formatPostDateLong": {
+      "filePath": "app/lib/postDates.ts",
+      "name": "formatPostDateLong",
+      "imports": [],
+      "importedBy": [
+        "app/lib/postDates.test.ts::__file_root__",
+        "app/writing/[slug]/page.tsx::__file_root__"
+      ]
+    },
+    "app/lib/postDates.ts::groupPostsByYear": {
+      "filePath": "app/lib/postDates.ts",
+      "name": "groupPostsByYear",
+      "imports": [],
+      "importedBy": [
+        "app/lib/postDates.test.ts::__file_root__",
+        "components/writing/ArchiveList.tsx::__file_root__"
+      ]
+    },
+    "app/lib/postDates.ts::postYear": {
+      "filePath": "app/lib/postDates.ts",
+      "name": "postYear",
+      "imports": [],
+      "importedBy": [
+        "app/lib/postDates.test.ts::__file_root__"
+      ]
+    },
+    "app/lib/posts.test.ts::__file_root__": {
+      "filePath": "app/lib/posts.test.ts",
+      "name": "__file_root__",
+      "imports": [
+        "app/lib/substackFeed.ts::FeedPost",
+        "app/lib/posts.ts::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "app/lib/posts.ts::PostSummary": {
+      "filePath": "app/lib/posts.ts",
+      "name": "PostSummary",
+      "imports": [],
+      "importedBy": [
+        "app/isolated-components/PostFooter/page.tsx::__file_root__",
+        "app/isolated-components/PostList/page.tsx::__file_root__",
+        "app/isolated-components/ArchiveList/page.tsx::__file_root__",
+        "app/isolated-components/Writing/page.tsx::__file_root__",
+        "components/Writing.tsx::__file_root__",
+        "components/writing/PostFooter.tsx::__file_root__",
+        "components/writing/PostList.tsx::__file_root__",
+        "components/writing/ArchiveList.tsx::__file_root__"
+      ]
+    },
+    "app/lib/posts.ts::__file_root__": {
+      "filePath": "app/lib/posts.ts",
+      "name": "__file_root__",
+      "imports": [
+        "app/lib/prisma.ts::__file_root__",
+        "app/lib/substackFeed.ts::ArchiveEntry",
+        "app/lib/substackFeed.ts::FeedPost",
+        "app/lib/substackFeed.ts::__file_root__",
+        "app/lib/substackFeed.ts::fetchArchiveIndex",
+        "app/lib/substackFeed.ts::fetchFeed",
+        "app/lib/substackFeed.ts::fetchPostBySlug",
+        "app/lib/sanitizePostHtml.ts::sanitizePostHtml",
+        "app/lib/inBatches.ts::inBatches",
+        "app/lib/describeError.ts::describeError"
+      ],
+      "importedBy": [
+        "app/lib/posts.test.ts::__file_root__"
+      ]
+    },
+    "app/lib/posts.ts::adjacentPosts": {
+      "filePath": "app/lib/posts.ts",
+      "name": "adjacentPosts",
+      "imports": [],
+      "importedBy": [
+        "app/writing/[slug]/page.tsx::__file_root__"
+      ]
+    },
+    "app/lib/posts.ts::getPost": {
+      "filePath": "app/lib/posts.ts",
+      "name": "getPost",
+      "imports": [],
+      "importedBy": [
+        "app/writing/[slug]/page.tsx::__file_root__"
+      ]
+    },
+    "app/lib/posts.ts::listPosts": {
+      "filePath": "app/lib/posts.ts",
+      "name": "listPosts",
+      "imports": [],
+      "importedBy": [
+        "app/writing/page.tsx::__file_root__"
+      ]
+    },
+    "app/lib/posts.ts::recentPostsForHome": {
+      "filePath": "app/lib/posts.ts",
+      "name": "recentPostsForHome",
+      "imports": [],
+      "importedBy": [
+        "app/page.tsx::__file_root__"
+      ]
+    },
+    "app/lib/posts.ts::reconcileWithinDeadline": {
+      "filePath": "app/lib/posts.ts",
+      "name": "reconcileWithinDeadline",
+      "imports": [],
+      "importedBy": [
+        "app/writing/page.tsx::__file_root__",
+        "app/writing/[slug]/page.tsx::__file_root__"
+      ]
+    },
+    "app/lib/posts.ts::syncPostsFromFeed": {
+      "filePath": "app/lib/posts.ts",
+      "name": "syncPostsFromFeed",
+      "imports": [],
+      "importedBy": [
+        "scripts/backfill-posts.ts::__file_root__"
+      ]
+    },
+    "app/lib/posts.ts::syncPostsQuietly": {
+      "filePath": "app/lib/posts.ts",
+      "name": "syncPostsQuietly",
+      "imports": [],
+      "importedBy": [
+        "app/page.tsx::__file_root__"
       ]
     },
     "app/lib/prisma.ts::__file_root__": {
@@ -2156,7 +2847,10 @@
         "app/lib/prismaConnection.ts::requireConnectionString"
       ],
       "importedBy": [
-        "app/api/contact/route.ts::__file_root__"
+        "app/lib/posts.ts::__file_root__",
+        "app/api/contact/route.ts::__file_root__",
+        "scripts/resanitize-posts.ts::__file_root__",
+        "scripts/backfill-posts.ts::__file_root__"
       ]
     },
     "app/lib/prismaConnection.test.ts::__file_root__": {
@@ -2164,7 +2858,8 @@
       "name": "__file_root__",
       "imports": [
         "app/lib/prismaConnection.ts::__file_root__",
-        "app/lib/prismaConnection.ts::requireConnectionString"
+        "app/lib/prismaConnection.ts::requireConnectionString",
+        "app/lib/prismaConnection.ts::withExplicitPort"
       ],
       "importedBy": []
     },
@@ -2174,6 +2869,114 @@
       "imports": [],
       "importedBy": [
         "prisma/seed.ts::__file_root__"
+      ]
+    },
+    "app/lib/readingLinks.test.ts::__file_root__": {
+      "filePath": "app/lib/readingLinks.test.ts",
+      "name": "__file_root__",
+      "imports": [
+        "app/lib/readingLinks.ts::missingReadingLinksWarning",
+        "app/lib/readingLinks.ts::missingReadingSlugs",
+        "app/lib/readingLinks.ts::toReadingLinks"
+      ],
+      "importedBy": []
+    },
+    "app/lib/readingLinks.ts::ReadingEntry": {
+      "filePath": "app/lib/readingLinks.ts",
+      "name": "ReadingEntry",
+      "imports": [],
+      "importedBy": [
+        "components/AdventuresReading.tsx::__file_root__"
+      ]
+    },
+    "app/lib/readingLinks.ts::missingReadingLinksWarning": {
+      "filePath": "app/lib/readingLinks.ts",
+      "name": "missingReadingLinksWarning",
+      "imports": [],
+      "importedBy": [
+        "app/lib/readingLinks.test.ts::__file_root__",
+        "scripts/backfill-posts.ts::__file_root__"
+      ]
+    },
+    "app/lib/readingLinks.ts::missingReadingSlugs": {
+      "filePath": "app/lib/readingLinks.ts",
+      "name": "missingReadingSlugs",
+      "imports": [],
+      "importedBy": [
+        "app/lib/readingLinks.test.ts::__file_root__",
+        "scripts/backfill-posts.ts::__file_root__"
+      ]
+    },
+    "app/lib/readingLinks.ts::toReadingLinks": {
+      "filePath": "app/lib/readingLinks.ts",
+      "name": "toReadingLinks",
+      "imports": [],
+      "importedBy": [
+        "app/lib/readingLinks.test.ts::__file_root__",
+        "components/AdventuresReading.tsx::__file_root__"
+      ]
+    },
+    "app/lib/resanitizePosts.test.ts::__file_root__": {
+      "filePath": "app/lib/resanitizePosts.test.ts",
+      "name": "__file_root__",
+      "imports": [
+        "app/lib/resanitizePosts.ts::postsNeedingResanitize",
+        "app/lib/resanitizePosts.ts::resanitizeReport",
+        "app/lib/sanitizePostHtml.ts::sanitizePostHtml"
+      ],
+      "importedBy": []
+    },
+    "app/lib/resanitizePosts.ts::__file_root__": {
+      "filePath": "app/lib/resanitizePosts.ts",
+      "name": "__file_root__",
+      "imports": [
+        "app/lib/sanitizePostHtml.ts::sanitizePostHtml"
+      ],
+      "importedBy": []
+    },
+    "app/lib/resanitizePosts.ts::postsNeedingResanitize": {
+      "filePath": "app/lib/resanitizePosts.ts",
+      "name": "postsNeedingResanitize",
+      "imports": [],
+      "importedBy": [
+        "scripts/resanitize-posts.ts::__file_root__"
+      ]
+    },
+    "app/lib/resanitizePosts.ts::resanitizeReport": {
+      "filePath": "app/lib/resanitizePosts.ts",
+      "name": "resanitizeReport",
+      "imports": [],
+      "importedBy": [
+        "scripts/resanitize-posts.ts::__file_root__"
+      ]
+    },
+    "app/lib/sanitizePostHtml.test.ts::__file_root__": {
+      "filePath": "app/lib/sanitizePostHtml.test.ts",
+      "name": "__file_root__",
+      "imports": [
+        "app/lib/sanitizePostHtml.ts::excerptFromHtml",
+        "app/lib/sanitizePostHtml.ts::sanitizePostHtml"
+      ],
+      "importedBy": []
+    },
+    "app/lib/sanitizePostHtml.ts::excerptFromHtml": {
+      "filePath": "app/lib/sanitizePostHtml.ts",
+      "name": "excerptFromHtml",
+      "imports": [],
+      "importedBy": [
+        "app/lib/sanitizePostHtml.test.ts::__file_root__",
+        "app/writing/[slug]/page.tsx::__file_root__"
+      ]
+    },
+    "app/lib/sanitizePostHtml.ts::sanitizePostHtml": {
+      "filePath": "app/lib/sanitizePostHtml.ts",
+      "name": "sanitizePostHtml",
+      "imports": [],
+      "importedBy": [
+        "app/lib/resanitizePosts.test.ts::__file_root__",
+        "app/lib/posts.ts::__file_root__",
+        "app/lib/sanitizePostHtml.test.ts::__file_root__",
+        "app/lib/resanitizePosts.ts::__file_root__"
       ]
     },
     "app/lib/sendNotification.test.ts::__file_root__": {
@@ -2273,6 +3076,33 @@
         "app/lib/sendNotification.test.ts::__file_root__"
       ]
     },
+    "app/lib/shareImage.test.ts::__file_root__": {
+      "filePath": "app/lib/shareImage.test.ts",
+      "name": "__file_root__",
+      "imports": [
+        "app/lib/shareImage.ts::__file_root__",
+        "app/layout.tsx::__file_root__",
+        "app/writing/page.tsx::__file_root__",
+        "app/writing/[slug]/page.tsx::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "app/lib/shareImage.ts::__file_root__": {
+      "filePath": "app/lib/shareImage.ts",
+      "name": "__file_root__",
+      "imports": [],
+      "importedBy": [
+        "app/writing/page.tsx::__file_root__"
+      ]
+    },
+    "app/lib/shareImage.ts::postShareImage": {
+      "filePath": "app/lib/shareImage.ts",
+      "name": "postShareImage",
+      "imports": [],
+      "importedBy": [
+        "app/writing/[slug]/page.tsx::__file_root__"
+      ]
+    },
     "app/lib/siteUrl.test.ts::__file_root__": {
       "filePath": "app/lib/siteUrl.test.ts",
       "name": "__file_root__",
@@ -2287,7 +3117,9 @@
       "name": "siteUrl",
       "imports": [],
       "importedBy": [
-        "app/robots.test.ts::__file_root__"
+        "app/robots.test.ts::__file_root__",
+        "app/writing/page.tsx::__file_root__",
+        "app/writing/[slug]/page.tsx::__file_root__"
       ]
     },
     "app/lib/submitMessage.test.ts::__file_root__": {
@@ -2315,13 +3147,48 @@
         "components/ContactForm.tsx::__file_root__"
       ]
     },
+    "app/lib/substackFeed.test.ts::__file_root__": {
+      "filePath": "app/lib/substackFeed.test.ts",
+      "name": "__file_root__",
+      "imports": [
+        "app/lib/substackFeed.ts::__file_root__",
+        "app/lib/substackFeed.ts::archivePageUrl",
+        "app/lib/substackFeed.ts::fetchArchiveIndex",
+        "app/lib/substackFeed.ts::fetchFeed",
+        "app/lib/substackFeed.ts::fetchPostBySlug",
+        "app/lib/substackFeed.ts::parseApiPost",
+        "app/lib/substackFeed.ts::parseArchive",
+        "app/lib/substackFeed.ts::parseFeed",
+        "app/lib/substackFeed.ts::slugFromLink"
+      ],
+      "importedBy": []
+    },
+    "app/lib/substackFeed.ts::__file_root__": {
+      "filePath": "app/lib/substackFeed.ts",
+      "name": "__file_root__",
+      "imports": [
+        "app/lib/describeError.ts::describeError",
+        "app/lib/text.ts::decodeEntities"
+      ],
+      "importedBy": []
+    },
     "app/lib/text.test.ts::__file_root__": {
       "filePath": "app/lib/text.test.ts",
       "name": "__file_root__",
       "imports": [
+        "app/lib/text.ts::decodeEntities",
         "app/lib/text.ts::splitOnBrand"
       ],
       "importedBy": []
+    },
+    "app/lib/text.ts::decodeEntities": {
+      "filePath": "app/lib/text.ts",
+      "name": "decodeEntities",
+      "imports": [],
+      "importedBy": [
+        "app/lib/text.test.ts::__file_root__",
+        "app/lib/substackFeed.ts::__file_root__"
+      ]
     },
     "app/lib/text.ts::splitOnBrand": {
       "filePath": "app/lib/text.ts",
@@ -2392,6 +3259,14 @@
       ],
       "importedBy": []
     },
+    "app/page.test.ts::__file_root__": {
+      "filePath": "app/page.test.ts",
+      "name": "__file_root__",
+      "imports": [
+        "app/page.tsx::__file_root__"
+      ],
+      "importedBy": []
+    },
     "app/page.tsx::__file_root__": {
       "filePath": "app/page.tsx",
       "name": "__file_root__",
@@ -2404,7 +3279,9 @@
         "components/Adventures.tsx::Adventures",
         "components/Elsewhere.tsx::Elsewhere",
         "components/Contact.tsx::Contact",
-        "components/Footer.tsx::Footer"
+        "components/Footer.tsx::Footer",
+        "app/lib/posts.ts::recentPostsForHome",
+        "app/lib/posts.ts::syncPostsQuietly"
       ],
       "importedBy": []
     },
@@ -2437,8 +3314,9 @@
       "filePath": "app/sitemap.test.ts",
       "name": "__file_root__",
       "imports": [
-        "app/sitemap.ts::sitemap",
-        "app/lib/siteUrl.ts::__file_root__"
+        "app/lib/siteUrl.ts::__file_root__",
+        "app/sitemap.ts::__file_root__",
+        "app/lib/substackFeed.ts::__file_root__"
       ],
       "importedBy": []
     },
@@ -2446,9 +3324,71 @@
       "filePath": "app/sitemap.ts",
       "name": "__file_root__",
       "imports": [
-        "app/lib/siteUrl.ts::siteUrl"
+        "app/lib/siteUrl.ts::siteUrl",
+        "app/lib/posts.ts::listPosts"
       ],
       "importedBy": []
+    },
+    "app/writing/[slug]/page.test.ts::__file_root__": {
+      "filePath": "app/writing/[slug]/page.test.ts",
+      "name": "__file_root__",
+      "imports": [
+        "app/writing/[slug]/page.tsx::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "app/writing/[slug]/page.tsx::__file_root__": {
+      "filePath": "app/writing/[slug]/page.tsx",
+      "name": "__file_root__",
+      "imports": [
+        "content/site.ts::__file_root__",
+        "components/Footer.tsx::Footer",
+        "components/writing/WritingNav.tsx::WritingNav",
+        "components/writing/PostBody.tsx::PostBody",
+        "components/writing/PostFooter.tsx::PostFooter",
+        "app/lib/posts.ts::adjacentPosts",
+        "app/lib/posts.ts::getPost",
+        "app/lib/posts.ts::reconcileWithinDeadline",
+        "app/lib/sanitizePostHtml.ts::excerptFromHtml",
+        "app/lib/postDates.ts::formatPostDateLong",
+        "app/lib/siteUrl.ts::siteUrl",
+        "app/lib/shareImage.ts::postShareImage",
+        "app/writing/[slug]/post.module.css::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "app/writing/[slug]/post.module.css::__file_root__": {
+      "filePath": "app/writing/[slug]/post.module.css",
+      "name": "__file_root__",
+      "imports": [],
+      "importedBy": [
+        "app/writing/[slug]/page.tsx::__file_root__"
+      ]
+    },
+    "app/writing/page.tsx::__file_root__": {
+      "filePath": "app/writing/page.tsx",
+      "name": "__file_root__",
+      "imports": [
+        "content/site.ts::__file_root__",
+        "components/Footer.tsx::Footer",
+        "components/writing/WritingNav.tsx::WritingNav",
+        "components/writing/ArchiveList.tsx::ArchiveList",
+        "components/writing/WritingCta.tsx::WritingCta",
+        "app/lib/posts.ts::listPosts",
+        "app/lib/posts.ts::reconcileWithinDeadline",
+        "app/lib/siteUrl.ts::siteUrl",
+        "app/lib/shareImage.ts::__file_root__",
+        "app/writing/writing.module.css::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "app/writing/writing.module.css::__file_root__": {
+      "filePath": "app/writing/writing.module.css",
+      "name": "__file_root__",
+      "imports": [],
+      "importedBy": [
+        "app/writing/page.tsx::__file_root__"
+      ]
     },
     "components/About.module.css::__file_root__": {
       "filePath": "components/About.module.css",
@@ -2496,8 +3436,36 @@
         "content/site.ts::__file_root__",
         "components/PhotoRotator.tsx::PhotoRotator",
         "components/SectionHead.tsx::SectionHead",
+        "components/AdventuresReading.tsx::AdventuresReading",
         "components/Section.module.css::__file_root__",
         "components/Adventures.module.css::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "components/AdventuresReading.module.css::__file_root__": {
+      "filePath": "components/AdventuresReading.module.css",
+      "name": "__file_root__",
+      "imports": [],
+      "importedBy": [
+        "components/AdventuresReading.tsx::__file_root__"
+      ]
+    },
+    "components/AdventuresReading.tsx::AdventuresReading": {
+      "filePath": "components/AdventuresReading.tsx",
+      "name": "AdventuresReading",
+      "imports": [],
+      "importedBy": [
+        "components/Adventures.tsx::__file_root__"
+      ]
+    },
+    "components/AdventuresReading.tsx::__file_root__": {
+      "filePath": "components/AdventuresReading.tsx",
+      "name": "__file_root__",
+      "imports": [
+        "app/lib/readingLinks.ts::ReadingEntry",
+        "app/lib/readingLinks.ts::toReadingLinks",
+        "components/work/WorkLinkList.tsx::WorkLinkList",
+        "components/AdventuresReading.module.css::__file_root__"
       ],
       "importedBy": []
     },
@@ -2788,6 +3756,7 @@
       "name": "__file_root__",
       "imports": [],
       "importedBy": [
+        "components/Writing.tsx::__file_root__",
         "components/writing/PostList.tsx::__file_root__",
         "components/writing/WritingIntro.tsx::__file_root__",
         "components/writing/WritingCta.tsx::__file_root__"
@@ -2798,11 +3767,13 @@
       "name": "__file_root__",
       "imports": [
         "content/site.ts::__file_root__",
+        "app/lib/posts.ts::PostSummary",
         "components/SectionHead.tsx::SectionHead",
         "components/writing/PostList.tsx::PostList",
         "components/writing/WritingIntro.tsx::WritingIntro",
         "components/writing/WritingCta.tsx::WritingCta",
-        "components/Section.module.css::__file_root__"
+        "components/Section.module.css::__file_root__",
+        "components/Writing.module.css::__file_root__"
       ],
       "importedBy": []
     },
@@ -3061,10 +4032,65 @@
       ],
       "importedBy": []
     },
+    "components/writing/ArchiveList.module.css::__file_root__": {
+      "filePath": "components/writing/ArchiveList.module.css",
+      "name": "__file_root__",
+      "imports": [],
+      "importedBy": [
+        "components/writing/ArchiveList.tsx::__file_root__"
+      ]
+    },
+    "components/writing/ArchiveList.tsx::__file_root__": {
+      "filePath": "components/writing/ArchiveList.tsx",
+      "name": "__file_root__",
+      "imports": [
+        "app/lib/posts.ts::PostSummary",
+        "app/lib/postDates.ts::formatPostDate",
+        "app/lib/postDates.ts::groupPostsByYear",
+        "components/writing/ArchiveList.module.css::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "components/writing/PostBody.module.css::__file_root__": {
+      "filePath": "components/writing/PostBody.module.css",
+      "name": "__file_root__",
+      "imports": [],
+      "importedBy": [
+        "components/writing/PostBody.tsx::__file_root__"
+      ]
+    },
+    "components/writing/PostBody.tsx::__file_root__": {
+      "filePath": "components/writing/PostBody.tsx",
+      "name": "__file_root__",
+      "imports": [
+        "components/writing/PostBody.module.css::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "components/writing/PostFooter.module.css::__file_root__": {
+      "filePath": "components/writing/PostFooter.module.css",
+      "name": "__file_root__",
+      "imports": [],
+      "importedBy": [
+        "components/writing/PostFooter.tsx::__file_root__"
+      ]
+    },
+    "components/writing/PostFooter.tsx::__file_root__": {
+      "filePath": "components/writing/PostFooter.tsx",
+      "name": "__file_root__",
+      "imports": [
+        "app/lib/posts.ts::PostSummary",
+        "components/writing/ExternalLinkIcon.tsx::ExternalLinkIcon",
+        "components/writing/PostFooter.module.css::__file_root__"
+      ],
+      "importedBy": []
+    },
     "components/writing/PostList.tsx::__file_root__": {
       "filePath": "components/writing/PostList.tsx",
       "name": "__file_root__",
       "imports": [
+        "app/lib/posts.ts::PostSummary",
+        "app/lib/postDates.ts::formatPostDate",
         "components/Writing.module.css::__file_root__"
       ],
       "importedBy": []
@@ -3083,6 +4109,22 @@
       "name": "__file_root__",
       "imports": [
         "components/Writing.module.css::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "components/writing/WritingNav.module.css::__file_root__": {
+      "filePath": "components/writing/WritingNav.module.css",
+      "name": "__file_root__",
+      "imports": [],
+      "importedBy": [
+        "components/writing/WritingNav.tsx::__file_root__"
+      ]
+    },
+    "components/writing/WritingNav.tsx::__file_root__": {
+      "filePath": "components/writing/WritingNav.tsx",
+      "name": "__file_root__",
+      "imports": [
+        "components/writing/WritingNav.module.css::__file_root__"
       ],
       "importedBy": []
     },
@@ -3110,7 +4152,8 @@
         "components/ContactForm.tsx::__file_root__",
         "components/Writing.tsx::__file_root__",
         "components/NotFound.tsx::__file_root__",
-        "components/About.tsx::__file_root__"
+        "components/About.tsx::__file_root__",
+        "scripts/backfill-posts.ts::__file_root__"
       ]
     },
     "hooks/useActiveSection.ts::__file_root__": {
@@ -3136,8 +4179,11 @@
         "app/lib/loadEnv.ts::__file_root__",
         "app/lib/prismaConnection.ts::requireConnectionString",
         "prisma/seedRows.ts::SeedMessage",
+        "prisma/seedRows.ts::SeedPost",
+        "prisma/seedRows.ts::seedTable",
         "prisma/seedRows.ts::summarize",
-        "prisma/seedRows.ts::toMessageRow"
+        "prisma/seedRows.ts::toMessageRow",
+        "prisma/seedRows.ts::toSeedPostRow"
       ],
       "importedBy": []
     },
@@ -3145,11 +4191,57 @@
       "filePath": "prisma/seedRows.test.ts",
       "name": "__file_root__",
       "imports": [
+        "content/site.ts::__file_root__",
         "prisma/seedRows.ts::SeedMessage",
+        "prisma/seedRows.ts::SeedPost",
+        "prisma/seedRows.ts::seedTable",
         "prisma/seedRows.ts::summarize",
-        "prisma/seedRows.ts::toMessageRow"
+        "prisma/seedRows.ts::toMessageRow",
+        "prisma/seedRows.ts::toSeedPostRow"
       ],
       "importedBy": []
+    },
+    "scripts/backfill-posts.test.ts::runScript": {
+      "filePath": "scripts/backfill-posts.test.ts",
+      "name": "runScript",
+      "imports": [
+        "scripts/backfill-posts.ts::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "scripts/backfill-posts.ts::__file_root__": {
+      "filePath": "scripts/backfill-posts.ts",
+      "name": "__file_root__",
+      "imports": [
+        "app/lib/loadEnv.ts::__file_root__",
+        "app/lib/prisma.ts::__file_root__",
+        "app/lib/posts.ts::syncPostsFromFeed",
+        "app/lib/readingLinks.ts::missingReadingLinksWarning",
+        "app/lib/readingLinks.ts::missingReadingSlugs",
+        "content/site.ts::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "scripts/resanitize-posts.test.ts::runScript": {
+      "filePath": "scripts/resanitize-posts.test.ts",
+      "name": "runScript",
+      "imports": [
+        "scripts/resanitize-posts.ts::__file_root__"
+      ],
+      "importedBy": []
+    },
+    "scripts/resanitize-posts.ts::__file_root__": {
+      "filePath": "scripts/resanitize-posts.ts",
+      "name": "__file_root__",
+      "imports": [
+        "app/lib/loadEnv.ts::__file_root__",
+        "app/lib/prisma.ts::__file_root__",
+        "app/lib/resanitizePosts.ts::postsNeedingResanitize",
+        "app/lib/resanitizePosts.ts::resanitizeReport"
+      ],
+      "importedBy": [
+        "scripts/resanitize-posts.test.ts::runScript"
+      ]
     },
     "vitest.config.ts::__file_root__": {
       "filePath": "vitest.config.ts",
@@ -3160,5 +4252,5 @@
       "importedBy": []
     }
   },
-  "lastUpdated": "2026-11-06T01:52:37Z"
+  "lastUpdated": "2026-11-11T16:55:44Z"
 }

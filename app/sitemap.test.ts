@@ -1,39 +1,101 @@
-import { describe, expect, it } from 'vitest';
-import sitemap from './sitemap';
+import { describe, expect, it, vi } from 'vitest';
 import { SITE_URL } from './lib/siteUrl';
 
+// The sitemap reads the post store, so the store is mocked rather than
+// connected to. Without this the assertions below would depend on whichever
+// posts happen to be in the developer's database, and the suite would pass or
+// fail for reasons that have nothing to do with the sitemap.
+const listPosts = vi.hoisted(() => vi.fn());
+vi.mock('./lib/posts', () => ({ listPosts }));
+
+const sitemapModule = await import('./sitemap');
+const { default: sitemap } = sitemapModule;
+const { FEED_REVALIDATE_SECONDS } = await import('./lib/substackFeed');
+
+function post(slug: string, iso: string) {
+  return {
+    slug,
+    title: slug,
+    subtitle: null,
+    publishedAt: new Date(iso),
+    canonicalUrl: `https://blog.nseldeib.com/p/${slug}`,
+  };
+}
+
 describe('sitemap', () => {
-  // The site is one page. Its six numbered sections are anchors within '/', not
-  // routes, so listing them would hand crawlers several URLs that all resolve to the
-  // same document. This fails loudly if someone adds anchors as if they were pages.
-  it('lists the single page the site actually has', () => {
-    const entries = sitemap();
-    expect(entries).toHaveLength(1);
-    expect(entries[0].url).toBe(SITE_URL);
+  // Without a revalidate window Next prerenders the sitemap once at build and
+  // serves it frozen, so a post published after deploy never reaches crawlers.
+  it('is revalidated on the feed cadence rather than frozen at build', () => {
+    expect(sitemapModule.revalidate).toBe(FEED_REVALIDATE_SECONDS);
+    expect(sitemapModule.revalidate).toBe(3600);
   });
 
-  // With exactly one page, that page is by definition the most important one on the
-  // site, so priority must be the maximum.
-  it('gives the only page top priority', () => {
-    expect(sitemap()[0].priority).toBe(1);
+  // The site's six numbered sections are anchors within '/', not routes, so
+  // listing them would hand crawlers several URLs resolving to one document.
+  // The routes that DO belong here are the homepage, the archive, and one per
+  // essay. This fails loudly if someone adds anchors as if they were pages.
+  it('lists the homepage, the archive, and one entry per post', async () => {
+    listPosts.mockResolvedValue([
+      post('you-can-just-ship-things', '2026-07-06T20:56:20Z'),
+      post('our-vision-for-codeyam-why-build', '2024-07-24T20:48:45Z'),
+    ]);
+
+    const entries = await sitemap();
+
+    expect(entries.map((e) => e.url)).toEqual([
+      SITE_URL,
+      `${SITE_URL}/writing`,
+      `${SITE_URL}/writing/you-can-just-ship-things`,
+      `${SITE_URL}/writing/our-vision-for-codeyam-why-build`,
+    ]);
   });
 
-  // lastModified must be a real Date, not a string or an Invalid Date. Next serialises
-  // it into <lastmod>, and a malformed value there makes crawlers discard the freshness
-  // signal for the entry entirely.
-  it('stamps a real lastModified date', () => {
-    const { lastModified } = sitemap()[0];
-    expect(lastModified).toBeInstanceOf(Date);
-    expect(Number.isNaN(new Date(lastModified as Date).getTime())).toBe(false);
+  // The homepage remains the site's front door and must outrank the archive
+  // and the individual essays.
+  it('gives the homepage top priority', async () => {
+    listPosts.mockResolvedValue([]);
+    const entries = await sitemap();
+
+    expect(entries[0].priority).toBe(1);
+    expect(entries[1].priority).toBeLessThan(1);
   });
 
-  // Every <loc> must name the canonical apex. A sitemap listing www. or nseldeib.com
-  // would submit redirecting URLs for indexing, splitting the site's identity across
-  // hosts — the precise outcome the redirects in this cycle are meant to prevent.
-  it('advertises no host that only redirects', () => {
-    for (const { url } of sitemap()) {
+  // Next serialises lastModified into <lastmod>; a malformed value makes
+  // crawlers discard the freshness signal for that entry entirely. A post's
+  // date must be its own publication date, not the time the file was rendered.
+  it('stamps every entry with a real date, dating posts by publication', async () => {
+    const published = new Date('2026-07-06T20:56:20Z');
+    listPosts.mockResolvedValue([post('you-can-just-ship-things', published.toISOString())]);
+
+    const entries = await sitemap();
+
+    for (const { lastModified } of entries) {
+      expect(lastModified).toBeInstanceOf(Date);
+      expect(Number.isNaN(new Date(lastModified as Date).getTime())).toBe(false);
+    }
+    expect(entries[2].lastModified).toEqual(published);
+  });
+
+  // A crawler asking for XML must not get a 500 because Postgres is briefly
+  // unreachable. The two routes that are always true are a strictly better
+  // answer than no answer.
+  it('still serves the fixed routes when the store cannot be read', async () => {
+    listPosts.mockRejectedValue(new Error('connection refused'));
+
+    const entries = await sitemap();
+
+    expect(entries.map((e) => e.url)).toEqual([SITE_URL, `${SITE_URL}/writing`]);
+  });
+
+  // Every <loc> must name the canonical apex. A sitemap listing www. or
+  // nseldeib.com would submit redirecting URLs for indexing, splitting the
+  // site's identity across hosts — the outcome the edge redirects prevent.
+  it('advertises no host that only redirects', async () => {
+    listPosts.mockResolvedValue([post('you-can-just-ship-things', '2026-07-06T20:56:20Z')]);
+
+    for (const { url } of await sitemap()) {
       expect(url).not.toContain('www.');
-      expect(url).not.toContain('nseldeib');
+      expect(url).not.toContain('nseldeib.com');
     }
   });
 });
